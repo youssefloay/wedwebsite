@@ -11,7 +11,7 @@ export function AccommodationPage() {
       rooms: 13,
       maxGuests: 2,
       pricePerNight: 153.5,
-      image: "/room-comfy.jpg",
+      image: "https://images.unsplash.com/photo-1590490359683-658d3d23f972?auto=format&fit=crop&q=80&w=800",
       description: 'Our "Comfy" rooms offer the perfect retreat, whether for a short stay or an extended escape.'
     },
     {
@@ -27,7 +27,7 @@ export function AccommodationPage() {
       rooms: 6,
       maxGuests: 2,
       pricePerNight: 208.5,
-      image: "/room-junior.webp",
+      image: "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=800",
       description: 'Top of the range rooms featuring both a balcony and a private seating area.'
     },
     {
