@@ -77,6 +77,11 @@ export function Home() {
       )}
       <Navigation />
 
+      {/* PRINT-ONLY BROCHURE COVER LOGO */}
+      <div className="hidden print:block text-center py-20 pointer-events-none">
+        <img src="/logo_cursive.png" alt="L&A Logo" className="w-48 mx-auto" />
+      </div>
+
       {/* 1. HERO SECTION */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 pb-16 overflow-hidden bg-background">
         <div className="absolute inset-0 z-0">

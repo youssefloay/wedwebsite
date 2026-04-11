@@ -46,3 +46,72 @@
     scrollbar-width: none;
   }
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   MAGIC PRINT BROCHURE OPTIMIZATION (CMD+P to PDF)
+   ────────────────────────────────────────────────────────────────────────── */
+@media print {
+  /* Prevent browser-level margins/headers/footers from ruining the layout */
+  @page {
+    margin: 0;
+    size: auto;
+  }
+
+  /* Core Layout Adjustments */
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: white !important;
+  }
+
+  /* Hide UI Elements */
+  nav, 
+  header, 
+  footer,
+  .btn-primary, 
+  .btn-secondary, 
+  .btn-outline,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset Scroll Animations to Final State */
+  .reveal, .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Force intentional pagination for high-end brochure feel */
+  section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    padding: 3rem 0 !important;
+  }
+
+  /* Large headings should ideally start on new pages */
+  h1, h2 {
+    page-break-after: avoid;
+  }
+
+  /* Specific Sections that benefit from full-page prominence */
+  .section-layer-1, .section-layer-2, .section-layer-3 {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Typography for print (ensure contrast) */
+  .text-primary-text { color: #2C1810 !important; }
+  .text-secondary-text { color: #5C3210 !important; }
+  .text-accent-terracotta { color: #B57548 !important; }
+
+  /* Logo adjustment for print cover */
+  .print-logo {
+    display: block !important;
+    max-width: 120px !important;
+    margin: 0 auto 3rem !important;
+  }
+
+  /* Allow links visually but hide URLs (standard print behavior is to show URLs) */
+  a:after { content: none !important; }
+}
