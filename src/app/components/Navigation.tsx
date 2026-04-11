@@ -62,6 +62,16 @@ export function Navigation() {
                   to={to}
                   className="flex flex-col items-center gap-1.5 px-2.5 md:px-4 py-2 rounded-2xl transition-all duration-500 group relative flex-shrink-0 z-10"
                 >
+                  {/* FLOATING ACTIVE BACKGROUND PILL */}
+                  {active && (
+                    <motion.div
+                      layoutId="navTab"
+                      className="absolute inset-0 z-[-1] bg-accent-terracotta/10 rounded-xl"
+                      initial={false}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+
                   <Icon
                     size={16}
                     strokeWidth={1.5}
