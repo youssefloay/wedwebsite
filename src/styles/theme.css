@@ -88,15 +88,15 @@
     padding-bottom: var(--section-spacing);
   }
 
+  /* Extra bottom padding so content isn't hidden behind the bottom nav */
+  footer {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+  }
+
   @media (max-width: 768px) {
     .section-container {
       padding-top: var(--section-spacing-mobile);
       padding-bottom: var(--section-spacing-mobile);
-    }
-
-    /* Extra bottom padding so content isn't hidden behind the bottom nav */
-    footer {
-      padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
     }
   }
 
