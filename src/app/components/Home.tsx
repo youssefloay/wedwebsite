@@ -47,6 +47,20 @@ export function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  const [searchParams] = useSearchParams();
+  const isForced = searchParams.get('force') === 'true';
+  const shouldSkip = !isForced && (searchParams.get('skip') === 'true' || sessionStorage.getItem('entered') === 'true');
+
+  const [showContent, setShowContent] = useState(shouldSkip);
+  const [justFinishedVideo, setJustFinishedVideo] = useState(false);
+
+  useEffect(() => {
+    if (isForced) {
+      setShowContent(false);
+      setJustFinishedVideo(false);
+    }
+  }, [isForced]);
+
   const handleEnter = () => {
     setJustFinishedVideo(true);
     setShowContent(true);

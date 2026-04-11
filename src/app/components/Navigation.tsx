@@ -8,30 +8,32 @@ export function Navigation() {
   const location = useLocation();
 
   useEffect(() => {
+    let lastY = window.scrollY;
+    
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false); // Scrolling down - hide
+      if (currentScrollY > lastY && currentScrollY > 100) {
+        setIsVisible(false);
       } else {
-        setIsVisible(true);  // Scrolling up - show
+        setIsVisible(true);
       }
       
-      setLastScrollY(currentScrollY);
+      lastY = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []); // Empty dependency array is much more stable
 
   const navLinks = [
-    { to: '/',             label: 'Home',    icon: Home },
-    { to: '/travel',        label: 'Travel',  icon: Plane },
-    { to: '/accommodation', label: 'Stay',    icon: Building2 },
-    { to: '/discovery',     label: 'Tips',    icon: Compass },
-    { to: '/gifts',         label: 'Gifts',   icon: Gift },
-    { to: '/rsvp',          label: 'RSVP',    icon: Heart },
-    { to: '/faq',           label: 'FAQ',    icon: Info },
+    { to: '/?skip=true',   label: 'Home',    icon: Home },
+    { to: 'travel',        label: 'Travel',  icon: Plane },
+    { to: 'accommodation', label: 'Stay',    icon: Building2 },
+    { to: 'discovery',     label: 'Tips',    icon: Compass },
+    { to: 'gifts',         label: 'Gifts',   icon: Gift },
+    { to: 'rsvp',          label: 'RSVP',    icon: Heart },
+    { to: 'faq',           label: 'FAQ',     icon: Info },
   ];
 
   return (

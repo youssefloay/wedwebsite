@@ -13,31 +13,31 @@ export const router = createHashRouter([
     element: <Layout />,
     children: [
       {
-        index: true,
+        path: "/",
         element: <Home />,
       },
       {
-        path: "/travel",
+        path: "travel",
         element: <TravelPage />,
       },
       {
-        path: "/accommodation",
+        path: "accommodation",
         element: <AccommodationPage />,
       },
       {
-        path: "/gifts",
+        path: "gifts",
         element: <GiftsPage />,
       },
       {
-        path: "/rsvp",
+        path: "rsvp",
         element: <RsvpPage />,
       },
       {
-        path: "/faq",
+        path: "faq",
         element: <FaqPage />,
       },
       {
-        path: "/discovery",
+        path: "discovery",
         element: <DiscoveryPage />,
       },
     ],
