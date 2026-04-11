@@ -30,8 +30,8 @@ export function Navigation() {
     { to: '/accommodation', label: 'Stay',    icon: Building2 },
     { to: '/discovery',     label: 'Tips',    icon: Compass },
     { to: '/gifts',         label: 'Gifts',   icon: Gift },
-    { to: '/faq',           label: 'FAQ',    icon: Info },
     { to: '/rsvp',          label: 'RSVP',    icon: Heart },
+    { to: '/faq',           label: 'FAQ',    icon: Info },
   ];
 
   return (
