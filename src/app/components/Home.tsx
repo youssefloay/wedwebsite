@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
-import { DoorEntrance } from './DoorEntrance';
+import { VideoEntrance } from './VideoEntrance';
 import { Navigation } from './Navigation';
 
 export function Home() {
@@ -20,7 +20,7 @@ export function Home() {
       setShowContent(true);
       sessionStorage.setItem('entered', 'true');
     } else if (window.location.pathname === '/' && !window.location.search) {
-      // Direct access to '/' without params (like logo click) should reset if we want it to land on doors
+      // Direct access to '/' without params (like logo click) should reset if we want it to land on splash
       setShowContent(false);
       sessionStorage.removeItem('entered');
     }
@@ -53,7 +53,7 @@ export function Home() {
   };
 
   if (!showContent) {
-    return <DoorEntrance onEnter={handleEnter} />;
+    return <VideoEntrance onEnter={handleEnter} />;
   }
 
   return (
