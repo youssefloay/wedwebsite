@@ -26,10 +26,21 @@ export function VideoEntrance({ onEnter }: VideoEntranceProps) {
     <div className="fixed inset-0 z-[200] bg-black overflow-hidden">
 
       {/* ── VIDEO (always mounted so it preloads, just hidden until needed) ── */}
+      <style>{`
+        @keyframes walk-in {
+          from { transform: scale(1); }
+          to   { transform: scale(5); }
+        }
+        .video-walk-in {
+          animation: walk-in 30s linear forwards;
+          transform-origin: center center;
+        }
+      `}</style>
+
       <video
         ref={videoRef}
         src="/door_video.mp4"
-        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${phase === 'video' ? 'video-walk-in' : ''}`}
         style={{ opacity: phase === 'video' ? 1 : 0 }}
         onEnded={onEnter}
         playsInline
@@ -39,7 +50,7 @@ export function VideoEntrance({ onEnter }: VideoEntranceProps) {
       {/* ── SPLASH SCREEN (door image + button, fades out on click) ── */}
       <div
         className="absolute inset-0 transition-opacity duration-600"
-        style={{ 
+        style={{
           opacity: phase === 'splash' ? 1 : 0,
           pointerEvents: phase === 'splash' ? 'auto' : 'none'
         }}
