@@ -95,11 +95,11 @@ export function AccommodationPage() {
                   </div>
                 </div>
                 <div className="w-full md:w-[55%] p-10 md:p-14 flex flex-col justify-center">
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                    <h3 className="text-3xl md:text-4xl font-serif text-primary-text italic leading-tight">{room.name}</h3>
-                    <div className="flex items-center gap-2 text-accent-terracotta bg-accent-terracotta/5 px-4 py-2 rounded-xl whitespace-nowrap">
-                      <Users size={18} />
-                      <span className="text-[10px] font-bold uppercase tracking-widest leading-none">{room.maxGuests} Guests</span>
+                  <div className="flex flex-col mb-8">
+                    <h3 className="text-3xl md:text-4xl font-serif text-primary-text italic leading-tight mb-2">{room.name}</h3>
+                    <div className="flex items-center gap-2 text-secondary-text/60">
+                      <Users size={14} strokeWidth={1.5} />
+                      <span className="text-[10px] uppercase tracking-widest font-medium">{room.maxGuests} Guests Max</span>
                     </div>
                   </div>
                   <p className="text-sm text-secondary-text mb-6">

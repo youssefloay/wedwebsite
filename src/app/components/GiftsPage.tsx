@@ -32,8 +32,8 @@ export function GiftsPage() {
         <div className="relative z-10 max-w-3xl mx-auto">
           <span className="label-uppercase mb-6 block font-bold tracking-[0.3em] text-accent-terracotta">Gifting</span>
           <h1 className="text-6xl md:text-8xl font-serif text-primary-text mb-8 leading-none italic">Our Future</h1>
-          <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-lg mx-auto">
-            "Your presence is the greatest gift, but if you wish to honor us with a gesture..."
+          <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-lg mx-auto px-4">
+            "Your presence is the greatest gift, and should you feel inclined to celebrate with a gesture, it will be received with heartfelt appreciation."
           </p>
           <div className="w-16 h-px mx-auto mt-12 bg-accent-terracotta/40" />
         </div>
@@ -85,7 +85,7 @@ export function GiftsPage() {
                 <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic leading-[1.1]">Our Future <br className="hidden md:block" /> Sanctuary</h2>
                 <div className="w-12 h-px bg-accent-terracotta/30 mb-8" />
                 <p className="text-lg text-secondary-text leading-relaxed max-w-sm italic">
-                  "Contributions will help us create a space filled with love, laughter, and a touch of Mediterranean soul."
+                  "Contributions will help us create a space filled with love, laughter, and lifelong memories."
                 </p>
               </div>
               <div className="flex justify-center md:justify-start">

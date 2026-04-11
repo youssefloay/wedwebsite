@@ -122,7 +122,7 @@ export function TravelPage() {
                     </div>
                     <div className="flex justify-between border-b border-border/50 pb-3">
                       <span className="text-primary-text font-serif text-lg">Private Van (7 guests)</span>
-                      <span className="font-serif text-xl text-primary-text">€150</span>
+                      <span className="font-serif text-xl text-primary-text">€150–160</span>
                     </div>
                   </div>
                   <Link to="/rsvp" className="btn-primary w-full text-center py-4 bg-primary-text text-white hover:bg-accent-terracotta transition-all rounded-xl shadow-lg">
@@ -286,9 +286,17 @@ export function TravelPage() {
                       href="https://maps.google.com/?q=Castillo+de+Monda" 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-accent-terracotta text-white rounded-xl text-[10px] uppercase tracking-widest font-bold hover:bg-accent-terracotta/90 transition-all shadow-md"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-accent-terracotta text-white rounded-xl text-[10px] uppercase tracking-widest font-bold hover:opacity-90 transition-all shadow-md"
                     >
-                      Open in Maps <Compass size={14} />
+                      Venue Location <Compass size={14} />
+                    </a>
+                    <a 
+                      href="https://maps.app.goo.gl/TyTof35JTLYVxBZj6?g_st=iw" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-[#F5EFEB] text-accent-terracotta border border-accent-terracotta/20 rounded-xl text-[10px] uppercase tracking-widest font-bold hover:border-accent-terracotta transition-all shadow-sm"
+                    >
+                      Parking Map <MapPin size={14} />
                     </a>
                   </div>
                 </div>
