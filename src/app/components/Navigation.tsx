@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Home, Plane, Building2, Gift, Heart, Compass, Info } from 'lucide-react';
 
 export function Navigation() {
