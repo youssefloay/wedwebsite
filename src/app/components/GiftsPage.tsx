@@ -1,4 +1,5 @@
 import { Navigation } from './Navigation';
+import { Link } from "react-router";
 import { Heart, Globe, CreditCard, Copy, Check, Smartphone, Info, Sparkles, MapPin } from 'lucide-react';
 import { useState } from 'react';
 
