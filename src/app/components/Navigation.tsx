@@ -25,7 +25,7 @@ export function Navigation() {
   }, [lastScrollY]);
 
   const navLinks = [
-    { to: '/?entered=true', label: 'Home',    icon: Home },
+    { to: '/',             label: 'Home',    icon: Home },
     { to: '/travel',        label: 'Travel',  icon: Plane },
     { to: '/accommodation', label: 'Stay',    icon: Building2 },
     { to: '/discovery',     label: 'Tips',    icon: Compass },
