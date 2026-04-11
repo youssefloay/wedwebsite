@@ -43,22 +43,18 @@ export function FaqPage() {
       <Navigation />
 
       {/* HERO SECTION */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden section-layer-1">
-        <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
+      <section className="relative pt-2 pb-20 px-6 overflow-hidden text-center">
+        <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="reveal flex justify-center mb-8">
-            <div className="p-4 bg-accent-terracotta/5 rounded-full ring-1 ring-accent-terracotta/20 animate-pulse">
-              <Info className="text-accent-terracotta" size={32} strokeWidth={1.5} />
-            </div>
-          </div>
-          <span className="label-uppercase mb-6 block font-bold reveal">Information Guide</span>
-          <h1 className="text-6xl md:text-8xl font-serif text-primary-text mb-8 italic reveal delay-100">
+        <div className="max-w-3xl mx-auto relative z-10 reveal">
+          <span className="label-uppercase mb-6 block">Information Guide</span>
+          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight italic">
             Commonly <br className="hidden md:block" /> Asked
           </h1>
-          <p className="text-xl md:text-2xl text-secondary-text font-serif italic max-w-2xl mx-auto leading-relaxed reveal delay-200">
+          <p className="text-xl md:text-2xl text-secondary-text font-serif italic max-w-lg mx-auto px-4 leading-relaxed opacity-80">
             "Everything you need to know about our Andalusian celebration, from logistical details to the spirit of the day."
           </p>
+          <div className="w-16 h-px mx-auto mt-12 bg-accent-terracotta" />
         </div>
       </section>
 
