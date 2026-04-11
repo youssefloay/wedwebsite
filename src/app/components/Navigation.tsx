@@ -69,8 +69,8 @@ export function Navigation() {
                   to={to}
                   className="flex flex-col items-center gap-1.5 px-2.5 md:px-4 py-2 rounded-2xl transition-all duration-500 group relative flex-shrink-0 z-10"
                 >
-                  {/* SELECTION INDICATOR (Moorish Arch Shape) */}
-                  {active && (
+                  {/* SELECTION INDICATOR (Moorish Arch Shape) - Only for Home */}
+                  {active && label === 'Home' && (
                     <div className="absolute inset-0 z-[-1] flex justify-center opacity-60">
                       <div className="w-full h-full bg-accent-terracotta/5 rounded-xl border border-accent-terracotta/10 scale-110" />
                       <svg
