@@ -228,7 +228,7 @@ export function RsvpPage() {
             <form onSubmit={handleSubmit} className="relative z-10 px-8 py-4">
 
               {/* Header */}
-              <div className="text-left mb-16 max-w-xl mx-auto animate-in fade-in duration-1000">
+              <div className="text-left mb-16 max-w-none mx-auto animate-in fade-in duration-1000">
                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight md:leading-none mb-6">Will you join us in Monda?</p>
                 <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
               </div>
@@ -275,7 +275,7 @@ export function RsvpPage() {
                     <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12">
 
                       {/* IDENTITY */}
-                      <div className="max-w-xl mx-auto space-y-16 -mt-12" ref={currentStep === 2 ? nextSectionRef : null}>
+                      <div className="max-w-none mx-auto space-y-16 -mt-12" ref={currentStep === 2 ? nextSectionRef : null}>
                         <div className="text-left mb-12">
                           <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">
                             {formData.attendance === 'Regretfully decline' ? 'Who shall we miss?' : 'Who are we welcoming?'}
@@ -320,7 +320,7 @@ export function RsvpPage() {
                         <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12">
 
                           {/* PARTY */}
-                          <div className="space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 3 ? nextSectionRef : null}>
+                          <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 3 ? nextSectionRef : null}>
                             <div className="text-left mb-12">
                               <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">Who is in your party?</p>
                               <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
@@ -363,7 +363,7 @@ export function RsvpPage() {
 
                           {/* STAY */}
                           {currentStep >= 4 && (
-                            <div className="space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 4 ? nextSectionRef : null}>
+                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 4 ? nextSectionRef : null}>
                               <div className="text-left mb-12">
                                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">Where will you be resting?</p>
                                 <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
@@ -488,7 +488,7 @@ export function RsvpPage() {
 
                           {/* JOURNEY */}
                           {currentStep >= 5 && (
-                            <div className="space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 5 ? nextSectionRef : null}>
+                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 5 ? nextSectionRef : null}>
                               <div className="text-left mb-12 space-y-6">
                                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none">How do you plan to join us?</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
@@ -533,7 +533,7 @@ export function RsvpPage() {
 
                           {/* VISA */}
                           {currentStep >= 6 && (
-                            <div className="space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 6 ? nextSectionRef : null}>
+                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 6 ? nextSectionRef : null}>
                               <div className="text-left mb-12 space-y-6">
                                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none">Visa Assistance</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
@@ -580,7 +580,7 @@ export function RsvpPage() {
 
                       {/* NOTE — shown when current step id is 'note' */}
                       {activeStep?.id === 'note' && (
-                        <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={nextSectionRef}>
+                        <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={nextSectionRef}>
                           <div className="text-left mb-12">
                             <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">A Note for the Couple</p>
                             <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
@@ -602,7 +602,7 @@ export function RsvpPage() {
 
                       {/* REVIEW & SUBMIT — shown when current step id is 'review' */}
                       {activeStep?.id === 'review' && (
-                        <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={nextSectionRef}>
+                        <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={nextSectionRef}>
                           <div className="text-left py-10 border-y border-accent-beige/10 relative space-y-12">
                             <div className="space-y-4">
                               <p className="label-uppercase text-[10px] text-accent-beige font-bold tracking-[0.3em]">Confirmation</p>
