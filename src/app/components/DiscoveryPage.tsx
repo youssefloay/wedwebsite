@@ -1,6 +1,6 @@
 import { Navigation } from './Navigation';
 import { Link } from "react-router";
-import { MapPin, Coffee, Sun, Palmtree, ArrowRight, Camera, Utensils } from 'lucide-react';
+import { MapPin, Coffee, Sun, Palmtree, ArrowRight, Camera, Utensils, Compass } from 'lucide-react';
 
 export function DiscoveryPage() {
   const discoveries = [
