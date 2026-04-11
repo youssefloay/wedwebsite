@@ -95,6 +95,69 @@ export function DiscoveryPage() {
         </div>
       </section>
 
+      {/* THE CURATED LEDGER */}
+      <section className="py-32 px-6 section-layer-3 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-20 reveal">
+            <span className="label-uppercase mb-4 block">The Andalusian Ledger</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic mb-6">Curated Experiences</h2>
+            <div className="w-16 h-px bg-accent-terracotta/20 mx-auto" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              {
+                category: "Heritage & Arts",
+                icon: <Compass size={24} />,
+                items: [
+                  { name: "Picasso Museum", loc: "Málaga", detail: "The birthplace and soul of Málaga's most famous son." },
+                  { name: "The Alcazaba", loc: "Málaga", detail: "A palatial Moorish fortress overlooking the Mediterranean." },
+                  { name: "Monda Village", loc: "Monda", detail: "Wander the winding, whitewashed streets surrounding the Castle." }
+                ]
+              },
+              {
+                category: "The Table",
+                icon: <Utensils size={24} />,
+                items: [
+                  { name: "The Old Town Tapas", loc: "Marbella", detail: "Traditional bites in the heart of the Casco Antiguo." },
+                  { name: "Espetos on the Shore", loc: "The Coast", detail: "Fresh sardines grilled on open-air boat barbeques." },
+                  { name: "Modern Cuisine", loc: "Málaga", detail: "A contemporary take on classic Andalusian ingredients." }
+                ]
+              },
+              {
+                category: "The Spirits",
+                icon: <Coffee size={24} />,
+                items: [
+                  { name: "Rooftop Views", loc: "Málaga", detail: "Sunset cocktails overlooking the cathedral and port." },
+                  { name: "Beach Club Sunsets", loc: "Marbella", detail: "Relaxed energy and chilled wine as the sun dips." },
+                  { name: "The Castle Lounge", loc: "Monda", detail: "A quiet, starlit evening at our celebration venue." }
+                ]
+              }
+            ].map((cat, i) => (
+              <div key={i} className="reveal group" style={{ transitionDelay: `${i * 150}ms` }}>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-10 h-10 rounded-full bg-accent-terracotta/5 flex items-center justify-center text-accent-terracotta">
+                    {cat.icon}
+                  </div>
+                  <h3 className="label-uppercase text-[12px] font-extrabold tracking-[0.3em] text-primary-text">{cat.category}</h3>
+                </div>
+                <div className="space-y-8">
+                  {cat.items.map((item, j) => (
+                    <div key={j} className="border-l border-accent-terracotta/10 pl-6 group/item hover:border-accent-terracotta/40 transition-colors">
+                      <div className="flex justify-between items-baseline mb-1">
+                        <h4 className="font-serif italic text-xl text-primary-text group-hover/item:text-accent-terracotta transition-colors">{item.name}</h4>
+                        <span className="text-[10px] uppercase tracking-widest text-accent-beige font-bold">{item.loc}</span>
+                      </div>
+                      <p className="text-sm text-secondary-text font-serif italic opacity-70 leading-relaxed">{item.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* TRAVEL JOURNAL QUOTE */}
       <section className="py-32 px-6 section-layer-2 text-center overflow-hidden">
         <div className="max-w-4xl mx-auto relative reveal">
