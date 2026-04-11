@@ -132,7 +132,7 @@ export function Home() {
             <p className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-secondary-text opacity-100 leading-relaxed font-medium mb-10">
               De La Villeta 6, 29110 Monda, Spain
             </p>
-            <Link to="/rsvp" className="btn-primary inline-block">
+            <Link to="/rsvp" className="btn-primary inline-flex">
               Kindly RSVP
             </Link>
           </div>
@@ -163,26 +163,6 @@ export function Home() {
               <p className="text-lg md:text-xl text-secondary-text leading-relaxed font-serif italic">
                 Our story is a weave of two cultures, six languages, and one shared dream. From the vibrant energy of Cairo to the historic charm of Madrid, we have found our home in each other.
               </p>
-              <p className="text-lg md:text-xl text-secondary-text leading-relaxed font-serif">
-                Join us as we step into our new life together at the Castillo de Monda, a place where history meets the horizon.
-              </p>
-            </div>
-            
-            <div className="w-full h-px bg-border/40 my-8 lg:block hidden" />
-            
-            <div className="grid grid-cols-3 gap-4 md:gap-8 w-full">
-              <div className="text-center lg:text-left">
-                <span className="text-3xl md:text-4xl font-serif text-primary-text block mb-1">02</span>
-                <span className="label-uppercase text-[9px] md:text-[10px]">Years Together</span>
-              </div>
-              <div className="text-center lg:text-left">
-                <span className="text-3xl md:text-4xl font-serif text-primary-text block mb-1">03</span>
-                <span className="label-uppercase text-[9px] md:text-[10px]">Homes Created</span>
-              </div>
-              <div className="text-center lg:text-left">
-                <span className="text-3xl md:text-4xl font-serif text-primary-text block mb-1">06</span>
-                <span className="label-uppercase text-[9px] md:text-[10px]">Languages Spoken</span>
-              </div>
             </div>
           </div>
         </div>
@@ -197,7 +177,7 @@ export function Home() {
           
           <div className="max-w-xl mx-auto space-y-6 mb-8">
             <p className="text-lg text-secondary-text font-serif leading-relaxed italic border-x-2 border-accent-terracotta/20 px-8 py-2">
-              "We invite our guests to embrace the vibrant spirit of Spain through a palette of earthy tones and sophisticated colors."
+              "We invite our guests to embrace the vibrant spirit of Spain through a palette of earthy tones."
             </p>
             <p className="text-sm uppercase tracking-widest text-accent-terracotta font-bold pt-4">
               Gentle Request: Please avoid wearing all-black or dark navy.
@@ -247,7 +227,7 @@ export function Home() {
             <span className="label-uppercase">The Celebration</span>
             <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-6 italic">Wedding Schedule</h2>
             <div className="w-16 h-px bg-accent-terracotta" />
-            <p className="mt-8 text-secondary-text font-serif italic max-w-md">Saturday, the seventeenth of April, two thousand twenty-seven</p>
+            <p className="mt-8 text-secondary-text font-serif italic max-w-none mx-auto w-full whitespace-nowrap text-lg md:text-xl">Saturday, 17th April 2027</p>
           </div>
 
           <div className="relative">
@@ -272,7 +252,7 @@ export function Home() {
                 <div className="order-2 md:order-1 relative group max-w-[300px] mx-auto cursor-pointer">
                   <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
                   <div className="stamp-visual transform -rotate-1 relative z-10 transition-transform duration-700 group-hover:scale-105">
-                    <img src="/cocktail.png" alt="Cocktail Hour" className="stamp-image" />
+                    <img src="/cocktail_sketch.png" alt="Cocktail Hour" className="stamp-image" />
                   </div>
                 </div>
                 <div className="order-1 md:order-2">
@@ -324,7 +304,7 @@ export function Home() {
               Please kindly let us know if you can join us <br className="hidden md:block" /> by November 13th, 2026.
             </p>
             <div className="flex justify-center pt-4">
-              <Link to="/rsvp" className="btn-primary-white">
+              <Link to="/rsvp" className="btn-primary inline-flex">
                 Kindly RSVP
               </Link>
             </div>

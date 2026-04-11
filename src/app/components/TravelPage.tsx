@@ -36,7 +36,7 @@ export function TravelPage() {
             />
           </div>
           <p className="text-center mt-8 text-secondary-text font-serif italic text-sm">
-            Winding through the heart of Andalusia, just 45 minutes from Málaga.
+            Winding through the heart of Andalusia, just around 40-45 mins from Málaga Airport.
           </p>
         </div>
       </section>
@@ -66,7 +66,7 @@ export function TravelPage() {
                     Gateway
                   </h2>
                   <p className="text-lg text-secondary-text leading-relaxed mb-8">
-                    Your journey begins at <span className="text-primary-text font-medium">Málaga Airport (AGP)</span>. We recommend arriving a day or two early to soak in the seaside atmosphere of the Costa del Sol before heading into the hills.
+                    Your journey begins at <span className="text-primary-text font-medium">Málaga Airport</span>. We recommend arriving a day or two early to soak in the seaside atmosphere of the Costa del Sol before heading into the hills.
                   </p>
                   
                   <div className="wedding-card bg-white/60 backdrop-blur-md border border-white/40 shadow-xl">
@@ -77,7 +77,7 @@ export function TravelPage() {
                       <div>
                         <h4 className="font-serif text-xl font-medium text-primary-text mb-2">Flight Connections</h4>
                         <p className="text-sm text-secondary-text leading-relaxed">
-                          Direct flights connect Málaga to most major European hubs. The airport is just 45 minutes from our venue.
+                          Direct flights connect Málaga to most major European hubs. The airport is just around 40-45 mins from our venue.
                         </p>
                       </div>
                     </div>
@@ -92,7 +92,7 @@ export function TravelPage() {
       </section>
 
       {/* 4. THE ASCENT - TRANSFERS & CARS */}
-      <section className="relative py-24 px-6 bg-background overflow-hidden">
+      <section className="relative py-12 px-6 bg-background overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -133,19 +133,29 @@ export function TravelPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Link to="/rsvp" className="wedding-card !bg-transparent border-dashed border-border/40 hover:border-accent-terracotta/60 transition-all duration-300 group/card block">
                     <h3 className="font-serif text-xl text-primary-text mb-2 italic">Car Rental</h3>
-                    <p className="text-[11px] text-secondary-text mb-4 leading-relaxed">Rentals available at AGP from €30/day. Please tell us your plans in the <span className="text-accent-terracotta underline">RSVP</span>.</p>
+                    <p className="text-[11px] text-secondary-text mb-4 leading-relaxed">Rentals available at Málaga Airport from €30/day. Please tell us your plans in the <span className="text-accent-terracotta underline">RSVP</span>.</p>
                     <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-accent-terracotta font-bold">
-                      <Car size={14} className="group-hover/card:translate-x-1 transition-transform" /> AGP Airport
+                      <Car size={14} className="group-hover/card:translate-x-1 transition-transform" /> Málaga Airport
                     </div>
                   </Link>
                   
-                  <Link to="/rsvp" className="wedding-card !bg-transparent border-dashed border-border/40 hover:border-accent-terracotta/60 transition-all duration-300 group/card block">
+                  <div className="wedding-card !bg-transparent border-dashed border-border/40 group/card block">
                     <h3 className="font-serif text-xl text-primary-text mb-2 italic">Free Parking</h3>
                     <p className="text-[11px] text-secondary-text mb-4 leading-relaxed">Requested via RSVP. Self-service parking located at Calle Castillo.</p>
-                    <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-accent-terracotta font-bold">
-                      <MapPin size={14} className="group-hover/card:scale-110 transition-transform" /> Request Spot
+                    <div className="flex flex-col gap-3">
+                      <a 
+                        href="https://maps.app.goo.gl/TyTof35JTLYVxBZj6?g_st=iw" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-accent-terracotta font-bold hover:translate-x-1 transition-all"
+                      >
+                        <MapPin size={14} /> Open Parking Map
+                      </a>
+                      <Link to="/rsvp" className="text-[9px] uppercase tracking-widest font-bold text-secondary-text opacity-50 hover:opacity-100 transition-all">
+                        Request Spot via RSVP
+                      </Link>
                     </div>
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -177,48 +187,39 @@ export function TravelPage() {
       </section>
 
       {/* 5. VISA & ENTRY REQUIREMENTS */}
-      <section id="visa" className="py-24 px-6 bg-card-background border-y border-border/10">
+      <section id="visa" className="py-12 px-6 bg-card-background border-y border-border/10">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-1 hidden lg:block" />
             
-            <div className="lg:col-span-5 order-2 lg:order-1">
-              <span className="label-uppercase mb-4 block">Part III: Entry</span>
-              <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8 italic leading-tight">
-                Visa & Entry <br /> 
-                Requirements
-              </h2>
-              <p className="text-lg text-secondary-text leading-relaxed mb-8">
-                Spain is part of the Schengen Area. We recommend all our international guests check their specific entry requirements well in advance.
-              </p>
-              
-              <div className="space-y-6">
-                <div className="wedding-card bg-white/50 backdrop-blur-sm border-l-4 border-accent-terracotta">
-                  <h4 className="font-serif text-xl text-primary-text mb-3 italic">For our Egyptian Guests</h4>
-                  <p className="text-sm text-secondary-text leading-relaxed mb-4 font-medium">
-                    Please ensure you apply for your Schengen Visa at least <span className="text-primary-text font-bold">3–4 months</span> prior to the wedding. Appointment slots can be limited during peak seasons.
-                  </p>
-                </div>
+            <div className="lg:col-span-1 hidden lg:block" />
+            
+            <div className="lg:col-span-10">
+              <div className="max-w-2xl">
+                <span className="label-uppercase mb-4 block">Part III: Entry</span>
+                <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8 italic leading-tight">
+                  Visa & Entry <br /> 
+                  Requirements
+                </h2>
+                <p className="text-lg text-secondary-text leading-relaxed mb-8">
+                  Spain is part of the Schengen Area. We recommend all our international guests check their specific entry requirements well in advance.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="wedding-card bg-white/50 backdrop-blur-sm border-l-4 border-accent-terracotta">
+                    <h4 className="font-serif text-xl text-primary-text mb-3 italic">For our Egyptian Guests</h4>
+                    <p className="text-sm text-secondary-text leading-relaxed font-medium">
+                      Please ensure you apply for your Schengen Visa at least <span className="text-primary-text font-bold">3–4 months</span> prior to the wedding. Appointment slots can be limited during peak seasons.
+                    </p>
+                  </div>
 
-                <div className="wedding-card bg-white/50 backdrop-blur-sm">
-                  <h4 className="font-serif text-xl text-primary-text mb-3 italic">Hotel Documentation</h4>
-                  <p className="text-sm text-secondary-text leading-relaxed font-medium">
-                    If you are staying at the Castillo de Monda and require a formal booking confirmation or invitation letter for your visa application, please request this via the RSVP form or contact the hotel directly.
-                  </p>
+                  <div className="wedding-card bg-white/50 backdrop-blur-sm">
+                    <h4 className="font-serif text-xl text-primary-text mb-3 italic">Hotel Documentation</h4>
+                    <p className="text-sm text-secondary-text leading-relaxed font-medium">
+                      If you are staying at the Castillo de Monda and require a formal booking confirmation or invitation letter for your visa application, please request this via the RSVP form or contact the hotel directly.
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-5 order-1 lg:order-2 flex justify-center">
-              <div className="stamp-visual transform -rotate-1 max-w-[400px]">
-                <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-                  <Compass size={200} />
-                </div>
-                <img 
-                  src="/castillo-visa.png" 
-                  alt="Castillo de Monda" 
-                  className="stamp-image"
-                />
               </div>
             </div>
             
@@ -228,24 +229,24 @@ export function TravelPage() {
       </section>
 
       {/* 6. TRAVELER'S POCKET GUIDE (ENHANCED) */}
-      <section className="py-32 px-6 bg-[#F5EFEB] font-sans">
+      <section className="py-12 px-6 bg-[#F5EFEB] font-sans">
         <div className="max-w-5xl mx-auto">
           {/* JOURNEY TIMELINE */}
-          <div className="max-w-4xl mx-auto mb-24 relative">
-            <div className="absolute top-1/2 left-0 w-full h-px bg-accent-terracotta/20 -translate-y-1/2 hidden md:block" />
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+          <div className="max-w-3xl mx-auto mb-8 relative">
+            <div className="absolute top-[28px] left-[10%] right-[10%] h-px bg-accent-terracotta/20 hidden md:block" />
+            <div className="flex justify-between items-start">
               {[
-                { time: "Arrive", label: "Málaga (AGP)", icon: <Plane size={18} strokeWidth={1.25} /> },
-                { time: "Transport", label: "Collect Car", icon: <Car size={18} strokeWidth={1.25} /> },
-                { time: "35 min", label: "Drive to Monda", icon: <ArrowRight size={18} strokeWidth={1.25} /> },
-                { time: "Arrive", label: "Welcome Home", icon: <HomeIcon size={18} strokeWidth={1.25} /> }
+                { time: "Arrive", label: "Málaga Airport", icon: <Plane size={18} /> },
+                { time: "Transport", label: "Collect Car", icon: <Car size={18} /> },
+                { time: "40-45 min", label: "To Monda", icon: <ArrowRight size={18} /> },
+                { time: "Arrive", label: "Welcome", icon: <HomeIcon size={18} /> }
               ].map((step, i) => (
-                <div key={i} className="flex flex-col items-center group">
-                  <div className="w-12 h-12 bg-white border border-accent-terracotta/20 rounded-full flex items-center justify-center text-accent-terracotta shadow-sm group-hover:bg-accent-terracotta group-hover:text-white transition-all duration-700 mb-4">
+                <div key={i} className="flex flex-col items-center text-center px-2 z-10">
+                  <div className="w-14 h-14 bg-white border border-accent-terracotta/20 rounded-full flex items-center justify-center text-accent-terracotta shadow-sm mb-3">
                     {step.icon}
                   </div>
-                  <span className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold mb-1">{step.time}</span>
-                  <span className="text-sm font-serif italic text-primary-text">{step.label}</span>
+                  <span className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold mb-0.5">{step.time}</span>
+                  <span className="text-xs md:text-sm font-serif italic text-primary-text leading-tight">{step.label}</span>
                 </div>
               ))}
             </div>

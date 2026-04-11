@@ -90,16 +90,16 @@ export function AccommodationPage() {
                   />
                   <div className="absolute top-6 left-6">
                     <span className="bg-white/95 backdrop-blur px-4 py-2 rounded-full text-[10px] uppercase tracking-widest font-bold text-accent-terracotta shadow-lg">
-                      {room.rooms} Available
+                      {room.rooms} Rooms
                     </span>
                   </div>
                 </div>
                 <div className="w-full md:w-[55%] p-10 md:p-14 flex flex-col justify-center">
-                  <div className="flex justify-between items-start mb-6">
-                    <h3 className="text-3xl md:text-4xl font-serif text-primary-text italic leading-none">{room.name}</h3>
-                    <div className="flex items-center gap-2 text-accent-terracotta">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                    <h3 className="text-3xl md:text-4xl font-serif text-primary-text italic leading-tight">{room.name}</h3>
+                    <div className="flex items-center gap-2 text-accent-terracotta bg-accent-terracotta/5 px-4 py-2 rounded-xl whitespace-nowrap">
                       <Users size={18} />
-                      <span className="text-sm font-bold uppercase tracking-widest">{room.maxGuests} guests</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest leading-none">{room.maxGuests} Guests</span>
                     </div>
                   </div>
                   <p className="text-sm text-secondary-text mb-6">
@@ -128,7 +128,7 @@ export function AccommodationPage() {
                     </div>
                     <button 
                       onClick={() => navigate('/rsvp')}
-                      className="btn-primary w-full sm:w-auto py-4 px-10 text-xs tracking-widest uppercase bg-primary-text text-white hover:bg-accent-terracotta transition-all rounded-xl shadow-lg"
+                      className="btn-primary"
                     >
                       Select in RSVP
                     </button>
