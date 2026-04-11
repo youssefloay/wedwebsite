@@ -9,12 +9,12 @@ export function TravelPage() {
   return (
     <div className="min-h-screen bg-background text-primary-text font-serif">
       <Navigation />
-      
+
       {/* 1. HERO - THE JOURNEY TITLE */}
-      <section className="relative pt-40 pb-16 px-6 bg-background overflow-hidden">
+      <section className="relative pt-2 pb-16 px-6 bg-background overflow-hidden">
         {/* Arch Pattern Background - Identical to Home */}
         <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
-        
+
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <span className="label-uppercase mb-6 block">The Voyage</span>
           <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Journey to Monda</h1>
@@ -29,9 +29,9 @@ export function TravelPage() {
       <section className="px-6 pb-20 bg-background relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="relative p-2 bg-white shadow-2xl rounded-sm transform rotate-1 border border-border/10 ring-8 ring-white/5">
-            <img 
-              src="/travel-map.png" 
-              alt="Andalusian Journey Map" 
+            <img
+              src="/travel-map.png"
+              alt="Andalusian Journey Map"
               className="w-full h-auto opacity-100 mix-blend-multiply"
             />
           </div>
@@ -46,14 +46,14 @@ export function TravelPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-1 hidden lg:block" />
-            
+
             <div className="lg:col-span-12 xl:col-span-10">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div className="relative order-2 lg:order-1 flex justify-center">
                   <div className="stamp-visual transform rotate-2 max-w-[400px]">
-                    <img 
-                      src="/malaga-coast.png" 
-                      alt="Málaga Coastline" 
+                    <img
+                      src="/malaga-coast.png"
+                      alt="Málaga Coastline"
                       className="stamp-image"
                     />
                   </div>
@@ -62,13 +62,13 @@ export function TravelPage() {
                 <div className="order-1 lg:order-2">
                   <span className="label-uppercase mb-4 block">Part I: Arrival</span>
                   <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8 italic leading-tight">
-                    Arriving at the <br /> 
+                    Arriving at the <br />
                     Gateway
                   </h2>
                   <p className="text-lg text-secondary-text leading-relaxed mb-8">
                     Your journey begins at <span className="text-primary-text font-medium">Málaga Airport</span>. We recommend arriving a day or two early to soak in the seaside atmosphere of the Costa del Sol before heading into the hills.
                   </p>
-                  
+
                   <div className="wedding-card bg-white/60 backdrop-blur-md border border-white/40 shadow-xl">
                     <div className="flex items-start gap-4">
                       <div className="p-3 bg-accent-terracotta/10 rounded-full">
@@ -94,15 +94,15 @@ export function TravelPage() {
       {/* 4. THE ASCENT - TRANSFERS & CARS */}
       <section className="relative py-12 px-6 bg-background overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
-        
+
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
             <div className="lg:col-span-1 hidden lg:block" />
-            
+
             <div className="lg:col-span-5">
               <span className="label-uppercase mb-4 block">Part II: Ascent</span>
               <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8 italic leading-tight">
-                Into the <br /> 
+                Into the <br />
                 Rolling Hills
               </h2>
               <p className="text-lg text-secondary-text leading-relaxed mb-10">
@@ -138,15 +138,15 @@ export function TravelPage() {
                       <Car size={14} className="group-hover/card:translate-x-1 transition-transform" /> Málaga Airport
                     </div>
                   </Link>
-                  
+
                   <div className="wedding-card !bg-transparent border-dashed border-border/40 group/card block">
                     <h3 className="font-serif text-xl text-primary-text mb-2 italic">Free Parking</h3>
                     <p className="text-[11px] text-secondary-text mb-4 leading-relaxed">Requested via RSVP. Self-service parking located at Calle Castillo.</p>
                     <div className="flex flex-col gap-3">
-                      <a 
-                        href="https://maps.app.goo.gl/TyTof35JTLYVxBZj6?g_st=iw" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://maps.app.goo.gl/TyTof35JTLYVxBZj6?g_st=iw"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-accent-terracotta font-bold hover:translate-x-1 transition-all"
                       >
                         <MapPin size={14} /> Open Parking Map
@@ -165,13 +165,13 @@ export function TravelPage() {
             <div className="lg:col-span-4 relative">
               <div className="relative z-10 flex flex-col items-center">
                 <div className="stamp-visual transform rotate-3 max-w-full">
-                  <img 
-                    src="/travel-sketch.png" 
-                    alt="Andalusian Road Trip" 
+                  <img
+                    src="/travel-sketch.png"
+                    alt="Andalusian Road Trip"
                     className="stamp-image"
                   />
                 </div>
-                
+
                 {/* Enhancement: Scenic Route Tip */}
                 <div className="mt-12 bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-accent-terracotta/10 max-w-xs -rotate-2 relative z-20">
                   <Compass className="text-accent-terracotta mb-4" size={24} />
@@ -191,20 +191,20 @@ export function TravelPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-1 hidden lg:block" />
-            
+
             <div className="lg:col-span-1 hidden lg:block" />
-            
+
             <div className="lg:col-span-10">
               <div className="max-w-2xl">
                 <span className="label-uppercase mb-4 block">Part III: Entry</span>
                 <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8 italic leading-tight">
-                  Visa & Entry <br /> 
+                  Visa & Entry <br />
                   Requirements
                 </h2>
                 <p className="text-lg text-secondary-text leading-relaxed mb-8">
                   Spain is part of the Schengen Area. We recommend all our international guests check their specific entry requirements well in advance.
                 </p>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="wedding-card bg-white/50 backdrop-blur-sm border-l-4 border-accent-terracotta">
                     <h4 className="font-serif text-xl text-primary-text mb-3 italic">For our Egyptian Guests</h4>
@@ -222,7 +222,7 @@ export function TravelPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="lg:col-span-1 hidden lg:block" />
           </div>
         </div>
@@ -257,7 +257,7 @@ export function TravelPage() {
             <div className="lg:col-span-2 p-12 md:p-16 border-r border-border/10">
               <span className="label-uppercase mb-4 block">Essentials</span>
               <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-12 italic">Journey Notes</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-3">
                   <h4 className="font-serif text-lg text-primary-text italic">Spring Climate</h4>
@@ -271,7 +271,7 @@ export function TravelPage() {
                   <h4 className="font-serif text-lg text-primary-text italic">Digital Guide</h4>
                   <p className="text-sm text-secondary-text leading-relaxed mb-4">Set your compass to Castillo de Monda. Use these tools for your GPS or navigation app.</p>
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <button 
+                    <button
                       onClick={() => {
                         navigator.clipboard.writeText("36.6256, -4.7936");
                         setCopiedId('coords');
@@ -282,18 +282,18 @@ export function TravelPage() {
                       {copiedId === 'coords' ? <Check size={14} /> : <Copy size={14} />}
                       {copiedId === 'coords' ? 'Copied' : 'Copy Coordinates'}
                     </button>
-                    <a 
-                      href="https://maps.google.com/?q=Castillo+de+Monda" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
+                    <a
+                      href="https://maps.google.com/?q=Castillo+de+Monda"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-accent-terracotta text-white rounded-xl text-[10px] uppercase tracking-widest font-bold hover:opacity-90 transition-all shadow-md"
                     >
                       Venue Location <Compass size={14} />
                     </a>
-                    <a 
-                      href="https://maps.app.goo.gl/TyTof35JTLYVxBZj6?g_st=iw" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
+                    <a
+                      href="https://maps.app.goo.gl/TyTof35JTLYVxBZj6?g_st=iw"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-[#F5EFEB] text-accent-terracotta border border-accent-terracotta/20 rounded-xl text-[10px] uppercase tracking-widest font-bold hover:border-accent-terracotta transition-all shadow-sm"
                     >
                       Parking Map <MapPin size={14} />

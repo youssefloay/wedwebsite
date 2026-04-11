@@ -27,7 +27,7 @@ export function GiftsPage() {
       <Navigation />
       
       {/* 1. HERO */}
-      <section className="relative pt-40 pb-20 px-6 overflow-hidden text-center">
+      <section className="relative pt-12 pb-20 px-6 overflow-hidden text-center">
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         <div className="relative z-10 max-w-3xl mx-auto">
           <span className="label-uppercase mb-6 block">Gifting</span>

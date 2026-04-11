@@ -43,12 +43,12 @@ export function AccommodationPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       {/* 1. HERO - STAY TITLE */}
-      <section className="relative pt-40 pb-16 px-6 bg-background overflow-hidden">
+      <section className="relative pt-2 pb-16 px-6 bg-background overflow-hidden">
         {/* Arch Pattern Background - Identical to Home */}
         <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
-        
+
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <span className="label-uppercase mb-6 block">Where to Stay</span>
           <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Castillo de Monda</h1>
@@ -83,9 +83,9 @@ export function AccommodationPage() {
             {roomTypes.map((room, idx) => (
               <div key={idx} className="wedding-card group overflow-hidden p-0 flex flex-col md:flex-row shadow-sm hover:shadow-2xl transition-all duration-700 bg-white border border-border/5">
                 <div className="w-full md:w-[45%] h-80 md:h-auto overflow-hidden relative">
-                  <img 
-                    src={room.image} 
-                    alt={room.name} 
+                  <img
+                    src={room.image}
+                    alt={room.name}
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
                   <div className="absolute top-6 left-6">
@@ -126,7 +126,7 @@ export function AccommodationPage() {
                       €{room.pricePerNight}
                       <span className="text-xs font-sans text-secondary-text ml-3 uppercase tracking-widest font-bold">per night</span>
                     </div>
-                    <button 
+                    <button
                       onClick={() => navigate('/rsvp')}
                       className="btn-primary"
                     >
@@ -151,22 +151,22 @@ export function AccommodationPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
             {/* Visual connector for desktop */}
             <div className="hidden md:block absolute top-[50px] left-0 w-full h-px bg-accent-terracotta/20 -z-10" />
-            
+
             {[
-              { 
-                step: "01", 
-                title: "Indicate Choice", 
-                text: "Select your preferred room type during the RSVP process." 
+              {
+                step: "01",
+                title: "Indicate Choice",
+                text: "Select your preferred room type during the RSVP process."
               },
-              { 
-                step: "02", 
-                title: "Coordination", 
-                text: "The hotel will contact you directly to confirm your details." 
+              {
+                step: "02",
+                title: "Coordination",
+                text: "The hotel will contact you directly to confirm your details."
               },
-              { 
-                step: "03", 
-                title: "Finalize", 
-                text: "Payment is required upon booking to guarantee your room." 
+              {
+                step: "03",
+                title: "Finalize",
+                text: "Payment is required upon booking to guarantee your room."
               }
             ].map((item, i) => (
               <div key={i} className="text-center group">
@@ -186,7 +186,7 @@ export function AccommodationPage() {
                 Should you prefer to stay elsewhere, the surrounding villages and the coast offer many alternatives. However, we would love to have you sharing the full experience with us!
               </p>
             </div>
-            
+
             <Link to="/travel#visa" className="flex-1 p-8 bg-white border-2 border-dashed border-accent-terracotta/20 rounded-3xl flex items-start gap-5 hover:border-accent-terracotta/40 transition-colors group">
               <Globe className="text-accent-terracotta shrink-0 group-hover:rotate-12 transition-transform" size={24} />
               <div>
