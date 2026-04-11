@@ -10,7 +10,7 @@ export function FaqPage() {
     },
     { 
       q: "What does 'Black Tie & Color' mean?", 
-      a: "We invite our guests to dress formally (tuxedos or dark suits for men, floor-length gowns for women) but with a focus on vibrant, earthy tones. We kindly ask you to avoid wearing all-black or dark navy to embrace the Mediterranean spirit of our celebration." 
+      a: "We invite our guests to dress formally with a focus on vibrant, earthy tones. We kindly ask you to avoid wearing all-black, dark navy, or dark tuxedos to fully embrace the colorful Mediterranean spirit of our celebration." 
     },
     { 
       q: "How do I reach Monda from Málaga?", 
