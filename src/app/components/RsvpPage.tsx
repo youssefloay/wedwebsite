@@ -229,7 +229,7 @@ export function RsvpPage() {
 
               {/* Header */}
               <div className="text-left mb-8 max-w-none mx-auto animate-in fade-in duration-1000">
-                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight md:leading-none mb-6">Will you join us in Monda?</p>
+                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight md:leading-none mb-6 whitespace-nowrap">Join us in Monda?</p>
                 <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
               </div>
 
@@ -277,8 +277,8 @@ export function RsvpPage() {
                       {/* IDENTITY */}
                       <div className="max-w-none mx-auto space-y-16 -mt-12" ref={currentStep === 2 ? nextSectionRef : null}>
                         <div className="text-left mb-12">
-                          <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">
-                            {formData.attendance === 'Regretfully decline' ? 'Who shall we miss?' : 'Who are we welcoming?'}
+                          <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6 whitespace-nowrap">
+                            {formData.attendance === 'Regretfully decline' ? "We'll miss you" : 'Who is attending?'}
                           </p>
                           <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                         </div>
@@ -322,7 +322,7 @@ export function RsvpPage() {
                           {/* PARTY */}
                           <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 3 ? nextSectionRef : null}>
                             <div className="text-left mb-12">
-                              <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">Who is in your party?</p>
+                              <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6 whitespace-nowrap">Who is in your party?</p>
                               <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                             </div>
                             <div className="flex flex-col items-start gap-10">
@@ -365,7 +365,7 @@ export function RsvpPage() {
                           {currentStep >= 4 && (
                             <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 4 ? nextSectionRef : null}>
                               <div className="text-left mb-12">
-                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">Where will you be resting?</p>
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6 whitespace-nowrap">Where will you rest?</p>
                                 <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                               </div>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
@@ -490,7 +490,7 @@ export function RsvpPage() {
                           {currentStep >= 5 && (
                             <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 5 ? nextSectionRef : null}>
                               <div className="text-left mb-12 space-y-6">
-                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none">How do you plan to join us?</p>
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none whitespace-nowrap">How will you travel?</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                   We understand that these details are not yet final. A formal logistics form will be shared between December and January to coordinate your definitive travel arrangements.
                                 </p>
