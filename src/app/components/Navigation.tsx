@@ -36,22 +36,24 @@ export function Navigation() {
     { to: 'faq',           label: 'FAQ',     icon: Info },
   ];
 
+  const isDiscovery = location.pathname.includes('discovery');
+
   return (
     <>
       {/* ── UNIFIED BOTTOM NAV ── */}
       <nav 
-        className={`fixed bottom-10 md:bottom-8 inset-x-0 z-[100] flex justify-center px-4 pointer-events-none transition-all duration-700 ease-out ${
+        className={`fixed ${isDiscovery ? 'bottom-10 md:bottom-16' : 'bottom-4 md:bottom-8'} inset-x-0 z-[100] flex justify-center px-4 pointer-events-none transition-all duration-700 ease-out ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'
         }`}
       >
          {/* The Unified Navbar Container (Pill) */}
         <div className="flex-shrink-0 w-full max-w-[640px] md:max-w-[920px] pointer-events-auto">
-            <div className="relative flex items-center md:justify-center gap-1 md:gap-4 py-2.5 md:py-3.5 rounded-full border border-primary-text/10 bg-background/85 backdrop-blur-2xl shadow-[0_12px_45px_rgba(44,24,16,0.18)] px-3 md:px-8 transition-all duration-500 overflow-x-auto no-scrollbar isolate">
+            <div className="relative flex items-center md:justify-center gap-1 md:gap-4 h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/10 bg-background/70 backdrop-blur-2xl shadow-[0_12px_40px_rgba(44,24,16,0.12)] px-2 md:px-6 transition-all duration-500 overflow-x-auto no-scrollbar isolate">
             
             {/* ANDALUSIAN TILE WATERMARK (Subtle) */}
             <div 
-              className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none mix-blend-multiply" 
-              style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '160px' }} 
+              className="absolute inset-0 z-0 opacity-[0.04] pointer-events-none mix-blend-multiply" 
+              style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '180px' }} 
             />
 
             {navLinks.map(({ to, label, icon: Icon }) => {
@@ -60,7 +62,7 @@ export function Navigation() {
                 <Link
                   key={to}
                   to={to}
-                  className="flex flex-col items-center gap-1.5 px-3 md:px-5 py-2 rounded-full transition-all duration-500 group relative flex-shrink-0 z-10"
+                  className="flex flex-col items-center gap-1.5 px-2.5 md:px-4 py-2 rounded-2xl transition-all duration-500 group relative flex-shrink-0 z-10"
                 >
                   {/* SELECTION INDICATOR (Moorish Arch Shape) */}
                   {active && (
