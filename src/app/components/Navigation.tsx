@@ -52,8 +52,8 @@ export function Navigation() {
         }`}
       >
          {/* The Unified Navbar Container (Pill) */}
-        <div className="flex-shrink-0 w-full max-w-[640px] md:max-w-[920px] pointer-events-auto">
-            <div className="relative flex items-center justify-center gap-1 md:gap-4 h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/10 bg-background/70 backdrop-blur-2xl shadow-[0_12px_40px_rgba(44,24,16,0.12)] pl-4 pr-2 md:px-6 transition-all duration-500 overflow-x-auto no-scrollbar isolate">
+         <div className="flex-shrink-0 w-fit pointer-events-auto mx-auto">
+            <div className="relative flex items-center justify-center gap-1 md:gap-4 h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/10 bg-background/70 backdrop-blur-2xl shadow-[0_12px_40px_rgba(44,24,16,0.12)] px-4 md:px-8 transition-all duration-500 overflow-x-auto no-scrollbar isolate">
             
             {/* ANDALUSIAN TILE WATERMARK (Subtle) */}
             <div 
