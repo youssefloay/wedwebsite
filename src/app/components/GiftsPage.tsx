@@ -31,11 +31,11 @@ export function GiftsPage() {
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         <div className="relative z-10 max-w-3xl mx-auto">
           <span className="label-uppercase mb-6 block">Gifting</span>
-          <h1 className="text-6xl md:text-8xl font-serif text-primary-text mb-8 leading-none">Our Future</h1>
+          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Our Future</h1>
           <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-lg mx-auto px-4">
             "Your presence is the greatest gift."
           </p>
-          <div className="w-16 h-px mx-auto mt-12 bg-accent-terracotta/40" />
+          <div className="w-16 h-px mx-auto mt-12 bg-accent-terracotta" />
         </div>
       </section>
 
