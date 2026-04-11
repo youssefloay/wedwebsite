@@ -72,7 +72,7 @@ export function RsvpPage() {
       
       {!isSubmitted ? (
         <div className="section-container">
-          <div className="text-center mb-16 pt-16">
+          <div className="text-center mb-16 pt-8">
             <span className="label-uppercase">Please Respond</span>
             <h1 className="title-section mb-6">RSVP</h1>
             <p className="text-lg text-secondary-text mb-4 italic font-serif">
@@ -258,9 +258,80 @@ export function RsvpPage() {
                     />
                   </div>
 
+                  {/* Car Rental & Parking */}
+                  <div className="space-y-4 pt-4 border-t border-border">
+                    <label className="label-uppercase">Car Rental & Parking</label>
+                    <div className="space-y-4">
+                      <p className="text-sm text-secondary-text mb-4 italic">Will you be renting a car and do you require a parking spot?</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button
+                          type="button"
+                          onClick={() => updateFormData('carRental', 'Yes')}
+                          className={`py-3 px-6 rounded-xl border text-sm transition-all ${
+                            formData.carRental === 'Yes' ? 'bg-primary-text text-white border-primary-text' : 'bg-background border-border text-secondary-text'
+                          }`}
+                        >
+                          I'm renting a car
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => updateFormData('carRental', 'No')}
+                          className={`py-3 px-6 rounded-xl border text-sm transition-all ${
+                            formData.carRental === 'No' ? 'bg-primary-text text-white border-primary-text' : 'bg-background border-border text-secondary-text'
+                          }`}
+                        >
+                          No car rental
+                        </button>
+                      </div>
+                      
+                      {formData.carRental === 'Yes' && (
+                        <div className="pt-2">
+                          <label className="text-xs uppercase tracking-widest text-accent-terracotta font-bold mb-3 block">Parking Spot Needed?</label>
+                          <div className="flex gap-4">
+                            {['Yes', 'No'].map(opt => (
+                              <button
+                                key={opt}
+                                type="button"
+                                onClick={() => updateFormData('needsParking', opt)}
+                                className={`flex-1 py-3 rounded-xl border text-sm transition-all ${
+                                  formData.needsParking === opt ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-background border-border text-secondary-text'
+                                }`}
+                              >
+                                {opt}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Visa Support */}
+                  <div className="space-y-4 pt-4 border-t border-border">
+                    <label className="label-uppercase">Visa Support</label>
+                    <div className="space-y-4">
+                      <p className="text-sm text-secondary-text mb-4 italic">Do you require a formal booking confirmation/invitation letter from the Hotel for your visa application?</p>
+                      <div className="grid grid-cols-2 gap-4">
+                        {['Yes', 'No'].map((opt) => (
+                          <button
+                            key={opt}
+                            type="button"
+                            onClick={() => updateFormData('visaSupport', opt)}
+                            className={`py-4 px-6 rounded-xl border transition-all ${
+                              formData.visaSupport === opt ? 'bg-primary-text text-white border-primary-text' : 'bg-background border-border text-secondary-text'
+                            }`}
+                          >
+                            {opt}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Transfer */}
                   <div className="space-y-4 pt-4 border-t border-border">
-                    <label className="label-uppercase">Airport Transfer Needed?</label>
+                    <label className="label-uppercase">Airport Transfer Coordination</label>
+                    <p className="text-sm text-secondary-text mb-4 italic">If you are not renting a car, would you like us to help coordinate a shared transfer?</p>
                     <div className="flex flex-col gap-2">
                       <button
                         type="button"
@@ -269,7 +340,7 @@ export function RsvpPage() {
                           formData.transfer === 'Yes' ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-background border-border text-secondary-text'
                         }`}
                       >
-                        Yes, please coordinate for me
+                        Yes, please coordinate
                       </button>
                       <button
                         type="button"
@@ -278,7 +349,7 @@ export function RsvpPage() {
                           formData.transfer === 'No' ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-background border-border text-secondary-text'
                         }`}
                       >
-                        No, I'll arrange my own
+                        No, I'm all set
                       </button>
                     </div>
                   </div>
@@ -306,6 +377,18 @@ export function RsvpPage() {
                       <div className="flex justify-between border-b border-border/30 pb-3">
                         <span className="text-sm font-medium text-accent-beige uppercase">Stay</span>
                         <span className="font-serif text-primary-text">{formData.accommodation}</span>
+                      </div>
+                    )}
+                    {formData.carRental && (
+                      <div className="flex justify-between border-b border-border/30 pb-3">
+                        <span className="text-sm font-medium text-accent-beige uppercase">Car Rental</span>
+                        <span className="font-serif text-primary-text">{formData.carRental} {formData.needsParking === 'Yes' ? '(Parking Requested)' : ''}</span>
+                      </div>
+                    )}
+                    {formData.visaSupport === 'Yes' && (
+                      <div className="flex justify-between border-b border-border/30 pb-3">
+                        <span className="text-sm font-medium text-accent-beige uppercase">Visa Support</span>
+                        <span className="font-serif text-primary-text">Documentation Requested</span>
                       </div>
                     )}
                     {formData.dietary && (
@@ -391,7 +474,7 @@ export function RsvpPage() {
       )}
 
       {/* FOOTER */}
-      <footer className="py-20 text-center border-t border-border bg-background">
+      <footer className="pt-8 pb-32 text-center border-t border-border bg-background">
         <p className="label-uppercase mb-0">Lama & Álvaro · 2027</p>
       </footer>
     </div>

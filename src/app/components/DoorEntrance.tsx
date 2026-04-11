@@ -81,21 +81,8 @@ export function DoorEntrance({ onEnter }: DoorEntranceProps) {
         </h1>
         
         <div 
-          className="px-14 py-4 border pointer-events-auto cursor-pointer transition-all duration-300"
+          className="btn-primary pointer-events-auto cursor-pointer"
           onClick={handleClick}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '0.75rem',
-            letterSpacing: '0.3em',
-            textTransform: 'uppercase',
-            color: isHovered ? '#000000' : '#FAF6F0',
-            backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0,0,0,0.3)',
-            borderColor: isHovered ? 'transparent' : '#FAF6F0',
-            backdropFilter: 'blur(8px)',
-            boxShadow: '0 15px 40px rgba(0,0,0,0.6)',
-          }}
         >
           Enter
         </div>
@@ -103,7 +90,7 @@ export function DoorEntrance({ onEnter }: DoorEntranceProps) {
         <div 
           className="absolute bottom-16 text-center"
           style={{
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'var(--font-cinzel)',
             color: '#FAF6F0',
             fontSize: '0.65rem',
             letterSpacing: '0.55em',

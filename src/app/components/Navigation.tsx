@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router";
 import { useState, useEffect } from "react";
 import { Home, Plane, Building2, Gift, Heart } from 'lucide-react';
-import logoImage from "../../assets/logo_cursive.png";
+import logoImage from "@/assets/logo_cursive.png";
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,7 +17,7 @@ export function Navigation() {
   }, []);
 
   const navLinks = [
-    { to: '/',              label: 'Home',   icon: Home },
+    { to: '/?entered=true', label: 'Home',   icon: Home },
     { to: '/travel',        label: 'Travel', icon: Plane },
     { to: '/accommodation', label: 'Stay',   icon: Building2 },
     { to: '/gifts',         label: 'Gifts',  icon: Gift },
@@ -37,7 +37,7 @@ export function Navigation() {
             {/* LEFT PIECE */}
             <div className="flex items-center justify-around flex-1 h-full rounded-l-2xl md:rounded-l-full border-t border-b border-l border-border/40 bg-background/80 backdrop-blur-xl shadow-2xl pl-3 md:pl-10 pr-4 md:pr-12">
               {navLinks.slice(0, 2).map(({ to, label, icon: Icon }) => {
-                const active = location.pathname === to;
+                const active = location.pathname === to.split('?')[0];
                 return (
                   <Link
                     key={to}
@@ -45,7 +45,8 @@ export function Navigation() {
                     className="flex flex-col items-center gap-1 px-2 md:px-4 py-1 rounded-2xl transition-all duration-300 group relative"
                   >
                     <Icon
-                      size={active ? 22 : 20}
+                      size={18}
+                      strokeWidth={1.25}
                       className={`transition-all duration-500 ${
                         active ? 'text-accent-terracotta' : 'text-secondary-text group-hover:text-primary-text'
                       }`}
@@ -54,7 +55,7 @@ export function Navigation() {
                       className={`text-[8px] md:text-[10px] uppercase tracking-[0.12em] font-semibold transition-all duration-300 ${
                         active ? 'text-accent-terracotta' : 'text-secondary-text/70 group-hover:text-primary-text'
                       }`}
-                      style={{ fontFamily: 'var(--font-serif)' }}
+                      style={{ fontFamily: 'var(--font-cinzel)' }}
                     >
                       {label}
                     </span>
@@ -87,7 +88,7 @@ export function Navigation() {
             {/* RIGHT PIECE */}
             <div className="flex items-center justify-around flex-1 h-full rounded-r-2xl md:rounded-r-full border-t border-b border-r border-border/40 bg-background/80 backdrop-blur-xl shadow-2xl pr-3 md:pr-10 pl-4 md:pl-12">
               {navLinks.slice(2).map(({ to, label, icon: Icon }) => {
-                const active = location.pathname === to;
+                const active = location.pathname === to.split('?')[0];
                 return (
                   <Link
                     key={to}
@@ -95,7 +96,8 @@ export function Navigation() {
                     className="flex flex-col items-center gap-1 px-2 md:px-4 py-1 rounded-2xl transition-all duration-300 group relative"
                   >
                     <Icon
-                      size={active ? 22 : 20}
+                      size={18}
+                      strokeWidth={1.25}
                       className={`transition-all duration-500 ${
                         active ? 'text-accent-terracotta' : 'text-secondary-text group-hover:text-primary-text'
                       }`}
@@ -104,7 +106,7 @@ export function Navigation() {
                       className={`text-[8px] md:text-[10px] uppercase tracking-[0.12em] font-semibold transition-all duration-300 ${
                         active ? 'text-accent-terracotta' : 'text-secondary-text/70 group-hover:text-primary-text'
                       }`}
-                      style={{ fontFamily: 'var(--font-serif)' }}
+                      style={{ fontFamily: 'var(--font-cinzel)' }}
                     >
                       {label}
                     </span>

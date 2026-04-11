@@ -1,13 +1,30 @@
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
 import { DoorEntrance } from './DoorEntrance';
 import { Navigation } from './Navigation';
 
 export function Home() {
+  const [searchParams] = useSearchParams();
   const [daysUntil, setDaysUntil] = useState(0);
   const [hoursUntil, setHoursUntil] = useState(0);
   const [minutesUntil, setMinutesUntil] = useState(0);
-  const [showContent, setShowContent] = useState(false);
+  const [showContent, setShowContent] = useState(() => {
+    // Initialize based on query param OR session storage
+    return searchParams.get('entered') === 'true' || sessionStorage.getItem('entered') === 'true';
+  });
+
+  useEffect(() => {
+    // Monitor query param changes (e.g. clicking Home while on Home)
+    const enteredParam = searchParams.get('entered') === 'true';
+    if (enteredParam) {
+      setShowContent(true);
+      sessionStorage.setItem('entered', 'true');
+    } else if (window.location.pathname === '/' && !window.location.search) {
+      // Direct access to '/' without params (like logo click) should reset if we want it to land on doors
+      setShowContent(false);
+      sessionStorage.removeItem('entered');
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const updateCountdown = () => {
@@ -32,6 +49,7 @@ export function Home() {
 
   const handleEnter = () => {
     setShowContent(true);
+    sessionStorage.setItem('entered', 'true');
   };
 
   if (!showContent) {
@@ -42,22 +60,19 @@ export function Home() {
     <div className="min-h-screen">
       <Navigation />
 
-      {/* 1. HERO SECTION (UPDATED WITH ILLUSTRATED BACKGROUND) */}
-      <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-background">
-        {/* New Illustrated Background */}
+      {/* 1. HERO SECTION */}
+      <section className="relative min-h-screen flex items-center justify-center pt-20 pb-16 overflow-hidden bg-background">
         <div className="absolute inset-0 z-0">
           <img
             src="/hero-bg.png"
             alt="Andalusian Arch background"
-            className="w-full h-full object-cover opacity-90"
+            className="w-full h-full object-cover opacity-80"
           />
-          {/* Very subtle overlay to ensure text legibility while preserving the background's beauty */}
           <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-transparent to-background/5 backdrop-blur-[0.5px]" />
         </div>
 
         <div className="relative z-10 text-center px-6 max-w-2xl mx-auto flex flex-col items-center">
-          {/* Bismillah Calligraphy - Updated to the precise requested image directly on the hero background */}
-          <div className="mb-0 w-64 md:w-80 opacity-90 transition-opacity duration-1000 flex justify-center">
+          <div className="mb-0 w-64 md:w-80 opacity-100 transition-opacity duration-1000 flex justify-center">
             <img
               src="/bismillah.png"
               alt="Bismillah"
@@ -65,52 +80,48 @@ export function Home() {
             />
           </div>
 
-          <p className="label-uppercase tracking-[0.25em] text-[#4A3A2A]/80 font-bold -mt-22 mb-5 text-xs md:text-sm">
+          <p className="font-cinzel text-[10px] md:text-[11px] tracking-[0.6em] text-secondary-text -mt-16 mb-8 uppercase font-bold">
             En el nombre de Dios
           </p>
 
-          <div className="space-y-3 mb-6">
-            <p className="font-script text-base md:text-lg text-secondary-text opacity-100 font-bold ">You are invited to celebrate the wedding of</p>
-          </div>
+          <p className="font-script text-lg md:text-xl text-secondary-text mb-12 max-w-xs md:max-w-md">
+            You are invited to celebrate the wedding of
+          </p>
 
-          {/* Names Layout */}
           <div className="flex flex-col items-center gap-4 mb-2 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <h1 className="flex flex-col items-center font-cinzel text-primary-text tracking-[0.05em] leading-[1.1]">
-              <span className="text-4xl md:text-6xl uppercase">Lama</span>
-              <span className="text-2xl md:text-4xl uppercase">Loay</span>
+            <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.8]">
+              <span className="text-6xl md:text-8xl uppercase tracking-wider">Lama</span>
+              <span className="text-3xl md:text-4xl mt-1 uppercase tracking-widest">Loay</span>
             </h1>
 
-            <div className="flex items-center gap-6 my-4">
-              <div className="w-16 h-px bg-border/40" />
-              <span className="font-serif text-3xl italic opacity-50">&</span>
-              <div className="w-16 h-px bg-border/40" />
+            <div className="flex items-center justify-center my-6">
+              <span className="script-accent text-3xl md:text-4xl opacity-60 italic">&</span>
             </div>
 
-            <h1 className="flex flex-col items-center font-cinzel text-primary-text tracking-[0.05em] leading-[1.1]">
-              <span className="text-4xl md:text-6xl uppercase">Alvaro</span>
-              <span className="text-2xl md:text-4xl uppercase">Recas</span>
+            <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.8]">
+              <span className="text-6xl md:text-8xl uppercase tracking-wider">Alvaro</span>
+              <span className="text-3xl md:text-4xl mt-1 uppercase tracking-widest">Recas</span>
             </h1>
           </div>
 
-          <div className="w-12 h-px bg-accent-terracotta/30 mt-3 mb-6" />
+          <div className="w-16 h-px bg-accent-terracotta mt-8 mb-10" />
 
-          <h2 className="text-xl md:text-xl font-script mb-8 text-primary-text">
+          <h2 className="script-accent text-3xl md:text-4xl mb-12 text-primary-text">
             17 April 2027
           </h2>
 
-          {/* Minimal Countdown - Moved Higher and Enlarged */}
-          <div className="flex justify-center gap-10 text-sm uppercase tracking-[0.2em] text-[#4A3A2A]/50 mb-4 scale-110">
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-serif text-primary-text/80 mb-1">{daysUntil}</div>
-              <div className="text-[9px] opacity-100 font-bold">Days</div>
+          <div className="flex justify-center gap-10 mb-8 scale-110">
+            <div className="flex flex-col items-center">
+              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-1">{daysUntil}</span>
+              <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">DAYS</span>
             </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-serif text-primary-text/80 mb-1">{hoursUntil}</div>
-              <div className="text-[9px] opacity-100 font-bold">Hrs</div>
+            <div className="flex flex-col items-center">
+              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-1">{hoursUntil}</span>
+              <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">HRS</span>
             </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-serif text-primary-text/80 mb-1">{minutesUntil}</div>
-              <div className="text-[9px] opacity-100 font-bold">Min</div>
+            <div className="flex flex-col items-center">
+              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-1">{minutesUntil}</span>
+              <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">MIN</span>
             </div>
           </div>
 
@@ -118,167 +129,210 @@ export function Home() {
             <p className="text-xl md:text-3xl font-serif text-primary-text tracking-wide">
               Castillo de Monda
             </p>
-            <p className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-secondary-text opacity-100 leading-relaxed font-medium mb-20">
+            <p className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-secondary-text opacity-100 leading-relaxed font-medium mb-10">
               De La Villeta 6, 29110 Monda, Spain
             </p>
+            <Link to="/rsvp" className="btn-primary inline-block">
+              Kindly RSVP
+            </Link>
           </div>
         </div>
       </section>
 
       {/* 2. OUR STORY SECTION */}
       <section id="story" className="section-container">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 flex flex-col items-center">
           <span className="label-uppercase">Our Story</span>
-          <h2 className="title-section">A journey between two worlds</h2>
+          <h2 className="text-5xl md:text-6xl font-serif text-primary-text leading-[1.1] mb-6 max-w-3xl">
+            A journey between <br className="hidden md:block" /> two worlds
+          </h2>
+          <div className="w-16 h-px bg-accent-terracotta" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div className="order-2 md:order-1">
-            <div className="wedding-card p-0 overflow-hidden shadow-xl">
-              <img
-                src="/story-photo.jpg"
-                alt="Lama & Álvaro"
-                className="w-full h-auto object-cover aspect-[4/5]"
-              />
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="order-2 lg:order-1 -mx-6 md:mx-0 overflow-hidden shadow-sm lg:w-full">
+            <img
+              src="/story-photo.jpg"
+              alt="Lama & Álvaro"
+              className="w-full h-auto object-cover max-h-[700px] md:rounded-2xl lg:aspect-[4/5] lg:max-h-none"
+            />
           </div>
-          <div className="order-1 md:order-2 space-y-8">
-            <p className="text-lg leading-relaxed">
-              Surrounded by nature, light, and history, we have chosen a place that feels like a meeting point between our worlds.
-            </p>
-            <p className="text-lg leading-relaxed">
-              It is a celebration of the warmth of Spanish heritage intertwined with the timeless beauty of Arab culture.
-            </p>
-            <div className="pt-4 italic font-serif text-xl border-t border-border">
-              "Where two cultures, two families, and two hearts become one."
+
+          <div className="order-1 lg:order-2 space-y-12 lg:text-left text-center flex flex-col items-center lg:items-start">
+            <div className="space-y-8">
+              <p className="text-lg md:text-xl text-secondary-text leading-relaxed font-serif italic">
+                Our story is a weave of two cultures, six languages, and one shared dream. From the vibrant energy of Cairo to the historic charm of Madrid, we have found our home in each other.
+              </p>
+              <p className="text-lg md:text-xl text-secondary-text leading-relaxed font-serif">
+                Join us as we step into our new life together at the Castillo de Monda, a place where history meets the horizon.
+              </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-card-background py-20 px-6 overflow-hidden">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            {/* TEXT COLUMN & MOBILE IMAGE */}
-            <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left">
-              <span className="label-uppercase">The Venue</span>
-              <h2 className="text-5xl md:text-6xl font-serif text-primary-text leading-tight mb-4">Castillo de Monda</h2>
-              <div className="w-16 h-px bg-accent-terracotta mb-8" />
-              
-              {/* Image for Mobile Only - Placed right after the line */}
-              <div className="w-full max-w-sm lg:hidden mb-10">
-                <img 
-                  src="/venue-hero.png" 
-                  alt="Castillo de Monda" 
-                  className="w-full h-auto max-h-[280px] object-contain mx-auto"
-                />
+            
+            <div className="w-full h-px bg-border/40 my-8 lg:block hidden" />
+            
+            <div className="grid grid-cols-3 gap-4 md:gap-8 w-full">
+              <div className="text-center lg:text-left">
+                <span className="text-3xl md:text-4xl font-serif text-primary-text block mb-1">02</span>
+                <span className="label-uppercase text-[9px] md:text-[10px]">Years Together</span>
               </div>
-
-              <div className="space-y-6">
-                <p className="text-xl font-serif italic text-secondary-text leading-relaxed">
-                  Nestled in the Andalusian hills, where ancient stone whispers stories of the past and the air carries the scent of orange blossoms.
-                </p>
-                <p className="text-lg text-secondary-text">
-                  Monda, Málaga, Andalusia
-                </p>
-                <div className="pt-6">
-                  <a 
-                    href="https://maps.google.com/?q=Castillo+de+Monda" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="btn-secondary"
-                  >
-                    View Location
-                  </a>
-                </div>
+              <div className="text-center lg:text-left">
+                <span className="text-3xl md:text-4xl font-serif text-primary-text block mb-1">03</span>
+                <span className="label-uppercase text-[9px] md:text-[10px]">Homes Created</span>
               </div>
-            </div>
-
-            {/* IMAGE COLUMN (DESKTOP ONLY) */}
-            <div className="lg:col-span-6 hidden lg:flex justify-end">
-              <img 
-                src="/venue-hero.png" 
-                alt="Castillo de Monda" 
-                className="w-full max-h-[450px] object-contain"
-              />
+              <div className="text-center lg:text-left">
+                <span className="text-3xl md:text-4xl font-serif text-primary-text block mb-1">06</span>
+                <span className="label-uppercase text-[9px] md:text-[10px]">Languages Spoken</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. THE SCHEDULE SECTION */}
-      <section className="section-container">
-        <div className="text-center mb-20">
-          <span className="label-uppercase">The Celebration</span>
-          <h2 className="title-section">Saturday, 17 April 2027</h2>
-        </div>
-
-        <div className="max-w-3xl mx-auto space-y-2">
-          {[
-            { time: "16:00", event: "The Arrival", description: "Welcome refreshments at the terrace" },
-            { time: "17:00", event: "The Ceremony", description: "A union of two cultures" },
-            { time: "18:00", event: "Cocktail", description: "Andalusian tapas & spirits" },
-            { time: "20:00", event: "Dinner", description: "A feast under the stars" },
-            { time: "22:00", event: "The Party", description: "Music and dance until late" },
-          ].map((item, idx) => (
-            <div key={idx} className="wedding-card mb-4 flex items-center justify-between group hover:border-accent-terracotta">
-              <div className="flex items-center gap-8">
-                <div className="text-2xl font-serif text-accent-terracotta w-20">{item.time}</div>
-                <div>
-                  <h3 className="text-xl font-serif text-primary-text mb-1">{item.event}</h3>
-                  <p className="text-sm text-secondary-text m-0">{item.description}</p>
-                </div>
-              </div>
-              <div className="h-12 w-px bg-border group-hover:bg-accent-terracotta transition-colors" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 5. DRESS CODE SECTION */}
-      <section className="bg-card-background section-container">
-        <div className="text-center mb-16 max-w-2xl mx-auto">
+      {/* 3. DRESS CODE SECTION - MOVED BEFORE SCHEDULE */}
+      <section id="dress-code" className="max-w-7xl mx-auto px-6 pt-12 pb-32 relative">
+        <div className="text-center mb-16 flex flex-col items-center">
           <span className="label-uppercase">Dress Code</span>
-          <h2 className="title-section">Shades of Andalusia</h2>
-          <p className="text-lg leading-relaxed mt-4">
-            We invite you to wear soft, elegant shades inspired by the local landscape: neutrals, earthy tones, olive greens, and muted terracotta.
-          </p>
+          <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-6 italic">Black Tie & Color</h2>
+          <div className="w-16 h-px bg-accent-terracotta mb-10" />
+          
+          <div className="max-w-xl mx-auto space-y-6 mb-8">
+            <p className="text-lg text-secondary-text font-serif leading-relaxed italic border-x-2 border-accent-terracotta/20 px-8 py-2">
+              "We invite our guests to embrace the vibrant spirit of Spain through a palette of earthy tones and sophisticated colors."
+            </p>
+            <p className="text-sm uppercase tracking-widest text-accent-terracotta font-bold pt-4">
+              Gentle Request: Please avoid wearing all-black or dark navy.
+            </p>
+          </div>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-8 md:gap-12">
-          {[
-            { color: "#F5F1EA", name: "Neutral" },
-            { color: "#A08F7A", name: "Beige" },
-            { color: "#6F7F6C", name: "Olive" },
-            { color: "#C98A5A", name: "Terracotta" },
-            { color: "#8B9DAF", name: "Dusty Blue" },
-          ].map((c, i) => (
-            <div key={i} className="text-center group">
-              <div
-                className="w-20 h-20 md:w-24 md:h-24 rounded-full mb-3 border-4 border-white shadow-lg transition-transform group-hover:scale-110"
-                style={{ backgroundColor: c.color }}
-              />
-              <span className="text-xs uppercase tracking-widest text-secondary-text">{c.name}</span>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-6xl mx-auto px-4">
+          <div className="flex flex-col items-center group">
+            <div className="relative overflow-hidden rounded-3xl mb-4 shadow-sm border border-border/10 aspect-[3/4] transition-all duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+              <img src="/dress_code_beige.png" alt="Beige Palette" className="w-full h-full object-cover transition-all duration-700" />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
-          ))}
+            <span className="label-uppercase text-xs tracking-[0.2em] font-bold">Linen & Beige</span>
+          </div>
+          
+          <div className="flex flex-col items-center group">
+            <div className="relative overflow-hidden rounded-3xl mb-4 shadow-sm border border-border/10 aspect-[3/4] transition-all duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+              <img src="/dress_code_olive.png" alt="Olive Palette" className="w-full h-full object-cover transition-all duration-700" />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            </div>
+            <span className="label-uppercase text-xs tracking-[0.2em] font-bold">Olive & Sage</span>
+          </div>
+
+          <div className="flex flex-col items-center group">
+            <div className="relative overflow-hidden rounded-3xl mb-4 shadow-sm border border-border/10 aspect-[3/4] transition-all duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+              <img src="/dress_code_terracotta.png" alt="Terracotta Palette" className="w-full h-full object-cover transition-all duration-700" />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            </div>
+            <span className="label-uppercase text-xs tracking-[0.2em] font-bold">Terracotta & Ochre</span>
+          </div>
+
+          <div className="flex flex-col items-center group">
+            <div className="relative overflow-hidden rounded-3xl mb-4 shadow-sm border border-border/10 aspect-[3/4] transition-all duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+              <img src="/dress_code_blue.png" alt="Dusty Blue Palette" className="w-full h-full object-cover transition-all duration-700" />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            </div>
+            <span className="label-uppercase text-xs tracking-[0.2em] font-bold">Dusty Blue & Slate</span>
+          </div>
         </div>
       </section>
 
-      {/* 6. RSVP FINAL SECTION */}
-      <section className="section-container text-center">
-        <div className="wedding-card py-20 bg-background border-accent-terracotta/20">
-          <h2 className="title-section mb-10 max-w-xl mx-auto">We would love to celebrate with you</h2>
-          <p className="text-lg mb-12 max-w-lg mx-auto">
-            Please kindly let us know if you can join us by November 13th, 2026.
-          </p>
-          <Link to="/rsvp" className="btn-primary">
-            Kindly RSVP
-          </Link>
+      {/* 4. CELEBRATION SECTION (MOVED AFTER DRESS CODE) */}
+      <section id="schedule" className="bg-[#F5EFEB] py-32 px-6 border-y border-border/10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-20 flex flex-col items-center">
+            <span className="label-uppercase">The Celebration</span>
+            <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-6 italic">Wedding Schedule</h2>
+            <div className="w-16 h-px bg-accent-terracotta" />
+            <p className="mt-8 text-secondary-text font-serif italic max-w-md">Saturday, the seventeenth of April, two thousand twenty-seven</p>
+          </div>
+
+          <div className="relative">
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-accent-beige/40 to-transparent hidden md:block" />
+            
+            <div className="space-y-24">
+              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="md:text-right">
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">16:00</span>
+                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">The Ceremony</h3>
+                  <p className="text-secondary-text leading-relaxed max-w-xs md:ml-auto">Gathering at the historic chapel gardens for our exchange of vows.</p>
+                </div>
+                <div className="relative group max-w-[300px] mx-auto cursor-pointer">
+                  <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
+                  <div className="stamp-visual transform rotate-2 relative z-10 transition-transform duration-700 group-hover:scale-105">
+                    <img src="/ceremony.png" alt="Wedding Ceremony" className="stamp-image" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="order-2 md:order-1 relative group max-w-[300px] mx-auto cursor-pointer">
+                  <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
+                  <div className="stamp-visual transform -rotate-1 relative z-10 transition-transform duration-700 group-hover:scale-105">
+                    <img src="/cocktail.png" alt="Cocktail Hour" className="stamp-image" />
+                  </div>
+                </div>
+                <div className="order-1 md:order-2">
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">17:30</span>
+                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Sunset Cocktails</h3>
+                  <p className="text-secondary-text leading-relaxed max-w-xs">Hors d'oeuvres and signature drinks on the Mediterranean terrace.</p>
+                </div>
+              </div>
+
+              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="md:text-right">
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">19:30</span>
+                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Wedding Banquet</h3>
+                  <p className="text-secondary-text leading-relaxed max-w-xs md:ml-auto">A grand dinner celebration featuring local Andalusian delicacies.</p>
+                </div>
+                <div className="relative group max-w-[300px] mx-auto cursor-pointer">
+                  <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
+                  <div className="stamp-visual transform rotate-1 relative z-10 transition-transform duration-700 group-hover:scale-105">
+                    <img src="/dinner.png" alt="Wedding Dinner" className="stamp-image" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="order-2 md:order-1 relative group max-w-[300px] mx-auto cursor-pointer">
+                  <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
+                  <div className="stamp-visual transform -rotate-2 relative z-10 transition-transform duration-700 group-hover:scale-105">
+                    <img src="/party.png" alt="The Party" className="stamp-image" />
+                  </div>
+                </div>
+                <div className="order-1 md:order-2">
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">23:00</span>
+                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">The Party</h3>
+                  <p className="text-secondary-text leading-relaxed max-w-xs">Dancing and celebration into the early hours with our live DJ.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-20 text-center border-t border-border bg-background">
+      {/* 5. RSVP SECTION */}
+      <section id="rsvp" className="bg-[#FBF9F4] py-32 px-6 border-t border-border/10">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center">
+            <span className="label-uppercase mb-4 block">RSVP</span>
+            <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8">Join Our Story</h2>
+            <p className="text-lg text-secondary-text font-serif italic leading-relaxed mb-12">
+              Please kindly let us know if you can join us <br className="hidden md:block" /> by November 13th, 2026.
+            </p>
+            <div className="flex justify-center pt-4">
+              <Link to="/rsvp" className="btn-primary-white">
+                Kindly RSVP
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="pt-8 pb-32 text-center border-t border-border bg-background">
         <p className="label-uppercase mb-0">Lama & Álvaro · 2027</p>
       </footer>
     </div>

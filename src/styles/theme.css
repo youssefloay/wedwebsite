@@ -2,13 +2,13 @@
   --font-size: 16px;
   
   /* Strict Wedding Color Palette */
-  --background: #F5F1EA;
+  --background: #FDFBF7;
   --primary-text: #5C3210;
-  --secondary-text: #6F7F6C;
+  --secondary-text: #4A5648;
   --accent-beige: #A08F7A;
-  --accent-terracotta: #C98A5A;
-  --card-background: #F8F5F0;
-  --border: rgba(92, 50, 16, 0.10);
+  --accent-terracotta: #B57548;
+  --card-background: #FBF9F4;
+  --border: rgba(92, 50, 16, 0.12);
   
   /* Spacing System */
   --section-spacing: 100px;
@@ -16,9 +16,8 @@
   --card-padding: 24px;
   --border-radius: 20px;
   
-  /* Typography */
   --font-serif: 'Cormorant Garamond', serif;
-  --font-sans: 'Cormorant Garamond', serif;
+  --font-sans: 'Cinzel', serif;
   --font-cinzel: 'Cinzel', serif;
   --font-script: 'Petit Formal Script', cursive;
   
@@ -63,22 +62,42 @@
 
   body {
     @apply bg-background text-primary-text;
-    font-family: var(--font-serif);
+    font-family: var(--font-cinzel);
     -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 50;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
-    color: var(--primary-text);
-    line-height: 1.1;
+    color: var(--primary-text); /* Brown emphasis */
+    line-height: 1.05;
     font-weight: 500;
   }
 
+  h3, h4, h5, h6 {
+    font-family: var(--font-cinzel);
+    line-height: 1.2;
+  }
+
   p {
-    font-family: var(--font-sans);
-    color: var(--secondary-text);
-    line-height: 1.6;
-    font-size: 16px;
+    font-family: var(--font-cinzel);
+    color: var(--secondary-text); /* Olive body text */
+    line-height: 1.7;
+    font-size: 15px;
+    letter-spacing: 0.02em;
   }
 
   /* Section Styles */
@@ -90,7 +109,7 @@
 
   /* Extra bottom padding so content isn't hidden behind the bottom nav */
   footer {
-    padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(8rem + env(safe-area-inset-bottom, 0px));
   }
 
   @media (max-width: 768px) {
@@ -102,30 +121,40 @@
 
   /* Typography Utilities */
   .title-hero {
-    font-size: clamp(3.5rem, 8vw, 4rem);
+    font-size: clamp(2.25rem, 10vw, 4.5rem);
     margin-bottom: 24px;
+    color: var(--primary-text);
+    line-height: 1.05;
   }
 
   .title-section {
     font-size: clamp(2.3rem, 5vw, 2.75rem);
     margin-bottom: 24px;
     text-align: center;
+    color: var(--primary-text);
   }
 
   .title-card {
     font-size: 1.5rem;
     margin-bottom: 12px;
+    color: var(--primary-text);
   }
 
   .label-uppercase {
-    font-family: var(--font-serif);
-    font-size: 13px;
+    font-family: var(--font-cinzel);
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.25em;
-    color: var(--accent-beige);
+    letter-spacing: 0.3em;
+    color: var(--accent-beige); /* Beige labels */
     margin-bottom: 16px;
     display: block;
     font-weight: 500;
+  }
+
+  .script-accent {
+    font-family: var(--font-script);
+    color: var(--accent-terracotta);
+    font-size: 1.5rem;
   }
 
   /* Component Styles */
@@ -140,38 +169,129 @@
 
   /* CTA System */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-10 py-4 text-white transition-all duration-300;
-    background-color: var(--primary-text);
+    @apply inline-flex items-center justify-center px-10 py-5 text-white transition-all duration-500;
+    position: relative;
+    overflow: hidden;
+    background-color: #6F7F6C;
     border-radius: 999px;
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-family: var(--font-cinzel);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    box-shadow: 0 4px 12px rgba(92, 50, 16, 0.1);
+    box-shadow: 0 4px 15px rgba(92, 50, 16, 0.12);
+    z-index: 1;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.25;
+    pointer-events: none;
+    z-index: -1;
+    /* Intricate Interlaced Horseshoe Arches in Beige */
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='40' viewBox='0 0 80 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23A08F7A' stroke-width='1'%3E%3Cpath d='M0 40c0-35 20-35 20 0M20 40c0-35 20-35 20 0M40 40c0-35 20-35 20 0M60 40c0-35 20-35 20 0'/%3E%3Cpath d='M10 40c0-35 20-35 20 0M30 40c0-35 20-35 20 0M50 40c0-35 20-35 20 0' stroke-opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 50px auto;
+    background-repeat: repeat;
+    background-position: center bottom;
   }
 
   .btn-primary:hover {
-    background-color: #3d210b;
+    background-color: #5a6758;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(92, 50, 16, 0.2);
+  }
+
+  .btn-primary-white {
+    @apply inline-block px-10 py-4 font-cinzel text-sm uppercase tracking-widest transition-all duration-300 relative overflow-hidden;
+    background: #FFFFFF;
+    color: var(--secondary-text);
+    border-radius: 9999px;
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .btn-primary-white::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: -1;
+    /* Intricate Interlaced Horseshoe Arches in Light Olive */
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='40' viewBox='0 0 80 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%236F7F6C' stroke-width='1'%3E%3Cpath d='M0 40c0-35 20-35 20 0M20 40c0-35 20-35 20 0M40 40c0-35 20-35 20 0M60 40c0-35 20-35 20 0'/%3E%3Cpath d='M10 40c0-35 20-35 20 0M30 40c0-35 20-35 20 0M50 40c0-35 20-35 20 0' stroke-opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 50px auto;
+    background-repeat: repeat;
+    background-position: center bottom;
+  }
+
+  .btn-primary-white:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(92, 50, 16, 0.2);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    background: #F8F5F0;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-10 py-4 text-white transition-all duration-300;
-    background-color: var(--secondary-text);
+    @apply inline-flex items-center justify-center px-10 py-5 transition-all duration-500;
+    background-color: transparent;
+    border: 1px solid rgba(92, 50, 16, 0.2);
+    color: var(--primary-text);
     border-radius: 999px;
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-family: var(--font-cinzel);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    box-shadow: 0 4px 12px rgba(111, 127, 108, 0.1);
   }
 
   .btn-secondary:hover {
-    background-color: #5d6b5b;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(111, 127, 108, 0.2);
+    background-color: rgba(92, 50, 16, 0.05);
+    border-color: rgba(92, 50, 16, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-tertiary {
+    @apply inline-flex items-center justify-center text-secondary-text transition-all duration-300;
+    font-family: var(--font-cinzel);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    background: none;
+    border: none;
+    padding: 4px 0;
+    font-weight: 500;
+  }
+
+  .btn-tertiary:hover {
+    color: var(--primary-text);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .stamp-visual {
+    position: relative;
+    background: white;
+    padding: 12px;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
+    /* Scalloped edge using mask-image with radial gradients solely on the edges */
+    --mask: radial-gradient(10px at 15px 15px, #0000 98%, #000) -15px -15px;
+    mask: var(--mask);
+    -webkit-mask: var(--mask);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .stamp-visual:hover {
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.18));
+    transform: translateY(-8px) rotate(0deg) !important;
+  }
+
+  .stamp-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+    background: #fdfbf7;
+    border: 1px solid rgba(0,0,0,0.03);
   }
 }
