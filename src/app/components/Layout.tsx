@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation } from "react-router";
 import { ScrollToTop } from "./ScrollToTop";
 import { useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import logoImage from "@/assets/logo_cursive.png";
 
 export function Layout() {
@@ -24,7 +25,6 @@ export function Layout() {
 
   return (
     <>
-      <ScrollToTop />
       
       {/* Global Header Logo - Only shown on sub-pages */}
       {!isHome && (
@@ -39,8 +39,23 @@ export function Layout() {
         </header>
       )}
 
-      <main className="min-h-screen">
-        <Outlet />
+      <main className="min-h-screen relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ 
+              duration: 0.6, 
+              ease: [0.22, 1, 0.36, 1] 
+            }}
+            className="w-full"
+          >
+            <ScrollToTop />
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
       </main>
     </>
   );
