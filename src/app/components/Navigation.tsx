@@ -39,9 +39,13 @@ export function Navigation() {
   return (
     <>
       {/* ── UNIFIED BOTTOM NAV ── */}
-      <nav className="fixed bottom-4 md:bottom-8 inset-x-0 z-[100] flex justify-center px-4 pointer-events-auto">
+      <nav 
+        className={`fixed bottom-10 inset-x-0 z-[100] flex justify-center px-4 pointer-events-none transition-all duration-700 ease-out ${
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'
+        }`}
+      >
          {/* The Unified Navbar Container (Pill) */}
-         <div className="flex-shrink-0 w-fit mx-auto">
+         <div className="flex-shrink-0 w-fit pointer-events-auto mx-auto">
             <div className="relative flex items-center justify-center gap-1 md:gap-4 h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/10 bg-background/70 backdrop-blur-2xl shadow-[0_12px_40px_rgba(44,24,16,0.12)] px-10 transition-all duration-500 overflow-x-auto no-scrollbar isolate">
             
             {/* ANDALUSIAN TILE WATERMARK (Subtle) */}
