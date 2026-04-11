@@ -44,7 +44,7 @@ export function Navigation() {
       {/* ── UNIFIED BOTTOM NAV ── */}
       <nav 
         className={`fixed ${
-          isDiscovery ? 'bottom-12 md:bottom-20' : 
+          isDiscovery ? 'bottom-12 md:bottom-20 md:-translate-x-12' : 
           isRsvp ? 'bottom-8 md:bottom-12' : 
           'bottom-4 md:bottom-8'
         } inset-x-0 z-[100] flex justify-center px-4 pointer-events-none transition-all duration-700 ease-out ${
