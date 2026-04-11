@@ -157,7 +157,7 @@ export function Home() {
       </section>
 
       {/* 2. OUR STORY SECTION */}
-      <section id="story" className="section-layer-2 py-32">
+      <section id="story" className="section-layer-2">
         <div className="section-container">
           <div className="text-center mb-16 flex flex-col items-center reveal">
             <span className="label-uppercase">Our Story</span>
