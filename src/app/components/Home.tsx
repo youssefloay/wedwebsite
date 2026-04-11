@@ -8,6 +8,7 @@ export function Home() {
   const [daysUntil, setDaysUntil] = useState(0);
   const [hoursUntil, setHoursUntil] = useState(0);
   const [minutesUntil, setMinutesUntil] = useState(0);
+  const [justFinishedVideo, setJustFinishedVideo] = useState(false);
   const [showContent, setShowContent] = useState(() => {
     // Initialize based on query param OR session storage
     return searchParams.get('entered') === 'true' || sessionStorage.getItem('entered') === 'true';
@@ -48,6 +49,7 @@ export function Home() {
   }, []);
 
   const handleEnter = () => {
+    setJustFinishedVideo(true);
     setShowContent(true);
     sessionStorage.setItem('entered', 'true');
   };
@@ -58,6 +60,21 @@ export function Home() {
 
   return (
     <div className="min-h-screen">
+      {justFinishedVideo && (
+        <>
+          <div 
+            className="fixed inset-0 z-[9999] bg-white pointer-events-none" 
+            style={{ animation: 'fadeOutGlow 3s ease-out forwards' }}
+          />
+          <style>{`
+            @keyframes fadeOutGlow {
+              0% { opacity: 1; }
+              20% { opacity: 1; }
+              100% { opacity: 0; }
+            }
+          `}</style>
+        </>
+      )}
       <Navigation />
 
       {/* 1. HERO SECTION */}
