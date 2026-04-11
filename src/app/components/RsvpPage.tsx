@@ -216,37 +216,9 @@ export function RsvpPage() {
               <div className="text-center mb-10 space-y-4 max-w-lg mx-auto">
                 <span className="label-uppercase text-[10px] text-accent-terracotta tracking-[0.4em] font-medium block">An Intimate Celebration</span>
                 <p className="font-serif italic text-6xl md:text-8xl text-primary-text leading-none animate-in fade-in duration-1000">Will you join us in Monda?</p>
-                <div className="w-12 h-px bg-accent-terracotta/20 mx-auto my-6" />
-                <p className="label-uppercase text-[11px] text-secondary-text tracking-[0.5em] font-medium leading-relaxed max-w-xs mx-auto">
-                  In the Hills of Andalusia
-                </p>
               </div>
 
-              {/* Progress Tracker */}
-              <div className="mb-12 px-2 relative max-w-md md:max-w-lg mx-auto">
-                <div className="absolute top-1 left-6 right-6 h-px bg-accent-beige/10" />
-                <div className="flex justify-between items-center relative z-10">
-                  {steps.map((step, idx) => {
-                    const isActive = currentStep === idx + 1;
-                    const isCompleted = currentStep > idx + 1;
-                    return (
-                      <div key={idx} className="flex flex-col items-center gap-3">
-                        <div className="relative flex items-center justify-center">
-                          {isActive && (
-                            <div className="absolute inset-0 w-6 h-6 -m-2 bg-accent-terracotta/10 rounded-full animate-pulse" />
-                          )}
-                          <div className={`w-1.5 h-1.5 rounded-full transition-all duration-1000 ${
-                            isActive ? 'bg-accent-terracotta scale-110' : isCompleted ? 'bg-accent-terracotta/40' : 'bg-accent-beige/20'
-                          }`} />
-                        </div>
-                        <span className={`text-[8.5px] md:text-[9.5px] uppercase tracking-[0.15em] font-medium transition-all duration-700 ${
-                          isActive ? 'text-primary-text' : 'text-accent-beige/30'
-                        }`}>{step.label}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+
 
               <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
               <div className="space-y-24">
@@ -288,7 +260,9 @@ export function RsvpPage() {
                     {/* IDENTITY */}
                     <div className="max-w-xl mx-auto space-y-16 -mt-12" ref={currentStep === 2 ? nextSectionRef : null}>
                       <div className="text-left mb-12">
-                        <p className="font-serif italic text-5xl md:text-7xl text-primary-text leading-none mb-6">Who are we welcoming?</p>
+                        <p className="font-serif italic text-5xl md:text-7xl text-primary-text leading-none mb-6">
+                          {formData.attendance === 'Regretfully decline' ? 'Who shall we miss?' : 'Who are we welcoming?'}
+                        </p>
                         <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                       </div>
                       <div className="space-y-12 relative z-10">
@@ -433,8 +407,8 @@ export function RsvpPage() {
                             </div>
                             <div className="grid grid-cols-1 gap-8">
                               {[
-                                { id: 'carRental', label: 'Independent Route', detail: 'Renting a car, so we will most probably need a parking' },
-                                { id: 'transfer', label: 'Assisted Route', detail: 'Need your help to have a transfer, we acknowledge that either we are lucky we have a shared transfer or the cost will be €95' }
+                                { id: 'carRental', label: 'My Own Route', detail: 'I will be driving to Monda — a parking space at the venue would be greatly appreciated.' },
+                                { id: 'transfer', label: 'Assisted Transfer', detail: 'I would love help with transport. A shared shuttle may be available at a lower cost, or a private transfer at €95. Payment is settled directly at the hotel.' }
                               ].map(item => (
                                <button key={item.id} type="button" onClick={() => updateFormData(item.id as keyof RsvpFormData, formData[item.id as keyof RsvpFormData] === 'Yes' ? 'No' : 'Yes')} 
                                  className={`p-10 border flex flex-col items-start gap-4 transition-all duration-700 ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md' : 'bg-white border-accent-beige/10 opacity-80'}`}
@@ -469,13 +443,13 @@ export function RsvpPage() {
                                </p>
                                <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                             </div>
-                            <div className="grid grid-cols-2 gap-8">
+                            <div className="grid grid-cols-2 gap-4">
                                {['Yes', 'No'].map(choice => (
                                 <button key={choice} type="button" onClick={() => updateFormData('visaSupport', choice)}
-                                  className={`p-10 border flex flex-col items-start gap-4 transition-all duration-700 ${formData.visaSupport === choice ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md scale-[1.02] z-10' : 'bg-white border-accent-beige/10 opacity-80'}`}
+                                  className={`p-6 border flex flex-col items-start gap-3 transition-all duration-700 ${formData.visaSupport === choice ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md' : 'bg-white border-accent-beige/10 opacity-80'}`}
                                 >
                                    <span className={`label-uppercase text-[10px] font-bold tracking-[0.3em] ${formData.visaSupport === choice ? 'text-accent-terracotta' : 'text-accent-beige opacity-60'}`}>{choice}</span>
-                                   <p className={`font-serif italic text-3xl leading-tight ${formData.visaSupport === choice ? 'text-primary-text' : 'text-primary-text opacity-40'}`}>
+                                   <p className={`font-serif italic text-2xl leading-tight ${formData.visaSupport === choice ? 'text-primary-text' : 'text-primary-text opacity-40'}`}>
                                      {choice === 'Yes' ? 'Assistance Needed' : 'Not Required'}
                                    </p>
                                 </button>
@@ -492,9 +466,9 @@ export function RsvpPage() {
                       </div>
                     )}
 
-                    {/* NOTE — shown for both accept (step >= 7) and decline (always after step 2) */}
-                    {(formData.attendance === 'Joyfully accept' ? currentStep >= 7 : currentStep >= 3) && (
-                      <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={(formData.attendance === 'Joyfully accept' ? currentStep === 7 : currentStep === 3) ? nextSectionRef : null}>
+                    {/* NOTE — shown when current step id is 'note' */}
+                    {activeStep?.id === 'note' && (
+                      <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={nextSectionRef}>
                         <div className="text-left mb-12">
                           <p className="font-serif italic text-5xl md:text-7xl text-primary-text leading-none mb-6">A Note for the Couple</p>
                           <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
@@ -514,9 +488,9 @@ export function RsvpPage() {
                       </div>
                     )}
 
-                    {/* REVIEW & SUBMIT */}
-                    {(formData.attendance === 'Joyfully accept' ? currentStep === 8 : currentStep === 4) && (
-                      <div className="space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={(formData.attendance === 'Joyfully accept' ? currentStep === 8 : currentStep === 4) ? nextSectionRef : null}>
+                    {/* REVIEW & SUBMIT — shown when current step id is 'review' */}
+                    {activeStep?.id === 'review' && (
+                      <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={nextSectionRef}>
                         <div className="text-left py-10 border-y border-accent-beige/10 relative space-y-12">
                           <div className="space-y-4">
                             <p className="label-uppercase text-[10px] text-accent-beige font-bold tracking-[0.3em]">Confirmation</p>
@@ -554,9 +528,15 @@ export function RsvpPage() {
                              )}
                           </div>
                         </div>
-                        <div className="flex flex-col items-start gap-6">
-                           <button type="submit" disabled={isSubmitting} className="btn-primary min-w-[340px] h-20 text-lg shadow-2xl">
-                             {isSubmitting ? 'Confirming...' : 'Confirm Attendance'}
+                        <div className="flex flex-col items-center gap-6">
+                           <button type="submit" disabled={isSubmitting} className="btn-primary w-full md:w-auto md:min-w-[280px] h-14 shadow-lg flex items-center justify-center transition-all group active:scale-95">
+                             {isSubmitting ? (
+                               <span className="label-uppercase text-[10px] tracking-[0.3em]">Sending...</span>
+                             ) : (
+                               <span className="text-sm md:text-base font-serif uppercase tracking-[0.2em]">
+                                 {formData.attendance === 'Joyfully accept' ? 'Confirm Attendance' : 'Submit Attendance Form'}
+                               </span>
+                             )}
                            </button>
                            <button type="button" onClick={() => setCurrentStep(currentStep - 1)} className="text-[10px] uppercase tracking-[0.4em] text-accent-beige hover:text-accent-terracotta transition-all py-4">
                               Back to Edit
