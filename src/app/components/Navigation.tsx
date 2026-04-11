@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router";
 import { useState, useEffect } from "react";
-import { Home, Plane, Building2, Gift, Heart, Compass } from 'lucide-react';
+import { Home, Plane, Building2, Gift, Heart, Compass, Info } from 'lucide-react';
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,6 +21,7 @@ export function Navigation() {
     { to: '/accommodation', label: 'Stay',    icon: Building2 },
     { to: '/discovery',     label: 'Journal', icon: Compass },
     { to: '/gifts',         label: 'Gifts',   icon: Gift },
+    { to: '/faq',           label: 'FAQ',    icon: Info },
     { to: '/rsvp',          label: 'RSVP',    icon: Heart },
   ];
 
@@ -29,7 +30,7 @@ export function Navigation() {
       {/* ── UNIFIED BOTTOM NAV (Always visible) ── */}
       <nav className="fixed bottom-0 left-0 right-0 z-[100] flex justify-center pb-4 md:pb-8 px-4 pointer-events-none">
          {/* The Unified Navbar Container */}
-        <div className="flex justify-center w-full max-w-[480px] md:max-w-[640px] pointer-events-auto">
+        <div className="flex justify-center w-full max-w-[500px] md:max-w-[720px] pointer-events-auto">
           <div className="flex items-center justify-around w-full h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/5 bg-background/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(92,50,16,0.08)] px-2 md:px-6 transition-all duration-500">
             {navLinks.map(({ to, label, icon: Icon }) => {
               const active = location.pathname === to.split('?')[0];
