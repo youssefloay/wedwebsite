@@ -9,7 +9,7 @@ export function DiscoveryPage() {
       subtitle: "The Soul of the Coast",
       desc: "Wander the whitewashed 'Casco Antiguo' of Marbella with its orange-scented plazas, or explore Málaga's historic cathedral, Picasso Museum, and vibrant 'Muelle Uno' port area. Both offer a perfect blend of history and modern Mediterranean life.", 
       icon: <MapPin size={28} />,
-      image: "/malaga-coast-sketch.png",
+      image: "/malaga-coast.png",
       tag: "Exploration"
     },
     { 
@@ -17,7 +17,7 @@ export function DiscoveryPage() {
       subtitle: "Sun-drenched Solitude",
       desc: "Experience the quintessential Costa del Sol lifestyle at world-class beach clubs. From the sophisticated atmosphere of Trocadero Playa to the vibrant energy of Nikki Beach, these are the best places to enjoy the sea with a glass of sangria in hand.", 
       icon: <Palmtree size={28} />,
-      image: "/cocktail-sketch.png",
+      image: "/cocktail_sketch.png",
       tag: "Leisure"
     },
     { 
@@ -25,7 +25,7 @@ export function DiscoveryPage() {
       subtitle: "A Culinary Tapestry",
       desc: "Indulge in authentic 'espetos de sardinas' (grilled sardines) on the beach, or explore the modern tapas scene in the pedestrian streets of Málaga's old town. Don't miss out on local Sherry and fresh seafood from the Mediterranean.", 
       icon: <Utensils size={28} />,
-      image: "/dinner-sketch.png",
+      image: "/dinner.png",
       tag: "Cuisine"
     },
     { 
@@ -33,7 +33,7 @@ export function DiscoveryPage() {
       subtitle: "The Perfect Spring",
       desc: "April in Andalusia is a magical time of year. Expect soft spring light and temperatures typically around 22°C (72°F). The flowers are in bloom, and the air is fresh—perfect for exploring the hills of Monda or the coastal promenades.", 
       icon: <Sun size={28} />,
-      image: "/andalusian-road-sketch.png",
+      image: "/hills-journey.png",
       tag: "Climate"
     }
   ];
