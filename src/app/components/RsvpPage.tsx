@@ -228,7 +228,7 @@ export function RsvpPage() {
             <form onSubmit={handleSubmit} className="relative z-10 px-8 py-4">
 
               {/* Header */}
-              <div className="text-left mb-16 max-w-none mx-auto animate-in fade-in duration-1000">
+              <div className="text-left mb-8 max-w-none mx-auto animate-in fade-in duration-1000">
                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight md:leading-none mb-6">Will you join us in Monda?</p>
                 <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
               </div>
@@ -236,10 +236,10 @@ export function RsvpPage() {
 
 
               <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
-                <div className="space-y-24">
+                <div className="space-y-12">
 
                   {/* STEP 1: ATTENDANCE */}
-                  <div className="space-y-16 py-8 border-b border-accent-beige/10 pb-12">
+                  <div className="space-y-16 pt-4 pb-12 border-b border-accent-beige/10">
                     <div className="grid grid-cols-2 gap-8 md:gap-16 max-w-2xl mx-auto items-stretch">
                       {[
                         { label: 'Joyfully Accept', value: 'Joyfully accept', sub: 'I will be there!', image: '/rsvp-accept.png', rotate: 'rotate-2' },
