@@ -28,10 +28,10 @@ export function Navigation() {
   return (
     <>
       {/* ── UNIFIED BOTTOM NAV (Always visible) ── */}
-      <nav className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-[100] w-[95%] max-w-[640px] md:max-w-[920px] pointer-events-none">
-         {/* The Unified Navbar Container */}
-        <div className="w-full pointer-events-auto">
-          <div className="flex items-center justify-center gap-1 md:gap-4 h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/5 bg-background/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(92,50,16,0.08)] px-2 md:px-6 transition-all duration-300 overflow-x-auto no-scrollbar">
+      <nav className="fixed bottom-4 md:bottom-8 inset-x-0 z-[100] flex justify-center px-4 pointer-events-none">
+         {/* The Unified Navbar Container (Pill) */}
+        <div className="flex-shrink-0 w-full max-w-[640px] md:max-w-[920px] pointer-events-auto">
+          <div className="flex items-center justify-center gap-1 md:gap-4 h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/5 bg-background/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(92,50,16,0.08)] px-2 md:px-6 transition-all duration-300">
             {navLinks.map(({ to, label, icon: Icon }) => {
               const active = location.pathname === to.split('?')[0];
               return (
