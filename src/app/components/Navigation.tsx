@@ -69,20 +69,6 @@ export function Navigation() {
                   to={to}
                   className="flex flex-col items-center gap-1.5 px-2.5 md:px-4 py-2 rounded-2xl transition-all duration-500 group relative flex-shrink-0 z-10"
                 >
-                  {/* SELECTION INDICATOR (Moorish Arch Shape) - Only for Home */}
-                  {active && label === 'Home' && (
-                    <div className="absolute inset-0 z-[-1] flex justify-center opacity-60">
-                      <div className="w-full h-full bg-accent-terracotta/5 rounded-xl border border-accent-terracotta/10 scale-110" />
-                      <svg
-                        viewBox="0 0 100 120"
-                        className="absolute -top-3 w-10 md:w-12 h-auto text-accent-terracotta/20 animate-in fade-in zoom-in duration-700 fill-current"
-                      >
-                         {/* High-end Horseshoe Arch Silhouette */}
-                        <path d="M50 0 C22.38 0 0 22.38 0 50 C0 65 5 78 15 88 L15 120 L85 120 L85 88 C95 78 100 65 100 50 C100 22.38 77.62 0 50 0 Z" />
-                      </svg>
-                    </div>
-                  )}
-
                   <Icon
                     size={16}
                     strokeWidth={1.5}
