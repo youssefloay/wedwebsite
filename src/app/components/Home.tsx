@@ -175,11 +175,16 @@ export function Home() {
             />
           </div>
 
-          <div className="order-1 lg:order-2 space-y-12 lg:text-left text-center flex flex-col items-center lg:items-start">
+          <div className="order-1 lg:order-2 space-y-12 lg:text-left text-center flex flex-col items-center lg:items-start reveal">
             <div className="space-y-8">
-              <p className="text-lg md:text-xl text-secondary-text leading-relaxed font-serif italic">
+              <p className="text-lg md:text-xl text-secondary-text leading-relaxed font-serif italic mb-10">
                 Our story is a weave of two cultures, six languages, and one shared dream. From the vibrant energy of Cairo to the historic charm of Madrid, we have found our home in each other.
               </p>
+              <div className="pt-4">
+                <Link to="/rsvp" className="btn-primary inline-flex">
+                  Begin your RSVP
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -234,6 +239,13 @@ export function Home() {
             </div>
             <span className="label-uppercase text-xs tracking-[0.2em] font-bold">Dusty Blue & Slate</span>
           </div>
+        </div>
+
+        <div className="mt-24 text-center reveal">
+          <p className="text-secondary-text font-serif italic mb-10 text-xl max-w-lg mx-auto leading-relaxed">Planning your attire? <br /> Tell us you're coming first.</p>
+          <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
+             RSVP to the Wedding
+          </Link>
         </div>
       </section>
 

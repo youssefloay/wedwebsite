@@ -359,6 +359,20 @@ export function TravelPage() {
         </div>
       </section>
 
+      {/* FINAL RSVP CTA */}
+      <section className="bg-background py-32 px-6 border-t border-border/10">
+        <div className="max-w-2xl mx-auto text-center reveal">
+          <span className="label-uppercase mb-6 block font-bold">The Next Step</span>
+          <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-8 italic">Ready for the journey?</h2>
+          <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
+            "Once you’ve mapped your way, kindly secure your place at our table and coordinate your arrival in the quiet beauty of Monda."
+          </p>
+          <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
+             RSVP & Coordinate
+          </Link>
+        </div>
+      </section>
+
       <footer className="pt-8 pb-32 text-center border-t border-border bg-background">
         <p className="label-uppercase mb-0">Lama & Álvaro · 2027</p>
       </footer>
