@@ -25,7 +25,7 @@ export function Layout() {
         </header>
       )}
 
-      <main className="min-h-screen relative">
+      <main className="min-h-screen relative pb-48">
         <ScrollToTop />
         <Outlet />
       </main>
