@@ -9,6 +9,7 @@ export function Layout() {
   const isHome = location.pathname === "/";
 
   useEffect(() => {
+    // 1. Setup the observer
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -17,10 +18,33 @@ export function Layout() {
       });
     }, { threshold: 0.1 });
 
-    const elements = document.querySelectorAll('.reveal, .reveal-scale');
-    elements.forEach(el => observer.observe(el));
+    // 2. Function to scan and observe elements
+    const scanAndObserve = () => {
+      const elements = document.querySelectorAll('.reveal, .reveal-scale');
+      elements.forEach(el => observer.observe(el));
+      
+      // If we are on mobile or some elements are already in view, trigger them immediately
+      elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+          el.classList.add('active');
+        }
+      });
+    };
 
-    return () => observer.disconnect();
+    // 3. Initial scan + delayed scan to catch dynamic mounting
+    scanAndObserve();
+    const timer = setTimeout(scanAndObserve, 300);
+    const fallbackTimer = setTimeout(() => {
+       // Fallback: Just reveal everything if it's still hidden after 1.5s
+       document.querySelectorAll('.reveal, .reveal-scale').forEach(el => el.classList.add('active'));
+    }, 1500);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+      clearTimeout(fallbackTimer);
+    };
   }, [location.pathname]);
 
   return (
