@@ -44,7 +44,7 @@ export function AccommodationPage() {
       
 
       {/* 1. HERO - STAY TITLE */}
-      <section className="relative pt-2 pb-16 px-6 bg-background overflow-hidden">
+      <section className="relative pt-10 pb-20 px-6 bg-background overflow-hidden section-layer-1">
         {/* Arch Pattern Background - Identical to Home */}
         <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
 
