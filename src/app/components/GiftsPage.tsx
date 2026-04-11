@@ -1,4 +1,3 @@
-import { Navigation } from './Navigation';
 import { Link } from "react-router";
 import { Heart, Globe, CreditCard, Copy, Check, Smartphone, Info, Sparkles, MapPin } from 'lucide-react';
 import { useState } from 'react';
@@ -25,7 +24,6 @@ export function GiftsPage() {
 
   return (
     <div className="min-h-screen bg-background text-primary-text font-serif">
-      <Navigation />
       
       {/* 1. HERO */}
       <section className="relative pt-2 pb-20 px-6 overflow-hidden text-center">

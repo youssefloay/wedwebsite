@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-import { Navigation } from './Navigation';
 import { Plane, Car, MapPin, Compass, CheckCircle2, Globe, ShieldCheck, Zap, Clock, Banknote, ArrowRight, Home as HomeIcon, Copy, Check } from 'lucide-react';
 import { useState } from 'react';
 
@@ -8,7 +7,6 @@ export function TravelPage() {
 
   return (
     <div className="min-h-screen bg-background text-primary-text font-serif">
-      <Navigation />
 
       {/* 1. HERO - JOURNEY INTRO */}
       <section className="relative pt-10 pb-20 px-6 overflow-hidden section-layer-1">

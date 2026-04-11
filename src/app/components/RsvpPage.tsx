@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { Navigation } from './Navigation';
 import {
   Check,
   ArrowRight,
@@ -206,7 +205,6 @@ export function RsvpPage() {
 
   return (
     <div className="min-h-screen bg-background selection:bg-accent-terracotta/20">
-      <Navigation />
 
       {!isSubmitted ? (
         <div className="max-w-4xl mx-auto px-6 pt-2 pb-32">

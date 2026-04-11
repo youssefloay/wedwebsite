@@ -1,7 +1,6 @@
 import { Link, useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
 import { VideoEntrance } from './VideoEntrance';
-import { Navigation } from './Navigation';
 
 export function Home() {
   const [searchParams] = useSearchParams();
@@ -75,7 +74,6 @@ export function Home() {
           `}</style>
         </>
       )}
-      <Navigation />
 
       {/* PRINT-ONLY BROCHURE COVER LOGO */}
       <div className="hidden print:block text-center py-20 pointer-events-none">

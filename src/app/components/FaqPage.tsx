@@ -1,4 +1,3 @@
-import { Navigation } from './Navigation';
 import { Link } from "react-router";
 import { ChevronDown, ShieldCheck, Zap, Clock, Globe, MapPin, Coffee, Sun, Palmtree } from 'lucide-react';
 
@@ -36,7 +35,6 @@ export function FaqPage() {
 
   return (
     <div className="min-h-screen bg-background text-primary-text font-serif">
-      <Navigation />
 
       {/* HERO SECTION */}
       <section className="relative pt-2 pb-8 px-6 overflow-hidden text-center">

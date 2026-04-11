@@ -1,4 +1,3 @@
-import { Navigation } from './Navigation';
 import { Users, Info, Globe, ShieldCheck, Zap, Clock, Compass } from 'lucide-react';
 import { useNavigate, Link } from 'react-router';
 
@@ -42,7 +41,7 @@ export function AccommodationPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      
 
       {/* 1. HERO - STAY TITLE */}
       <section className="relative pt-2 pb-16 px-6 bg-background overflow-hidden">

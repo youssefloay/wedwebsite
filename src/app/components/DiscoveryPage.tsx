@@ -1,4 +1,3 @@
-import { Navigation } from './Navigation';
 import { Link } from "react-router";
 import { MapPin, Coffee, Sun, Palmtree, ArrowRight, Camera, Utensils, Compass } from 'lucide-react';
 
@@ -40,7 +39,6 @@ export function DiscoveryPage() {
 
   return (
     <div className="min-h-screen bg-background text-primary-text font-serif">
-      <Navigation />
 
       {/* HERO SECTION */}
       <section className="relative pt-2 pb-8 px-6 overflow-hidden text-center">

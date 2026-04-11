@@ -2,6 +2,7 @@ import { Outlet, Link, useLocation } from "react-router";
 import { ScrollToTop } from "./ScrollToTop";
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Navigation } from "./Navigation";
 import logoImage from "@/assets/logo_cursive.png";
 
 export function Layout() {
@@ -25,6 +26,7 @@ export function Layout() {
 
   return (
     <>
+      <Navigation />
       
       {/* Global Header Logo - Only shown on sub-pages */}
       {!isHome && (
