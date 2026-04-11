@@ -1,6 +1,6 @@
 import { Navigation } from './Navigation';
 import { Link } from "react-router";
-import { ChevronDown, Info, ShieldCheck, Zap, Clock, Globe } from 'lucide-react';
+import { ChevronDown, ShieldCheck, Zap, Clock, Globe, MapPin, Coffee, Sun, Palmtree } from 'lucide-react';
 
 export function FaqPage() {
   const faqs = [
@@ -75,6 +75,56 @@ export function FaqPage() {
                   </p>
                 </div>
               </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* LOCAL TIPS SECTION */}
+      <section className="py-32 px-6 section-layer-1 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-20 reveal">
+            <span className="label-uppercase mb-4 block">Make a weekend of it</span>
+            <h2 className="text-5xl md:text-6xl font-serif text-primary-text italic mb-6">Local Discovery</h2>
+            <p className="text-lg md:text-xl text-secondary-text font-serif italic max-w-2xl mx-auto opacity-70">
+              "Andalusia is a tapestry of history, light, and flavor. We hope you take a moment to explore the magic of the Costa del Sol."
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { 
+                title: "Coastal Cities", 
+                desc: "Wander the whitewashed 'Casco Antiguo' of Marbella or the historic cathedral and vibrant port of Málaga.", 
+                icon: <MapPin size={24} />,
+                layer: "section-layer-2"
+              },
+              { 
+                title: "Beach Clubs", 
+                desc: "Spend a sun-drenched afternoon at classic chiringuitos or high-end beach clubs like Trocadero or Nikki Beach.", 
+                icon: <Palmtree size={24} />,
+                layer: "section-layer-3"
+              },
+              { 
+                title: "Spanish Cuisine", 
+                desc: "Indulge in authentic 'espetos de sardinas' by the shore or explore the modern tapas scene in Málaga's old town.", 
+                icon: <Coffee size={24} />,
+                layer: "section-layer-2"
+              },
+              { 
+                title: "April Skies", 
+                desc: "Expect soft Mediterranean spring weather, with temperatures typically around 22°C (72°F) during the day.", 
+                icon: <Sun size={24} />,
+                layer: "section-layer-3"
+              }
+            ].map((tip, i) => (
+              <div key={i} className={`wedding-card group ${tip.layer} !p-10 border-border/5 hover:border-accent-terracotta/20 transition-all duration-700 reveal`} style={{ transitionDelay: `${i * 100}ms` }}>
+                <div className="w-14 h-14 rounded-full bg-white shadow-sm flex items-center justify-center text-accent-terracotta mb-8 group-hover:scale-110 transition-transform duration-500">
+                  {tip.icon}
+                </div>
+                <h3 className="font-serif italic text-2xl text-primary-text mb-4">{tip.title}</h3>
+                <p className="text-base text-secondary-text font-serif italic leading-relaxed opacity-80">{tip.desc}</p>
+              </div>
             ))}
           </div>
         </div>
