@@ -125,7 +125,7 @@ export function TravelPage() {
                       <span className="font-serif text-xl text-primary-text">€150–160</span>
                     </div>
                   </div>
-                  <Link to="/rsvp" className="btn-primary w-full text-center py-4 bg-primary-text text-white hover:bg-accent-terracotta transition-all rounded-xl shadow-lg">
+                  <Link to="/rsvp" className="btn-primary w-full text-center py-4 transition-all hover:scale-[1.02] shadow-lg">
                     Coordinate Transfer
                   </Link>
                 </div>
