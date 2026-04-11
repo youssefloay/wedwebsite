@@ -37,6 +37,8 @@ interface RsvpFormData {
   needsParking: string;
   visaSupport: string;
   dietary: string;
+  stayDuration: string;
+  manualStayDates: string;
   notes: string;
 }
 
@@ -75,6 +77,8 @@ export function RsvpPage() {
     needsParking: "No",
     visaSupport: "No",
     dietary: "",
+    stayDuration: "",
+    manualStayDates: "",
     notes: ""
   });
 
@@ -107,6 +111,17 @@ export function RsvpPage() {
   }, [formData.attendance]);
 
   const activeStep = steps[currentStep - 1];
+  
+  const toggleStayDuration = (option: string) => {
+    const current = formData.stayDuration.split(', ').filter(Boolean);
+    let updated;
+    if (current.includes(option)) {
+      updated = current.filter(o => o !== option);
+    } else {
+      updated = [...current, option];
+    }
+    updateFormData('stayDuration', updated.join(', '));
+  };
 
   const handleNext = () => {
     if (currentStep < steps.length) {
@@ -213,9 +228,9 @@ export function RsvpPage() {
             <form onSubmit={handleSubmit} className="relative z-10 px-8 py-4">
 
               {/* Header */}
-              <div className="text-center mb-10 space-y-4 max-w-lg mx-auto">
-                <span className="label-uppercase text-[10px] text-accent-terracotta tracking-[0.4em] font-medium block">An Intimate Celebration</span>
-                <p className="font-serif italic text-6xl md:text-8xl text-primary-text leading-none animate-in fade-in duration-1000">Will you join us in Monda?</p>
+              <div className="text-left mb-16 max-w-xl mx-auto animate-in fade-in duration-1000">
+                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight md:leading-none mb-6">Will you join us in Monda?</p>
+                <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
               </div>
 
 
@@ -225,26 +240,29 @@ export function RsvpPage() {
 
                   {/* STEP 1: ATTENDANCE */}
                   <div className="space-y-16 py-8 border-b border-accent-beige/10 pb-12">
-                    <div className="grid grid-cols-2 gap-4 md:gap-10 max-w-2xl mx-auto items-stretch">
+                    <div className="grid grid-cols-2 gap-8 md:gap-16 max-w-2xl mx-auto items-stretch">
                       {[
-                        { label: 'Joyfully Accept', value: 'Joyfully accept', sub: 'I will be there!' },
-                        { label: 'Regretfully Decline', value: 'Regretfully decline', sub: 'Miss you from afar' }
+                        { label: 'Joyfully Accept', value: 'Joyfully accept', sub: 'I will be there!', image: '/rsvp-accept.png', rotate: 'rotate-2' },
+                        { label: 'Regretfully Decline', value: 'Regretfully decline', sub: 'Miss you from afar', image: '/rsvp-decline.png', rotate: '-rotate-2' }
                       ].map((opt) => (
                         <button
                           key={opt.value}
                           type="button"
                           onClick={() => handleAttendanceSelect(opt.value)}
-                          className={`group relative p-6 md:p-14 border transition-all duration-700 hover:border-accent-terracotta/40 flex flex-col items-center justify-center text-center overflow-hidden ${formData.attendance === opt.value
-                              ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-lg scale-[1.02] z-10'
-                              : 'bg-white border-accent-beige/20 opacity-60'
-                            }`}
+                          className={`group relative flex flex-col items-center transition-all duration-700 ${formData.attendance === opt.value ? 'scale-[1.05]' : 'opacity-80 hover:opacity-100'}`}
                         >
-                          <div className={`absolute inset-2 md:inset-3 border border-accent-beige/10 transition-opacity duration-700 ${formData.attendance === opt.value ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
-                          <span className="block text-xl md:text-3xl font-serif italic text-primary-text mb-2 relative z-10">{opt.label}</span>
-                          <span className="label-uppercase text-[8px] md:text-[11px] text-accent-beige tracking-[0.2em] md:tracking-[0.3em] font-medium relative z-10">{opt.sub}</span>
+                          <div className={`stamp-visual mb-8 w-full aspect-square ${opt.rotate} group-hover:rotate-0 transition-transform duration-1000 ${formData.attendance === opt.value ? 'ring-2 ring-accent-terracotta/40 ring-offset-8 bg-[#FBF9F4]' : ''}`}>
+                            <img src={opt.image} alt={opt.label} className="stamp-image w-full h-full object-cover" />
+                          </div>
+                          
+                          <div className="text-center space-y-2">
+                            <span className={`block text-xl md:text-3xl font-serif italic transition-colors duration-500 ${formData.attendance === opt.value ? 'text-accent-terracotta' : 'text-primary-text'}`}>{opt.label}</span>
+                            <span className="label-uppercase text-[12px] md:text-[14px] text-accent-beige tracking-[0.3em] font-medium">{opt.sub}</span>
+                          </div>
+
                           {formData.attendance === opt.value && (
-                            <div className="absolute top-2 right-2 md:top-4 md:right-4 animate-in zoom-in duration-500">
-                              <Check size={14} className="md:size-4 text-accent-terracotta" />
+                            <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-accent-terracotta flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
+                              <Check size={16} className="text-white" />
                             </div>
                           )}
                         </button>
@@ -259,14 +277,14 @@ export function RsvpPage() {
                       {/* IDENTITY */}
                       <div className="max-w-xl mx-auto space-y-16 -mt-12" ref={currentStep === 2 ? nextSectionRef : null}>
                         <div className="text-left mb-12">
-                          <p className="font-serif italic text-5xl md:text-7xl text-primary-text leading-none mb-6">
+                          <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">
                             {formData.attendance === 'Regretfully decline' ? 'Who shall we miss?' : 'Who are we welcoming?'}
                           </p>
                           <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                         </div>
                         <div className="space-y-12 relative z-10">
                           <div className="space-y-2">
-                            <label className="label-uppercase text-[11px] text-accent-beige font-bold tracking-[0.3em]">First Name</label>
+                            <label className="label-uppercase text-[12px] text-accent-beige font-bold tracking-[0.3em]">First Name</label>
                             <input
                               type="text" required placeholder="Guest name"
                               className="w-full bg-transparent border-b border-accent-beige/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-beige/20"
@@ -274,7 +292,7 @@ export function RsvpPage() {
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="label-uppercase text-[11px] text-accent-beige font-bold tracking-[0.3em]">Last Name</label>
+                            <label className="label-uppercase text-[12px] text-accent-beige font-bold tracking-[0.3em]">Last Name</label>
                             <input
                               type="text" required placeholder="Family name"
                               className="w-full bg-transparent border-b border-accent-beige/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-beige/20"
@@ -282,7 +300,7 @@ export function RsvpPage() {
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="label-uppercase text-[11px] text-accent-beige font-bold tracking-[0.3em] block">Email Address</label>
+                            <label className="label-uppercase text-[12px] text-accent-beige font-bold tracking-[0.3em] block">Email Address</label>
                             <input
                               type="email" required placeholder="your@email.com"
                               className="w-full bg-transparent border-b border-accent-beige/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-beige/20"
@@ -291,7 +309,7 @@ export function RsvpPage() {
                           </div>
                         </div>
                         <div className="flex justify-end pt-12">
-                          <button type="button" onClick={handleNext} disabled={!formData.firstName || !formData.lastName || !formData.email} className="group flex items-center gap-4 text-[11px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all disabled:opacity-30">
+                          <button type="button" onClick={handleNext} disabled={!formData.firstName || !formData.lastName || !formData.email} className="group flex items-center gap-4 text-[12px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all disabled:opacity-30">
                             Continue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                           </button>
                         </div>
@@ -304,12 +322,12 @@ export function RsvpPage() {
                           {/* PARTY */}
                           <div className="space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 3 ? nextSectionRef : null}>
                             <div className="text-left mb-12">
-                              <p className="font-serif italic text-5xl md:text-7xl text-primary-text leading-none mb-6">Who is in your party?</p>
+                              <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">Who is in your party?</p>
                               <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                             </div>
                             <div className="flex flex-col items-start gap-10">
                               <div className="space-y-4 w-full">
-                                <label className="label-uppercase text-[11px] text-accent-beige font-bold tracking-[0.3em] block mb-2">Number of Guests</label>
+                                <label className="label-uppercase text-[12px] text-accent-beige font-bold tracking-[0.3em] block mb-2">Number of Guests</label>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">Please check with us first regarding additional guests or +1s.</p>
                                 <div className="grid grid-cols-4 gap-4 max-w-sm">
                                   {['1', '2', '3', '4'].map(n => (
@@ -320,7 +338,7 @@ export function RsvpPage() {
                                       className={`aspect-square border flex flex-col items-center justify-center transition-all duration-700 group ${formData.guests === n ? 'border-accent-terracotta bg-[#FBF9F4] scale-110 shadow-lg z-10' : 'border-accent-beige/10 bg-white'}`}
                                     >
                                       <span className={`text-4xl font-serif italic ${formData.guests === n ? 'text-primary-text' : 'text-accent-beige opacity-30 font-light'}`}>{n}</span>
-                                      <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-accent-beige">Guest{n !== '1' ? 's' : ''}</span>
+                                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-accent-beige">Guest{n !== '1' ? 's' : ''}</span>
                                     </button>
                                   ))}
                                 </div>
@@ -337,7 +355,7 @@ export function RsvpPage() {
                               </div>
                             )}
                             <div className="flex justify-end pt-12">
-                              <button type="button" onClick={handleNext} className="group flex items-center gap-4 text-[11px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all">
+                              <button type="button" onClick={handleNext} className="group flex items-center gap-4 text-[12px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all">
                                 Continue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                               </button>
                             </div>
@@ -347,25 +365,40 @@ export function RsvpPage() {
                           {currentStep >= 4 && (
                             <div className="space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 4 ? nextSectionRef : null}>
                               <div className="text-left mb-12">
-                                <p className="font-serif italic text-5xl md:text-7xl text-primary-text leading-none mb-6">Where will you be resting?</p>
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">Where will you be resting?</p>
                                 <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                               </div>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <button type="button" onClick={() => updateFormData('accommodation', 'Yes, please')} className={`p-10 border text-left transition-all duration-700 ${formData.accommodation === 'Yes, please' ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md' : 'bg-white border-accent-beige/10 opacity-80'}`}>
-                                  <span className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-[0.3em] mb-4 block">Reservation</span>
-                                  <p className="font-serif italic text-3xl text-primary-text leading-tight">At the Castle</p>
-                                  <p className="text-[11px] label-uppercase tracking-widest text-accent-beige mt-4">For our stay</p>
-                                </button>
-                                <button type="button" onClick={() => updateFormData('accommodation', 'No, thank you')} className={`p-10 border text-left transition-all duration-700 ${formData.accommodation === 'No, thank you' ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md' : 'bg-white border-accent-beige/10 opacity-80'}`}>
-                                  <span className="label-uppercase text-[10px] text-accent-beige font-bold tracking-[0.3em] mb-4 block">Independent</span>
-                                  <p className="font-serif italic text-3xl text-primary-text leading-tight opacity-40">Staying Elsewhere</p>
-                                  <p className="text-[11px] label-uppercase tracking-widest text-accent-beige mt-4 opacity-40">Private Resting</p>
-                                </button>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                                {[
+                                  { id: 'Yes, please', label: 'Reservation', detail: 'At the Castle', sub: 'For our stay', image: '/accom-castle.png', rotate: 'rotate-1' },
+                                  { id: 'No, thank you', label: 'Independent', detail: 'Staying Elsewhere', sub: 'Private Resting', image: '/accom-outside.png', rotate: '-rotate-1' }
+                                ].map(opt => (
+                                  <button
+                                    key={opt.id}
+                                    type="button"
+                                    onClick={() => updateFormData('accommodation', opt.id)}
+                                    className={`group relative flex flex-col items-center transition-all duration-700 ${formData.accommodation === opt.id ? 'scale-[1.05]' : 'opacity-80 hover:opacity-100'}`}
+                                  >
+                                    <div className={`stamp-visual mb-6 w-full aspect-square ${opt.rotate} group-hover:rotate-0 transition-transform duration-1000 ${formData.accommodation === opt.id ? 'ring-2 ring-accent-terracotta/40 ring-offset-8 bg-[#FBF9F4]' : ''}`}>
+                                      <img src={opt.image} alt={opt.detail} className="stamp-image w-full h-full object-cover" />
+                                    </div>
+                                    <div className="text-center">
+                                      <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] mb-2 block ${formData.accommodation === opt.id ? 'text-accent-terracotta' : 'text-accent-beige'}`}>{opt.label}</span>
+                                      <p className="font-serif italic text-3xl text-primary-text leading-tight">{opt.detail}</p>
+                                      <p className="text-[11px] label-uppercase tracking-widest text-accent-beige mt-3 opacity-60">{opt.sub}</p>
+                                    </div>
+                                    {formData.accommodation === opt.id && (
+                                      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-accent-terracotta flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
+                                        <Check size={16} className="text-white" />
+                                      </div>
+                                    )}
+                                  </button>
+                                ))}
                               </div>
                               {formData.accommodation === 'Yes, please' && (
                                 <div className="pt-10 space-y-6">
                                   <div className="space-y-6">
-                                    <p className="font-serif italic text-5xl md:text-7xl text-primary-text leading-none mb-6">Which sanctuary would you prefer to reserve?</p>
+                                    <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">Which sanctuary would you prefer to reserve?</p>
                                     <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                       Rooms are allocated on first-come, first-served basis. Payment is required to confirm your stay; the hotel concierge will contact you.
                                     </p>
@@ -376,18 +409,77 @@ export function RsvpPage() {
                                         key={r.name}
                                         type="button"
                                         onClick={() => updateFormData('roomPreference', r.name)}
-                                        className={`p-10 border text-left transition-all duration-700 flex flex-col items-start gap-4 ${formData.roomPreference === r.name ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md scale-[1.02] z-10' : 'bg-white border-accent-beige/10 opacity-80'}`}
+                                        className={`group relative p-8 md:p-10 border transition-all duration-700 overflow-hidden flex flex-col items-start gap-4 ${formData.roomPreference === r.name ? 'bg-white border-accent-terracotta/40 shadow-[0_20px_40px_rgba(92,50,16,0.06)] scale-[1.03] z-10' : 'bg-white border-accent-beige/10 opacity-70 hover:opacity-100 hover:border-accent-beige/30'}`}
                                       >
-                                        <span className={`label-uppercase text-[10px] font-bold tracking-[0.3em] ${formData.roomPreference === r.name ? 'text-accent-terracotta' : 'text-accent-beige opacity-60'}`}>Room Type</span>
-                                        <p className={`font-serif italic text-3xl leading-tight ${formData.roomPreference === r.name ? 'text-primary-text' : 'text-primary-text opacity-40'}`}>{r.name}</p>
-                                        <p className={`text-[11px] label-uppercase tracking-widest mt-4 ${formData.roomPreference === r.name ? 'text-accent-terracotta' : 'text-accent-beige opacity-60'}`}>€{r.price} per night</p>
+                                        <div className={`absolute top-0 left-0 w-1 h-full bg-accent-terracotta transition-transform duration-700 ${formData.roomPreference === r.name ? 'translate-x-0' : '-translate-x-full'}`} />
+                                        
+                                        <div className="w-full flex justify-between items-start">
+                                          <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.roomPreference === r.name ? 'text-accent-terracotta' : 'text-accent-beige'}`}>Room Type</span>
+                                          {formData.roomPreference === r.name && (
+                                            <div className="w-6 h-6 rounded-full bg-accent-terracotta flex items-center justify-center shadow-sm">
+                                              <Check size={12} className="text-white" />
+                                            </div>
+                                          )}
+                                        </div>
+                                        
+                                        <p className="font-serif italic text-3xl text-primary-text leading-tight">{r.name}</p>
+                                        
+                                        <div className="mt-4 pt-4 border-t border-accent-beige/10 w-full flex justify-between items-center">
+                                          <span className="text-[12px] label-uppercase tracking-widest text-accent-beige opacity-60">Nightly Rate</span>
+                                          <span className="font-serif italic text-xl text-primary-text">€{r.price}</span>
+                                        </div>
                                       </button>
                                     ))}
                                   </div>
+
+                                  {formData.roomPreference && (
+                                    <div className="pt-16 space-y-12 animate-in fade-in slide-in-from-top-12 duration-1000">
+                                      <div className="space-y-6">
+                                        <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">How long do you need a room at Castillo de Monda?</p>
+                                        <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
+                                      </div>
+                                      
+                                      <div className="grid grid-cols-1 gap-4">
+                                        {[
+                                          { id: 'fri', label: 'Friday 16th', detail: "Arrival evening" },
+                                          { id: 'sat', label: 'Saturday 17th', detail: "Celebration night" },
+                                          { id: 'manual', label: 'Extra Night', detail: 'Specify dates below' }
+                                        ].map(opt => (
+                                          <button
+                                            key={opt.id}
+                                            type="button"
+                                            onClick={() => toggleStayDuration(opt.label)}
+                                            className={`p-8 border text-left transition-all duration-700 flex justify-between items-center ${formData.stayDuration.includes(opt.label) ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md' : 'bg-white border-accent-beige/10 opacity-70'}`}
+                                          >
+                                            <div className="space-y-1">
+                                              <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.stayDuration.includes(opt.label) ? 'text-accent-terracotta' : 'text-accent-beige opacity-60'}`}>{opt.label}</span>
+                                              <p className="font-serif italic text-2xl text-primary-text leading-tight">{opt.detail}</p>
+                                            </div>
+                                            <div className={`w-8 h-8 rounded-full border border-accent-beige/20 flex items-center justify-center transition-all ${formData.stayDuration.includes(opt.label) ? 'bg-accent-terracotta border-accent-terracotta shadow-lg scale-110' : ''}`}>
+                                               {formData.stayDuration.includes(opt.label) && <Check size={16} className="text-white" />}
+                                            </div>
+                                          </button>
+                                        ))}
+                                      </div>
+
+                                      {formData.stayDuration.includes('Extra Night') && (
+                                        <div className="pt-8 animate-in fade-in slide-in-from-top-8 duration-700">
+                                          <p className="label-uppercase text-[10px] text-accent-beige font-bold tracking-[0.3em] mb-4">Please specify your arrival & departure</p>
+                                          <input 
+                                            type="text"
+                                            placeholder="e.g. Wednesday 14th to Sunday 18th"
+                                            className="w-full bg-white border-b border-accent-beige/20 p-6 outline-none focus:border-accent-terracotta font-serif italic text-2xl"
+                                            value={formData.manualStayDates}
+                                            onChange={(e) => updateFormData('manualStayDates', e.target.value)}
+                                          />
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
                                 </div>
                               )}
                               <div className="flex justify-end pt-12">
-                                <button type="button" onClick={handleNext} disabled={!formData.accommodation} className="group flex items-center gap-4 text-[11px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all disabled:opacity-30">
+                                <button type="button" onClick={handleNext} disabled={!formData.accommodation} className="group flex items-center gap-4 text-[12px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all disabled:opacity-30">
                                   Continue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                                 </button>
                               </div>
@@ -398,34 +490,41 @@ export function RsvpPage() {
                           {currentStep >= 5 && (
                             <div className="space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 5 ? nextSectionRef : null}>
                               <div className="text-left mb-12 space-y-6">
-                                <p className="font-serif italic text-5xl md:text-7xl text-primary-text leading-none">How do you plan to join us?</p>
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none">How do you plan to join us?</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                   We understand that these details are not yet final. A formal logistics form will be shared between December and January to coordinate your definitive travel arrangements.
                                 </p>
                                 <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                               </div>
-                              <div className="grid grid-cols-1 gap-8">
+                              <div className="grid grid-cols-1 gap-12">
                                 {[
-                                  { id: 'carRental', label: 'My Own Route', detail: 'I will be driving to Monda — a parking space at the venue would be greatly appreciated.' },
-                                  { id: 'transfer', label: 'Assisted Transfer', detail: 'I would love help with transport. A shared shuttle may be available at a lower cost, or a private transfer at €95. Payment is settled directly at the hotel.' }
+                                  { id: 'carRental', label: 'My Own Route', detail: 'I will be driving to Monda', sub: 'A parking space at the venue would be appreciated.', image: '/journey-car.png', rotate: 'rotate-1' },
+                                  { id: 'transfer', label: 'Assisted Transfer', detail: 'I would love help with transport', sub: 'Shuttle or private transfer options.', image: '/journey-shuttle.png', rotate: '-rotate-1' }
                                 ].map(item => (
-                                  <button key={item.id} type="button" onClick={() => updateFormData(item.id as keyof RsvpFormData, formData[item.id as keyof RsvpFormData] === 'Yes' ? 'No' : 'Yes')}
-                                    className={`p-10 border flex flex-col items-start gap-4 transition-all duration-700 ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md' : 'bg-white border-accent-beige/10 opacity-80'}`}
+                                  <button
+                                    key={item.id}
+                                    type="button"
+                                    onClick={() => updateFormData(item.id as keyof RsvpFormData, formData[item.id as keyof RsvpFormData] === 'Yes' ? 'No' : 'Yes')}
+                                    className={`group relative flex flex-col md:flex-row items-center gap-8 md:gap-12 transition-all duration-700 border border-transparent p-6 rounded-3xl ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-[#FBF9F4] border-accent-terracotta/20 shadow-md' : 'hover:bg-white/50'}`}
                                   >
-                                    <div className="flex justify-between w-full items-start">
-                                      <span className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-[0.3em]">{item.label}</span>
-                                      <div className={`w-6 h-6 rounded-full border border-accent-beige/20 flex items-center justify-center transition-all ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-accent-terracotta border-accent-terracotta' : ''}`}>
-                                        {formData[item.id as keyof RsvpFormData] === 'Yes' && <Check size={12} className="text-white" />}
-                                      </div>
+                                    <div className={`stamp-visual w-40 md:w-56 aspect-square ${item.rotate} group-hover:rotate-0 transition-transform duration-1000 flex-shrink-0 ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'ring-2 ring-accent-terracotta/40' : ''}`}>
+                                      <img src={item.image} alt={item.label} className="stamp-image w-full h-full object-cover" />
                                     </div>
-                                    <p className={`font-serif italic text-2xl text-primary-text leading-tight ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'opacity-100' : 'opacity-40'}`}>
-                                      "{item.detail}"
-                                    </p>
+                                    <div className="text-center md:text-left flex-grow">
+                                      <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
+                                        <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'text-accent-terracotta' : 'text-accent-beige'}`}>{item.label}</span>
+                                        <div className={`w-5 h-5 rounded-full border border-accent-beige/20 flex items-center justify-center transition-all ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-accent-terracotta border-accent-terracotta' : ''}`}>
+                                          {formData[item.id as keyof RsvpFormData] === 'Yes' && <Check size={10} className="text-white" />}
+                                        </div>
+                                      </div>
+                                      <p className="font-serif italic text-2xl md:text-3xl text-primary-text leading-tight mb-2">"{item.detail}"</p>
+                                      <p className="text-[16px] text-secondary-text opacity-70 font-serif italic leading-relaxed">{item.sub}</p>
+                                    </div>
                                   </button>
                                 ))}
                               </div>
                               <div className="flex justify-end pt-12">
-                                <button type="button" onClick={handleNext} className="group flex items-center gap-4 text-[11px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all">
+                                <button type="button" onClick={handleNext} className="group flex items-center gap-4 text-[12px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all">
                                   Continue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                                 </button>
                               </div>
@@ -436,21 +535,35 @@ export function RsvpPage() {
                           {currentStep >= 6 && (
                             <div className="space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 6 ? nextSectionRef : null}>
                               <div className="text-left mb-12 space-y-6">
-                                <p className="font-serif italic text-5xl md:text-7xl text-primary-text leading-none">Visa Assistance</p>
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none">Visa Assistance</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                   Do you require assistance with your Visa application? We are happy to provide liaison and invitation documentation.
                                 </p>
                                 <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                               </div>
-                              <div className="grid grid-cols-2 gap-4">
-                                {['Yes', 'No'].map(choice => (
-                                  <button key={choice} type="button" onClick={() => updateFormData('visaSupport', choice)}
-                                    className={`p-6 border flex flex-col items-start gap-3 transition-all duration-700 ${formData.visaSupport === choice ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md' : 'bg-white border-accent-beige/10 opacity-80'}`}
+                              <div className="grid grid-cols-2 gap-8 md:gap-12">
+                                {[
+                                  { id: 'Yes', label: 'Assistance', detail: 'Invitation Letter', image: '/visa-yes.png', rotate: 'rotate-1' },
+                                  { id: 'No', label: 'Independent', detail: 'No Help Needed', image: '/visa-no.png', rotate: '-rotate-1' }
+                                ].map(opt => (
+                                  <button
+                                    key={opt.id}
+                                    type="button"
+                                    onClick={() => updateFormData('visaSupport', opt.id)}
+                                    className={`group relative flex flex-col items-center transition-all duration-700 ${formData.visaSupport === opt.id ? 'scale-[1.05]' : 'opacity-80 hover:opacity-100'}`}
                                   >
-                                    <span className={`label-uppercase text-[10px] font-bold tracking-[0.3em] ${formData.visaSupport === choice ? 'text-accent-terracotta' : 'text-accent-beige opacity-60'}`}>{choice}</span>
-                                    <p className={`font-serif italic text-2xl leading-tight ${formData.visaSupport === choice ? 'text-primary-text' : 'text-primary-text opacity-40'}`}>
-                                      {choice === 'Yes' ? 'Assistance Needed' : 'Not Required'}
-                                    </p>
+                                    <div className={`stamp-visual mb-6 w-full aspect-square ${opt.rotate} group-hover:rotate-0 transition-transform duration-1000 ${formData.visaSupport === opt.id ? 'ring-2 ring-accent-terracotta/40 ring-offset-8 bg-[#FBF9F4]' : ''}`}>
+                                      <img src={opt.image} alt={opt.label} className="stamp-image w-full h-full object-cover" />
+                                    </div>
+                                    <div className="text-center">
+                                      <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] mb-2 block ${formData.visaSupport === opt.id ? 'text-accent-terracotta' : 'text-accent-beige'}`}>{opt.label}</span>
+                                      <p className="font-serif italic text-2xl text-primary-text leading-tight">{opt.detail}</p>
+                                    </div>
+                                    {formData.visaSupport === opt.id && (
+                                      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-accent-terracotta flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
+                                        <Check size={16} className="text-white" />
+                                      </div>
+                                    )}
                                   </button>
                                 ))}
                               </div>
@@ -469,7 +582,7 @@ export function RsvpPage() {
                       {activeStep?.id === 'note' && (
                         <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-xl mx-auto border-t border-accent-beige/10 pt-12" ref={nextSectionRef}>
                           <div className="text-left mb-12">
-                            <p className="font-serif italic text-5xl md:text-7xl text-primary-text leading-none mb-6">A Note for the Couple</p>
+                            <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">A Note for the Couple</p>
                             <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                           </div>
                           <div className="relative p-4">
@@ -493,7 +606,7 @@ export function RsvpPage() {
                           <div className="text-left py-10 border-y border-accent-beige/10 relative space-y-12">
                             <div className="space-y-4">
                               <p className="label-uppercase text-[10px] text-accent-beige font-bold tracking-[0.3em]">Confirmation</p>
-                              <p className="text-5xl md:text-7xl font-serif italic text-primary-text mb-10 leading-none">{formData.attendance}</p>
+                              <p className="text-3xl md:text-5xl font-serif italic text-primary-text mb-10 leading-none">{formData.attendance}</p>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-8">
                               <div className="space-y-2">
