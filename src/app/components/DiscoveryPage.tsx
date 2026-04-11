@@ -43,7 +43,7 @@ export function DiscoveryPage() {
       <Navigation />
 
       {/* HERO SECTION */}
-      <section className="relative pt-2 pb-24 px-6 overflow-hidden text-center">
+      <section className="relative pt-2 pb-8 px-6 overflow-hidden text-center">
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
         <div className="max-w-3xl mx-auto relative z-10 reveal">
@@ -59,7 +59,7 @@ export function DiscoveryPage() {
       </section>
 
       {/* DISCOVERY GRID */}
-      <section className="py-24 px-6 section-layer-1">
+      <section className="py-12 px-6 section-layer-1">
         <div className="max-w-7xl mx-auto">
           <div className="space-y-32">
             {discoveries.map((item, idx) => (
