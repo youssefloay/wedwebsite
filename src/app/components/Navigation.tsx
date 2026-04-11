@@ -30,8 +30,8 @@ export function Navigation() {
       {/* ── UNIFIED BOTTOM NAV (Always visible) ── */}
       <nav className="fixed bottom-0 left-0 right-0 z-[100] flex justify-center pb-4 md:pb-8 px-4 pointer-events-none">
          {/* The Unified Navbar Container */}
-        <div className="flex justify-center w-full max-w-[640px] md:max-w-[920px] pointer-events-auto">
-          <div className="flex items-center justify-around w-full h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/5 bg-background/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(92,50,16,0.08)] px-1 md:px-4 transition-all duration-500 overflow-x-auto no-scrollbar">
+        <div className="flex justify-center w-full max-w-[640px] md:max-w-[920px] pointer-events-auto mx-auto">
+          <div className="flex items-center justify-center gap-1 md:gap-4 w-full h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/5 bg-background/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(92,50,16,0.08)] px-1 md:px-4 transition-all duration-500 overflow-x-auto no-scrollbar">
             {navLinks.map(({ to, label, icon: Icon }) => {
               const active = location.pathname === to.split('?')[0];
               return (
