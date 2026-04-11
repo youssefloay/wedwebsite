@@ -328,7 +328,7 @@ export function Home() {
       {/* 5. RSVP SECTION */}
       <section id="rsvp" className="section-layer-2 py-32 px-6 border-t border-border/10">
         <div className="max-w-2xl mx-auto">
-          <div className="text-center">
+          <div className="text-center reveal">
             <span className="label-uppercase mb-4 block">RSVP</span>
             <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8">Join Our Story</h2>
             <p className="text-lg text-secondary-text font-serif italic leading-relaxed mb-12">
@@ -339,6 +339,58 @@ export function Home() {
                 Kindly RSVP
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. FAQ SECTION */}
+      <section id="faq" className="section-layer-1 py-32 px-6 border-t border-border/10">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-20 reveal">
+            <span className="label-uppercase mb-4 block">Information</span>
+            <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-6 italic">Frequently Asked</h2>
+            <div className="w-16 h-px bg-accent-terracotta mx-auto" />
+          </div>
+
+          <div className="space-y-6 reveal">
+            {[
+              { 
+                q: "What is the exact location of the wedding?", 
+                a: "Our celebration takes place at the Castillo de Monda, a historic fortress nestled in the Andalusian hills. The address is Calle de la Villeta 6, 29110 Monda, Spain." 
+              },
+              { 
+                q: "What does 'Black Tie & Color' mean?", 
+                a: "We invite our guests to dress formally (tuxedos or dark suits for men, floor-length gowns for women) but with a focus on vibrant, earthy tones. We kindly ask you to avoid wearing all-black or dark navy to embrace the Mediterranean spirit." 
+              },
+              { 
+                q: "How do I reach Monda from Málaga?", 
+                a: "Monda is approximately 45 minutes from Málaga Airport. We recommend either renting a car for the most flexibility or indicating on your RSVP that you would like help with an assisted transfer." 
+              },
+              { 
+                q: "Is there a deadline for the RSVP?", 
+                a: "Yes, we kindly ask all guests to finalize their attendance and logistics via the online RSVP form by November 13th, 2026." 
+              },
+              { 
+                q: "Will you provide visa support letters?", 
+                a: "Absolutely. For our Egyptian guests or anyone requiring a Schengen visa, you can request a formal invitation and hotel confirmation letter directly through the RSVP process." 
+              },
+              { 
+                q: "Are children invited?", 
+                a: "While we love your little ones, our celebration at the Castillo will be an adults-only event to allow everyone to relax and enjoy the evening to the fullest." 
+              }
+            ].map((item, idx) => (
+              <details key={idx} className="group border-b border-border/5 py-4">
+                <summary className="flex items-center justify-between cursor-pointer list-none py-4 outline-none">
+                  <span className="font-serif italic text-xl md:text-2xl text-primary-text group-hover:text-accent-terracotta transition-colors">{item.q}</span>
+                  <span className="text-accent-terracotta transition-transform duration-500 group-open:rotate-180">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </span>
+                </summary>
+                <div className="pb-8 pr-12 animate-in fade-in slide-in-from-top-4 duration-500">
+                  <p className="text-lg text-secondary-text font-serif italic leading-relaxed opacity-80">{item.a}</p>
+                </div>
+              </details>
+            ))}
           </div>
         </div>
       </section>
