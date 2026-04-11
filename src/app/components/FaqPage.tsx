@@ -43,7 +43,7 @@ export function FaqPage() {
       <Navigation />
 
       {/* HERO SECTION */}
-      <section className="relative pt-2 pb-20 px-6 overflow-hidden text-center">
+      <section className="relative pt-2 pb-8 px-6 overflow-hidden text-center">
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
         <div className="max-w-3xl mx-auto relative z-10 reveal">
@@ -59,7 +59,7 @@ export function FaqPage() {
       </section>
 
       {/* FAQ ACCORDION SECTION */}
-      <section className="py-24 px-6 section-layer-2 border-y border-border/10">
+      <section className="py-12 px-6 section-layer-2 border-y border-border/10">
         <div className="max-w-3xl mx-auto reveal-scale">
           <div className="space-y-4">
             {faqs.map((item, idx) => (
