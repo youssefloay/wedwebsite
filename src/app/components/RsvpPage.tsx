@@ -504,7 +504,15 @@ export function RsvpPage() {
                                   <button
                                     key={item.id}
                                     type="button"
-                                    onClick={() => updateFormData(item.id as keyof RsvpFormData, formData[item.id as keyof RsvpFormData] === 'Yes' ? 'No' : 'Yes')}
+                                    onClick={() => {
+                                      if (item.id === 'carRental') {
+                                        updateFormData('carRental', formData.carRental === 'Yes' ? 'No' : 'Yes');
+                                        updateFormData('transfer', 'No');
+                                      } else {
+                                        updateFormData('transfer', formData.transfer === 'Yes' ? 'No' : 'Yes');
+                                        updateFormData('carRental', 'No');
+                                      }
+                                    }}
                                     className={`group relative flex flex-col md:flex-row items-center gap-8 md:gap-12 transition-all duration-700 border border-transparent p-6 rounded-3xl ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-[#FBF9F4] border-accent-terracotta/20 shadow-md' : 'hover:bg-white/50'}`}
                                   >
                                     <div className={`stamp-visual w-40 md:w-56 aspect-square ${item.rotate} group-hover:rotate-0 transition-transform duration-1000 flex-shrink-0 ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'ring-2 ring-accent-terracotta/40' : ''}`}>
