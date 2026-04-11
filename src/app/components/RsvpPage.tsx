@@ -212,18 +212,18 @@ export function RsvpPage() {
         <div className="max-w-4xl mx-auto px-6 pt-2 pb-32">
 
           {/* Sectional Header */}
-          <div className="text-center mb-6 flex flex-col items-center animate-in fade-in duration-1000">
-            <span className="label-uppercase tracking-[0.6em] mb-6 block font-medium">YOU ARE INVITED</span>
+          <div className="text-center mb-10 flex flex-col items-center reveal">
+            <span className="label-uppercase tracking-[0.6em] mb-6 block font-bold">YOU ARE INVITED</span>
             <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">The RSVP</h1>
-            <p className="text-xl md:text-2xl text-secondary-text font-serif italic mb-6 max-w-lg mx-auto leading-relaxed px-4">
+            <p className="text-xl md:text-2xl text-secondary-text font-serif italic mb-6 max-w-lg mx-auto leading-relaxed px-4 opacity-80">
               "We await your joy as we coordinate your stay in the quiet beauty of the Andalusian hills."
             </p>
             <div className="w-16 h-px bg-accent-terracotta mx-auto mt-6" />
           </div>
 
-          <div className="relative max-w-2xl mx-auto">
-            <div className="absolute inset-x-[-20px] inset-y-[-40px] border border-accent-beige/30 rounded-[60px] pointer-events-none -z-10 bg-[#FAF9F6] shadow-[0_20px_50px_rgba(0,0,0,0.03)]" />
-            <div className="absolute inset-x-[-30px] inset-y-[-50px] border border-accent-beige/10 rounded-[70px] pointer-events-none -z-10" />
+          <div className="relative max-w-2xl mx-auto reveal delay-200">
+            <div className="absolute inset-x-[-20px] inset-y-[-40px] border border-accent-terracotta/5 rounded-[60px] pointer-events-none -z-10 bg-[#FAF9F6]/50 shadow-[0_20px_50px_rgba(92,50,16,0.03)] backdrop-blur-sm" />
+            <div className="absolute inset-x-[-30px] inset-y-[-50px] border border-accent-terracotta/5 rounded-[70px] pointer-events-none -z-10" />
 
             <form onSubmit={handleSubmit} className="relative z-10 px-8 py-4">
 

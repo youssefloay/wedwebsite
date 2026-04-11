@@ -49,10 +49,10 @@ export function AccommodationPage() {
         {/* Arch Pattern Background - Identical to Home */}
         <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
 
-        <div className="relative z-10 max-w-3xl mx-auto text-center">
+        <div className="relative z-10 max-w-3xl mx-auto text-center reveal">
           <span className="label-uppercase mb-6 block">Where to Stay</span>
           <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Castillo de Monda</h1>
-          <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-lg mx-auto">
+          <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-lg mx-auto opacity-80">
             "Rest amidst the history and quiet beauty of our private fortress."
           </p>
           <div className="w-16 h-px mx-auto mt-12 bg-accent-terracotta" />
@@ -60,15 +60,15 @@ export function AccommodationPage() {
       </section>
 
       {/* 2. WELCOME MESSAGE */}
-      <section className="px-6 pb-24 bg-background">
+      <section className="px-6 pb-24 bg-background reveal">
         <div className="max-w-4xl mx-auto">
-          <div className="wedding-card bg-[#F5EFEB]/50 backdrop-blur-sm border-accent-terracotta/20 text-center py-16 px-8 md:px-16">
+          <div className="wedding-card bg-[#F5EFEB]/50 backdrop-blur-sm border-accent-terracotta/20 text-center py-16 px-8 md:px-16 hover:-translate-y-2 transition-all duration-700">
             <div className="max-w-2xl mx-auto space-y-8">
               <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic">A Private Celebration</h2>
-              <p className="text-lg text-secondary-text leading-relaxed">
+              <p className="text-xl text-secondary-text leading-relaxed italic opacity-80">
                 We are delighted to share that the entire venue will be <span className="text-primary-text font-bold">privatized for our wedding</span>.
               </p>
-              <p className="text-secondary-text italic line-clamp-none">
+              <p className="text-secondary-text italic leading-relaxed">
                 We warmly invite you to stay on-site and share the full experience with us. Rooms are available on a first-come, first-served basis, and breakfast is included with every stay.
               </p>
             </div>
@@ -81,7 +81,7 @@ export function AccommodationPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 gap-12">
             {roomTypes.map((room, idx) => (
-              <div key={idx} className="wedding-card group overflow-hidden p-0 flex flex-col md:flex-row shadow-sm hover:shadow-2xl transition-all duration-700 bg-white border border-border/5">
+              <div key={idx} className="wedding-card reveal group overflow-hidden p-0 flex flex-col md:flex-row shadow-[0_4px_30px_rgba(92,50,16,0.02)] hover:shadow-[0_20px_60px_rgba(92,50,16,0.08)] transition-all duration-700 bg-white border border-border/5">
                 <div className="w-full md:w-[45%] h-80 md:h-auto overflow-hidden relative">
                   <img
                     src={room.image}
@@ -89,23 +89,23 @@ export function AccommodationPage() {
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
                   <div className="absolute top-6 left-6">
-                    <span className="bg-white/95 backdrop-blur px-4 py-2 rounded-full text-[10px] uppercase tracking-widest font-bold text-accent-terracotta shadow-lg">
+                    <span className="bg-white/95 backdrop-blur px-5 py-2.5 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold text-accent-terracotta shadow-lg">
                       {room.rooms} Rooms
                     </span>
                   </div>
                 </div>
                 <div className="w-full md:w-[55%] p-10 md:p-14 flex flex-col justify-center">
                   <div className="flex flex-col mb-8">
-                    <h3 className="text-3xl md:text-4xl font-serif text-primary-text italic leading-tight mb-2">{room.name}</h3>
+                    <h3 className="text-3xl md:text-4xl font-serif text-primary-text italic leading-tight mb-3 transition-colors duration-500 group-hover:text-accent-terracotta">{room.name}</h3>
                     <div className="flex items-center gap-2 text-secondary-text/60">
                       <Users size={14} strokeWidth={1.5} />
-                      <span className="text-[10px] uppercase tracking-widest font-medium">{room.maxGuests} Guests Max</span>
+                      <span className="text-[10px] uppercase tracking-widest font-bold">{room.maxGuests} Guests Max</span>
                     </div>
                   </div>
-                  <p className="text-sm text-secondary-text mb-6">
+                  <p className="text-base text-secondary-text mb-8 italic leading-relaxed opacity-80">
                     {room.description}
                   </p>
-                  <div className="flex flex-wrap gap-4 mb-8">
+                  <div className="flex flex-wrap gap-5 mb-10">
                     <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-bold text-accent-terracotta/80">
                       <Zap size={10} strokeWidth={1.25} /> AC
                     </div>
@@ -121,16 +121,16 @@ export function AccommodationPage() {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-8 pt-8 border-t border-border/50">
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-8 pt-10 border-t border-border/20">
                     <div className="text-3xl font-serif text-primary-text">
                       €{room.pricePerNight}
-                      <span className="text-xs font-sans text-secondary-text ml-3 uppercase tracking-widest font-bold">per night</span>
+                      <span className="text-[10px] font-sans text-secondary-text/60 ml-3 uppercase tracking-widest font-bold">per night</span>
                     </div>
                     <button
                       onClick={() => navigate('/rsvp')}
                       className="btn-primary"
                     >
-                      Select in RSVP
+                      Reserve in RSVP
                     </button>
                   </div>
                 </div>

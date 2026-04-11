@@ -29,10 +29,10 @@ export function GiftsPage() {
       {/* 1. HERO */}
       <section className="relative pt-2 pb-20 px-6 overflow-hidden text-center">
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
-        <div className="relative z-10 max-w-3xl mx-auto">
+        <div className="relative z-10 max-w-3xl mx-auto reveal">
           <span className="label-uppercase mb-6 block">Gifting</span>
           <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Our Future</h1>
-          <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-lg mx-auto px-4">
+          <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-lg mx-auto px-4 opacity-80">
             "Your presence is the greatest gift."
           </p>
           <div className="w-16 h-px mx-auto mt-12 bg-accent-terracotta" />
@@ -40,15 +40,15 @@ export function GiftsPage() {
       </section>
 
       {/* 2. THE NOTE */}
-      <section className="px-6 pb-12 bg-background">
+      <section className="px-6 pb-12 bg-background reveal">
         <div className="max-w-4xl mx-auto">
-          <div className="wedding-card bg-[#F5EFEB]/50 backdrop-blur-sm border-accent-terracotta/20 text-center py-16 px-8 md:px-16 transform hover:-translate-y-1 transition-transform duration-500">
+          <div className="wedding-card bg-[#F5EFEB]/50 backdrop-blur-sm border-accent-terracotta/20 text-center py-16 px-8 md:px-16 hover:-translate-y-2 transition-all duration-700">
             <div className="max-w-2xl mx-auto space-y-8">
-              <h2 className="text-3xl font-serif text-primary-text italic">A Heartfelt Note</h2>
-              <p className="text-xl md:text-2xl text-secondary-text leading-relaxed font-serif italic">
+              <h2 className="text-4xl font-serif text-primary-text italic leading-tight">A Heartfelt Note</h2>
+              <p className="text-xl md:text-2xl text-secondary-text leading-relaxed font-serif italic opacity-80">
                 We are incredibly fortunate to already have a home filled with everything we could possibly need. 
               </p>
-              <p className="text-lg text-secondary-text leading-relaxed font-serif px-4">
+              <p className="text-lg text-secondary-text leading-relaxed font-serif px-4 opacity-70">
                 Should you wish to honor us with a gesture, a <span className="text-accent-terracotta underline font-bold">monetary contribution</span> towards buying our future home and our upcoming adventures would be most appreciated.
               </p>
             </div>

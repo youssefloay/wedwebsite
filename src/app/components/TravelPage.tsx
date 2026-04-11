@@ -15,10 +15,10 @@ export function TravelPage() {
         {/* Arch Pattern Background - Identical to Home */}
         <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
 
-        <div className="relative z-10 max-w-3xl mx-auto text-center">
+        <div className="relative z-10 max-w-3xl mx-auto text-center reveal">
           <span className="label-uppercase mb-6 block">The Voyage</span>
           <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Journey to Monda</h1>
-          <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-2xl mx-auto px-4">
+          <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-2xl mx-auto px-4 opacity-80">
             "A scenic passage from the Mediterranean coast to the heart of the Andalusian hills."
           </p>
           <div className="w-16 h-px mx-auto mt-12 bg-accent-terracotta" />
@@ -27,15 +27,15 @@ export function TravelPage() {
 
       {/* 2. THE MAP VISUAL */}
       <section className="px-6 pb-20 bg-background relative z-10">
-        <div className="max-w-4xl mx-auto">
-          <div className="relative p-2 bg-white shadow-2xl rounded-sm transform rotate-1 border border-border/10 ring-8 ring-white/5">
+        <div className="max-w-4xl mx-auto reveal-scale">
+          <div className="relative p-2 bg-white shadow-2xl rounded-sm transform rotate-1 border border-border/10 ring-8 ring-white/5 transition-transform duration-1000 hover:rotate-0">
             <img
               src="/travel-map.png"
               alt="Andalusian Journey Map"
               className="w-full h-auto opacity-100 mix-blend-multiply"
             />
           </div>
-          <p className="text-center mt-8 text-secondary-text font-serif italic text-sm">
+          <p className="text-center mt-10 text-secondary-text font-serif italic text-base opacity-70">
             Winding through the heart of Andalusia, just around 40-45 mins from Málaga Airport.
           </p>
         </div>
@@ -49,7 +49,7 @@ export function TravelPage() {
 
             <div className="lg:col-span-12 xl:col-span-10">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div className="relative order-2 lg:order-1 flex justify-center">
+                <div className="relative order-2 lg:order-1 flex justify-center reveal">
                   <div className="stamp-visual transform rotate-2 max-w-[400px]">
                     <img
                       src="/malaga-coast.png"

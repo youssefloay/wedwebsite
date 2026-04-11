@@ -11,10 +11,14 @@
   --border: rgba(92, 50, 16, 0.12);
   
   /* Spacing System */
-  --section-spacing: 100px;
+  --section-spacing: 120px;
   --section-spacing-mobile: 80px;
-  --card-padding: 24px;
-  --border-radius: 20px;
+  --card-padding: 32px;
+  --border-radius: 12px;
+  
+  /* Premium Transitions */
+  --transition-ease: cubic-bezier(.22,.8,.24,1);
+  --transition-duration: 400ms;
   
   --font-serif: 'Cormorant Garamond', serif;
   --font-sans: 'Cinzel', serif;
@@ -64,7 +68,10 @@
     @apply bg-background text-primary-text;
     font-family: var(--font-cinzel);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     position: relative;
+    overflow-x: hidden;
   }
 
   body::before {
@@ -82,9 +89,10 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
-    color: var(--primary-text); /* Brown emphasis */
-    line-height: 1.05;
+    color: var(--primary-text);
+    line-height: 1.15;
     font-weight: 500;
+    letter-spacing: -0.01em;
   }
 
   h3, h4, h5, h6 {
@@ -94,10 +102,11 @@
 
   p {
     font-family: var(--font-cinzel);
-    color: var(--secondary-text); /* Olive body text */
-    line-height: 1.7;
+    color: var(--secondary-text);
+    line-height: 1.8;
     font-size: 15px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
+    opacity: 0.9;
   }
 
   /* Section Styles */
@@ -163,13 +172,19 @@
     border-radius: var(--border-radius);
     padding: var(--card-padding);
     border: 1px solid var(--border);
-    box-shadow: 0 4px 20px rgba(92, 50, 16, 0.03);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 30px rgba(92, 50, 16, 0.02);
+    transition: all var(--transition-duration) var(--transition-ease);
+  }
+
+  .wedding-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(92, 50, 16, 0.06);
+    border-color: rgba(92, 50, 16, 0.2);
   }
 
   /* CTA System */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-10 py-5 text-white transition-all duration-500 outline-none focus-visible:ring-4 focus-visible:ring-secondary-text/30;
+    @apply inline-flex items-center justify-center px-10 py-5 text-white outline-none focus-visible:ring-4 focus-visible:ring-secondary-text/30;
     position: relative;
     overflow: hidden;
     background-color: #6F7F6C;
@@ -177,10 +192,11 @@
     font-family: var(--font-cinzel);
     font-size: 13px;
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    box-shadow: 0 4px 15px rgba(92, 50, 16, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     z-index: 1;
+    transition: all var(--transition-duration) var(--transition-ease);
   }
 
   .btn-primary::before {
@@ -199,8 +215,12 @@
 
   .btn-primary:hover {
     background-color: #5d6d5a;
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 8px 25px rgba(92, 50, 16, 0.15);
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.98);
   }
 
   .btn-primary-white {
@@ -227,9 +247,13 @@
   }
 
   .btn-primary-white:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    background: #F8F5F0;
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    background: #FDFBF7;
+  }
+
+  .btn-primary-white:active {
+    transform: scale(0.98);
   }
 
   .btn-secondary {
@@ -248,7 +272,11 @@
   .btn-secondary:hover {
     background-color: rgba(92, 50, 16, 0.05);
     border-color: rgba(92, 50, 16, 0.4);
-    transform: translateY(-1px);
+    transform: scale(1.02);
+  }
+
+  .btn-secondary:active {
+    transform: scale(0.98);
   }
 
   .btn-tertiary {
@@ -265,20 +293,19 @@
 
   .btn-tertiary:hover {
     color: var(--primary-text);
-    text-decoration: underline;
-    text-underline-offset: 4px;
+    letter-spacing: 0.18em;
   }
 
   .stamp-visual {
     position: relative;
     background: white;
     padding: 12px;
-    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
+    filter: drop-shadow(0 4px 12px rgba(92, 50, 16, 0.08));
     /* Scalloped edge using mask-image with radial gradients solely on the edges */
     --mask: radial-gradient(10px at 15px 15px, #0000 98%, #000) -15px -15px;
     mask: var(--mask);
     -webkit-mask: var(--mask);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--transition-duration) var(--transition-ease);
   }
 
   .stamp-visual:hover {

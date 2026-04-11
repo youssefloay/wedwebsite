@@ -89,35 +89,35 @@ export function Home() {
         </div>
 
         <div className="relative z-10 text-center px-6 max-w-2xl mx-auto flex flex-col items-center">
-          <div className="mb-0 w-64 md:w-80 opacity-100 transition-opacity duration-1000 flex justify-center">
+          <div className="reveal-scale active mb-0 w-64 md:w-80 transition-all duration-1000 flex justify-center">
             <img
               src="/bismillah.png"
               alt="Bismillah"
-              className="w-full h-auto object-contain"
+              className="w-full h-auto object-contain hover:scale-[1.02] transition-transform duration-1000"
             />
           </div>
 
-          <p className="font-cinzel text-[10px] md:text-[11px] tracking-[0.6em] text-secondary-text -mt-16 mb-8 uppercase font-bold">
+          <p className="reveal delay-100 font-cinzel text-[10px] md:text-[11px] tracking-[0.6em] text-secondary-text -mt-16 mb-10 uppercase font-bold">
             En el nombre de Dios
           </p>
 
-          <p className="font-script text-lg md:text-xl text-secondary-text mb-12 max-w-xs md:max-w-md">
+          <p className="reveal delay-200 font-script text-xl md:text-2xl text-secondary-text mb-12 max-w-xs md:max-w-md italic">
             You are invited to celebrate the wedding of
           </p>
 
-          <div className="flex flex-col items-center gap-4 mb-2 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.8]">
+          <div className="reveal delay-300 flex flex-col items-center gap-4 mb-2 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.85]">
               <span className="text-6xl md:text-8xl uppercase tracking-wider">Lama</span>
-              <span className="text-3xl md:text-4xl mt-1 uppercase tracking-widest">Loay</span>
+              <span className="text-3xl md:text-4xl mt-2 uppercase tracking-widest">Loay</span>
             </h1>
 
-            <div className="flex items-center justify-center my-6">
+            <div className="flex items-center justify-center my-8">
               <span className="script-accent text-3xl md:text-4xl opacity-60 italic">&</span>
             </div>
 
-            <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.8]">
+            <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.85]">
               <span className="text-6xl md:text-8xl uppercase tracking-wider">Alvaro</span>
-              <span className="text-3xl md:text-4xl mt-1 uppercase tracking-widest">Recas</span>
+              <span className="text-3xl md:text-4xl mt-2 uppercase tracking-widest">Recas</span>
             </h1>
           </div>
 
@@ -127,26 +127,26 @@ export function Home() {
             17 April 2027
           </h2>
 
-          <div className="flex justify-center gap-10 mb-8 scale-110">
+          <div className="reveal delay-400 flex justify-center gap-12 mb-10 scale-110">
             <div className="flex flex-col items-center">
-              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-1">{daysUntil}</span>
+              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-2">{daysUntil}</span>
               <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">DAYS</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-1">{hoursUntil}</span>
+              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-2">{hoursUntil}</span>
               <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">HRS</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-1">{minutesUntil}</span>
+              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-2">{minutesUntil}</span>
               <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">MIN</span>
             </div>
           </div>
 
-          <div className="space-y-1">
+          <div className="reveal delay-500 space-y-2">
             <p className="text-xl md:text-3xl font-serif text-primary-text tracking-wide">
               Castillo de Monda
             </p>
-            <p className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-secondary-text opacity-100 leading-relaxed font-medium mb-10">
+            <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-secondary-text opacity-100 leading-relaxed font-bold mb-10">
               De La Villeta 6, 29110 Monda, Spain
             </p>
             <Link to="/rsvp" className="btn-primary inline-flex">
