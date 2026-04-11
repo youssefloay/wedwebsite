@@ -42,7 +42,7 @@ export function Navigation() {
     <>
       {/* ── UNIFIED BOTTOM NAV ── */}
       <nav 
-        className={`fixed ${isDiscovery ? 'bottom-10 md:bottom-16' : 'bottom-4 md:bottom-8'} inset-x-0 z-[100] flex justify-center px-4 pointer-events-none transition-all duration-700 ease-out ${
+        className={`fixed ${isDiscovery ? 'bottom-12 md:bottom-20' : 'bottom-4 md:bottom-8'} inset-x-0 z-[100] flex justify-center px-4 pointer-events-none transition-all duration-700 ease-out ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'
         }`}
       >
