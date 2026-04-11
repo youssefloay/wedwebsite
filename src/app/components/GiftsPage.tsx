@@ -30,20 +30,19 @@ export function GiftsPage() {
       <section className="relative pt-40 pb-20 px-6 overflow-hidden text-center">
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         <div className="relative z-10 max-w-3xl mx-auto">
-          <span className="label-uppercase mb-6 block font-bold tracking-[0.3em] text-accent-terracotta">Gifting</span>
-          <h1 className="text-6xl md:text-8xl font-serif text-primary-text mb-8 leading-none italic">Our Future</h1>
+          <span className="label-uppercase mb-6 block">Gifting</span>
+          <h1 className="text-6xl md:text-8xl font-serif text-primary-text mb-8 leading-none">Our Future</h1>
           <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-lg mx-auto px-4">
-            "Your presence is the greatest gift, and should you feel inclined to celebrate with a gesture, it will be received with heartfelt appreciation."
+            "Your presence is the greatest gift."
           </p>
           <div className="w-16 h-px mx-auto mt-12 bg-accent-terracotta/40" />
         </div>
       </section>
 
       {/* 2. THE NOTE */}
-      <section className="px-6 pb-24 bg-background">
+      <section className="px-6 pb-12 bg-background">
         <div className="max-w-4xl mx-auto">
           <div className="wedding-card bg-[#F5EFEB]/50 backdrop-blur-sm border-accent-terracotta/20 text-center py-16 px-8 md:px-16 transform hover:-translate-y-1 transition-transform duration-500">
-            <Heart className="mx-auto mb-8 text-accent-terracotta" size={40} strokeWidth={1.25} />
             <div className="max-w-2xl mx-auto space-y-8">
               <h2 className="text-3xl font-serif text-primary-text italic">A Heartfelt Note</h2>
               <p className="text-xl md:text-2xl text-secondary-text leading-relaxed font-serif italic">
@@ -58,7 +57,7 @@ export function GiftsPage() {
       </section>
 
       {/* 3. FUNDS */}
-      <section className="py-24 px-6 bg-[#FBF9F4] border-y border-border/5 overflow-hidden">
+      <section className="py-12 px-6 bg-[#FBF9F4] border-y border-border/5 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
             {/* Honeymoon Fund */}
@@ -215,7 +214,6 @@ export function GiftsPage() {
             {/* Permanent In-Person Card */}
             <div className="wedding-card bg-accent-beige/10 border-2 border-dashed border-accent-terracotta/20 p-8 flex flex-col items-center text-center group hover:bg-accent-beige/20 transition-all duration-700">
               <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-accent-terracotta mb-4">Celebration Day</span>
-              <Heart size={32} className="text-accent-terracotta mb-6 opacity-40 group-hover:scale-110 transition-transform" strokeWidth={1.25} />
               <h3 className="text-2xl font-serif italic mb-6">In-Person Wishes</h3>
               <p className="text-sm text-secondary-text italic leading-relaxed font-serif max-w-[240px]">
                 "A collection box will be available at the venue terrace for those who prefer to share their wishes in person."
