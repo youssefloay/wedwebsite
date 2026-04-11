@@ -1,6 +1,6 @@
 import { Navigation } from './Navigation';
 import { Link } from "react-router";
-import { MapPin, Coffee, Sun, Palmtree, ArrowRight, Compass, Camera, Utensils } from 'lucide-react';
+import { MapPin, Coffee, Sun, Palmtree, ArrowRight, Camera, Utensils } from 'lucide-react';
 
 export function DiscoveryPage() {
   const discoveries = [
@@ -46,20 +46,15 @@ export function DiscoveryPage() {
       <section className="relative pt-2 pb-24 px-6 overflow-hidden text-center">
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
-        <div className="max-w-4xl mx-auto relative z-10 reveal">
-          <div className="flex justify-center mb-8">
-            <div className="p-4 bg-accent-terracotta/5 rounded-full ring-1 ring-accent-terracotta/10">
-              <Compass className="text-accent-terracotta animate-spin-slow" size={32} strokeWidth={1} />
-            </div>
-          </div>
+        <div className="max-w-3xl mx-auto relative z-10 reveal">
           <span className="label-uppercase mb-6 block">Make a weekend of it</span>
-          <h1 className="text-6xl md:text-8xl font-serif text-primary-text mb-8 italic leading-tight">
+          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 italic leading-tight">
             The Andalusian <br className="hidden md:block" /> Discovery
           </h1>
-          <p className="text-xl md:text-2xl text-secondary-text font-serif italic max-w-2xl mx-auto px-4 leading-relaxed opacity-80">
+          <p className="text-xl md:text-2xl text-secondary-text font-serif italic max-w-lg mx-auto px-4 leading-relaxed opacity-80">
             "Andalusia is a tapestry of history, light, and flavor. We invite you to linger, explore, and fall in love with the magic of the Costa del Sol."
           </p>
-          <div className="w-24 h-px mx-auto mt-16 bg-accent-terracotta/30" />
+          <div className="w-16 h-px mx-auto mt-12 bg-accent-terracotta" />
         </div>
       </section>
 
