@@ -5,6 +5,7 @@ import { TravelPage } from "./components/TravelPage";
 import { AccommodationPage } from "./components/AccommodationPage";
 import { GiftsPage } from "./components/GiftsPage";
 import { FaqPage } from "./components/FaqPage";
+import { DiscoveryPage } from "./components/DiscoveryPage";
 import { Layout } from "./components/Layout";
 
 export const router = createHashRouter([
@@ -34,6 +35,10 @@ export const router = createHashRouter([
       {
         path: "/faq",
         Component: FaqPage,
+      },
+      {
+        path: "/discovery",
+        Component: DiscoveryPage,
       },
     ],
   },

@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router";
 import { useState, useEffect } from "react";
-import { Home, Plane, Building2, Gift, Heart, Info } from 'lucide-react';
+import { Home, Plane, Building2, Gift, Heart, Compass } from 'lucide-react';
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,12 +16,12 @@ export function Navigation() {
   }, []);
 
   const navLinks = [
-    { to: '/?entered=true', label: 'Home',   icon: Home },
-    { to: '/travel',        label: 'Travel', icon: Plane },
-    { to: '/accommodation', label: 'Stay',   icon: Building2 },
-    { to: '/gifts',         label: 'Gifts',  icon: Gift },
-    { to: '/faq',           label: 'FAQ',    icon: Info },
-    { to: '/rsvp',          label: 'RSVP',   icon: Heart },
+    { to: '/?entered=true', label: 'Home',    icon: Home },
+    { to: '/travel',        label: 'Travel',  icon: Plane },
+    { to: '/accommodation', label: 'Stay',    icon: Building2 },
+    { to: '/discovery',     label: 'Journal', icon: Compass },
+    { to: '/gifts',         label: 'Gifts',   icon: Gift },
+    { to: '/rsvp',          label: 'RSVP',    icon: Heart },
   ];
 
   return (
