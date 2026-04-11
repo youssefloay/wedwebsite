@@ -4,27 +4,23 @@ import { VideoEntrance } from './VideoEntrance';
 
 export function Home() {
   const [searchParams] = useSearchParams();
+  const isForced = searchParams.get('force') === 'true';
+  const shouldSkip = !isForced && (searchParams.get('skip') === 'true' || sessionStorage.getItem('entered') === 'true');
+
   const [daysUntil, setDaysUntil] = useState(0);
   const [hoursUntil, setHoursUntil] = useState(0);
   const [minutesUntil, setMinutesUntil] = useState(0);
   const [justFinishedVideo, setJustFinishedVideo] = useState(false);
-  const [showContent, setShowContent] = useState(() => {
-    // Initialize based on query param OR session storage
-    return searchParams.get('entered') === 'true' || sessionStorage.getItem('entered') === 'true';
-  });
+  const [showContent, setShowContent] = useState(shouldSkip);
 
   useEffect(() => {
-    // Monitor query param changes (e.g. clicking Home while on Home)
-    const enteredParam = searchParams.get('entered') === 'true';
-    if (enteredParam) {
-      setShowContent(true);
-      sessionStorage.setItem('entered', 'true');
-    } else if (window.location.pathname === '/' && !window.location.search) {
-      // Direct access to '/' without params (like logo click) should reset if we want it to land on splash
+    if (isForced) {
       setShowContent(false);
-      sessionStorage.removeItem('entered');
+      setJustFinishedVideo(false);
+    } else if (shouldSkip) {
+      setShowContent(true);
     }
-  }, [searchParams]);
+  }, [isForced, shouldSkip]);
 
   useEffect(() => {
     const updateCountdown = () => {
@@ -46,20 +42,6 @@ export function Home() {
 
     return () => clearInterval(interval);
   }, []);
-
-  const [searchParams] = useSearchParams();
-  const isForced = searchParams.get('force') === 'true';
-  const shouldSkip = !isForced && (searchParams.get('skip') === 'true' || sessionStorage.getItem('entered') === 'true');
-
-  const [showContent, setShowContent] = useState(shouldSkip);
-  const [justFinishedVideo, setJustFinishedVideo] = useState(false);
-
-  useEffect(() => {
-    if (isForced) {
-      setShowContent(false);
-      setJustFinishedVideo(false);
-    }
-  }, [isForced]);
 
   const handleEnter = () => {
     setJustFinishedVideo(true);
