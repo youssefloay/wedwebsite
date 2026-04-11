@@ -76,22 +76,26 @@ export function AccommodationPage() {
         </div>
       </section>
 
-      {/* 3. ROOM TYPES GRID */}
-      <section className="py-24 px-6 bg-[#F5EFEB] border-y border-border/10">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 gap-12">
-            {roomTypes.map((room, idx) => (
-              <div key={idx} className="wedding-card reveal group overflow-hidden p-0 flex flex-col md:flex-row shadow-[0_4px_30px_rgba(92,50,16,0.02)] hover:shadow-[0_20px_60px_rgba(92,50,16,0.08)] transition-all duration-700 bg-white border border-border/5">
-                <div className="w-full md:w-[45%] h-80 md:h-auto overflow-hidden relative">
+      {/* 2. THE CASTLE SANCTUARIES */}
+      <section className="py-24 px-6 section-layer-3 border-y border-border/10">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16 flex flex-col items-center reveal">
+            <span className="label-uppercase">The Sanctuaries</span>
+            <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-6">Private Rooms</h2>
+            <div className="w-16 h-px bg-accent-terracotta" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {roomTypes.map((room) => (
+              <div key={room.name} className="wedding-card group flex flex-col h-full !p-0 overflow-hidden">
+                <div className="aspect-[16/10] overflow-hidden depth-overlay relative">
                   <img
                     src={room.image}
                     alt={room.name}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 img-grain"
                   />
-                  <div className="absolute top-6 left-6">
-                    <span className="bg-white/95 backdrop-blur px-5 py-2.5 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold text-accent-terracotta shadow-lg">
-                      {room.rooms} Rooms
-                    </span>
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[9px] uppercase tracking-widest font-bold text-accent-terracotta shadow-sm">
+                    Limited Availability
                   </div>
                 </div>
                 <div className="w-full md:w-[55%] p-10 md:p-14 flex flex-col justify-center">
@@ -141,7 +145,7 @@ export function AccommodationPage() {
       </section>
 
       {/* 4. BOOKING PROCESS */}
-      <section className="py-32 px-6 bg-background">
+      <section className="py-32 px-6 section-layer-2">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-20">
             <span className="label-uppercase mb-4 block">The Process</span>
@@ -201,7 +205,7 @@ export function AccommodationPage() {
       </section>
 
       {/* FINAL RSVP CTA */}
-      <section className="bg-[#FBF9F4] py-32 px-6 border-t border-border/10">
+      <section className="section-layer-1 py-32 px-6 border-t border-border/10">
         <div className="max-w-2xl mx-auto text-center reveal">
           <span className="label-uppercase mb-6 block font-bold">Secure your Sanctuary</span>
           <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-8 italic">Rest at the Castle</h2>

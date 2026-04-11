@@ -10,8 +10,8 @@ export function TravelPage() {
     <div className="min-h-screen bg-background text-primary-text font-serif">
       <Navigation />
 
-      {/* 1. HERO - THE JOURNEY TITLE */}
-      <section className="relative pt-2 pb-16 px-6 bg-background overflow-hidden">
+      {/* 1. HERO - JOURNEY INTRO */}
+      <section className="relative pt-10 pb-20 px-6 overflow-hidden section-layer-1">
         {/* Arch Pattern Background - Identical to Home */}
         <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
 
@@ -26,13 +26,13 @@ export function TravelPage() {
       </section>
 
       {/* 2. THE MAP VISUAL */}
-      <section className="px-6 pb-20 bg-background relative z-10">
+      <section className="px-6 pb-20 relative z-10 section-layer-2 border-y border-border/10">
         <div className="max-w-4xl mx-auto reveal-scale">
-          <div className="relative p-2 bg-white shadow-2xl rounded-sm transform rotate-1 border border-border/10 ring-8 ring-white/5 transition-transform duration-1000 hover:rotate-0">
+          <div className="relative p-2 bg-white shadow-2xl rounded-sm transform rotate-1 border border-border/10 ring-8 ring-white/5 transition-transform duration-1000 hover:rotate-0 depth-overlay">
             <img
               src="/travel-map.png"
               alt="Andalusian Journey Map"
-              className="w-full h-auto opacity-100 mix-blend-multiply"
+              className="w-full h-auto opacity-100 mix-blend-multiply img-grain"
             />
           </div>
           <p className="text-center mt-10 text-secondary-text font-serif italic text-base opacity-70">
@@ -42,7 +42,7 @@ export function TravelPage() {
       </section>
 
       {/* 3. THE ARRIVAL - MÁLAGA */}
-      <section className="py-24 px-6 bg-[#F5EFEB] border-y border-border/10">
+      <section className="py-24 px-6 section-layer-1 border-b border-border/10">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-1 hidden lg:block" />
@@ -92,7 +92,7 @@ export function TravelPage() {
       </section>
 
       {/* 4. THE ASCENT - TRANSFERS & CARS */}
-      <section className="relative py-12 px-6 bg-background overflow-hidden">
+      <section className="relative py-12 px-6 section-layer-2 overflow-hidden border-b border-border/10">
         <div className="absolute inset-0 z-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -229,7 +229,7 @@ export function TravelPage() {
       </section>
 
       {/* 6. TRAVELER'S POCKET GUIDE (ENHANCED) */}
-      <section className="py-12 px-6 bg-[#F5EFEB] font-sans">
+      <section className="py-12 px-6 section-layer-3 font-sans">
         <div className="max-w-5xl mx-auto">
           {/* JOURNEY TIMELINE */}
           <div className="max-w-3xl mx-auto mb-8 relative">

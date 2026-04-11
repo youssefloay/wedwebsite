@@ -157,33 +157,35 @@ export function Home() {
       </section>
 
       {/* 2. OUR STORY SECTION */}
-      <section id="story" className="section-container">
-        <div className="text-center mb-16 flex flex-col items-center">
-          <span className="label-uppercase">Our Story</span>
-          <h2 className="text-5xl md:text-6xl font-serif text-primary-text leading-[1.1] mb-6 max-w-3xl">
-            A journey between <br className="hidden md:block" /> two worlds
-          </h2>
-          <div className="w-16 h-px bg-accent-terracotta" />
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className="order-2 lg:order-1 -mx-6 md:mx-0 overflow-hidden shadow-sm lg:w-full">
-            <img
-              src="/story-photo.jpg"
-              alt="Lama & Álvaro"
-              className="w-full h-auto object-cover max-h-[700px] md:rounded-2xl lg:aspect-[4/5] lg:max-h-none"
-            />
+      <section id="story" className="section-layer-2 py-32">
+        <div className="section-container">
+          <div className="text-center mb-16 flex flex-col items-center reveal">
+            <span className="label-uppercase">Our Story</span>
+            <h2 className="text-5xl md:text-6xl font-serif text-primary-text leading-[1.1] mb-6 max-w-3xl">
+              A journey between <br className="hidden md:block" /> two worlds
+            </h2>
+            <div className="w-16 h-px bg-accent-terracotta" />
           </div>
 
-          <div className="order-1 lg:order-2 space-y-12 lg:text-left text-center flex flex-col items-center lg:items-start reveal">
-            <div className="space-y-8">
-              <p className="text-lg md:text-xl text-secondary-text leading-relaxed font-serif italic mb-10">
-                Our story is a weave of two cultures, six languages, and one shared dream. From the vibrant energy of Cairo to the historic charm of Madrid, we have found our home in each other.
-              </p>
-              <div className="pt-4">
-                <Link to="/rsvp" className="btn-primary inline-flex">
-                  Begin your RSVP
-                </Link>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="order-2 lg:order-1 -mx-6 md:mx-0 overflow-hidden shadow-2xl lg:w-full rounded-2xl depth-overlay">
+              <img
+                src="/story-photo.jpg"
+                alt="Lama & Álvaro"
+                className="w-full h-auto object-cover max-h-[700px] lg:aspect-[4/5] lg:max-h-none img-grain"
+              />
+            </div>
+
+            <div className="order-1 lg:order-2 space-y-12 lg:text-left text-center flex flex-col items-center lg:items-start reveal">
+              <div className="space-y-8">
+                <p className="text-lg md:text-xl text-secondary-text leading-relaxed font-serif italic mb-10">
+                  Our story is a weave of two cultures, six languages, and one shared dream. From the vibrant energy of Cairo to the historic charm of Madrid, we have found our home in each other.
+                </p>
+                <div className="pt-4">
+                  <Link to="/rsvp" className="btn-primary inline-flex">
+                    Begin your RSVP
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -191,7 +193,7 @@ export function Home() {
       </section>
 
       {/* 3. DRESS CODE SECTION - MOVED BEFORE SCHEDULE */}
-      <section id="dress-code" className="max-w-7xl mx-auto px-6 pt-12 pb-32 relative">
+      <section id="dress-code" className="section-layer-1 px-6 pt-12 pb-32 relative">
         <div className="text-center mb-16 flex flex-col items-center">
           <span className="label-uppercase">Dress Code</span>
           <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-6 italic">Black Tie & Color</h2>
@@ -250,7 +252,7 @@ export function Home() {
       </section>
 
       {/* 4. CELEBRATION SECTION (MOVED AFTER DRESS CODE) */}
-      <section id="schedule" className="bg-[#F5EFEB] py-32 px-6 border-y border-border/10">
+      <section id="schedule" className="section-layer-3 py-32 px-6 border-y border-border/10">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20 flex flex-col items-center">
             <span className="label-uppercase">The Celebration</span>
@@ -324,7 +326,7 @@ export function Home() {
       </section>
 
       {/* 5. RSVP SECTION */}
-      <section id="rsvp" className="bg-[#FBF9F4] py-32 px-6 border-t border-border/10">
+      <section id="rsvp" className="section-layer-2 py-32 px-6 border-t border-border/10">
         <div className="max-w-2xl mx-auto">
           <div className="text-center">
             <span className="label-uppercase mb-4 block">RSVP</span>

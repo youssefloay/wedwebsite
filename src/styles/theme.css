@@ -8,7 +8,9 @@
   --accent-beige: #A08F7A;
   --accent-terracotta: #B57548;
   --card-background: #FBF9F4;
-  --border: rgba(92, 50, 16, 0.12);
+  --bg-subtle: #FAF9F6;
+  --bg-deep: #F5EFEB;
+  --border: rgba(92, 50, 16, 0.08);
   
   /* Spacing System */
   --section-spacing: 120px;
@@ -82,7 +84,7 @@
     width: 100%;
     height: 100%;
     background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
-    opacity: 0.12;
+    opacity: 0.08;
     pointer-events: none;
     z-index: 50;
   }
@@ -172,15 +174,45 @@
     border-radius: var(--border-radius);
     padding: var(--card-padding);
     border: 1px solid var(--border);
-    box-shadow: 0 4px 30px rgba(92, 50, 16, 0.02);
+    box-shadow: 
+      0 4px 30px rgba(92, 50, 16, 0.02),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.4);
     transition: all var(--transition-duration) var(--transition-ease);
+    position: relative;
+    overflow: hidden;
   }
 
   .wedding-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 20px 60px rgba(92, 50, 16, 0.06);
-    border-color: rgba(92, 50, 16, 0.2);
+    box-shadow: 
+      0 20px 60px rgba(92, 50, 16, 0.06),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    border-color: rgba(92, 50, 16, 0.15);
   }
+
+  /* Visual Depth Utilities */
+  .depth-overlay {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .depth-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, rgba(92, 50, 16, 0.03));
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .img-grain {
+    filter: contrast(1.05) brightness(0.98);
+    position: relative;
+  }
+
+  .section-layer-1 { background-color: var(--background); }
+  .section-layer-2 { background-color: var(--bg-subtle); }
+  .section-layer-3 { background-color: var(--bg-deep); }
 
   /* CTA System */
   .btn-primary {
