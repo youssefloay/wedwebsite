@@ -25,10 +25,6 @@ export function FaqPage() {
       a: "Absolutely. For our Egyptian guests or anyone requiring a Schengen visa, you can request a formal invitation and hotel confirmation letter directly through the RSVP process. We recommend applying 3-4 months in advance." 
     },
     { 
-      q: "Are children invited?", 
-      a: "While we love your little ones, our celebration at the Castillo will be an adults-only event to allow everyone to relax and enjoy the evening to the fullest." 
-    },
-    { 
       q: "Is there parking at the venue?", 
       a: "Yes, limited parking is available at the Castillo de Monda. For those staying in the village or using our assisted transfers, shuttle options will be coordinated." 
     },
