@@ -57,7 +57,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-accent-terracotta/40;
   }
 
   body {
@@ -169,7 +169,7 @@
 
   /* CTA System */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-10 py-5 text-white transition-all duration-500;
+    @apply inline-flex items-center justify-center px-10 py-5 text-white transition-all duration-500 outline-none focus-visible:ring-4 focus-visible:ring-secondary-text/30;
     position: relative;
     overflow: hidden;
     background-color: #6F7F6C;
@@ -179,7 +179,7 @@
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    box-shadow: 0 4px 15px rgba(92, 50, 16, 0.12);
+    box-shadow: 0 4px 15px rgba(92, 50, 16, 0.1);
     z-index: 1;
   }
 
@@ -187,7 +187,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    opacity: 0.25;
+    opacity: 0.4;
     pointer-events: none;
     z-index: -1;
     /* Intricate Interlaced Horseshoe Arches in Beige */
@@ -198,9 +198,9 @@
   }
 
   .btn-primary:hover {
-    background-color: #5a6758;
+    background-color: #5d6d5a;
     transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 8px 25px rgba(92, 50, 16, 0.2);
+    box-shadow: 0 8px 25px rgba(92, 50, 16, 0.15);
   }
 
   .btn-primary-white {
