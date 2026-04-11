@@ -56,7 +56,10 @@ export function Navigation() {
             />
 
             {navLinks.map(({ to, label, icon: Icon }) => {
-              const active = location.pathname === to.split('?')[0];
+              const linkPath = to.split('?')[0];
+              const normalizedPath = linkPath.startsWith('/') ? linkPath : `/${linkPath}`;
+              const active = location.pathname === normalizedPath;
+              
               return (
                 <Link
                   key={to}
