@@ -25,9 +25,9 @@ export function GiftsPage() {
   return (
     <div className="min-h-screen bg-background text-primary-text font-serif">
       <Navigation />
-      
+
       {/* 1. HERO */}
-      <section className="relative pt-12 pb-20 px-6 overflow-hidden text-center">
+      <section className="relative pt-2 pb-20 px-6 overflow-hidden text-center">
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         <div className="relative z-10 max-w-3xl mx-auto">
           <span className="label-uppercase mb-6 block">Gifting</span>
@@ -46,7 +46,7 @@ export function GiftsPage() {
             <div className="max-w-2xl mx-auto space-y-8">
               <h2 className="text-3xl font-serif text-primary-text italic">A Heartfelt Note</h2>
               <p className="text-xl md:text-2xl text-secondary-text leading-relaxed font-serif italic">
-                We are incredibly fortunate to already have a home filled with everything we could possibly need. 
+                We are incredibly fortunate to already have a home filled with everything we could possibly need.
               </p>
               <p className="text-lg text-secondary-text leading-relaxed font-serif px-4">
                 Should you wish to honor us with a gesture, a <span className="text-accent-terracotta underline font-bold">monetary contribution</span> towards buying our future home and our upcoming adventures would be most appreciated.
@@ -105,15 +105,14 @@ export function GiftsPage() {
               <button
                 key={region.id}
                 onClick={() => {
-                   setActiveRegion(region.id as Region);
-                   if (region.id === 'switzerland') setRevolutMode('chf');
-                   else setRevolutMode('scan');
+                  setActiveRegion(region.id as Region);
+                  if (region.id === 'switzerland') setRevolutMode('chf');
+                  else setRevolutMode('scan');
                 }}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full text-[10px] uppercase tracking-widest transition-all duration-500 font-bold border ${
-                  activeRegion === region.id 
-                    ? 'bg-primary-text text-white border-primary-text shadow-lg scale-105' 
+                className={`flex items-center gap-2 px-6 py-3 rounded-full text-[10px] uppercase tracking-widest transition-all duration-500 font-bold border ${activeRegion === region.id
+                    ? 'bg-primary-text text-white border-primary-text shadow-lg scale-105'
                     : 'bg-white text-secondary-text border-border hover:border-accent-terracotta hover:text-accent-terracotta'
-                }`}
+                  }`}
               >
                 {region.icon}
                 {region.label}
@@ -147,8 +146,8 @@ export function GiftsPage() {
                 <div className="w-full max-w-md space-y-6 animate-in fade-in zoom-in-95 duration-700">
                   <div className="bg-accent-terracotta/[0.03] p-5 rounded-2xl border border-accent-terracotta/20 mb-8">
                     <div className="flex justify-between items-center mb-2">
-                       <span className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold italic">Required Reference</span>
-                       <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className="text-[9px] font-bold text-accent-terracotta uppercase">{copiedId === 'rev-chf-ref' ? 'Copied' : 'Copy'}</button>
+                      <span className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold italic">Required Reference</span>
+                      <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className="text-[9px] font-bold text-accent-terracotta uppercase">{copiedId === 'rev-chf-ref' ? 'Copied' : 'Copy'}</button>
                     </div>
                     <span className="text-xl font-bold text-accent-terracotta font-mono tracking-tight underline decoration-dotted underline-offset-4">LAMA LOAY, CH</span>
                   </div>
@@ -173,9 +172,9 @@ export function GiftsPage() {
                     <button onClick={() => handleCopy('@lamaloay', 'rev-tag')} className={`btn-primary px-12 py-4 rounded-full text-xs transition-all ${copiedId === 'rev-tag' ? 'bg-green-500' : ''}`}>
                       {copiedId === 'rev-tag' ? 'Tag Copied!' : 'Copy Tag to Clipboard'}
                     </button>
-                    <a 
-                      href="https://revolut.me/lamaloay" 
-                      target="_blank" 
+                    <a
+                      href="https://revolut.me/lamaloay"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold flex items-center justify-center gap-2 hover:underline"
                     >
@@ -280,30 +279,30 @@ export function GiftsPage() {
           {isTwint ? <Smartphone size={24} className="text-accent-terracotta/30" /> : <CreditCard size={24} className="text-accent-terracotta/30" />}
         </div>
         <div className="space-y-5">
-           <div className="flex flex-col items-start border-b border-border/5 pb-3 w-full">
-             <span className="text-[9px] uppercase tracking-widest text-secondary-text mb-1">Holder</span>
-             <span className="text-sm font-medium">{holder}</span>
-           </div>
-           <div className={`space-y-4 transition-all duration-700 overflow-hidden ${isShowing ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
-              <div className="flex flex-col items-start gap-1">
-                <div className="flex justify-between w-full">
-                  <span className="text-[9px] uppercase tracking-widest text-secondary-text">{isTwint ? 'Number' : 'IBAN'}</span>
-                  <button onClick={() => handleCopy(ival, bank + '-num')} className="text-[8px] text-accent-terracotta uppercase font-bold">{copiedId === bank + '-num' ? 'Copied' : 'Copy'}</button>
-                </div>
-                <span className="text-xs font-mono break-all bg-[#FBF9F4] p-3 rounded-lg w-full border border-border/10">{ival}</span>
+          <div className="flex flex-col items-start border-b border-border/5 pb-3 w-full">
+            <span className="text-[9px] uppercase tracking-widest text-secondary-text mb-1">Holder</span>
+            <span className="text-sm font-medium">{holder}</span>
+          </div>
+          <div className={`space-y-4 transition-all duration-700 overflow-hidden ${isShowing ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
+            <div className="flex flex-col items-start gap-1">
+              <div className="flex justify-between w-full">
+                <span className="text-[9px] uppercase tracking-widest text-secondary-text">{isTwint ? 'Number' : 'IBAN'}</span>
+                <button onClick={() => handleCopy(ival, bank + '-num')} className="text-[8px] text-accent-terracotta uppercase font-bold">{copiedId === bank + '-num' ? 'Copied' : 'Copy'}</button>
               </div>
-              {!isTwint && bic && (
-                <div className="flex justify-between items-center py-2 border-t border-border/10">
-                  <span className="text-[9px] uppercase tracking-widest text-secondary-text">BIC/SWIFT</span>
-                  <span className="text-xs font-bold font-mono">{bic}</span>
-                </div>
-              )}
-              {!isTwint && renderReferenceBlock(bank + '-ref')}
-              {address && <p className="text-[9px] italic text-secondary-text mt-2">{address}</p>}
-           </div>
-           <button onClick={() => setShowDetails(isShowing ? null : bank)} className="w-full py-4 border border-border/10 rounded-2xl text-[10px] uppercase font-bold tracking-[0.2em] hover:bg-accent-terracotta hover:text-white transition-all shadow-sm">
-              {isShowing ? 'Hide Details' : `Show ${bank} Details`}
-           </button>
+              <span className="text-xs font-mono break-all bg-[#FBF9F4] p-3 rounded-lg w-full border border-border/10">{ival}</span>
+            </div>
+            {!isTwint && bic && (
+              <div className="flex justify-between items-center py-2 border-t border-border/10">
+                <span className="text-[9px] uppercase tracking-widest text-secondary-text">BIC/SWIFT</span>
+                <span className="text-xs font-bold font-mono">{bic}</span>
+              </div>
+            )}
+            {!isTwint && renderReferenceBlock(bank + '-ref')}
+            {address && <p className="text-[9px] italic text-secondary-text mt-2">{address}</p>}
+          </div>
+          <button onClick={() => setShowDetails(isShowing ? null : bank)} className="w-full py-4 border border-border/10 rounded-2xl text-[10px] uppercase font-bold tracking-[0.2em] hover:bg-accent-terracotta hover:text-white transition-all shadow-sm">
+            {isShowing ? 'Hide Details' : `Show ${bank} Details`}
+          </button>
         </div>
       </div>
     );
