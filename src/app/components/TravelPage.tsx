@@ -137,11 +137,15 @@ export function TravelPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Link to="/rsvp" className="wedding-card !bg-transparent border-dashed border-border/40 hover:border-accent-terracotta/60 transition-all duration-300 group/card block">
-                    <h3 className="font-serif text-xl text-primary-text mb-2 italic">Car Rental</h3>
-                    <p className="text-[11px] text-secondary-text mb-4 leading-relaxed">Rentals available at Málaga Airport from €30/day. Please tell us your plans in the RSVP.</p>
-                    <div className="btn-secondary text-center">View Details</div>
-                  </Link>
+                  <div className="wedding-card !bg-transparent border-dashed border-border/40 transition-all duration-300 group/card block">
+                    <h3 className="font-serif text-xl text-primary-text mb-4 italic">Car Rental</h3>
+                    <p className="text-[12px] text-secondary-text mb-2 leading-relaxed opacity-80">
+                      Rentals are available directly at Málaga Airport from €30/day. Major agencies are located on-site at Terminal 2 & 3, with additional budget options via 2-minute shuttles.
+                    </p>
+                    <p className="text-[12px] text-secondary-text leading-relaxed opacity-80">
+                      We recommend booking in advance for the best rates and a smooth 45-minute scenic journey up to the hills of Monda.
+                    </p>
+                  </div>
 
                   <div className="wedding-card !bg-transparent border-dashed border-border/40 group/card block">
                     <h3 className="font-serif text-xl text-primary-text mb-2 italic">Free Parking</h3>
