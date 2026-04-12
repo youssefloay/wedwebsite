@@ -216,7 +216,7 @@
 
   /* Primary CTA - Olive Green */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-10 text-white outline-none transition-all duration-500;
+    @apply inline-flex items-center justify-center px-8 text-white outline-none transition-all duration-500;
     height: 46px;
     background-color: #515C4C;
     border-radius: 999px;
@@ -240,7 +240,7 @@
 
   /* Secondary CTA - Outline */
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-10 transition-all duration-500;
+    @apply inline-flex items-center justify-center px-8 transition-all duration-500;
     height: 46px;
     background-color: transparent;
     border: 1px solid rgba(81, 92, 76, 0.3);
@@ -310,28 +310,6 @@
     transform: scale(0.98);
   }
 
-  .btn-secondary {
-    @apply inline-flex items-center justify-center px-10 py-5 transition-all duration-500;
-    background-color: transparent;
-    border: 1px solid rgba(92, 50, 16, 0.2);
-    color: var(--primary-text);
-    border-radius: 999px;
-    font-family: var(--font-cinzel);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .btn-secondary:hover {
-    background-color: rgba(92, 50, 16, 0.05);
-    border-color: rgba(92, 50, 16, 0.4);
-    transform: scale(1.02);
-  }
-
-  .btn-secondary:active {
-    transform: scale(0.98);
-  }
 
   .btn-tertiary {
     @apply inline-flex items-center justify-center text-secondary-text transition-all duration-300;

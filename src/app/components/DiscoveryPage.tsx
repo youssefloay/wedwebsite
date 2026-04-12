@@ -194,7 +194,7 @@ export function DiscoveryPage() {
           <p className="text-xl text-secondary-text font-serif italic mb-16 opacity-70 leading-relaxed">
             "We invite you to join us in Monda and write your own chapter of this story."
           </p>
-          <Link to="/rsvp" className="btn-primary-large inline-flex shadow-2xl shadow-accent-terracotta/10">
+          <Link to="/rsvp" className="btn-primary inline-flex shadow-2xl shadow-accent-terracotta/10">
              Confirm Attendance
           </Link>
         </div>
