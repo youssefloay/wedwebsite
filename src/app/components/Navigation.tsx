@@ -41,7 +41,7 @@ export function Navigation() {
     <>
       {/* ── UNIFIED BOTTOM NAV ── */}
       <nav 
-        className={`fixed bottom-10 md:bottom-12 inset-x-0 z-[100] flex justify-center px-4 pointer-events-none transition-all duration-700 ease-out ${
+        className={`fixed bottom-[max(1.5rem,env(safe-area-inset-bottom,1.5rem))] md:bottom-12 inset-x-0 z-[100] flex justify-center px-4 pointer-events-none transition-all duration-700 ease-out ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'
         }`}
       >
