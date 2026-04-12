@@ -9,7 +9,7 @@ export function TravelPage() {
     <div className="min-h-screen bg-background text-primary-text font-serif">
 
       {/* 1. HERO - JOURNEY INTRO */}
-      <section className="relative pt-10 pb-20 px-6 overflow-hidden section-layer-1">
+      <section className="relative pt-10 pb-0 px-6 overflow-hidden section-layer-1">
         {/* Arch Pattern Background - Identical to Home */}
         <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
 
@@ -24,7 +24,7 @@ export function TravelPage() {
       </section>
 
       {/* 2. THE MAP VISUAL */}
-      <section className="px-6 pb-20 relative z-10 section-layer-2 border-y border-border/10">
+      <section className="px-6 pt-0 pb-20 relative z-10 section-layer-2 border-y border-border/10">
         <div className="max-w-4xl mx-auto reveal-scale">
           <div className="relative p-2 bg-white shadow-2xl rounded-sm transform rotate-1 border border-border/10 ring-8 ring-white/5 transition-transform duration-1000 hover:rotate-0 depth-overlay">
             <img
