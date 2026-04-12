@@ -27,6 +27,107 @@ export function GiftsPage() {
     setActiveProvider(activeProvider === id ? null : id);
   };
 
+  // HELPER FUNCTIONS (Defined inside component scope)
+  function renderReferenceBlock(id: string) {
+    return (
+      <div className="bg-accent-terracotta/[0.03] p-4 rounded-xl border border-accent-terracotta/20 mt-4 text-left">
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold">Required Reference</span>
+          <button onClick={() => handleCopy('Wedding - [Your Name]', id)} className="text-[8px] font-bold text-accent-terracotta uppercase">
+            {copiedId === id ? 'Copied' : 'Copy'}
+          </button>
+        </div>
+        <span className="text-xs font-bold text-accent-terracotta font-mono uppercase tracking-tight">Wedding - [Your Name]</span>
+      </div>
+    );
+  }
+
+  function renderDetailRowSmall(label: string, value: string, copyId?: string) {
+    return (
+      <div className="flex flex-col gap-1 text-left border-b border-border/5 pb-4">
+        <div className="flex justify-between items-center">
+          <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold opacity-60">{label}</span>
+          {copyId && (
+            <button onClick={() => handleCopy(value, copyId)} className="text-[8px] uppercase tracking-widest text-accent-terracotta font-bold hover:underline">
+              {copiedId === copyId ? 'Copied' : 'Copy'}
+            </button>
+          )}
+        </div>
+        <span className="text-xs md:text-sm font-serif text-primary-text font-medium break-all">{value}</span>
+      </div>
+    );
+  }
+
+  function renderLocalCard(region: string, bank: string, holder: string, ival: string, bic: string, isTwint = false) {
+    const isOpen = activeProvider === bank;
+    return (
+      <div className={`wedding-card bg-white border border-border/10 transition-all duration-700 overflow-hidden ${isOpen ? 'shadow-xl border-accent-terracotta/20' : 'hover:border-accent-terracotta/20'}`}>
+         <button 
+           onClick={() => handleProviderToggle(bank)}
+           className="w-full p-8 flex justify-between items-center group"
+         >
+            <div className="flex flex-col items-start gap-1">
+               <div className="flex items-center gap-2">
+                   {isTwint ? <Smartphone size={14} className="text-accent-terracotta/40" /> : <MapPin size={14} className="text-accent-terracotta/40" />}
+                   <span className="label-uppercase text-[10px] tracking-[0.2em] opacity-60">{region} Local</span>
+               </div>
+               <h3 className="text-2xl md:text-3xl font-serif italic text-primary-text group-hover:text-accent-terracotta transition-colors">{bank}</h3>
+            </div>
+            <div className={`w-10 h-10 rounded-full border border-border/10 flex items-center justify-center transition-transform duration-500 ${isOpen ? 'rotate-180 bg-accent-terracotta text-white border-accent-terracotta' : 'text-secondary-text'}`}>
+               <ChevronDown size={20} strokeWidth={1.5} />
+            </div>
+         </button>
+
+         <AnimatePresence>
+            {isOpen && (
+              <motion.div 
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                 <div className="px-8 pb-12 pt-4 border-t border-border/5 space-y-8 overflow-hidden">
+                    <div className="flex flex-col items-start gap-1 pb-4 border-b border-border/5">
+                       <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold opacity-60">Account Holder</span>
+                       <span className="text-xl font-serif italic text-primary-text">{holder}</span>
+                    </div>
+                    
+                    <div className="space-y-6">
+                       <div className="flex flex-col items-start gap-2">
+                          <div className="flex justify-between w-full">
+                            <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold">{isTwint ? 'Number' : 'IBAN'}</span>
+                            <button onClick={() => handleCopy(ival, bank + '-num')} className="text-[9px] text-accent-terracotta uppercase font-bold hover:underline">{copiedId === bank + '-num' ? 'Copied' : 'Copy'}</button>
+                          </div>
+                          <span className="text-xs font-mono break-all bg-[#FBF9F4] p-4 rounded-xl w-full border border-border/10 leading-relaxed shadow-sm italic">
+                            {ival}
+                          </span>
+                       </div>
+                       {!isTwint && bic && (
+                          <div className="flex justify-between items-center py-4 border-t border-border/10">
+                            <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold">BIC / SWIFT</span>
+                            <span className="text-sm font-bold font-mono text-primary-text">{bic}</span>
+                          </div>
+                       )}
+                       {!isTwint && (
+                         <div className="bg-accent-terracotta/[0.03] p-4 rounded-xl border border-accent-terracotta/20 mt-4 text-left">
+                           <div className="flex justify-between items-center mb-1">
+                             <span className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold">Required Reference</span>
+                             <button onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} className="text-[8px] font-bold text-accent-terracotta uppercase">
+                               {copiedId === bank + '-ref' ? 'Copied' : 'Copy'}
+                             </button>
+                           </div>
+                           <span className="text-xs font-bold text-accent-terracotta font-mono uppercase tracking-tight">Wedding - [Your Name]</span>
+                         </div>
+                       )}
+                    </div>
+                 </div>
+              </motion.div>
+            )}
+         </AnimatePresence>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background text-primary-text font-serif">
       
@@ -281,107 +382,10 @@ export function GiftsPage() {
         </div>
       </section>
 
-      {/* HELPER FUNCTIONS (INTERNAL) */}
-      {function renderReferenceBlock(id: string) {
-        return (
-          <div className="bg-accent-terracotta/[0.03] p-4 rounded-xl border border-accent-terracotta/20 mt-4 text-left">
-            <div className="flex justify-between items-center mb-1">
-              <span className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold">Required Reference</span>
-              <button onClick={() => handleCopy('Wedding - [Your Name]', id)} className="text-[8px] font-bold text-accent-terracotta uppercase">
-                {copiedId === id ? 'Copied' : 'Copy'}
-              </button>
-            </div>
-            <span className="text-xs font-bold text-accent-terracotta font-mono uppercase tracking-tight">Wedding - [Your Name]</span>
-          </div>
-        );
-      }}
-
-      {function renderDetailRowSmall(label: string, value: string, copyId?: string) {
-        return (
-          <div className="flex flex-col gap-1 text-left border-b border-border/5 pb-4">
-            <div className="flex justify-between items-center">
-              <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold opacity-60">{label}</span>
-              {copyId && (
-                <button onClick={() => handleCopy(value, copyId)} className="text-[8px] uppercase tracking-widest text-accent-terracotta font-bold hover:underline">
-                  {copiedId === copyId ? 'Copied' : 'Copy'}
-                </button>
-              )}
-            </div>
-            <span className="text-xs md:text-sm font-serif text-primary-text font-medium break-all">{value}</span>
-          </div>
-        );
-      }}
-
-      {function renderLocalCard(region: string, bank: string, holder: string, ival: string, bic: string, isTwint = false) {
-        const isOpen = activeProvider === bank;
-        return (
-          <div className={`wedding-card bg-white border border-border/10 transition-all duration-700 overflow-hidden ${isOpen ? 'shadow-xl border-accent-terracotta/20' : 'hover:border-accent-terracotta/20'}`}>
-             <button 
-               onClick={() => handleProviderToggle(bank)}
-               className="w-full p-8 flex justify-between items-center group"
-             >
-                <div className="flex flex-col items-start gap-1">
-                   <div className="flex items-center gap-2">
-                       {isTwint ? <Smartphone size={14} className="text-accent-terracotta/40" /> : <MapPin size={14} className="text-accent-terracotta/40" />}
-                       <span className="label-uppercase text-[10px] tracking-[0.2em] opacity-60">{region} Local</span>
-                   </div>
-                   <h3 className="text-2xl md:text-3xl font-serif italic text-primary-text group-hover:text-accent-terracotta transition-colors">{bank}</h3>
-                </div>
-                <div className={`w-10 h-10 rounded-full border border-border/10 flex items-center justify-center transition-transform duration-500 ${isOpen ? 'rotate-180 bg-accent-terracotta text-white border-accent-terracotta' : 'text-secondary-text'}`}>
-                   <ChevronDown size={20} strokeWidth={1.5} />
-                </div>
-             </button>
-
-             <AnimatePresence>
-                {isOpen && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                     <div className="px-8 pb-12 pt-4 border-t border-border/5 space-y-8 overflow-hidden">
-                        <div className="flex flex-col items-start gap-1 pb-4 border-b border-border/5">
-                           <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold opacity-60">Account Holder</span>
-                           <span className="text-xl font-serif italic text-primary-text">{holder}</span>
-                        </div>
-                        
-                        <div className="space-y-6">
-                           <div className="flex flex-col items-start gap-2">
-                              <div className="flex justify-between w-full">
-                                <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold">{isTwint ? 'Number' : 'IBAN'}</span>
-                                <button onClick={() => handleCopy(ival, bank + '-num')} className="text-[9px] text-accent-terracotta uppercase font-bold hover:underline">{copiedId === bank + '-num' ? 'Copied' : 'Copy'}</button>
-                              </div>
-                              <span className="text-xs font-mono break-all bg-[#FBF9F4] p-4 rounded-xl w-full border border-border/10 leading-relaxed shadow-sm italic">
-                                {ival}
-                              </span>
-                           </div>
-                           {!isTwint && bic && (
-                              <div className="flex justify-between items-center py-4 border-t border-border/10">
-                                <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold">BIC / SWIFT</span>
-                                <span className="text-sm font-bold font-mono text-primary-text">{bic}</span>
-                              </div>
-                           )}
-                           {!isTwint && (
-                             <div className="bg-accent-terracotta/[0.03] p-4 rounded-xl border border-accent-terracotta/20 mt-4 text-left">
-                               <div className="flex justify-between items-center mb-1">
-                                 <span className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold">Required Reference</span>
-                                 <button onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} className="text-[8px] font-bold text-accent-terracotta uppercase">
-                                   {copiedId === bank + '-ref' ? 'Copied' : 'Copy'}
-                                 </button>
-                               </div>
-                               <span className="text-xs font-bold text-accent-terracotta font-mono uppercase tracking-tight">Wedding - [Your Name]</span>
-                             </div>
-                           )}
-                        </div>
-                     </div>
-                  </motion.div>
-                )}
-             </AnimatePresence>
-          </div>
-        );
-      }}
-
     </div>
   );
 }
+
+const ExternalLink = ({ size }: { size: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+);
