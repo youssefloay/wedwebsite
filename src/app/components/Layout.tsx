@@ -3,10 +3,15 @@ import { ScrollToTop } from "./ScrollToTop";
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Navigation } from "./Navigation";
+import { ChevronUp } from 'lucide-react';
 
 export function Layout() {
   const location = useLocation();
   const isHome = location.pathname === "/";
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="overflow-clip min-h-screen flex flex-col relative bg-background">
@@ -50,6 +55,18 @@ export function Layout() {
             Con todo nuestro amor
           </p>
         </div>
+
+        <button 
+          onClick={scrollToTop}
+          className="mt-12 flex flex-col items-center gap-3 group transition-all duration-700"
+        >
+          <div className="w-10 h-10 rounded-full border border-accent-terracotta/20 flex items-center justify-center text-accent-terracotta group-hover:bg-accent-terracotta group-hover:text-white transition-all duration-700 shadow-sm">
+            <ChevronUp size={16} />
+          </div>
+          <span className="label-uppercase text-[8px] tracking-[0.4em] text-accent-beige group-hover:text-accent-terracotta transition-colors">
+            Return to Beginning
+          </span>
+        </button>
 
         {/* Subtle Decorative Arch */}
         <div className="mt-12 opacity-10">
