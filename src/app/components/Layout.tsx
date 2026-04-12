@@ -9,7 +9,7 @@ export function Layout() {
   const isHome = location.pathname === "/";
 
   return (
-    <div className="overflow-x-hidden min-h-screen flex flex-col relative bg-background">
+    <div className="overflow-clip min-h-screen flex flex-col relative bg-background">
       <Navigation />
 
       {/* Global Header Logo - Only shown on sub-pages */}
