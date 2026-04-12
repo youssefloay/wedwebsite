@@ -118,7 +118,7 @@ export function TravelPage() {
               <div className="space-y-6">
                 <div className="wedding-card group hover:shadow-2xl transition-all duration-700 bg-white/40 border border-border/5">
                   <div className="flex justify-between items-center mb-8">
-                    <h3 className="font-serif text-3xl text-primary-text italic">Private Transfers</h3>
+                    <h3 className="font-serif text-3xl text-primary-text italic">Hotel Transfers</h3>
                     <div className="p-2 bg-accent-terracotta/5 rounded-full"><Car size={24} className="text-accent-terracotta" /></div>
                   </div>
                   <div className="space-y-5 mb-10">
@@ -130,6 +130,9 @@ export function TravelPage() {
                       <span className="text-primary-text font-serif text-lg">Private Van (7 guests)</span>
                       <span className="font-serif text-xl text-primary-text">€150–160</span>
                     </div>
+                    <p className="text-[11px] text-secondary-text font-serif italic opacity-70 leading-relaxed text-center px-4">
+                      *We can help coordinate shared transfers to split costs among guests, though this is not guaranteed.
+                    </p>
                   </div>
                   <Link to="/rsvp" className="btn-primary w-full">
                     Coordinate Transfer
