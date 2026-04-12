@@ -53,7 +53,7 @@ export function FaqPage() {
       </section>
 
       {/* FAQ ACCORDION SECTION */}
-      <section className="pt-0 pb-12 px-6 section-layer-2 border-y border-border/10">
+      <section className="pt-0 pb-24 px-6 section-layer-2 border-y border-border/10">
         <div className="max-w-3xl mx-auto reveal-scale">
           <div className="space-y-4">
             {faqs.map((item, idx) => (

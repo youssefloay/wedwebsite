@@ -24,7 +24,7 @@ export function TravelPage() {
       </section>
 
       {/* 2. THE MAP VISUAL */}
-      <section className="px-6 pt-0 pb-20 relative z-10 section-layer-2 border-y border-border/10">
+      <section className="px-6 pt-0 pb-24 relative z-10 section-layer-2 border-y border-border/10">
         <div className="max-w-4xl mx-auto reveal-scale">
           <div className="relative p-2 bg-white shadow-2xl rounded-sm transform rotate-1 border border-border/10 ring-8 ring-white/5 transition-transform duration-1000 hover:rotate-0 depth-overlay">
             <img

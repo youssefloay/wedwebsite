@@ -39,7 +39,7 @@ export function GiftsPage() {
       </section>
 
       {/* 2. THE NOTE */}
-      <section className="px-6 pb-12 bg-background reveal">
+      <section className="px-6 pb-24 bg-background reveal">
         <div className="max-w-4xl mx-auto">
           <div className="wedding-card bg-[#F5EFEB]/50 backdrop-blur-sm border-accent-terracotta/20 text-center py-16 px-8 md:px-16 hover:-translate-y-2 transition-all duration-700">
             <div className="max-w-2xl mx-auto space-y-8">

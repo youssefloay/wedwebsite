@@ -207,7 +207,7 @@ export function RsvpPage() {
     <div className="min-h-screen bg-background selection:bg-accent-terracotta/20">
 
       {!isSubmitted ? (
-        <div className="max-w-4xl mx-auto px-6 pt-10 pb-32">
+        <div className="max-w-4xl mx-auto px-6 pt-10 pb-24">
 
           {/* Sectional Header */}
           <div className="text-center mb-0 flex flex-col items-center reveal">

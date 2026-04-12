@@ -57,7 +57,7 @@ export function DiscoveryPage() {
       </section>
 
       {/* DISCOVERY GRID */}
-      <section className="py-0 px-6 section-layer-1">
+      <section className="pb-24 px-6 section-layer-1">
         <div className="max-w-7xl mx-auto">
           <div className="space-y-32">
             {discoveries.map((item, idx) => (
@@ -97,7 +97,7 @@ export function DiscoveryPage() {
       <section className="py-32 px-6 section-layer-3 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20 reveal">
-            <span className="label-uppercase mb-4 block">The Andalusian Ledger</span>
+            <span className="label-uppercase mb-4 block reveal">The Andalusian Ledger</span>
             <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic mb-6">Curated Experiences</h2>
             <div className="w-16 h-px bg-accent-terracotta/20 mx-auto" />
           </div>
