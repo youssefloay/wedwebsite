@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Heart, Globe, CreditCard, Copy, Check, Smartphone, Info, Sparkles, MapPin, ExternalLink, ChevronDown, Landmark, ArrowRight } from 'lucide-react';
+import { Heart, Globe, CreditCard, Copy, Check, Smartphone, Info, Sparkles, MapPin, ExternalLink, ChevronDown, Landmark, ArrowRight, PiggyBank } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 
@@ -30,79 +30,74 @@ export function GiftsPage() {
   const SITE_GREEN = '#515C4C'; 
   const SITE_BROWN = '#5C3210'; 
 
-  // 1. HELPER: Compact Detail Snippet
-  function renderDetailSnippet(label: string, value: string, copyId?: string) {
+  // 1. HELPER: Unified Detail Row (Architecturally consistent)
+  function renderDetailRow(label: string, value: string, copyId: string, isMono = false) {
     const isCopied = copiedId === copyId;
     return (
-      <div className="flex flex-col gap-1 py-3 border-b border-border/10 group/row text-left">
+      <div className="group/row flex flex-col gap-2 py-5 border-b border-accent-terracotta/10 last:border-0 text-left relative">
         <div className="flex justify-between items-center px-1">
-          <span className="text-[8px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel">{label}</span>
-          {copyId && (
-            <button 
-              onClick={() => handleCopy(value, copyId)} 
-              className={`text-[9px] uppercase tracking-widest font-bold transition-all duration-300 flex items-center gap-1.5 font-cinzel ${isCopied ? 'text-green-600' : 'text-accent-terracotta hover:opacity-100'}`}
-            >
-              {isCopied ? <Check size={10} strokeWidth={3} /> : <Copy size={10} strokeWidth={2.5} />}
-              {isCopied ? 'Copied' : 'Copy'}
-            </button>
-          )}
+          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel leading-none">{label}</span>
+          <button 
+            onClick={() => handleCopy(value, copyId)} 
+            className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 flex items-center gap-2 font-cinzel ${isCopied ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}
+          >
+            {isCopied ? <Check size={11} strokeWidth={3} /> : <Copy size={11} strokeWidth={2.5} />}
+            {isCopied ? 'Copied' : 'Copy'}
+          </button>
         </div>
-        <span className="text-[11px] md:text-xs font-mono text-primary-text leading-relaxed tracking-wider opacity-80 break-all bg-bg-subtle/50 p-3 rounded-lg border border-border/5 shadow-inner">
+        <span className={`text-xl md:text-2xl text-primary-text leading-tight ${isMono ? 'font-mono text-sm md:text-lg tracking-[0.1em] opacity-60' : 'font-serif italic'}`}>
            {value}
         </span>
       </div>
     );
   }
 
-  // 2. HELPER: Local Card
+  // 2. HELPER: Redesigned Local Card
   function renderLocalCard(region: string, bank: string, holder: string, ival: string, bic: string, isTwint = false) {
     const isOpen = activeProvider === bank;
     return (
-      <div className={`group wedding-card transition-all duration-700 overflow-hidden ${isOpen ? 'shadow-xl shadow-black/5 bg-white border-border/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
+      <div className={`group wedding-card transition-all duration-700 overflow-hidden ${isOpen ? 'shadow-xl shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
          <button 
            onClick={() => handleProviderToggle(bank)}
-           className={`w-full p-4 md:p-6 flex justify-between items-center text-left transition-colors duration-500 ${isOpen ? 'bg-bg-subtle' : ''}`}
+           className={`w-full p-6 md:p-8 flex justify-between items-center text-left transition-colors duration-500 ${isOpen ? 'bg-[#F5EFEB]/30' : ''}`}
          >
-            <div className="flex items-center gap-4">
-               <div className={`w-9 h-9 md:w-11 md:h-11 rounded-full border flex items-center justify-center transition-all duration-700 ${isOpen ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-white/50 text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}>
-                  {isTwint ? <Smartphone size={16} strokeWidth={1.5} /> : <Landmark size={16} strokeWidth={1.5} />}
+            <div className="flex items-center gap-6">
+               <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full border flex items-center justify-center transition-all duration-700 ${isOpen ? 'bg-[#515C4C] text-white border-[#515C4C]' : 'bg-white text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}>
+                  {isTwint ? <Smartphone size={18} strokeWidth={1.5} /> : <Landmark size={18} strokeWidth={1.5} />}
                </div>
                <div>
-                  <span className="block text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-40 font-cinzel">{region} Local</span>
-                  <h3 className={`text-lg md:text-xl font-cinzel transition-all duration-500 ${isOpen ? 'text-accent-terracotta' : 'text-primary-text'}`}>{bank}</h3>
+                  <span className="block text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-40 font-cinzel mb-1">{region} Local</span>
+                  <h3 className={`text-xl md:text-2xl font-cinzel tracking-[0.1em] transition-all duration-500 ${isOpen ? 'text-[#515C4C]' : 'text-primary-text'}`}>{bank}</h3>
                </div>
             </div>
-            <div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-500 ${isOpen ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}>
-               <ChevronDown size={14} strokeWidth={2.5} />
+            <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-500 ${isOpen ? 'rotate-180 bg-[#515C4C]/10 text-[#515C4C] border-[#515C4C]/20 font-bold' : 'text-secondary-text opacity-30 border-accent-terracotta/10 font-bold'}`}>
+               <ChevronDown size={14} strokeWidth={3} />
             </div>
          </button>
 
          <AnimatePresence>
             {isOpen && (
               <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                 <div className="px-6 pb-8 pt-4 border-t border-border/5 space-y-4 relative bg-bg-subtle/30 text-left overflow-hidden">
-                    <div className="flex flex-col gap-1 pb-3 border-b border-border/10 px-1">
-                       <div className="flex justify-between items-center">
-                          <span className="text-[8px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel">Account Holder</span>
-                          <button onClick={() => handleCopy(holder, bank + '-holder')} className={`text-[9px] uppercase font-bold font-cinzel transition-all duration-300 ${copiedId === bank + '-holder' ? 'text-green-600' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}>{copiedId === bank + '-holder' ? 'Copied' : 'Copy'}</button>
-                       </div>
-                       <span className="text-base md:text-lg font-serif italic text-primary-text">{holder}</span>
-                    </div>
+                 <div className="px-8 md:px-12 pb-12 pt-4 border-t border-border/5 bg-[#F5EFEB]/20 text-left overflow-hidden">
                     <div className="space-y-1">
-                       {renderDetailSnippet(isTwint ? 'Mobile Phone' : 'Full IBAN', ival, bank + '-num')}
-                       {!isTwint && bic && (
-                          <div className="flex flex-col gap-1 py-3 border-b border-border/10 px-1">
-                            <div className="flex justify-between items-center">
-                              <span className="text-[8px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel">BIC CODE</span>
-                              <button onClick={() => handleCopy(bic, bank + '-bic')} className={`text-[9px] uppercase font-bold font-cinzel transition-all duration-300 ${copiedId === bank + '-bic' ? 'text-green-600' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}>{copiedId === bank + '-bic' ? 'Copied' : 'Copy'}</button>
-                            </div>
-                            <span className="text-[11px] font-bold font-mono text-primary-text tracking-widest">{bic}</span>
-                          </div>
-                       )}
+                       {renderDetailRow('Account Holder', holder, bank + '-holder')}
+                       {renderDetailRow(isTwint ? 'Mobile Phone' : 'Full IBAN', ival, bank + '-num', !isTwint)}
+                       {!isTwint && bic && renderDetailRow('BIC Code', bic, bank + '-bic', true)}
+
                        {!isTwint && (
-                         <div className="bg-accent-terracotta/[0.04] p-3 md:p-4 rounded-xl border border-accent-terracotta/10 mt-4 relative overflow-hidden flex items-center justify-between shadow-sm">
-                            <div className="space-y-0.5"><span className="text-[8px] uppercase tracking-[0.4em] text-accent-terracotta font-bold block opacity-60 font-cinzel">Required Reference</span><span className="text-[11px] font-bold text-accent-terracotta font-mono uppercase tracking-tight">Wedding - [Your Name]</span></div>
-                            <button onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === bank + '-ref' ? 'bg-green-600 text-white' : 'bg-accent-terracotta text-white'}`}><Check size={12} /></button>
+                         <div className="group/row flex flex-col gap-2 py-6 border-t border-[#515C4C]/10 mt-6 relative">
+                            <div className="flex justify-between items-center px-2">
+                               <div className="flex items-center gap-2">
+                                  <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
+                                  <div className="w-1 h-1 rounded-full bg-[#515C4C]/40 animate-pulse" />
+                               </div>
+                               <button onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === bank + '-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
+                                  {copiedId === bank + '-ref' ? 'Copied' : 'Copy'}
+                               </button>
+                            </div>
+                            <span className="text-lg md:text-xl font-bold text-[#515C4C] font-mono uppercase tracking-tight opacity-70 px-1">
+                               Wedding - [Your Name]
+                            </span>
                          </div>
                        )}
                     </div>
@@ -117,41 +112,39 @@ export function GiftsPage() {
   return (
     <div className="min-h-screen bg-background text-primary-text font-cinzel">
       
-      {/* 1. RESTORED GRAND HEADER (Editorial Style) */}
+      {/* 1. RESTORED GRAND HEADER (Discovery Mirror) */}
       <section className="relative pt-12 pb-0 px-6 overflow-hidden text-center section-layer-1 border-b border-border/10">
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
         <div className="max-w-3xl mx-auto relative z-10 reveal">
-          <span className="label-uppercase mb-6 block capitalize tracking-[0.5em] text-[10px]">Gifting Registry</span>
-          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight tracking-tighter italic">Support Our Story</h1>
+          <span className="label-uppercase mb-6 block">Gifting Registry</span>
+          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight tracking-tighter">Support Our Story</h1>
           <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80">
-            "Your presence at our wedding is the greatest gift of all. Should you wish to honor us with a gesture, a contribution towards our future home would be deeply appreciated."
+            "Your presence at our wedding is the greatest gift of all."
           </p>
-          <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta opacity-40" />
+          <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta" />
         </div>
       </section>
 
-      {/* 2. THE NOTE */}
-      <section className="px-6 py-20 reveal">
+      {/* 2. THE NOTE (Private Celebration Mirror) */}
+      <section className="px-6 pb-24 bg-background reveal">
         <div className="max-w-4xl mx-auto">
-          <div className="wedding-card bg-bg-subtle backdrop-blur-xl border-border/10 text-center py-12 px-6 md:px-16 shadow-lg shadow-black/[0.02]">
-            <div className="max-w-2xl mx-auto space-y-6">
-              <h2 className="text-2xl md:text-3xl font-serif text-primary-text italic opacity-90 leading-tight">A Heartfelt Note</h2>
-              <p className="text-base md:text-lg text-secondary-text leading-relaxed font-serif italic opacity-80">
-                We are incredibly fortunate to already have a home filled with everything we could possibly need. 
+          <div className="wedding-card bg-[#F5EFEB]/50 backdrop-blur-sm border-accent-terracotta/20 text-center py-16 px-8 md:px-16 hover:-translate-y-2 transition-all duration-700 shadow-lg shadow-black/[0.02]">
+            <div className="max-w-2xl mx-auto space-y-8">
+              <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic">A Heartfelt Note</h2>
+              <p className="text-lg md:text-xl text-secondary-text leading-relaxed uppercase tracking-[0.1em] opacity-80 font-cinzel">
+                We are incredibly fortunate to already have a home filled with <span className="text-primary-text font-bold">everything we could possibly need</span>. 
               </p>
-              <p className="text-sm text-secondary-text leading-relaxed font-serif px-4 opacity-60">
-                Should you wish to honor us with a gesture, a <span className="text-accent-terracotta underline decoration-accent-terracotta/20 underline-offset-8 font-bold italic">monetary contribution</span> towards our future sanctuary would be most appreciated.
+              <p className="text-[10px] md:text-xs text-secondary-text tracking-[0.3em] uppercase leading-relaxed font-cinzel py-2 md:py-4 border-y border-accent-terracotta/10">
+                Should you wish to honor us with a gesture, a contribution towards our future sanctuary would be most appreciated.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. DYNAMIC TRANSFERS */}
+      {/* 3. DYNAMIC TRANSFERS (Selection Panel) */}
       <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
-        
-        {/* REGION SELECTION PANEL */}
         <section className="flex flex-col items-center gap-8 mb-16 relative">
           <div className="flex flex-col items-center gap-3 text-center">
              <span className="label-uppercase tracking-[0.5em]">Selection</span>
@@ -171,7 +164,7 @@ export function GiftsPage() {
                 }`}
               >
                 {activeRegion === region.id && (
-                  <motion.div layoutId="activeRegionPillFinalRestoredV2" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SITE_GREEN }} initial={false} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />
+                  <motion.div layoutId="activeRegionPillMasterFinal" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SITE_GREEN }} initial={false} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />
                 )}
                 {region.label}
               </button>
@@ -179,31 +172,67 @@ export function GiftsPage() {
           </div>
         </section>
 
-        {/* PROVIDER STACK */}
+        {/* PROVIDER STACK (Unified Architecture) */}
         <div className="max-w-2xl mx-auto space-y-6">
+          
           {/* A. REVOLUT (Hub) */}
-          <div className={`group wedding-card transition-all duration-700 overflow-hidden ${activeProvider === 'revolut' ? 'shadow-xl shadow-black/5 bg-white border-border/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
-             <button onClick={() => handleProviderToggle('revolut')} className={`w-full p-4 md:p-6 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'revolut' ? 'bg-bg-subtle' : ''}`}>
-                <div className="flex items-center gap-4">
-                   <div className={`w-9 h-9 md:w-11 md:h-11 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-white/50 text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><Sparkles size={16} strokeWidth={1.5} /></div>
-                   <div><span className="block text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-40 font-cinzel">Modern Global</span><h3 className={`text-lg md:text-xl font-cinzel transition-all duration-500 ${activeProvider === 'revolut' ? 'text-accent-terracotta' : 'text-primary-text'}`}>Revolut Hub</h3></div>
+          <div className={`group wedding-card transition-all duration-700 overflow-hidden ${activeProvider === 'revolut' ? 'shadow-xl shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
+             <button onClick={() => handleProviderToggle('revolut')} className={`w-full p-6 md:p-8 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'revolut' ? 'bg-[#F5EFEB]/30' : ''}`}>
+                <div className="flex items-center gap-6">
+                   <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'bg-[#515C4C] text-white border-[#515C4C]' : 'bg-white text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><Globe size={18} strokeWidth={1.5} /></div>
+                   <div><span className="block text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel mb-1">Modern Global</span><h3 className={`text-xl md:text-2xl font-cinzel tracking-[0.1em] transition-all duration-500 ${activeProvider === 'revolut' ? 'text-[#515C4C]' : 'text-primary-text'}`}>Revolut Hub</h3></div>
                 </div>
-                <div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-500 ${activeProvider === 'revolut' ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}><ChevronDown size={14} strokeWidth={2.5} /></div>
+                <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'rotate-180 bg-[#515C4C]/10 text-[#515C4C] border-[#515C4C]/20 font-bold' : 'text-secondary-text opacity-30 border-accent-terracotta/10 font-bold'}`}><ChevronDown size={14} strokeWidth={3} /></div>
              </button>
 
              <AnimatePresence>
                {activeProvider === 'revolut' && (
                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                    <div className="px-6 pb-8 pt-6 border-t border-border/5 space-y-8 overflow-hidden text-left bg-bg-subtle/30 relative">
+                    <div className="px-8 md:px-12 pb-12 pt-6 border-t border-border/5 space-y-8 overflow-hidden text-left bg-[#F5EFEB]/20 relative">
                        <div className="bg-white/80 p-1.5 rounded-full border border-border/10 flex gap-1 shadow-inner relative overflow-hidden isolate w-full max-w-[340px] mx-auto md:mx-0">
-                         <button onClick={() => setRevolutMode('tag')} className={`flex-1 relative py-3 rounded-full text-[9px] uppercase font-bold tracking-[0.15em] transition-all duration-500 z-10 font-cinzel ${revolutMode === 'tag' ? 'text-white' : 'text-secondary-text opacity-40 hover:opacity-100'}`}>{revolutMode === 'tag' && (<motion.div layoutId="revolutPillFinalRestoredV2" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SITE_GREEN }} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />)}Revolut Tag</button>
-                         {activeRegion !== 'switzerland' && (<button onClick={() => setRevolutMode('iban')} className={`flex-1 relative py-3 rounded-full text-[9px] uppercase font-bold tracking-[0.15em] transition-all duration-500 z-10 font-cinzel ${revolutMode === 'iban' ? 'text-white' : 'text-secondary-text opacity-40 hover:opacity-100'}`}>{revolutMode === 'iban' && (<motion.div layoutId="revolutPillFinalRestoredV2" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SITE_GREEN }} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />)}Euro IBAN</button>)}
-                         {activeRegion === 'switzerland' && (<button onClick={() => setRevolutMode('chf')} className={`flex-1 relative py-3 rounded-full text-[9px] uppercase font-bold tracking-[0.15em] transition-all duration-500 z-10 font-cinzel ${revolutMode === 'chf' ? 'text-white' : 'text-secondary-text opacity-40 hover:opacity-100'}`}>{revolutMode === 'chf' && (<motion.div layoutId="revolutPillFinalRestoredV2" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SITE_GREEN }} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />)}Swiss CHF</button>)}
+                         <button onClick={() => setRevolutMode('tag')} className={`flex-1 relative py-3 rounded-full text-[10px] uppercase font-bold tracking-[0.15em] transition-all duration-500 z-10 font-cinzel ${revolutMode === 'tag' ? 'text-white' : 'text-secondary-text opacity-40 hover:opacity-100'}`}>{revolutMode === 'tag' && (<motion.div layoutId="revolutPillMasterFinal" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SITE_GREEN }} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />)}Revolut Tag</button>
+                         {activeRegion !== 'switzerland' && (<button onClick={() => setRevolutMode('iban')} className={`flex-1 relative py-3 rounded-full text-[10px] uppercase font-bold tracking-[0.15em] transition-all duration-500 z-10 font-cinzel ${revolutMode === 'iban' ? 'text-white' : 'text-secondary-text opacity-40 hover:opacity-100'}`}>{revolutMode === 'iban' && (<motion.div layoutId="revolutPillMasterFinal" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SITE_GREEN }} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />)}Euro IBAN</button>)}
+                         {activeRegion === 'switzerland' && (<button onClick={() => setRevolutMode('chf')} className={`flex-1 relative py-3 rounded-full text-[10px] uppercase font-bold tracking-[0.15em] transition-all duration-500 z-10 font-cinzel ${revolutMode === 'chf' ? 'text-white' : 'text-secondary-text opacity-40 hover:opacity-100'}`}>{revolutMode === 'chf' && (<motion.div layoutId="revolutPillMasterFinal" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SITE_GREEN }} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />)}Swiss CHF</button>)}
                        </div>
-                       <div className="min-h-[200px] flex items-center justify-center pt-2">
-                          {revolutMode === 'chf' && activeRegion === 'switzerland' ? (<div className="w-full max-w-sm space-y-6"><div className="flex flex-col gap-1 pb-3 border-b border-border/10 px-1"><div className="flex justify-between items-center"><span className="text-[8px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel">Recipient Name</span><button onClick={() => handleCopy('Revolut Bank UAB', 'rev-chf-holder')} className={`text-[9px] uppercase font-bold font-cinzel transition-all duration-300 ${copiedId === 'rev-chf-holder' ? 'text-green-600' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}>{copiedId === 'rev-chf-holder' ? 'Copied' : 'Copy'}</button></div><span className="text-base md:text-lg font-serif italic text-primary-text tracking-wide">Revolut Bank UAB</span></div>{renderDetailSnippet('Swiss CHF IBAN', 'CH44 0900 0W0C 1638 5407 7', 'rev-chf-iban')}<div className="bg-accent-terracotta/5 p-4 rounded-xl border border-accent-terracotta/10 flex items-center justify-between shadow-sm"><div className="space-y-0.5"><span className="text-[8px] uppercase tracking-[0.4em] text-accent-terracotta font-bold block opacity-60 font-cinzel">Required Reference</span><span className="text-xs font-bold text-accent-terracotta font-mono tracking-tighter uppercase">LAMA LOAY, CH</span></div><button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === 'rev-chf-ref' ? 'bg-green-600 text-white' : 'bg-accent-terracotta text-white'}`}><Check size={12} /></button></div></div>
-                          ) : revolutMode === 'tag' ? (<div className="flex flex-col items-center gap-7 text-center w-full max-w-xs"><span className="text-4xl md:text-5xl font-serif text-primary-text italic tracking-tighter leading-none opacity-90 select-all">@lamaloay</span><div className="flex flex-col gap-4 w-full px-4"><button onClick={() => handleCopy('@lamaloay', 'rev-tag')} className="btn-primary w-full shadow-lg shadow-black/5" style={{ backgroundColor: SITE_GREEN }}>{copiedId === 'rev-tag' ? 'Username Copied!' : 'Copy Username'}</button><a href="https://revolut.me/lamaloay" target="_blank" rel="noopener noreferrer" className="text-[9px] uppercase tracking-[0.4em] text-accent-terracotta font-bold flex items-center justify-center gap-2 opacity-60 hover:opacity-100 transition-opacity font-cinzel">Open Revolut <ExternalLink size={10} /></a></div></div>
-                          ) : (<div className="w-full max-w-sm space-y-6"><div className="flex flex-col gap-1 pb-3 border-b border-border/10 px-1"><div className="flex justify-between items-center"><span className="text-[8px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel">Recipient Name</span><button onClick={() => handleCopy('LAMA LOAY', 'rev-euro-holder')} className={`text-[9px] uppercase font-bold font-cinzel transition-all duration-300 ${copiedId === 'rev-euro-holder' ? 'text-green-600' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}>{copiedId === 'rev-euro-holder' ? 'Copied' : 'Copy'}</button></div><span className="text-base md:text-lg font-serif italic text-primary-text tracking-wide">LAMA LOAY</span></div>{renderDetailSnippet('Euro IBAN Account', 'LT18 3250 0331 5970 5728', 'rev-euro-iban')}<div className="bg-accent-terracotta/5 p-4 rounded-xl border border-accent-terracotta/10 flex items-center justify-between shadow-sm"><div className="space-y-0.5"><span className="text-[8px] uppercase tracking-[0.4em] text-accent-terracotta font-bold block opacity-60 font-cinzel">Required Reference</span><span className="text-xs font-bold text-accent-terracotta font-mono tracking-tighter uppercase">Wedding - [Your Name]</span></div><button onClick={() => handleCopy('Wedding - [Your Name]', 'rev-euro-ref')} className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === 'rev-euro-ref' ? 'bg-green-600 text-white' : 'bg-accent-terracotta text-white'}`}><Check size={12} /></button></div></div>)}
+                       
+                       <div className="min-h-[140px] flex items-center justify-center pt-2">
+                          {revolutMode === 'chf' && activeRegion === 'switzerland' ? (
+                            <div className="w-full space-y-1">
+                               {renderDetailRow('Recipient Name', 'Revolut Bank UAB', 'rev-chf-holder')}
+                               {renderDetailRow('Swiss CHF IBAN', 'CH44 0900 0W0C 1638 5407 7', 'rev-chf-iban', true)}
+                               <div className="group/row flex flex-col gap-2 py-6 border-t border-[#515C4C]/10 mt-6 relative">
+                                  <div className="flex justify-between items-center px-1">
+                                     <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
+                                     <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === 'rev-chf-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
+                                        {copiedId === 'rev-chf-ref' ? 'Copied' : 'Copy'}
+                                     </button>
+                                  </div>
+                                  <span className="text-lg md:text-xl font-bold text-[#515C4C] font-mono uppercase tracking-tight opacity-70">LAMA LOAY, CH</span>
+                               </div>
+                            </div>
+                          ) : revolutMode === 'tag' ? (
+                            <div className="w-full space-y-1">
+                               {renderDetailRow('Username', '@lamaloay', 'rev-tag')}
+                               <div className="pt-8 flex flex-col items-center gap-4">
+                                  <a href="https://revolut.me/lamaloay" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-[0.4em] text-[#515C4C] font-bold flex items-center justify-center gap-2 opacity-60 hover:opacity-100 transition-opacity font-cinzel whitespace-nowrap">Open Revolut Secure Link <ExternalLink size={10} /></a>
+                                  <div className="w-1 h-1 rounded-full bg-[#515C4C]/20" />
+                               </div>
+                            </div>
+                          ) : (
+                            <div className="w-full space-y-1">
+                               {renderDetailRow('Recipient Name', 'LAMA LOAY', 'rev-euro-holder')}
+                               {renderDetailRow('Euro IBAN Account', 'LT18 3250 0331 5970 5728', 'rev-euro-iban', true)}
+                               <div className="group/row flex flex-col gap-2 py-6 border-t border-[#515C4C]/10 mt-6 relative">
+                                  <div className="flex justify-between items-center px-1">
+                                     <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
+                                     <button onClick={() => handleCopy('Wedding - [Your Name]', 'rev-euro-ref')} className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === 'rev-euro-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
+                                        {copiedId === 'rev-euro-ref' ? 'Copied' : 'Copy'}
+                                     </button>
+                                  </div>
+                                  <span className="text-lg md:text-xl font-bold text-[#515C4C] font-mono uppercase tracking-tight opacity-70">Wedding - [Your Name]</span>
+                               </div>
+                            </div>
+                          )}
                        </div>
                     </div>
                  </motion.div>
@@ -211,17 +240,23 @@ export function GiftsPage() {
              </AnimatePresence>
           </div>
 
-          {/* B. LOCAL OPTIONS */}
+          {/* B. LOCAL OPTIONS (Using Master Unified Helpers) */}
           {activeRegion === 'france' && renderLocalCard('France', 'BoursoBank', 'Lama Loay', 'FR76 4061 8803 3500 0402 2902 922', 'BOUS FRPP XXX')}
           {activeRegion === 'switzerland' && (
             <>{renderLocalCard('Switzerland', 'UBS', 'Lama Loay', 'CH16 0021 5215 1631 0340 Y', 'UBSWCHZH80A')}{renderLocalCard('Switzerland', 'TWINT', 'Lama Loay', '+41 76 701 34 52', '', true)}</>
           )}
 
-          {/* C. IN-PERSON WISHES */}
-          <div className={`group wedding-card transition-all duration-700 overflow-hidden ${activeProvider === 'inperson' ? 'shadow-xl shadow-black/5 bg-white border-border/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
-             <button onClick={() => handleProviderToggle('inperson')} className={`w-full p-4 md:p-6 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'inperson' ? 'bg-bg-subtle' : ''}`}><div className="flex items-center gap-4"><div className={`w-9 h-9 md:w-11 md:h-11 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-white/50 text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><Heart size={16} strokeWidth={1.5} /></div><div><span className="block text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-40 font-cinzel">Venue / Physical</span><h3 className={`text-lg md:text-xl font-cinzel transition-all duration-500 ${activeProvider === 'inperson' ? 'text-accent-terracotta' : 'text-primary-text'}`}>In-Person Wishes</h3></div></div><div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-500 ${activeProvider === 'inperson' ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}><ChevronDown size={14} strokeWidth={2.5} /></div></button>
+          {/* C. IN-PERSON WISHES (Master Architecture) */}
+          <div className={`group wedding-card transition-all duration-700 overflow-hidden ${activeProvider === 'inperson' ? 'shadow-xl shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
+             <button onClick={() => handleProviderToggle('inperson')} className={`w-full p-6 md:p-8 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'inperson' ? 'bg-[#F5EFEB]/30' : ''}`}>
+                <div className="flex items-center gap-6">
+                   <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'bg-[#515C4C] text-white border-[#515C4C]' : 'bg-white text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><PiggyBank size={18} strokeWidth={1.5} /></div>
+                   <div><span className="block text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel mb-1">Venue / Physical</span><h3 className={`text-xl md:text-2xl font-cinzel tracking-[0.1em] transition-all duration-500 ${activeProvider === 'inperson' ? 'text-[#515C4C]' : 'text-primary-text'}`}>In-Person Wishes</h3></div>
+                </div>
+                <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'rotate-180 bg-[#515C4C]/10 text-[#515C4C] border-[#515C4C]/20 font-bold' : 'text-secondary-text opacity-30 border-accent-terracotta/10 font-bold'}`}><ChevronDown size={14} strokeWidth={3} /></div>
+             </button>
              <AnimatePresence>
-                {activeProvider === 'inperson' && (<motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}><div className="px-8 pb-12 pt-8 border-t border-border/5 space-y-8 overflow-hidden text-center relative bg-bg-subtle/30"><div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-8 bg-gradient-to-b from-accent-terracotta/20 to-transparent" /><div className="max-w-md mx-auto space-y-6 relative z-10"><p className="text-lg md:text-xl text-secondary-text italic leading-relaxed font-serif pt-2 opacity-80">"For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace."</p><div className="pt-2 flex flex-col items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-accent-terracotta/30" /><span className="label-uppercase !mb-0 tracking-[0.6em] text-accent-terracotta opacity-60">Castillo de Monda</span></div></div></div></motion.div>)}
+                {activeProvider === 'inperson' && (<motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}><div className="px-12 pb-16 pt-12 border-t border-border/5 space-y-10 overflow-hidden text-center relative bg-[#F5EFEB]/20"><div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-10 bg-gradient-to-b from-accent-terracotta/20 to-transparent" /><div className="max-w-md mx-auto space-y-8 relative z-10"><p className="text-xl md:text-2xl text-secondary-text italic leading-relaxed font-serif pt-2 opacity-80">"For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace."</p><div className="pt-4 flex flex-col items-center gap-4"><div className="w-2 h-2 rounded-full bg-accent-terracotta/30 animate-pulse" /><span className="label-uppercase !mb-0 tracking-[0.6em] text-accent-terracotta opacity-60">Castillo de Monda</span></div></div></div></motion.div>)}
              </AnimatePresence>
           </div>
         </div>
