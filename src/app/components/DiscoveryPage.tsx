@@ -41,7 +41,7 @@ export function DiscoveryPage() {
     <div className="min-h-screen bg-background text-primary-text font-serif">
 
       {/* HERO SECTION */}
-      <section className="relative pt-10 pb-0 px-6 overflow-hidden text-center section-layer-1">
+      <section className="relative pt-10 pb-0 px-6 overflow-hidden text-center section-layer-1 border-b border-border/10">
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
         <div className="max-w-3xl mx-auto relative z-10 reveal">

@@ -9,7 +9,7 @@ export function TravelPage() {
     <div className="min-h-screen bg-background text-primary-text font-serif">
 
       {/* 1. HERO - JOURNEY INTRO */}
-      <section className="relative pt-10 pb-0 px-6 overflow-hidden section-layer-1">
+      <section className="relative pt-10 pb-0 px-6 overflow-hidden section-layer-1 border-b border-border/10">
         {/* Arch Pattern Background - Identical to Home */}
         <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
 

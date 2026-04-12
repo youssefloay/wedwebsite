@@ -204,7 +204,7 @@ export function Home() {
       </section>
 
       {/* 2. OUR STORY SECTION */}
-      <section id="story" className="section-layer-2">
+      <section id="story" className="section-layer-2 border-t border-border/10">
         <div className="section-container">
           <div className="text-center mb-16 flex flex-col items-center reveal">
             <span className="label-uppercase">Our Story</span>
@@ -240,7 +240,7 @@ export function Home() {
       </section>
 
       {/* 3. DRESS CODE SECTION - MOVED BEFORE SCHEDULE */}
-      <section id="dress-code" className="section-layer-1 px-6 pt-12 pb-32 relative">
+      <section id="dress-code" className="section-layer-1 px-6 pt-12 pb-32 relative border-t border-border/10">
         <div className="text-center mb-16 flex flex-col items-center">
           <span className="label-uppercase">Dress Code</span>
           <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-6 italic">Black Tie & Color</h2>
