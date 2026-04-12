@@ -94,7 +94,7 @@ export function AccommodationPage() {
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 img-grain"
                   />
                   <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[9px] uppercase tracking-widest font-extrabold text-[#515C4C] shadow-sm">
-                    {room.rooms === 1 ? 'Last Room' : `${room.rooms} Rooms`}
+                    {room.rooms === 1 ? '1 Room' : `${room.rooms} Rooms`}
                   </div>
                 </div>
                 <div className="w-full md:w-[55%] p-10 md:p-14 flex flex-col justify-center">
