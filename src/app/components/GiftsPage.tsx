@@ -51,7 +51,7 @@ export function GiftsPage() {
     );
   }
 
-  // 2. HELPER: Local Card (Warm Tonal Drawer)
+  // 2. HELPER: Local Card (Copy Enabled Drawer)
   function renderLocalCard(region: string, bank: string, holder: string, ival: string, bic: string, isTwint = false) {
     const isOpen = activeProvider === bank;
     return (
@@ -82,30 +82,46 @@ export function GiftsPage() {
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
-                 <div className="px-6 pb-8 pt-2 border-t border-accent-terracotta/5 space-y-4 relative bg-[#FBF9F4]/20 text-left overflow-hidden">
-                    <div className="flex flex-col gap-0.5 pb-2 border-b border-accent-terracotta/5">
-                       <span className="text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">Account Holder</span>
+                 <div className="px-6 pb-8 pt-4 border-t border-accent-terracotta/5 space-y-4 relative bg-[#FBF9F4]/20 text-left overflow-hidden">
+                    <div className="flex flex-col gap-1 pb-3 border-b border-accent-terracotta/5">
+                       <div className="flex justify-between items-center">
+                          <span className="text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">Account Holder</span>
+                          <button 
+                            onClick={() => handleCopy(holder, bank + '-holder')} 
+                            className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === bank + '-holder' ? 'text-green-500' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}
+                          >
+                            {copiedId === bank + '-holder' ? 'Copied' : 'Copy'}
+                          </button>
+                       </div>
                        <span className="text-base md:text-lg font-serif italic text-primary-text">{holder}</span>
                     </div>
                     
                     <div className="space-y-1">
                        {renderDetailSnippet(isTwint ? 'Mobile Phone' : 'Full IBAN', ival, bank + '-num')}
                        {!isTwint && bic && (
-                          <div className="flex justify-between items-center py-3 border-b border-accent-terracotta/5">
-                            <span className="text-[9px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">BIC CODE</span>
+                          <div className="flex flex-col gap-1 py-3 border-b border-accent-terracotta/5">
+                            <div className="flex justify-between items-center">
+                              <span className="text-[9px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">BIC CODE</span>
+                              <button 
+                                onClick={() => handleCopy(bic, bank + '-bic')} 
+                                className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === bank + '-bic' ? 'text-green-500' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}
+                              >
+                                {copiedId === bank + '-bic' ? 'Copied' : 'Copy'}
+                              </button>
+                            </div>
                             <span className="text-xs font-bold font-mono text-primary-text tracking-widest">{bic}</span>
                           </div>
                        )}
                        
                        {!isTwint && (
-                         <div className="bg-accent-terracotta/[0.04] p-3 rounded-xl border border-accent-terracotta/10 mt-4 relative overflow-hidden group/ref flex items-center justify-between">
+                         <div className="bg-accent-terracotta/[0.04] p-3 rounded-xl border border-accent-terracotta/10 mt-4 relative overflow-hidden group/ref flex items-center justify-between shadow-sm">
                             <div className="space-y-0.5">
                                <span className="text-[8px] uppercase tracking-[0.3em] text-accent-terracotta font-bold block opacity-60">Required Reference</span>
                                <span className="text-xs font-bold text-accent-terracotta font-mono uppercase tracking-tight">Wedding - [Your Name]</span>
                             </div>
                             <button 
                               onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} 
-                              className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === bank + '-ref' ? 'bg-green-500 text-white' : 'bg-accent-terracotta/10 text-accent-terracotta hover:bg-accent-terracotta hover:text-white'}`}
+                              className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === bank + '-ref' ? 'bg-green-500 text-white' : 'bg-accent-terracotta text-white'}`}
                             >
                                {copiedId === bank + '-ref' ? <Check size={12} /> : <Copy size={12} />}
                             </button>
@@ -174,7 +190,7 @@ export function GiftsPage() {
               >
                 {activeRegion === region.id && (
                   <motion.div
-                    layoutId="activeRegionTabWarmerFinal"
+                    layoutId="activeRegionTabWarmerCopy"
                     className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1] shadow-md shadow-accent-terracotta/10"
                     initial={false}
                     transition={{ type: "spring", bounce: 0.1, duration: 0.6 }}
@@ -228,9 +244,20 @@ export function GiftsPage() {
                        <div className="min-h-[220px] flex items-center justify-center pt-1">
                           {revolutMode === 'chf' && activeRegion === 'switzerland' ? (
                             <div className="w-full max-w-sm space-y-4">
-                               {renderDetailSnippet('Recipient Name', 'Revolut Bank UAB')}
+                               <div className="flex flex-col gap-1 pb-3 border-b border-accent-terracotta/5">
+                                  <div className="flex justify-between items-center">
+                                    <span className="text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">Recipient Name</span>
+                                    <button 
+                                      onClick={() => handleCopy('Revolut Bank UAB', 'rev-chf-holder')} 
+                                      className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === 'rev-chf-holder' ? 'text-green-500' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}
+                                    >
+                                      {copiedId === 'rev-chf-holder' ? 'Copied' : 'Copy'}
+                                    </button>
+                                  </div>
+                                  <span className="text-base md:text-lg font-serif italic text-primary-text">Revolut Bank UAB</span>
+                               </div>
                                {renderDetailSnippet('Swiss CHF IBAN', 'CH44 0900 0W0C 1638 5407 7', 'rev-chf-iban')}
-                               <div className="bg-accent-terracotta/5 p-3 rounded-lg border border-accent-terracotta/10 flex items-center justify-between">
+                               <div className="bg-accent-terracotta/5 p-3 rounded-lg border border-accent-terracotta/10 flex items-center justify-between shadow-sm">
                                   <div className="space-y-0.5">
                                     <span className="text-[8px] uppercase tracking-[0.3em] text-accent-terracotta font-bold block opacity-60">Required Reference</span>
                                     <span className="text-xs font-bold text-accent-terracotta font-mono tracking-tighter">LAMA LOAY, CH</span>
@@ -254,9 +281,20 @@ export function GiftsPage() {
                             </div>
                           ) : (
                             <div className="w-full max-w-sm space-y-4">
-                               {renderDetailSnippet('Recipient Name', 'LAMA LOAY')}
+                               <div className="flex flex-col gap-1 pb-3 border-b border-accent-terracotta/5">
+                                  <div className="flex justify-between items-center">
+                                    <span className="text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">Recipient Name</span>
+                                    <button 
+                                      onClick={() => handleCopy('LAMA LOAY', 'rev-euro-holder')} 
+                                      className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === 'rev-euro-holder' ? 'text-green-500' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}
+                                    >
+                                      {copiedId === 'rev-euro-holder' ? 'Copied' : 'Copy'}
+                                    </button>
+                                  </div>
+                                  <span className="text-base md:text-lg font-serif italic text-primary-text">LAMA LOAY</span>
+                               </div>
                                {renderDetailSnippet('Euro IBAN Account', 'LT18 3250 0331 5970 5728', 'rev-euro-iban')}
-                               <div className="bg-accent-terracotta/5 p-3 rounded-lg border border-accent-terracotta/10 flex items-center justify-between">
+                               <div className="bg-accent-terracotta/5 p-3 rounded-lg border border-accent-terracotta/10 flex items-center justify-between shadow-sm">
                                   <div className="space-y-0.5">
                                     <span className="text-[8px] uppercase tracking-[0.3em] text-accent-terracotta font-bold block opacity-60">Required Reference</span>
                                     <span className="text-xs font-bold text-accent-terracotta font-mono tracking-tighter">Wedding - [Your Name]</span>
@@ -344,3 +382,7 @@ export function GiftsPage() {
     </div>
   );
 }
+
+const ExternalLink = ({ size }: { size: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-40 font-bold"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+);
