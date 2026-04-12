@@ -218,9 +218,6 @@ export function AccommodationPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="pt-8 pb-32 text-center border-t border-border bg-background">
-        <p className="label-uppercase mb-0">Lama & Álvaro · 2027</p>
-      </footer>
     </div>
   );
 }

@@ -712,9 +712,6 @@ export function RsvpPage() {
         </div>
       )}
 
-      <footer className="pt-8 pb-32 text-center border-t border-border bg-background">
-        <p className="label-uppercase tracking-[0.5em] mb-0 text-[11px]">Lama & Álvaro · 2027</p>
-      </footer>
     </div>
   );
 }
