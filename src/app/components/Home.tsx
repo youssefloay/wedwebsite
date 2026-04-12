@@ -296,73 +296,94 @@ export function Home() {
         </div>
       </section>
 
-      {/* 4. CELEBRATION SECTION (MOVED AFTER DRESS CODE) */}
+      {/* 4. CELEBRATION SECTION */}
       <section id="schedule" className="section-layer-3 py-32 px-6 border-y border-border/10">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20 flex flex-col items-center">
-            <span className="label-uppercase">The Celebration</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Wedding Schedule</h2>
+            <span className="label-uppercase mb-4 block opacity-60">The Weekend Chapter</span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-primary-text mb-6 italic">A Weekend in Monda</h2>
             <div className="w-16 h-px bg-accent-terracotta" />
-            <p className="mt-8 text-secondary-text font-serif italic max-w-none mx-auto w-full whitespace-nowrap text-lg md:text-xl">Saturday, 17th April 2027</p>
           </div>
 
-          <div className="relative">
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-accent-beige/40 to-transparent hidden md:block" />
-            
-            <div className="space-y-24">
-              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div className="md:text-right">
-                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">16:00</span>
-                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">The Ceremony</h3>
-                  <p className="text-secondary-text leading-relaxed max-w-xs md:ml-auto">Gathering at the historic chapel gardens for our exchange of vows.</p>
-                </div>
-                <div className="relative group max-w-[300px] mx-auto cursor-pointer">
-                  <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
-                  <div className="stamp-visual transform rotate-2 relative z-10 transition-transform duration-700 group-hover:scale-105">
-                    <img src="/ceremony.png" alt="Wedding Ceremony" className="stamp-image" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div className="order-2 md:order-1 relative group max-w-[300px] mx-auto cursor-pointer">
-                  <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
-                  <div className="stamp-visual transform -rotate-1 relative z-10 transition-transform duration-700 group-hover:scale-105">
-                    <img src="/cocktail_sketch.png" alt="Cocktail Hour" className="stamp-image" />
-                  </div>
-                </div>
-                <div className="order-1 md:order-2">
-                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">17:30</span>
-                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Sunset Cocktails</h3>
-                  <p className="text-secondary-text leading-relaxed max-w-xs">Hors d'oeuvres and signature drinks on the Mediterranean terrace.</p>
-                </div>
-              </div>
-
-              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-40">
+            {/* FRIDAY: THE WELCOME */}
+            <div className="reveal-scale">
+               <div className="flex flex-col items-center text-center mb-16">
+                  <span className="label-uppercase text-[10px] text-accent-terracotta tracking-[0.4em] mb-4">The Prelude</span>
+                  <h3 className="text-3xl md:text-4xl font-serif italic text-primary-text">Friday, 16th April</h3>
+                  <div className="w-8 h-px bg-accent-terracotta/20 mt-4" />
+               </div>
+               <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div className="md:text-right">
                   <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">19:30</span>
-                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Wedding Banquet</h3>
-                  <p className="text-secondary-text leading-relaxed max-w-xs md:ml-auto">A grand dinner celebration featuring local Andalusian delicacies.</p>
+                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Welcome Tapas</h3>
+                  <p className="text-secondary-text leading-relaxed max-w-xs md:ml-auto italic font-serif">A casual gathering in the shadow of the castle walls to welcome our travelers.</p>
                 </div>
-                <div className="relative group max-w-[300px] mx-auto cursor-pointer">
-                  <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
-                  <div className="stamp-visual transform rotate-1 relative z-10 transition-transform duration-700 group-hover:scale-105">
-                    <img src="/dinner.png" alt="Wedding Dinner" className="stamp-image" />
+                <div className="relative group max-w-[280px] mx-auto">
+                  <div className="stamp-visual transform -rotate-1 relative z-10">
+                    <img src="/cocktail_sketch.png" alt="Welcome Drinks" className="stamp-image opacity-80" />
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div className="order-2 md:order-1 relative group max-w-[300px] mx-auto cursor-pointer">
-                  <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
-                  <div className="stamp-visual transform -rotate-2 relative z-10 transition-transform duration-700 group-hover:scale-105">
-                    <img src="/party.png" alt="The Party" className="stamp-image" />
+            {/* SATURDAY: THE VOWS (Expanded from previous) */}
+            <div className="reveal-scale">
+               <div className="flex flex-col items-center text-center mb-16">
+                  <span className="label-uppercase text-[10px] text-accent-terracotta tracking-[0.4em] mb-4">The Main Event</span>
+                  <h3 className="text-3xl md:text-4xl font-serif italic text-primary-text">Saturday, 17th April</h3>
+                  <div className="w-8 h-px bg-accent-terracotta/20 mt-4" />
+               </div>
+               
+               <div className="relative">
+                  <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-accent-beige/40 to-transparent hidden md:block" />
+                  <div className="space-y-24">
+                    <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                      <div className="md:text-right">
+                        <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">16:00</span>
+                        <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">The Vows</h3>
+                        <p className="text-secondary-text leading-relaxed max-w-xs md:ml-auto">Gathering at the historic garden terrace for our exchange of vows.</p>
+                      </div>
+                      <div className="relative group max-w-[280px] mx-auto">
+                        <div className="stamp-visual transform rotate-2 relative z-10 transition-transform hover:scale-105 duration-700">
+                          <img src="/ceremony.png" alt="Wedding Ceremony" className="stamp-image" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                      <div className="order-2 md:order-1 relative group max-w-[280px] mx-auto">
+                        <div className="stamp-visual transform -rotate-1 relative z-10 transition-transform hover:scale-105 duration-700">
+                          <img src="/dinner.png" alt="Wedding Dinner" className="stamp-image" />
+                        </div>
+                      </div>
+                      <div className="order-1 md:order-2">
+                        <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">19:30</span>
+                        <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">The Celebration</h3>
+                        <p className="text-secondary-text leading-relaxed max-w-xs">An open-air banquet celebration featuring Andalusian winter's end delicacies.</p>
+                      </div>
+                    </div>
+                  </div>
+               </div>
+            </div>
+
+            {/* SUNDAY: THE FAREWELL */}
+            <div className="reveal-scale">
+               <div className="flex flex-col items-center text-center mb-16">
+                  <span className="label-uppercase text-[10px] text-accent-terracotta tracking-[0.4em] mb-4">The Completion</span>
+                  <h3 className="text-3xl md:text-4xl font-serif italic text-primary-text">Sunday, 18th April</h3>
+                  <div className="w-8 h-px bg-accent-terracotta/20 mt-4" />
+               </div>
+               <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="order-2 md:order-1 relative group max-w-[280px] mx-auto">
+                  <div className="stamp-visual transform rotate-1 relative z-10">
+                    <img src="/party.png" alt="Brunch" className="stamp-image opacity-60" />
                   </div>
                 </div>
-                <div className="order-1 md:order-2">
-                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">23:00</span>
-                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">The Party</h3>
-                  <p className="text-secondary-text leading-relaxed max-w-xs">Dancing and celebration into the early hours with our live DJ.</p>
+                <div className="md:text-left">
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">11:00</span>
+                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Farewell Brunch</h3>
+                  <p className="text-secondary-text leading-relaxed max-w-xs italic font-serif">A final poolside breakfast and coffee before everyone begins their journey home.</p>
                 </div>
               </div>
             </div>
