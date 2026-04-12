@@ -662,7 +662,7 @@ export function RsvpPage() {
                             </div>
                           </div>
                           <div className="flex flex-col items-center gap-6">
-                            <button type="submit" disabled={isSubmitting} className="btn-primary w-full md:w-auto md:min-w-[280px] h-14 shadow-lg flex items-center justify-center transition-all group active:scale-95">
+                            <button type="submit" disabled={isSubmitting} className="btn-primary w-full md:w-auto md:min-w-[280px] shadow-lg flex items-center justify-center transition-all group active:scale-95">
                               {isSubmitting ? (
                                 <span className="label-uppercase text-[10px] tracking-[0.3em]">Sending...</span>
                               ) : (
