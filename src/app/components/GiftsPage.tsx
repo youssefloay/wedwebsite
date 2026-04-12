@@ -67,7 +67,7 @@ export function GiftsPage() {
          >
             <div className="flex flex-col items-start gap-1">
                <div className="flex items-center gap-2">
-                   {isTwint ? <Smartphone size={14} className="text-accent-terracotta/40" /> : <MapPin size={14} className="text-accent-terracotta/40" />}
+                   {isTwint ? <Smartphone size={14} className="text-accent-terracotta/40" /> : <CreditCard size={14} className="text-accent-terracotta/40" />}
                    <span className="label-uppercase text-[10px] tracking-[0.2em] opacity-60">{region} Local</span>
                </div>
                <h3 className="text-2xl md:text-3xl font-serif italic text-primary-text group-hover:text-accent-terracotta transition-colors">{bank}</h3>
@@ -85,7 +85,7 @@ export function GiftsPage() {
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               >
-                 <div className="px-8 pb-12 pt-4 border-t border-border/5 space-y-8 overflow-hidden">
+                 <div className="px-8 pb-12 pt-4 border-t border-border/5 space-y-8 overflow-hidden text-left">
                     <div className="flex flex-col items-start gap-1 pb-4 border-b border-border/5">
                        <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold opacity-60">Account Holder</span>
                        <span className="text-xl font-serif italic text-primary-text">{holder}</span>
@@ -215,7 +215,7 @@ export function GiftsPage() {
               >
                 {activeRegion === region.id && (
                   <motion.div
-                    layoutId="activeRegionTabTarget"
+                    layoutId="activeRegionTabTargetFinal"
                     className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1]"
                     initial={false}
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
@@ -231,7 +231,7 @@ export function GiftsPage() {
         <div className="space-y-6">
           
           {/* A. REVOLUT (Dynamic Hub) */}
-          <div className={`wedding-card bg-white border border-border/10 transition-all duration-700 overflow-hidden ${activeProvider === 'revolut' ? 'shadow-xl border-accent-terracotta/20' : 'hover:border-accent-terracotta/20'}`}>
+          <div className={`wedding-card bg-white border border-border/10 transition-all duration-700 overflow-hidden ${activeProvider === 'revolut' ? 'shadow-xl border-accent-terracotta/20 font-bold' : 'hover:border-accent-terracotta/20'}`}>
              <button 
                onClick={() => handleProviderToggle('revolut')}
                className="w-full p-8 flex justify-between items-center group"
@@ -256,7 +256,7 @@ export function GiftsPage() {
                    exit={{ height: 0, opacity: 0 }}
                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                  >
-                    <div className="px-8 pb-12 pt-4 border-t border-border/5 space-y-10 overflow-hidden">
+                    <div className="px-8 pb-12 pt-4 border-t border-border/5 space-y-10 overflow-hidden text-left">
                        <ul className="flex border-b border-border/10 bg-[#FBF9F4] -mx-8 overflow-x-auto no-scrollbar">
                          <button onClick={() => setRevolutMode('tag')} className={`flex-1 min-w-[120px] py-6 text-[11px] uppercase tracking-[0.2em] font-bold transition-all ${revolutMode === 'tag' ? 'text-accent-terracotta bg-white border-b-2 border-accent-terracotta shadow-sm' : 'text-secondary-text opacity-60'}`}>Revolut Tag</button>
                          {activeRegion !== 'switzerland' && <button onClick={() => setRevolutMode('iban')} className={`flex-1 min-w-[120px] py-6 text-[11px] uppercase tracking-[0.2em] font-bold transition-all ${revolutMode === 'iban' ? 'text-accent-terracotta bg-white border-b-2 border-accent-terracotta shadow-sm' : 'text-secondary-text opacity-60'}`}>Euro IBAN</button>}
@@ -277,9 +277,9 @@ export function GiftsPage() {
                               {renderDetailRowSmall('Swiss CHF IBAN', 'CH44 0900 0W0C 1638 5407 7', 'rev-chf-iban')}
                             </div>
                           ) : revolutMode === 'tag' ? (
-                            <div className="flex flex-col items-center gap-8 animate-in fade-in duration-700 text-center">
+                            <div className="flex flex-col items-center gap-8 animate-in fade-in duration-700 text-center w-full">
                               <span className="text-5xl md:text-7xl font-serif text-primary-text italic tracking-tight">@lamaloay</span>
-                              <div className="flex flex-col gap-4">
+                              <div className="flex flex-col gap-4 w-full px-4">
                                 <button onClick={() => handleCopy('@lamaloay', 'rev-tag')} className={`btn-primary px-16 py-4 rounded-full text-xs transition-all ${copiedId === 'rev-tag' ? 'bg-green-500 shadow-none' : 'shadow-xl'}`}>
                                   {copiedId === 'rev-tag' ? 'Tag Copied!' : 'Copy Tag to Clipboard'}
                                 </button>
@@ -312,7 +312,50 @@ export function GiftsPage() {
             </>
           )}
 
-          {/* C. INTERNATIONAL HELPER */}
+          {/* C. IN-PERSON WISHES (Now part of the stack!) */}
+          <div className={`wedding-card bg-white border border-border/10 transition-all duration-700 overflow-hidden ${activeProvider === 'inperson' ? 'shadow-xl border-accent-terracotta/20' : 'hover:border-accent-terracotta/20'}`}>
+             <button 
+               onClick={() => handleProviderToggle('inperson')}
+               className="w-full p-8 flex justify-between items-center group"
+             >
+                <div className="flex flex-col items-start gap-1">
+                   <div className="flex items-center gap-2">
+                       <Heart size={14} className="text-accent-terracotta/40" />
+                       <span className="label-uppercase text-[10px] tracking-[0.2em] opacity-60">Venue / Physical</span>
+                   </div>
+                   <h3 className="text-2xl md:text-3xl font-serif italic text-primary-text group-hover:text-accent-terracotta transition-colors">In-Person Wishes</h3>
+                </div>
+                <div className={`w-10 h-10 rounded-full border border-border/10 flex items-center justify-center transition-transform duration-500 ${activeProvider === 'inperson' ? 'rotate-180 bg-accent-terracotta text-white border-accent-terracotta' : 'text-secondary-text'}`}>
+                   <ChevronDown size={20} strokeWidth={1.5} />
+                </div>
+             </button>
+
+             <AnimatePresence>
+                {activeProvider === 'inperson' && (
+                  <motion.div 
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                     <div className="px-8 pb-12 pt-8 border-t border-border/5 space-y-8 overflow-hidden text-center relative">
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-8 bg-gradient-to-b from-accent-terracotta/20 to-transparent" />
+                        <div className="max-w-md mx-auto space-y-6">
+                           <p className="text-xl md:text-2xl text-secondary-text italic leading-relaxed font-serif pt-4">
+                              "For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace throughout the celebration."
+                           </p>
+                           <div className="pt-6 flex flex-col items-center gap-2">
+                              <div className="w-1.5 h-1.5 rounded-full bg-accent-terracotta/20" />
+                              <span className="label-uppercase text-[10px] opacity-60 tracking-[0.3em]">Castillo de Monda</span>
+                           </div>
+                        </div>
+                     </div>
+                  </motion.div>
+                )}
+             </AnimatePresence>
+          </div>
+
+          {/* D. INTERNATIONAL HELPER */}
           {activeRegion === 'international' && (
              <div className="wedding-card bg-[#F5EFEB]/30 p-12 flex flex-col items-center justify-center border border-border/10 text-center transition-all duration-700">
                 <Globe className="text-accent-terracotta/30 mb-6" size={48} strokeWidth={1} />
@@ -329,32 +372,6 @@ export function GiftsPage() {
              </div>
           )}
         </div>
-
-        {/* 5. PHYSICAL PATH: IN-PERSON */}
-        <section className="reveal pt-16">
-          <div className="max-w-3xl mx-auto">
-            <div className="wedding-card bg-[#F5EFEB]/40 backdrop-blur-sm border-2 border-dashed border-accent-terracotta/20 p-12 md:p-20 flex flex-col items-center text-center group hover:bg-white hover:border-accent-terracotta/40 transition-all duration-1000 shadow-sm relative overflow-visible">
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 rounded-full bg-white border border-border/10 flex items-center justify-center text-accent-terracotta shadow-xl rotate-12 group-hover:rotate-0 transition-transform duration-1000">
-                 <Heart size={32} strokeWidth={1.25} />
-              </div>
-
-              <div className="max-w-xl mx-auto space-y-8">
-                <div className="flex flex-col items-center gap-4">
-                  <span className="label-uppercase tracking-[0.4em] opacity-60">Traditional Gestures</span>
-                  <h3 className="text-4xl md:text-6xl font-serif italic text-primary-text">In-Person Wishes</h3>
-                </div>
-                <div className="w-16 h-px bg-accent-terracotta/20 mx-auto" />
-                <p className="text-xl md:text-2xl text-secondary-text italic leading-relaxed font-serif max-w-lg mx-auto">
-                  "For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace throughout the celebration."
-                </p>
-                <div className="pt-6 flex flex-col items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-accent-terracotta/20" />
-                  <span className="label-uppercase text-[10px] opacity-40">Castillo de Monda</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
 
       {/* FINAL RSVP CTA */}
