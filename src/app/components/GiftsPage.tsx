@@ -98,7 +98,8 @@ export function GiftsPage() {
 
       {/* 4. REGION SELECTOR */}
       <section className="px-6 sticky top-[72px] md:top-[80px] z-[60] bg-background/90 backdrop-blur-xl py-6 border-b border-border/10 shadow-sm transition-all duration-300">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto flex flex-col items-center gap-6">
+          <span className="label-uppercase text-[10px] tracking-[0.4em] opacity-60">Select region for transfer details</span>
           <div className="flex flex-wrap justify-center gap-3 md:gap-4">
             {regions.map((region) => (
               <button
