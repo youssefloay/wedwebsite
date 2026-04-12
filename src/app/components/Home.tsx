@@ -126,21 +126,24 @@ export function Home() {
               }
             }}
           >
-            <div className="w-64 md:w-80 mb-6">
+            <div className="reveal-scale active mb-0 w-64 md:w-80 flex justify-center">
               <img 
                 src="/bismillah.png" 
                 alt="Bismillah" 
-                className="w-full h-auto object-contain mix-blend-multiply opacity-90 drop-shadow-sm"
+                className="w-full h-auto object-contain hover:scale-[1.02] transition-transform duration-1000"
               />
             </div>
-            <span className="font-cinzel text-[10px] md:text-xs tracking-[0.5em] text-secondary-text uppercase font-bold">
-              En el nombre de Dios, el Compasivo, el Misericordioso
-            </span>
+            <p className="font-cinzel text-[10px] md:text-[11px] tracking-[0.6em] text-secondary-text -mt-16 mb-10 uppercase font-bold">
+              En el nombre de Dios
+            </p>
+            <p className="font-script text-xl md:text-2xl text-secondary-text mb-12 max-w-xs md:max-w-md italic">
+              You are invited to celebrate the wedding of
+            </p>
           </motion.div>
 
           {/* THE NAMES */}
           <motion.div 
-            className="mb-16 flex flex-col items-center"
+            className="flex flex-col items-center"
             variants={{
               hidden: { opacity: 0, scale: 0.98, y: 30 },
               visible: { 
@@ -151,20 +154,26 @@ export function Home() {
               }
             }}
           >
-            <div className="flex flex-col items-center font-serif text-primary-text leading-[0.85] mb-8">
-              <h1 className="text-7xl md:text-9xl uppercase tracking-wider mb-2">Lama</h1>
-              <div className="flex items-center gap-6 my-4">
-                <div className="h-px w-12 bg-accent-terracotta/40" />
-                <span className="script-accent text-4xl md:text-5xl opacity-80 italic">&</span>
-                <div className="h-px w-12 bg-accent-terracotta/40" />
+            <div className="flex flex-col items-center gap-4 mb-2">
+              <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.85]">
+                <span className="text-6xl md:text-8xl uppercase tracking-wider">Lama</span>
+                <span className="text-3xl md:text-4xl mt-2 uppercase tracking-widest">Loay</span>
+              </h1>
+
+              <div className="flex items-center justify-center my-8">
+                <span className="script-accent text-3xl md:text-4xl opacity-60 italic">&</span>
               </div>
-              <h1 className="text-7xl md:text-9xl uppercase tracking-wider">Álvaro</h1>
+
+              <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.85]">
+                <span className="text-6xl md:text-8xl uppercase tracking-wider">Alvaro</span>
+                <span className="text-3xl md:text-4xl mt-2 uppercase tracking-widest">Recas</span>
+              </h1>
             </div>
           </motion.div>
 
           {/* DATES & COUNTDOWN */}
           <motion.div 
-            className="w-full flex flex-col items-center"
+            className="w-full flex flex-col items-center mt-12"
             variants={{
               hidden: { opacity: 0, y: 30 },
               visible: { 
@@ -174,35 +183,41 @@ export function Home() {
               }
             }}
           >
-            <div className="mb-12">
-              <h2 className="text-2xl md:text-4xl font-serif text-primary-text tracking-[0.2em] mb-2">
-                17 April 2027
-              </h2>
-              <p className="font-cinzel text-[10px] md:text-xs tracking-[0.3em] text-secondary-text uppercase font-bold">
-                Castillo de Monda • Andalusia, Spain
-              </p>
+            <div className="w-16 h-px bg-accent-terracotta mt-8 mb-10" />
+
+            <h2 className="script-accent text-3xl md:text-4xl mb-12 text-primary-text">
+              17 April 2027
+            </h2>
+
+            <div className="flex justify-center gap-12 mb-10 scale-110">
+              <div className="flex flex-col items-center">
+                <span className="text-4xl md:text-5xl font-serif text-primary-text mb-2">{daysUntil}</span>
+                <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">DAYS</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-4xl md:text-5xl font-serif text-primary-text mb-2">{hoursUntil}</span>
+                <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">HRS</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-4xl md:text-5xl font-serif text-primary-text mb-2">{minutesUntil}</span>
+                <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">MIN</span>
+              </div>
             </div>
 
-            <div className="flex justify-center gap-10 md:gap-16 mb-12">
-              <div className="flex flex-col items-center">
-                <span className="text-5xl md:text-6xl font-serif text-primary-text mb-2">{daysUntil}</span>
-                <span className="font-cinzel text-[9px] md:text-[11px] tracking-widest text-secondary-text font-bold">DÍAS</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-5xl md:text-6xl font-serif text-primary-text mb-2">{hoursUntil}</span>
-                <span className="font-cinzel text-[9px] md:text-[11px] tracking-widest text-secondary-text font-bold">HORAS</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-5xl md:text-6xl font-serif text-primary-text mb-2">{minutesUntil}</span>
-                <span className="font-cinzel text-[9px] md:text-[11px] tracking-widest text-secondary-text font-bold">MIN</span>
-              </div>
+            <div className="space-y-2 mb-10">
+              <p className="text-xl md:text-3xl font-serif text-primary-text tracking-wide">
+                Castillo de Monda
+              </p>
+              <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-secondary-text opacity-100 leading-relaxed font-bold mb-10">
+                De La Villeta 6, 29110 Monda, Spain
+              </p>
             </div>
 
             <Link 
               to="/rsvp" 
-              className="btn-primary"
+              className="btn-primary inline-flex"
             >
-              Confirmar Asistencia
+              Begin your RSVP
             </Link>
           </motion.div>
         </motion.div>
