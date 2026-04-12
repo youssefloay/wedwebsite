@@ -32,7 +32,7 @@ export function GiftsPage() {
           <span className="label-uppercase mb-6 block">Gifting</span>
           <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Our Future</h1>
           <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80">
-            "Your presence is the greatest gift. <br /> If you wish to contribute, we thank you for helping us build our new life together."
+            "Your presence is the greatest gift."
           </p>
           <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta" />
         </div>
