@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { Heart, Globe, CreditCard, Copy, Check, Smartphone, Info, Sparkles, MapPin } from 'lucide-react';
+import { motion } from 'motion/react';
 import { useState } from 'react';
 
 type Region = 'international' | 'france' | 'switzerland';
@@ -100,7 +101,7 @@ export function GiftsPage() {
       <section className="px-6 sticky top-[72px] md:top-[80px] z-[60] bg-background/90 backdrop-blur-xl py-6 border-b border-border/10 shadow-sm transition-all duration-300">
         <div className="max-w-2xl mx-auto flex flex-col items-center gap-6">
           <span className="label-uppercase text-[10px] tracking-[0.4em] opacity-60">Select region for transfer details</span>
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+          <div className="bg-white/30 backdrop-blur-md p-1.5 rounded-full border border-border/10 flex gap-1 shadow-inner relative overflow-hidden isolate">
             {regions.map((region) => (
               <button
                 key={region.id}
@@ -109,8 +110,18 @@ export function GiftsPage() {
                    if (region.id === 'switzerland') setRevolutMode('chf');
                    else setRevolutMode('tag');
                 }}
-                className={activeRegion === region.id ? 'btn-primary' : 'btn-secondary'}
+                className={`flex-1 relative px-4 md:px-8 py-2.5 rounded-full text-[10px] md:text-[11px] uppercase font-bold tracking-[0.2em] transition-all duration-500 whitespace-nowrap ${
+                  activeRegion === region.id ? 'text-white' : 'text-secondary-text hover:text-primary-text'
+                }`}
               >
+                {activeRegion === region.id && (
+                  <motion.div
+                    layoutId="activeRegionTab"
+                    className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1]"
+                    initial={false}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
                 {region.label}
               </button>
             ))}
