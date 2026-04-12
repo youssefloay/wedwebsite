@@ -213,7 +213,7 @@ export function RsvpPage() {
           <div className="text-center mb-0 flex flex-col items-center reveal">
             <span className="label-uppercase tracking-[0.6em] mb-6 block font-bold">YOU ARE INVITED</span>
             <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">The RSVP</h1>
-            <p className="text-xl md:text-2xl text-secondary-text font-serif italic mb-6 max-w-lg mx-auto leading-relaxed px-4 opacity-80">
+            <p className="text-xl md:text-2xl text-secondary-text font-serif italic mb-2 max-w-lg mx-auto leading-relaxed px-4 opacity-80">
               "We await your joy as we coordinate your stay in the quiet beauty of the Andalusian hills."
             </p>
             <div className="w-16 h-px bg-accent-terracotta mx-auto my-10" />
