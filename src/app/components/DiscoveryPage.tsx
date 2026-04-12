@@ -59,31 +59,37 @@ export function DiscoveryPage() {
         <div className="max-w-7xl mx-auto">
           <div className="space-y-32">
             {discoveries.map((item, idx) => (
-              <div key={idx} className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-16 lg:gap-24 reveal`}>
-                {/* Image Side */}
-                <div className="w-full lg:w-1/2 relative group">
-                  <div className="aspect-[4/3] rounded-[60px] overflow-hidden shadow-2xl transform transition-all duration-1000 group-hover:scale-[1.02]">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover img-grain" />
-                    <div className="absolute inset-0 bg-accent-terracotta/5 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-700" />
-                  </div>
-                  {/* Floating Icon Stamp */}
-                  <div className="absolute -bottom-8 -right-8 md:-bottom-12 md:-right-12 w-24 h-24 md:w-32 md:h-32 bg-white rounded-full shadow-2xl border border-border/10 flex items-center justify-center text-accent-terracotta transform rotate-12 group-hover:rotate-0 transition-transform duration-700">
-                    {item.icon}
-                  </div>
+              <div key={idx} className="reveal-scale">
+                {/* Section Header - CENTERING ABOVE CONTENT (Universal Standard) */}
+                <div className="text-center mb-16 flex flex-col items-center">
+                  <span className="label-uppercase">{item.tag}</span>
+                  <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">{item.title}</h2>
+                  <div className="w-16 h-px bg-accent-terracotta" />
+                  <h3 className="text-xl font-serif text-accent-beige italic mt-4 opacity-80">{item.subtitle}</h3>
                 </div>
 
-                {/* Content Side */}
-                <div className="w-full lg:w-1/2 text-center lg:text-left">
-                  <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
-                    <span className="label-uppercase text-accent-terracotta">{item.tag}</span>
-                    <div className="w-8 h-px bg-accent-terracotta/20" />
+                <div className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-20 items-center mb-40 last:mb-0`}>
+                  {/* Visual Side */}
+                  <div className="w-full lg:w-1/2 relative group">
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl depth-overlay">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110 img-grain"
+                      />
+                    </div>
+                    {/* Floating Icon Stamp */}
+                    <div className="absolute -bottom-8 -right-8 md:-bottom-12 md:-right-12 w-24 h-24 md:w-32 md:h-32 bg-white rounded-full shadow-2xl border border-border/10 flex items-center justify-center text-accent-terracotta transform rotate-12 group-hover:rotate-0 transition-transform duration-700">
+                      {item.icon}
+                    </div>
                   </div>
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-primary-text mb-4 leading-tight italic">{item.title}</h2>
-                  <h3 className="text-xl md:text-2xl font-serif text-accent-beige italic mb-8 opacity-80">{item.subtitle}</h3>
-                  <div className="w-12 h-px bg-accent-terracotta/20 mb-8 hidden lg:block" />
-                  <p className="text-lg md:text-xl text-secondary-text font-serif italic leading-relaxed opacity-90 max-w-xl mx-auto lg:mx-0">
-                    {item.desc}
-                  </p>
+
+                  {/* Content Side */}
+                  <div className="w-full lg:w-1/2 text-center lg:text-left">
+                    <p className="text-lg md:text-xl text-secondary-text font-serif italic leading-relaxed opacity-90 max-w-xl mx-auto lg:mx-0">
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
