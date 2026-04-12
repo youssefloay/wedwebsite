@@ -249,7 +249,7 @@ export function RsvpPage() {
                           onClick={() => handleAttendanceSelect(opt.value)}
                           className={`group relative flex flex-col items-center transition-all duration-700 ${formData.attendance === opt.value ? 'scale-[1.05]' : 'opacity-80 hover:opacity-100'}`}
                         >
-                          <div className={`stamp-visual mb-8 w-full aspect-square ${opt.rotate} group-hover:rotate-0 transition-transform duration-1000 ${formData.attendance === opt.value ? 'ring-2 ring-[#515C4C]/40 ring-offset-8 bg-[#FBF9F4]' : ''}`}>
+                          <div className={`stamp-visual mb-8 w-full aspect-square ${opt.rotate} group-hover:rotate-0 transition-transform duration-1000 rounded-3xl overflow-hidden ${formData.attendance === opt.value ? 'ring-2 ring-[#515C4C]/40 ring-offset-8 bg-[#FBF9F4]' : ''}`}>
                             <img src={opt.image} alt={opt.label} className="stamp-image w-full h-full object-cover" />
                           </div>
                           
@@ -333,7 +333,7 @@ export function RsvpPage() {
                                       key={n}
                                       type="button"
                                       onClick={() => updateFormData('guests', n)}
-                                      className={`aspect-square border rounded-2xl flex flex-col items-center justify-center transition-all duration-500 ${formData.guests === n ? 'border-[#515C4C] bg-[#FBF9F4] scale-105 shadow-md' : 'border-accent-terracotta/10 bg-white hover:border-accent-terracotta/30'}`}
+                                      className={`aspect-square border rounded-3xl flex flex-col items-center justify-center transition-all duration-500 ${formData.guests === n ? 'border-[#515C4C] bg-[#FBF9F4] scale-105 shadow-md' : 'border-accent-terracotta/10 bg-white hover:border-accent-terracotta/30'}`}
                                     >
                                       <span className={`text-4xl font-serif italic ${formData.guests === n ? 'text-primary-text' : 'text-accent-terracotta/30 font-light'}`}>{n}</span>
                                       <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-accent-terracotta">Guest{n !== '1' ? 's' : ''}</span>
@@ -345,7 +345,7 @@ export function RsvpPage() {
                             {formData.guestNames.length > 0 && (
                               <div className="space-y-8 pt-10 border-t border-accent-terracotta/10">
                                 {formData.guestNames.map((guest, idx) => (
-                                  <div key={idx} className="bg-[#FAF8F5]/30 p-8 border border-accent-terracotta/10 grid grid-cols-2 gap-8 rounded-2xl">
+                                  <div key={idx} className="bg-[#FAF8F5]/30 p-8 border border-accent-terracotta/10 grid grid-cols-2 gap-8 rounded-3xl">
                                     <input placeholder="First Name" required className="bg-transparent border-b border-accent-terracotta/20 py-2 font-serif italic text-xl focus:border-[#515C4C] transition-colors" value={guest.firstName} onChange={(e) => updateGuestName(idx, 'firstName', e.target.value)} />
                                     <input placeholder="Last Name" required className="bg-transparent border-b border-accent-terracotta/20 py-2 font-serif italic text-xl focus:border-[#515C4C] transition-colors" value={guest.lastName} onChange={(e) => updateGuestName(idx, 'lastName', e.target.value)} />
                                   </div>
@@ -382,7 +382,7 @@ export function RsvpPage() {
                                     onClick={() => updateFormData('accommodation', opt.id)}
                                     className={`group relative flex flex-col items-center transition-all duration-700 ${formData.accommodation === opt.id ? 'scale-[1.05]' : 'opacity-80 hover:opacity-100'}`}
                                   >
-                                    <div className={`stamp-visual mb-6 w-full aspect-square ${opt.rotate} group-hover:rotate-0 transition-transform duration-1000 ${formData.accommodation === opt.id ? 'ring-2 ring-[#515C4C]/40 ring-offset-8 bg-[#FBF9F4]' : ''}`}>
+                                    <div className={`stamp-visual mb-6 w-full aspect-square ${opt.rotate} group-hover:rotate-0 transition-transform duration-1000 rounded-3xl overflow-hidden ${formData.accommodation === opt.id ? 'ring-2 ring-[#515C4C]/40 ring-offset-8 bg-[#FBF9F4]' : ''}`}>
                                       <img src={opt.image} alt={opt.detail} className="stamp-image w-full h-full object-cover" />
                                     </div>
                                     <div className="text-center">
@@ -412,7 +412,7 @@ export function RsvpPage() {
                                         key={r.name}
                                         type="button"
                                         onClick={() => updateFormData('roomPreference', r.name)}
-                                        className={`group relative p-8 md:p-10 border transition-all duration-700 overflow-hidden flex flex-col items-start gap-4 ${formData.roomPreference === r.name ? 'bg-[#FBF9F4] border-[#515C4C] shadow-[0_20px_40px_rgba(92,50,16,0.06)] scale-[1.03] z-10' : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100 hover:border-accent-terracotta/30'}`}
+                                        className={`group relative p-8 md:p-10 border rounded-3xl transition-all duration-700 overflow-hidden flex flex-col items-start gap-4 ${formData.roomPreference === r.name ? 'bg-[#FBF9F4] border-[#515C4C] shadow-[0_20px_40px_rgba(92,50,16,0.06)] scale-[1.03] z-10' : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100 hover:border-accent-terracotta/30'}`}
                                       >
                                         <div className="w-full flex justify-between items-start">
                                           <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.roomPreference === r.name ? 'text-[#515C4C]' : 'text-accent-terracotta'}`}>Room Type</span>
@@ -450,7 +450,7 @@ export function RsvpPage() {
                                             key={opt.id}
                                             type="button"
                                             onClick={() => toggleStayDuration(opt.label)}
-                                            className={`p-8 border text-left transition-all duration-700 flex justify-between items-center ${formData.stayDuration.includes(opt.label) ? 'bg-[#FBF9F4] border-[#515C4C] shadow-md' : 'bg-white border-accent-terracotta/10 opacity-70'}`}
+                                            className={`p-8 border rounded-3xl text-left transition-all duration-700 flex justify-between items-center ${formData.stayDuration.includes(opt.label) ? 'bg-[#FBF9F4] border-[#515C4C] shadow-md' : 'bg-white border-accent-terracotta/10 opacity-70'}`}
                                           >
                                             <div className="space-y-1">
                                               <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.stayDuration.includes(opt.label) ? 'text-accent-terracotta' : 'text-accent-terracotta opacity-60'}`}>{opt.label}</span>
@@ -516,7 +516,7 @@ export function RsvpPage() {
                                     }}
                                     className={`relative p-8 border rounded-3xl transition-all duration-500 flex flex-col md:flex-row items-center gap-8 ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-[#FBF9F4] border-[#515C4C] shadow-md scale-[1.02]' : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100'}`}
                                   >
-                                    <div className="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border border-accent-terracotta/5">
+                                    <div className="w-24 h-24 rounded-3xl overflow-hidden flex-shrink-0 border border-accent-terracotta/5">
                                       <img src={item.image} alt={item.label} className="w-full h-full object-cover" />
                                     </div>
                                     <div className="text-center md:text-left flex-grow">
@@ -566,7 +566,7 @@ export function RsvpPage() {
                                     onClick={() => updateFormData('visaSupport', opt.id)}
                                     className={`relative p-8 border rounded-3xl transition-all duration-500 overflow-hidden flex flex-col items-center text-center gap-6 ${formData.visaSupport === opt.id ? 'bg-[#FBF9F4] border-[#515C4C] shadow-md scale-105' : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100'}`}
                                   >
-                                    <div className="w-20 h-20 rounded-2xl overflow-hidden border border-accent-terracotta/5">
+                                    <div className="w-20 h-20 rounded-3xl overflow-hidden border border-accent-terracotta/5">
                                       <img src={opt.image} alt={opt.label} className="w-full h-full object-cover" />
                                     </div>
                                     <div className="space-y-2">
