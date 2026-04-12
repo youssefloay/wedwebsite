@@ -216,7 +216,7 @@
 
   /* Primary CTA - Olive Green */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-10 py-5 text-white outline-none transition-all duration-500;
+    @apply inline-flex items-center justify-center px-10 py-3.5 text-white outline-none transition-all duration-500;
     background-color: #515C4C;
     border-radius: 999px;
     font-family: var(--font-cinzel);
@@ -239,7 +239,7 @@
 
   /* Secondary CTA - Outline */
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-10 py-5 transition-all duration-500;
+    @apply inline-flex items-center justify-center px-10 py-3.5 transition-all duration-500;
     background-color: transparent;
     border: 1px solid rgba(81, 92, 76, 0.3);
     color: #515C4C;
