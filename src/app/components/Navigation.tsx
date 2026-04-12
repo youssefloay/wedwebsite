@@ -47,7 +47,7 @@ export function Navigation() {
       >
          {/* The Unified Navbar Container (Pill) */}
          <div className="flex-shrink-0 w-fit pointer-events-auto mx-auto">
-            <div className="relative flex items-center justify-center gap-1 md:gap-4 h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/10 bg-background/70 backdrop-blur-2xl shadow-[0_12px_40px_rgba(44,24,16,0.12)] px-4 md:px-8 transition-all duration-500 overflow-x-auto no-scrollbar isolate">
+            <div className="relative flex items-center justify-center gap-1 md:gap-4 h-16 md:h-18 rounded-2xl md:rounded-full border border-primary-text/10 bg-background/95 backdrop-blur-2xl shadow-[0_12px_40px_rgba(44,24,16,0.12)] px-4 md:px-8 transition-all duration-500 overflow-x-auto no-scrollbar isolate">
             
             {/* ANDALUSIAN TILE WATERMARK (Subtle) */}
             <div 
@@ -85,7 +85,7 @@ export function Navigation() {
                   />
                   <span
                     className={`text-[7px] md:text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-500 ${
-                      active ? 'text-accent-terracotta opacity-100' : 'text-accent-beige/60 group-hover:text-primary-text group-hover:opacity-100'
+                      active ? 'text-accent-terracotta opacity-100' : 'text-accent-beige/95 group-hover:text-primary-text group-hover:opacity-100'
                     }`}
                     style={{ fontFamily: 'var(--font-cinzel)' }}
                   >

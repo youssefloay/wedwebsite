@@ -30,7 +30,7 @@ export function DiscoveryPage() {
     { 
       title: "April Skies", 
       subtitle: "The Perfect Spring",
-      desc: "April in Andalusia is a magical time of year. Expect soft spring light and temperatures typically around 22°C (72°F). The flowers are in bloom, and the air is fresh—perfect for exploring the hills of Monda or the coastal promenades.", 
+      desc: "April in Andalusia is a magical time of year. Expect soft spring light and temperatures typically around 22°C (72°F). The flowers are in bloom, and the air is fresh - perfect for exploring the hills of Monda or the coastal promenades.", 
       icon: <Sun size={28} />,
       image: "/hills-journey.png",
       tag: "Climate"

@@ -269,7 +269,7 @@ export function RsvpPage() {
                     </div>
                   </div>
 
-                  {/* BLOOMED SECTIONS — shown once attendance is chosen */}
+                  {/* BLOOMED SECTIONS - shown once attendance is chosen */}
                   {formData.attendance && (
                     <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12">
 
@@ -314,7 +314,7 @@ export function RsvpPage() {
                         </div>
                       </div>
 
-                      {/* LOGISTICS BLOOM — Joyfully accept, step >= 3 */}
+                      {/* LOGISTICS BLOOM - Joyfully accept, step >= 3 */}
                       {formData.attendance === 'Joyfully accept' && currentStep >= 3 && (
                         <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12">
 
@@ -623,7 +623,7 @@ export function RsvpPage() {
                         </div>
                       )}
 
-                      {/* NOTE — shown when current step id is 'note' */}
+                      {/* NOTE - shown when current step id is 'note' */}
                       {activeStep?.id === 'note' && (
                         <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={nextSectionRef}>
                           <div className="text-left mb-12">
@@ -645,7 +645,7 @@ export function RsvpPage() {
                         </div>
                       )}
 
-                      {/* REVIEW & SUBMIT — shown when current step id is 'review' */}
+                      {/* REVIEW & SUBMIT - shown when current step id is 'review' */}
                       {activeStep?.id === 'review' && (
                         <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={nextSectionRef}>
                           <div className="text-left py-10 border-y border-accent-terracotta/10 relative space-y-12">
