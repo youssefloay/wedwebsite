@@ -65,7 +65,7 @@ export function FaqPage() {
                   </div>
                 </summary>
                 <div className="px-8 md:px-10 pb-12 animate-in fade-in slide-in-from-top-4 duration-500">
-                  <div className="w-12 h-px bg-accent-terracotta/20 mb-8" />
+                  <div className="w-12 h-px bg-accent-terracotta mb-8" />
                   <p className="text-lg md:text-xl text-secondary-text font-serif italic leading-relaxed opacity-90 max-w-2xl">
                     {item.a}
                   </p>

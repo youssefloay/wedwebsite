@@ -103,7 +103,7 @@ export function DiscoveryPage() {
           <div className="text-center mb-20 reveal">
             <span className="label-uppercase mb-4 block reveal">The Andalusian Ledger</span>
             <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Curated Experiences</h2>
-            <div className="w-16 h-px bg-accent-terracotta/20 mx-auto" />
+            <div className="w-16 h-px bg-accent-terracotta mx-auto" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">

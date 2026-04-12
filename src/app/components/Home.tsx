@@ -149,9 +149,9 @@ export function Home() {
               </div>
               
               <div className="my-4 md:my-8 flex items-center justify-center w-full">
-                <div className="h-[1px] w-8 md:w-16 bg-accent-terracotta/20" />
+                <div className="h-[1px] w-8 md:w-16 bg-accent-terracotta" />
                 <span className="script-accent text-3xl md:text-5xl mx-6 opacity-40 italic">&</span>
-                <div className="h-[1px] w-8 md:w-16 bg-accent-terracotta/20" />
+                <div className="h-[1px] w-8 md:w-16 bg-accent-terracotta" />
               </div>
 
               <div className="flex flex-col items-center">
@@ -178,7 +178,7 @@ export function Home() {
               </p>
             </div>
 
-            <div className="flex justify-center gap-8 md:gap-16 mb-8 md:mb-12 border-t border-accent-terracotta/10 pt-8 w-full max-w-sm">
+            <div className="flex justify-center gap-8 md:gap-16 mb-8 md:mb-12 border-t border-accent-terracotta pt-8 w-full max-w-sm">
               <div className="flex flex-col items-center">
                 <span className="text-3xl md:text-5xl font-serif text-primary-text mb-1">{daysUntil}</span>
                 <span className="font-cinzel text-[8px] md:text-[10px] tracking-widest text-secondary-text font-bold">DAYS</span>

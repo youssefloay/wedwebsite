@@ -369,7 +369,7 @@ export function RsvpPage() {
                             <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 4 ? nextSectionRef : null}>
                               <div className="text-left mb-12">
                                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6 whitespace-nowrap">Where will you rest?</p>
-                                <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
+                                <div className="w-12 h-px bg-accent-terracotta mt-6" />
                               </div>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                                 {[
@@ -439,7 +439,7 @@ export function RsvpPage() {
                                     <div className="pt-16 space-y-12 animate-in fade-in slide-in-from-top-12 duration-1000">
                                       <div className="space-y-6">
                                         <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">How long do you need a room at Castillo de Monda?</p>
-                                        <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
+                                        <div className="w-12 h-px bg-accent-terracotta mt-6" />
                                       </div>
                                       
                                       <div className="grid grid-cols-1 gap-4">
@@ -497,7 +497,7 @@ export function RsvpPage() {
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                   We understand that these details are not yet final. A formal logistics form will be shared between December and January to coordinate your definitive travel arrangements.
                                 </p>
-                                <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
+                                <div className="w-12 h-px bg-accent-terracotta mt-6" />
                               </div>
                               <div className="grid grid-cols-1 gap-12">
                                 {[
@@ -555,7 +555,7 @@ export function RsvpPage() {
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                   Do you require assistance with your Visa application? We are happy to provide liaison and invitation documentation.
                                 </p>
-                                <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
+                                <div className="w-12 h-px bg-accent-terracotta mt-6" />
                               </div>
                               <div className="grid grid-cols-2 gap-8 md:gap-12">
                                 {[
@@ -699,9 +699,9 @@ export function RsvpPage() {
           <div className="max-w-xl text-left py-20 bg-white shadow-2xl p-16 md:p-24 border border-accent-beige/10 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-1 h-full bg-accent-terracotta/20" />
             <Heart size={48} className="text-accent-terracotta mb-10 opacity-30" />
-            <span className="label-uppercase text-[11px] font-bold tracking-[0.4em] mb-6 block text-accent-terracotta">Success</span>
+            <span className="label-uppercase text-[11px] font-bold mb-6 block">Success</span>
             <h2 className="text-6xl md:text-8xl font-serif italic text-primary-text mb-8 leading-none">Muchas Gracias</h2>
-            <div className="w-16 h-px bg-accent-terracotta/20 mb-10" />
+            <div className="w-16 h-px bg-accent-terracotta mb-10" />
             <p className="text-xl md:text-2xl text-secondary-text leading-relaxed font-serif italic mb-16 max-w-lg">
               We have received your response, {formData.firstName}. We cannot wait to celebrate this journey with you in the hills of Monda.
             </p>

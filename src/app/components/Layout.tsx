@@ -32,7 +32,7 @@ export function Layout() {
 
       {/* ── UNIFIED GLOBAL FOOTER ── */}
       <footer className="w-full pt-10 pb-32 flex flex-col items-center justify-center text-center opacity-40 hover:opacity-100 transition-opacity duration-700">
-        <div className="w-16 h-[1px] bg-accent-terracotta/30 mb-10" />
+        <div className="w-16 h-[1px] bg-accent-terracotta mb-10" />
         
         <div className="mb-6">
           <img 

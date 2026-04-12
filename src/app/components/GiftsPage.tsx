@@ -62,9 +62,9 @@ export function GiftsPage() {
             {/* Honeymoon Fund */}
             <div className="space-y-10 group">
               <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                <span className="label-uppercase mb-4 text-accent-terracotta">Honeymoon Fund</span>
+                <span className="label-uppercase mb-4">Honeymoon Fund</span>
                 <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic leading-[1.1]">Post-Wedding <br className="hidden md:block" /> Adventures</h2>
-                <div className="w-12 h-px bg-accent-terracotta/30 mb-8" />
+                <div className="w-12 h-px bg-accent-terracotta mb-8" />
                 <p className="text-lg text-secondary-text leading-relaxed max-w-sm italic">
                   "Help us create lifelong memories as we explore new horizons together on our first journey as husband and wife."
                 </p>
@@ -79,9 +79,9 @@ export function GiftsPage() {
             {/* Future Home */}
             <div className="space-y-10 group">
               <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                <span className="label-uppercase mb-4 text-accent-terracotta">Home Fund</span>
+                <span className="label-uppercase mb-4">Home Fund</span>
                 <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic leading-[1.1]">Our Future <br className="hidden md:block" /> Sanctuary</h2>
-                <div className="w-12 h-px bg-accent-terracotta/30 mb-8" />
+                <div className="w-12 h-px bg-accent-terracotta mb-8" />
                 <p className="text-lg text-secondary-text leading-relaxed max-w-sm italic">
                   "Contributions will help us create a space filled with love, laughter, and lifelong memories."
                 </p>

@@ -243,7 +243,7 @@ export function TravelPage() {
         <div className="max-w-5xl mx-auto">
           {/* JOURNEY TIMELINE */}
           <div className="max-w-3xl mx-auto mb-8 relative">
-            <div className="absolute top-[28px] left-[10%] right-[10%] h-px bg-accent-terracotta/20 hidden md:block" />
+            <div className="absolute top-[28px] left-[10%] right-[10%] h-px bg-accent-terracotta hidden md:block" />
             <div className="flex justify-between items-start">
               {[
                 { time: "Arrive", label: "Málaga Airport", icon: <Plane size={18} /> },
