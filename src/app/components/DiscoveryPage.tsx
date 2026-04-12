@@ -1,200 +1,156 @@
 import { Link } from "react-router";
-import { MapPin, Coffee, Sun, Palmtree, Utensils, Compass, Camera, Sparkles, Wind, Navigation } from 'lucide-react';
+import { MapPin, Coffee, Sun, Palmtree, ArrowRight, Camera, Utensils, Compass } from 'lucide-react';
 
 export function DiscoveryPage() {
   const discoveries = [
     { 
       title: "Marbella & Málaga", 
       subtitle: "The Soul of the Coast",
-      desc: "Wander the whitewashed 'Casco Antiguo' of Marbella or explore Málaga's historic cathedral. Both offer a perfect blend of history and modern Mediterranean life.", 
-      note: "The jasmine scent in Marbella's alleys is unforgettable.",
-      icon: <MapPin size={24} />,
+      desc: "Wander the whitewashed 'Casco Antiguo' of Marbella with its orange-scented plazas, or explore Málaga's historic cathedral, Picasso Museum, and vibrant 'Muelle Uno' port area. Both offer a perfect blend of history and modern Mediterranean life.", 
+      icon: <MapPin size={28} />,
       image: "/malaga-coast.png",
-      tag: "Exploration",
-      orient: "left"
-    },
-    { 
-      title: "Andalusian Flavors", 
-      subtitle: "A Culinary Tapestry",
-      desc: "Indulge in authentic 'espetos de sardinas' on the beach or explore the modern tapas scene in Málaga's pedestrian center.", 
-      note: "Try 'Sherry' with your tapas - it is the soul of Spain.",
-      icon: <Utensils size={24} />,
-      image: "/dinner.png",
-      tag: "Cuisine",
-      orient: "right"
+      tag: "Exploration"
     },
     { 
       title: "Beach Club Culture", 
       subtitle: "Sun-drenched Solitude",
-      desc: "Experience the quintessential Costa del Sol lifestyle at world-class beach clubs from Trocadero to Nikki Beach.", 
-      note: "Pack your most elegant beach-wear.",
-      icon: <Palmtree size={24} />,
+      desc: "Experience the quintessential Costa del Sol lifestyle at world-class beach clubs. From the sophisticated atmosphere of Trocadero Playa to the vibrant energy of Nikki Beach, these are the best places to enjoy the sea with a glass of sangria in hand.", 
+      icon: <Palmtree size={28} />,
       image: "/cocktail_sketch.png",
-      tag: "Leisure",
-      orient: "left"
+      tag: "Leisure"
+    },
+    { 
+      title: "Andalusian Flavors", 
+      subtitle: "A Culinary Tapestry",
+      desc: "Indulge in authentic 'espetos de sardinas' (grilled sardines) on the beach, or explore the modern tapas scene in the pedestrian streets of Málaga's old town. Don't miss out on local Sherry and fresh seafood from the Mediterranean.", 
+      icon: <Utensils size={28} />,
+      image: "/dinner.png",
+      tag: "Cuisine"
     },
     { 
       title: "April Skies", 
       subtitle: "The Perfect Spring",
-      desc: "April in Andalusia is magical. Expect soft spring light, blooming bougainvillea, and temperatures around 22°C.", 
-      note: "The golden hour starts at 7:45 PM.",
-      icon: <Sun size={24} />,
+      desc: "April in Andalusia is a magical time of year. Expect soft spring light and temperatures typically around 22°C (72°F). The flowers are in bloom, and the air is fresh—perfect for exploring the hills of Monda or the coastal promenades.", 
+      icon: <Sun size={28} />,
       image: "/hills-journey.png",
-      tag: "Climate",
-      orient: "right"
+      tag: "Climate"
     }
   ];
 
-  const essentials = [
-    { title: "Footwear", desc: "Monda's winding stone paths require elegant but sturdy soles.", icon: <Navigation size={18} /> },
-    { title: "Golden Light", desc: "Andalusia changes color at 7 PM. Keep your camera ready.", icon: <Camera size={18} /> },
-    { title: "The Siesta", desc: "Life pauses between 2 PM and 5 PM. Embrace the slow pace.", icon: <Wind size={18} /> }
-  ];
-
   return (
-    <div className="min-h-screen bg-background text-primary-text font-serif overflow-hidden">
+    <div className="min-h-screen bg-background text-primary-text font-serif">
 
-      {/* IMMERSIVE HERO */}
-      <section className="relative pt-24 pb-40 px-6 text-center">
-        <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '350px' }} />
+      {/* HERO SECTION */}
+      <section className="relative pt-10 pb-0 px-6 overflow-hidden text-center section-layer-1 border-b border-border/10">
+        <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
-        <div className="max-w-5xl mx-auto relative z-10 reveal">
-          <div className="flex flex-col items-center">
-            <span className="label-uppercase mb-10 block tracking-[0.6em] opacity-40">Entry No. XII</span>
-            <div className="relative">
-              <h1 className="text-7xl md:text-9xl font-serif text-primary-text mb-12 leading-[1.1] relative z-10">
-                The Monda <br/><span className="italic">Perspective</span>
-              </h1>
-              <span className="absolute -top-12 -right-12 md:-right-20 font-script text-4xl md:text-6xl text-accent-terracotta/40 -rotate-12 select-none">Insider's Journal</span>
-            </div>
-            <p className="text-xl md:text-3xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-60">
-              "We have curated a ledger of our favorite corners, flavors, and moments across this sun-drenched landscape."
-            </p>
-            <div className="w-16 h-px mx-auto mt-20 bg-accent-terracotta/30" />
-          </div>
+        <div className="max-w-3xl mx-auto relative z-10 reveal">
+          <span className="label-uppercase mb-6 block">Make a weekend of it</span>
+          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Discover Monda</h1>
+          <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80">
+            "Andalusia is a tapestry of history, light, and flavor. We invite you to linger, explore, and fall in love with the magic of the Costa del Sol."
+          </p>
+          <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta" />
         </div>
       </section>
 
-      {/* TRAVELER'S KIT (ESSENTIALS) */}
-      <section className="py-32 px-6 relative">
-         <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24 relative z-10">
-               {essentials.map((tip, i) => (
-                 <div key={i} className="reveal group" style={{ transitionDelay: `${i * 150}ms` }}>
-                    <div className="wedding-card !bg-white/40 backdrop-blur-md border-border/10 !p-12 hover:-translate-y-3 transition-all duration-700 relative overflow-visible">
-                       <div className="absolute -top-6 -left-6 w-14 h-14 rounded-full bg-accent-terracotta flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform duration-700">
-                          {tip.icon}
-                       </div>
-                       <h3 className="font-serif italic text-3xl mb-6 text-primary-text">{tip.title}</h3>
-                       <p className="text-secondary-text font-serif italic text-lg leading-relaxed opacity-80">{tip.desc}</p>
-                       <div className="absolute -bottom-4 -right-4 w-12 h-px bg-accent-terracotta/20 mt-8" />
+      {/* DISCOVERY GRID */}
+      <section className="pb-24 px-6 section-layer-1">
+        <div className="max-w-7xl mx-auto">
+          <div className="space-y-32">
+            {discoveries.map((item, idx) => (
+              <div key={idx} className="reveal-scale">
+                {/* Section Header - CENTERING ABOVE CONTENT (Universal Standard) */}
+                <div className="text-center mb-16 flex flex-col items-center">
+                  <span className="label-uppercase">{item.tag}</span>
+                  <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">{item.title}</h2>
+                  <div className="w-16 h-px bg-accent-terracotta" />
+                </div>
+
+                <div className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-20 items-center mb-40 last:mb-0`}>
+                  {/* Visual Side */}
+                  <div className="w-full lg:w-1/2 relative group">
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl depth-overlay">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110 img-grain"
+                      />
                     </div>
-                 </div>
-               ))}
-            </div>
-         </div>
-         {/* Decorative Watermark */}
-         <div className="absolute top-1/2 left-0 w-full h-px bg-border/5 -z-10" />
-      </section>
+                    {/* Floating Icon Stamp */}
+                    <div className="absolute -bottom-8 -right-8 md:-bottom-12 md:-right-12 w-24 h-24 md:w-32 md:h-32 bg-white rounded-full shadow-2xl border border-border/10 flex items-center justify-center text-accent-terracotta transform rotate-12 group-hover:rotate-0 transition-transform duration-700">
+                      {item.icon}
+                    </div>
+                  </div>
 
-      {/* THE MOMENTS GRID (OVERLAPPING DEPTH) */}
-      <section className="py-40 px-6">
-        <div className="max-w-7xl mx-auto space-y-64">
-          {discoveries.map((item, idx) => (
-            <div key={idx} className={`relative flex flex-col ${item.orient === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-20 reveal-scale`}>
-               
-               {/* VISUAL SIDE - OVERLAPPING ELEMENTS */}
-               <div className="w-full md:w-[60%] relative group">
-                  <div className="absolute -inset-10 bg-accent-beige/[0.03] rounded-[60px] -z-10 transform -rotate-2" />
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-[40px] shadow-[0_40px_100px_rgba(92,50,16,0.12)] border border-white/80">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-all duration-[4s] group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary-text/20 to-transparent opacity-40" />
+                  {/* Content Side */}
+                  <div className="w-full lg:w-1/2 text-center lg:text-left">
+                    <h3 className="text-xl md:text-2xl font-serif text-primary-text mb-6 italic opacity-90">{item.subtitle}</h3>
+                    <p className="text-lg md:text-xl text-secondary-text font-serif italic leading-relaxed opacity-90 max-w-xl mx-auto lg:mx-0">
+                      {item.desc}
+                    </p>
                   </div>
-                  
-                  {/* Floating Script Note */}
-                  <div className={`absolute ${item.orient === 'right' ? '-left-8 md:-left-20' : '-right-8 md:-right-20'} top-1/2 -translate-y-1/2 w-48 md:w-64 z-20`}>
-                     <p className="font-script text-2xl md:text-3xl text-accent-terracotta leading-snug drop-shadow-sm -rotate-6 select-none opacity-80">
-                        "{item.note}"
-                     </p>
-                  </div>
-               </div>
-
-               {/* CONTENT SIDE */}
-               <div className="w-full md:w-[40%] text-center md:text-left space-y-8 z-10">
-                  <div className="space-y-4">
-                     <span className="label-uppercase opacity-40 text-[10px] tracking-[0.4em]">{item.tag} / MOMENT {idx + 1}</span>
-                     <h2 className="text-5xl md:text-7xl font-serif text-primary-text italic leading-tight">{item.title}</h2>
-                     <div className="w-12 h-px bg-accent-terracotta/40 mt-6" />
-                  </div>
-                  <p className="text-xl text-secondary-text font-serif italic leading-relaxed opacity-70">
-                    {item.desc}
-                  </p>
-                  <div className="flex items-center gap-4 text-accent-terracotta">
-                     {item.icon}
-                     <span className="label-uppercase text-[10px] tracking-widest">{item.subtitle}</span>
-                  </div>
-               </div>
-            </div>
-          ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* REIMAGINED LEDGER (THE NOTEBOOK) */}
-      <section className="py-40 px-6 bg-[#FAF8F5] relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-background to-transparent" />
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-32">
-            <span className="label-uppercase mb-8 block tracking-[0.5em] opacity-30">Selection Vol. I</span>
-            <h2 className="text-5xl md:text-8xl font-serif text-primary-text italic opacity-90">Hand-picked Essentials</h2>
-            <div className="w-20 h-px bg-accent-terracotta/40 mx-auto mt-16" />
+      {/* THE CURATED LEDGER */}
+      <section className="py-32 px-6 section-layer-3 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-20 reveal">
+            <span className="label-uppercase mb-4 block reveal">The Andalusian Ledger</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Curated Experiences</h2>
+            <div className="w-16 h-px bg-accent-terracotta mx-auto" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
               {
-                category: "Heritage",
+                category: "Heritage & Arts",
                 icon: <Compass size={24} />,
                 items: [
                   { name: "Picasso Museum", loc: "Málaga", detail: "The birthplace and soul of Málaga's most famous son." },
-                  { name: "The Alcazaba", loc: "Málaga", detail: "A palatial Moorish fortress overlooking the sea." }
+                  { name: "The Alcazaba", loc: "Málaga", detail: "A palatial Moorish fortress overlooking the Mediterranean." },
+                  { name: "Monda Village", loc: "Monda", detail: "Wander the winding, whitewashed streets surrounding the Castle." }
                 ]
               },
               {
                 category: "The Table",
                 icon: <Utensils size={24} />,
                 items: [
-                  { name: "Old Town Tapas", loc: "Marbella", detail: "Traditional bites in the heart of the Casco Antiguo." },
-                  { name: "Espetos on Shore", loc: "The Coast", detail: "Fresh sardines grilled on open-air boat barbeques." }
+                  { name: "The Old Town Tapas", loc: "Marbella", detail: "Traditional bites in the heart of the Casco Antiguo." },
+                  { name: "Espetos on the Shore", loc: "The Coast", detail: "Fresh sardines grilled on open-air boat barbeques." },
+                  { name: "Modern Cuisine", loc: "Málaga", detail: "A contemporary take on classic Andalusian ingredients." }
                 ]
               },
               {
-                category: "The Pour",
+                category: "The Spirits",
                 icon: <Coffee size={24} />,
                 items: [
-                  { name: "Rooftop Views", loc: "Málaga", detail: "Sunset cocktails overlooking the cathedral port." },
-                  { name: "Beach Club", loc: "Marbella", detail: "Relaxed energy and chilled wine as the sun dips." }
+                  { name: "Rooftop Views", loc: "Málaga", detail: "Sunset cocktails overlooking the cathedral and port." },
+                  { name: "Beach Club Sunsets", loc: "Marbella", detail: "Relaxed energy and chilled wine as the sun dips." },
+                  { name: "The Castle Lounge", loc: "Monda", detail: "A quiet, starlit evening at our celebration venue." }
                 ]
               }
             ].map((cat, i) => (
-              <div key={i} className="space-y-16 group" style={{ marginTop: `${i * 60}px` }}>
-                <div className="flex items-center gap-6">
-                  <div className="w-12 h-12 rounded-full border border-border/10 flex items-center justify-center text-accent-terracotta bg-white shadow-md">
+              <div key={i} className="reveal group" style={{ transitionDelay: `${i * 150}ms` }}>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-10 h-10 rounded-full bg-accent-terracotta/5 flex items-center justify-center text-accent-terracotta">
                     {cat.icon}
                   </div>
-                  <h3 className="label-uppercase text-[11px] font-extrabold tracking-[0.4em] opacity-50">{cat.category}</h3>
+                  <h3 className="label-uppercase text-[12px] font-extrabold text-primary-text">{cat.category}</h3>
                 </div>
-                <div className="space-y-16 border-l border-accent-terracotta/10 pl-10">
+                <div className="space-y-8">
                   {cat.items.map((item, j) => (
-                    <div key={j} className="space-y-4">
-                      <div className="flex justify-between items-start">
-                         <h4 className="font-serif italic text-3xl text-primary-text group-hover:text-accent-terracotta transition-colors">{item.name}</h4>
-                         <span className="text-[9px] uppercase tracking-widest text-accent-beige font-extrabold mt-2">{item.loc}</span>
+                    <div key={j} className="border-l border-accent-terracotta/10 pl-6 group/item hover:border-accent-terracotta/40 transition-colors">
+                      <div className="flex justify-between items-baseline mb-1">
+                        <h4 className="font-serif italic text-xl text-primary-text group-hover/item:text-accent-terracotta transition-colors">{item.name}</h4>
+                        <span className="text-[10px] uppercase tracking-widest text-accent-beige font-bold">{item.loc}</span>
                       </div>
-                      <p className="text-secondary-text font-serif italic opacity-60 leading-relaxed text-lg">{item.detail}</p>
+                      <p className="text-sm text-secondary-text font-serif italic opacity-70 leading-relaxed">{item.detail}</p>
                     </div>
                   ))}
                 </div>
@@ -204,16 +160,28 @@ export function DiscoveryPage() {
         </div>
       </section>
 
-      {/* FINAL INVITATION */}
-      <section className="py-48 px-6 text-center border-t border-border/10">
-        <div className="max-w-3xl mx-auto reveal">
-          <Sparkles className="mx-auto mb-12 text-accent-terracotta/20 shrink-0" size={48} strokeWidth={1} />
-          <h2 className="text-6xl md:text-8xl font-serif text-primary-text mb-12 italic leading-tight">Join the Story</h2>
-          <p className="text-xl md:text-2xl text-secondary-text font-serif italic mb-20 opacity-70 leading-relaxed">
-            "We have prepared the canvas; we simply await your arrival to complete the chapter."
+      {/* TRAVEL JOURNAL QUOTE */}
+      <section className="py-32 px-6 section-layer-2 text-center overflow-hidden">
+        <div className="max-w-4xl mx-auto relative reveal">
+          <Camera className="absolute -top-12 -left-12 text-accent-terracotta/10 w-24 h-24 rotate-[-15deg]" />
+          <p className="text-3xl md:text-5xl font-serif italic text-primary-text leading-tight mb-12">
+            "To travel is to live, and to explore Andalusia is to find a piece of one's soul in the sun."
           </p>
-          <Link to="/rsvp" className="btn-primary inline-flex shadow-2xl">
-             Confirm Attendance
+          <div className="w-16 h-px bg-accent-terracotta mx-auto mt-8 mb-16" />
+          <span className="label-uppercase tracking-[0.5em] text-accent-beige">A Note for our Guests</span>
+        </div>
+      </section>
+
+      {/* FINAL RSVP CTA */}
+      <section className="section-layer-1 py-32 px-6 border-t border-border/10">
+        <div className="max-w-2xl mx-auto text-center reveal">
+          <span className="label-uppercase mb-6 block font-bold">Primary Action</span>
+          <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-8 italic">Inspired to Join Us?</h2>
+          <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
+            "Once you have explored our story and the beauty of Monda, kindly finalize your plans by submitting your response."
+          </p>
+          <Link to="/rsvp" className="btn-primary">
+             Go to RSVP
           </Link>
         </div>
       </section>
