@@ -129,7 +129,7 @@ export function Home() {
                 className="w-full h-auto object-contain"
               />
             </div>
-            <p className="font-cinzel text-[9px] md:text-[10px] tracking-[0.5em] text-secondary-text -mt-12 md:-mt-14 uppercase font-bold opacity-60">
+            <p className="font-cinzel text-[9px] md:text-[10px] tracking-[0.5em] text-accent-beige -mt-12 md:-mt-14 uppercase font-bold opacity-80">
               En el nombre de Dios
             </p>
           </motion.div>
@@ -173,7 +173,7 @@ export function Home() {
               <h2 className="text-xl md:text-3xl font-serif text-primary-text tracking-[0.3em] uppercase mb-2">
                 17 April 2027
               </h2>
-              <p className="font-cinzel text-[9px] md:text-[11px] tracking-[0.2em] text-secondary-text uppercase font-bold opacity-60">
+              <p className="font-cinzel text-[9px] md:text-[11px] tracking-[0.2em] text-accent-beige uppercase font-bold opacity-80">
                 Castillo de Monda • Andalusia, Spain
               </p>
             </div>

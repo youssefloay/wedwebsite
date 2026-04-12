@@ -65,7 +65,6 @@ export function DiscoveryPage() {
                   <span className="label-uppercase">{item.tag}</span>
                   <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">{item.title}</h2>
                   <div className="w-16 h-px bg-accent-terracotta" />
-                  <h3 className="text-xl font-serif text-accent-beige italic mt-4 opacity-80">{item.subtitle}</h3>
                 </div>
 
                 <div className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-20 items-center mb-40 last:mb-0`}>
@@ -86,6 +85,7 @@ export function DiscoveryPage() {
 
                   {/* Content Side */}
                   <div className="w-full lg:w-1/2 text-center lg:text-left">
+                    <h3 className="text-xl md:text-2xl font-serif text-primary-text mb-6 italic opacity-90">{item.subtitle}</h3>
                     <p className="text-lg md:text-xl text-secondary-text font-serif italic leading-relaxed opacity-90 max-w-xl mx-auto lg:mx-0">
                       {item.desc}
                     </p>
