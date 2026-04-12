@@ -27,6 +27,8 @@ export function GiftsPage() {
     setActiveProvider(activeProvider === id ? null : id);
   };
 
+  const SELECTION_GREEN = '#5F6F51'; // The primary olive green accent from ColorGuide.tsx
+
   // 1. HELPER: Compact Detail Snippet
   function renderDetailSnippet(label: string, value: string, copyId?: string) {
     const isCopied = copiedId === copyId;
@@ -37,7 +39,7 @@ export function GiftsPage() {
           {copyId && (
             <button 
               onClick={() => handleCopy(value, copyId)} 
-              className={`text-[9px] uppercase tracking-widest font-bold transition-all duration-300 flex items-center gap-1.5 ${isCopied ? 'text-green-500' : 'text-accent-terracotta hover:opacity-100'}`}
+              className={`text-[9px] uppercase tracking-widest font-bold transition-all duration-300 flex items-center gap-1.5 ${isCopied ? 'text-green-600' : 'text-accent-terracotta hover:opacity-100'}`}
             >
               {isCopied ? <Check size={10} strokeWidth={3} /> : <Copy size={10} strokeWidth={2.5} />}
               {isCopied ? 'Copied' : 'Copy'}
@@ -55,7 +57,7 @@ export function GiftsPage() {
   function renderLocalCard(region: string, bank: string, holder: string, ival: string, bic: string, isTwint = false) {
     const isOpen = activeProvider === bank;
     return (
-      <div className={`group wedding-card bg-[#FBF9F4]/80 border transition-all duration-700 overflow-hidden ${isOpen ? 'shadow-xl shadow-accent-terracotta/5 border-accent-terracotta/20 bg-white' : 'hover:border-accent-terracotta/20 shadow-sm border-border/10'}`}>
+      <div className={`group wedding-card bg-[#FBF9F4]/80 border transition-all duration-700 overflow-hidden ${isOpen ? 'shadow-xl shadow-accent-terracotta/5 border-border/20 bg-white' : 'hover:border-accent-terracotta/20 shadow-sm border-border/10'}`}>
          <button 
            onClick={() => handleProviderToggle(bank)}
            className={`w-full p-5 md:p-6 flex justify-between items-center text-left transition-colors duration-500 ${isOpen ? 'bg-[#FBF9F4]/60' : ''}`}
@@ -76,22 +78,12 @@ export function GiftsPage() {
 
          <AnimatePresence>
             {isOpen && (
-              <motion.div 
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              >
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
                  <div className="px-6 pb-8 pt-4 border-t border-accent-terracotta/5 space-y-4 relative bg-[#FBF9F4]/20 text-left overflow-hidden">
                     <div className="flex flex-col gap-1 pb-3 border-b border-accent-terracotta/5">
                        <div className="flex justify-between items-center">
                           <span className="text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">Account Holder</span>
-                          <button 
-                            onClick={() => handleCopy(holder, bank + '-holder')} 
-                            className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === bank + '-holder' ? 'text-green-500' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}
-                          >
-                            {copiedId === bank + '-holder' ? 'Copied' : 'Copy'}
-                          </button>
+                          <button onClick={() => handleCopy(holder, bank + '-holder')} className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === bank + '-holder' ? 'text-green-600' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}>{copiedId === bank + '-holder' ? 'Copied' : 'Copy'}</button>
                        </div>
                        <span className="text-base md:text-lg font-serif italic text-primary-text">{holder}</span>
                     </div>
@@ -102,12 +94,7 @@ export function GiftsPage() {
                           <div className="flex flex-col gap-1 py-3 border-b border-accent-terracotta/5">
                             <div className="flex justify-between items-center">
                               <span className="text-[9px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">BIC CODE</span>
-                              <button 
-                                onClick={() => handleCopy(bic, bank + '-bic')} 
-                                className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === bank + '-bic' ? 'text-green-500' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}
-                              >
-                                {copiedId === bank + '-bic' ? 'Copied' : 'Copy'}
-                              </button>
+                              <button onClick={() => handleCopy(bic, bank + '-bic')} className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === bank + '-bic' ? 'text-green-600' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}>{copiedId === bank + '-bic' ? 'Copied' : 'Copy'}</button>
                             </div>
                             <span className="text-xs font-bold font-mono text-primary-text tracking-widest">{bic}</span>
                           </div>
@@ -119,12 +106,7 @@ export function GiftsPage() {
                                <span className="text-[8px] uppercase tracking-[0.3em] text-accent-terracotta font-bold block opacity-60">Required Reference</span>
                                <span className="text-xs font-bold text-accent-terracotta font-mono uppercase tracking-tight">Wedding - [Your Name]</span>
                             </div>
-                            <button 
-                              onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} 
-                              className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === bank + '-ref' ? 'bg-green-500 text-white' : 'bg-accent-terracotta text-white'}`}
-                            >
-                               {copiedId === bank + '-ref' ? <Check size={12} /> : <Copy size={12} />}
-                            </button>
+                            <button onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === bank + '-ref' ? 'bg-green-600 text-white' : 'bg-accent-terracotta text-white'}`}>{copiedId === bank + '-ref' ? <Check size={12} /> : <Copy size={12} />}</button>
                          </div>
                        )}
                     </div>
@@ -166,7 +148,7 @@ export function GiftsPage() {
         </div>
       </section>
 
-      {/* 4. DYNAMIC TRANSFERS (Warmer UI) */}
+      {/* 4. DYNAMIC TRANSFERS (Green UI Selections) */}
       <div className="max-w-4xl mx-auto px-6 py-16 space-y-10">
         
         {/* REGION SELECTION PANEL */}
@@ -176,7 +158,7 @@ export function GiftsPage() {
              <h2 className="text-2xl md:text-3xl font-serif text-primary-text italic tracking-tight opacity-90">Select Your Location</h2>
           </div>
           
-          <div className="bg-[#F5EFEB]/80 backdrop-blur-md p-1.5 rounded-full border border-accent-terracotta/20 flex gap-1 shadow-inner relative overflow-hidden isolate w-full max-w-sm">
+          <div className="bg-[#F5EFEB]/80 backdrop-blur-md p-1.5 rounded-full border border-border/10 flex gap-1 shadow-inner relative overflow-hidden isolate w-full max-w-sm">
             {regions.map((region) => (
               <button
                 key={region.id}
@@ -190,8 +172,9 @@ export function GiftsPage() {
               >
                 {activeRegion === region.id && (
                   <motion.div
-                    layoutId="activeRegionTabPill"
-                    className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1] shadow-md shadow-accent-terracotta/10"
+                    layoutId="activeRegionTabPillOlive"
+                    className="absolute inset-0 z-[-1] rounded-full shadow-md shadow-black/5"
+                    style={{ backgroundColor: SELECTION_GREEN }}
                     initial={false}
                     transition={{ type: "spring", bounce: 0.1, duration: 0.6 }}
                   />
@@ -206,59 +189,33 @@ export function GiftsPage() {
         <div className="max-w-2xl mx-auto space-y-4">
           
           {/* A. REVOLUT (Hub) */}
-          <div className={`group wedding-card bg-[#FBF9F4]/80 border transition-all duration-700 overflow-hidden ${activeProvider === 'revolut' ? 'shadow-xl shadow-accent-terracotta/5 border-accent-terracotta/20 bg-white' : 'hover:border-accent-terracotta/20 shadow-sm border-border/10'}`}>
-             <button 
-               onClick={() => handleProviderToggle('revolut')}
-               className={`w-full p-5 md:p-6 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'revolut' ? 'bg-[#FBF9F4]/60' : ''}`}
-             >
+          <div className={`group wedding-card bg-[#FBF9F4]/80 border transition-all duration-700 overflow-hidden ${activeProvider === 'revolut' ? 'shadow-xl shadow-accent-terracotta/5 border-border/20 bg-white' : 'hover:border-accent-terracotta/20 shadow-sm border-border/10'}`}>
+             <button onClick={() => handleProviderToggle('revolut')} className={`w-full p-5 md:p-6 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'revolut' ? 'bg-[#FBF9F4]/60' : ''}`}>
                 <div className="flex items-center gap-4">
-                   <div className={`w-9 h-9 md:w-11 md:h-11 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-white/50 text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}>
-                      <Sparkles size={16} strokeWidth={1.5} />
-                   </div>
-                   <div>
-                      <span className="block text-[8px] uppercase tracking-[0.25em] text-secondary-text font-bold opacity-40">Modern Global</span>
-                      <h3 className={`text-lg md:text-2xl font-serif italic transition-all duration-500 ${activeProvider === 'revolut' ? 'text-accent-terracotta' : 'text-primary-text'}`}>Revolut Hub</h3>
-                   </div>
+                   <div className={`w-9 h-9 md:w-11 md:h-11 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-white/50 text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><Sparkles size={16} strokeWidth={1.5} /></div>
+                   <div><span className="block text-[8px] uppercase tracking-[0.25em] text-secondary-text font-bold opacity-40">Modern Global</span><h3 className={`text-lg md:text-2xl font-serif italic transition-all duration-500 ${activeProvider === 'revolut' ? 'text-accent-terracotta' : 'text-primary-text'}`}>Revolut Hub</h3></div>
                 </div>
-                <div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-500 ${activeProvider === 'revolut' ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}>
-                   <ChevronDown size={14} strokeWidth={2.5} />
-                </div>
+                <div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-500 ${activeProvider === 'revolut' ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}><ChevronDown size={14} strokeWidth={2.5} /></div>
              </button>
 
              <AnimatePresence>
                {activeProvider === 'revolut' && (
-                 <motion.div 
-                   initial={{ height: 0, opacity: 0 }}
-                   animate={{ height: 'auto', opacity: 1 }}
-                   exit={{ height: 0, opacity: 0 }}
-                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                 >
+                 <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
                     <div className="px-6 pb-8 pt-4 border-t border-accent-terracotta/5 space-y-8 overflow-hidden text-left bg-[#FBF9F4]/20 relative">
-                       
-                       {/* IMPROVED TAB SYSTEM */}
-                       <div className="bg-[#F5EFEB]/80 p-1 rounded-full border border-accent-terracotta/20 flex gap-1 shadow-inner relative overflow-hidden isolate w-full max-w-[320px] mx-auto md:mx-0">
-                         <button 
-                           onClick={() => setRevolutMode('tag')} 
-                           className={`flex-1 relative py-3 rounded-full text-[9px] uppercase font-bold tracking-[0.15em] transition-all duration-500 z-10 ${revolutMode === 'tag' ? 'text-white' : 'text-secondary-text opacity-40 hover:opacity-100'}`}
-                         >
-                            {revolutMode === 'tag' && (
-                               <motion.div layoutId="revolutTabPill" className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1] shadow-lg shadow-accent-terracotta/20" transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />
-                            )}
+                       <div className="bg-[#F5EFEB]/80 p-1 rounded-full border border-border/10 flex gap-1 shadow-inner relative overflow-hidden isolate w-full max-w-[320px] mx-auto md:mx-0">
+                         <button onClick={() => setRevolutMode('tag')} className={`flex-1 relative py-3 rounded-full text-[9px] uppercase font-bold tracking-[0.15em] transition-all duration-500 z-10 ${revolutMode === 'tag' ? 'text-white' : 'text-secondary-text opacity-40 hover:opacity-100'}`}>
+                            {revolutMode === 'tag' && (<motion.div layoutId="revolutTabPillOlive" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SELECTION_GREEN }} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />)}
                             Revolut Tag
                          </button>
                          {activeRegion !== 'switzerland' && (
                             <button onClick={() => setRevolutMode('iban')} className={`flex-1 relative py-3 rounded-full text-[9px] uppercase font-bold tracking-[0.15em] transition-all duration-500 z-10 ${revolutMode === 'iban' ? 'text-white' : 'text-secondary-text opacity-40 hover:opacity-100'}`}>
-                               {revolutMode === 'iban' && (
-                                  <motion.div layoutId="revolutTabPill" className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1] shadow-lg shadow-accent-terracotta/20" transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />
-                               )}
+                               {revolutMode === 'iban' && (<motion.div layoutId="revolutTabPillOlive" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SELECTION_GREEN }} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />)}
                                Euro IBAN
                             </button>
                          )}
                          {activeRegion === 'switzerland' && (
                             <button onClick={() => setRevolutMode('chf')} className={`flex-1 relative py-3 rounded-full text-[9px] uppercase font-bold tracking-[0.15em] transition-all duration-500 z-10 ${revolutMode === 'chf' ? 'text-white' : 'text-secondary-text opacity-40 hover:opacity-100'}`}>
-                               {revolutMode === 'chf' && (
-                                  <motion.div layoutId="revolutTabPill" className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1] shadow-lg shadow-accent-terracotta/20" transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />
-                               )}
+                               {revolutMode === 'chf' && (<motion.div layoutId="revolutTabPillOlive" className="absolute inset-0 z-[-1] rounded-full shadow-lg shadow-black/5" style={{ backgroundColor: SELECTION_GREEN }} transition={{ type: "spring", bounce: 0.1, duration: 0.6 }} />)}
                                Swiss CHF
                             </button>
                          )}
@@ -268,45 +225,33 @@ export function GiftsPage() {
                           {revolutMode === 'chf' && activeRegion === 'switzerland' ? (
                             <div className="w-full max-w-sm space-y-4">
                                <div className="flex flex-col gap-1 pb-3 border-b border-accent-terracotta/5">
-                                  <div className="flex justify-between items-center">
-                                    <span className="text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">Recipient Name</span>
-                                    <button onClick={() => handleCopy('Revolut Bank UAB', 'rev-chf-holder')} className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === 'rev-chf-holder' ? 'text-green-500' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}>{copiedId === 'rev-chf-holder' ? 'Copied' : 'Copy'}</button>
-                                  </div>
+                                  <div className="flex justify-between items-center"><span className="text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">Recipient Name</span><button onClick={() => handleCopy('Revolut Bank UAB', 'rev-chf-holder')} className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === 'rev-chf-holder' ? 'text-green-600' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}>{copiedId === 'rev-chf-holder' ? 'Copied' : 'Copy'}</button></div>
                                   <span className="text-base md:text-lg font-serif italic text-primary-text">Revolut Bank UAB</span>
                                </div>
                                {renderDetailSnippet('Swiss CHF IBAN', 'CH44 0900 0W0C 1638 5407 7', 'rev-chf-iban')}
                                <div className="bg-accent-terracotta/5 p-3 rounded-lg border border-accent-terracotta/10 flex items-center justify-between shadow-sm">
-                                  <div className="space-y-0.5">
-                                    <span className="text-[8px] uppercase tracking-[0.3em] text-accent-terracotta font-bold block opacity-60">Required Reference</span>
-                                    <span className="text-xs font-bold text-accent-terracotta font-mono tracking-tighter">LAMA LOAY, CH</span>
-                                  </div>
-                                  <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === 'rev-chf-ref' ? 'bg-green-500 text-white' : 'bg-accent-terracotta text-white'}`}>{copiedId === 'rev-chf-ref' ? <Check size={12} /> : <Copy size={12} />}</button>
+                                  <div className="space-y-0.5"><span className="text-[8px] uppercase tracking-[0.3em] text-accent-terracotta font-bold block opacity-60">Required Reference</span><span className="text-xs font-bold text-accent-terracotta font-mono tracking-tighter">LAMA LOAY, CH</span></div>
+                                  <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === 'rev-chf-ref' ? 'bg-green-600 text-white' : 'bg-accent-terracotta text-white'}`}>{copiedId === 'rev-chf-ref' ? <Check size={12} /> : <Copy size={12} />}</button>
                                </div>
                             </div>
                           ) : revolutMode === 'tag' ? (
                             <div className="flex flex-col items-center gap-6 text-center w-full max-w-xs">
                               <span className="text-3xl md:text-5xl font-serif text-primary-text italic tracking-tighter leading-none opacity-80 select-all">@lamaloay</span>
                               <div className="flex flex-col gap-3 w-full px-6">
-                                <button onClick={() => handleCopy('@lamaloay', 'rev-tag')} className={`btn-primary w-full py-3 rounded-full text-[9px] tracking-widest transition-all duration-500 ${copiedId === 'rev-tag' ? 'bg-green-600' : 'bg-primary-text'}`}>{copiedId === 'rev-tag' ? 'Username Copied!' : 'Copy Username'}</button>
+                                <button onClick={() => handleCopy('@lamaloay', 'rev-tag')} className={`btn-primary w-full py-3 rounded-full text-[9px] tracking-widest transition-all duration-500 ${copiedId === 'rev-tag' ? 'bg-green-700' : 'bg-primary-text'}`}>{copiedId === 'rev-tag' ? 'Username Copied!' : 'Copy Username'}</button>
                                 <a href="https://revolut.me/lamaloay" target="_blank" rel="noopener noreferrer" className="text-[8px] uppercase tracking-[0.3em] text-accent-terracotta font-bold flex items-center justify-center gap-2 opacity-50 hover:opacity-100 transition-opacity">Open Revolut <ExternalLink size={10} /></a>
                               </div>
                             </div>
                           ) : (
                             <div className="w-full max-w-sm space-y-4">
                                <div className="flex flex-col gap-1 pb-3 border-b border-accent-terracotta/5">
-                                  <div className="flex justify-between items-center">
-                                    <span className="text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">Recipient Name</span>
-                                    <button onClick={() => handleCopy('LAMA LOAY', 'rev-euro-holder')} className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === 'rev-euro-holder' ? 'text-green-500' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}>{copiedId === 'rev-euro-holder' ? 'Copied' : 'Copy'}</button>
-                                  </div>
+                                  <div className="flex justify-between items-center"><span className="text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-30">Recipient Name</span><button onClick={() => handleCopy('LAMA LOAY', 'rev-euro-holder')} className={`text-[9px] uppercase font-bold transition-all duration-300 ${copiedId === 'rev-euro-holder' ? 'text-green-600' : 'text-accent-terracotta opacity-60 hover:opacity-100'}`}>{copiedId === 'rev-euro-holder' ? 'Copied' : 'Copy'}</button></div>
                                   <span className="text-base md:text-lg font-serif italic text-primary-text">LAMA LOAY</span>
                                </div>
                                {renderDetailSnippet('Euro IBAN Account', 'LT18 3250 0331 5970 5728', 'rev-euro-iban')}
                                <div className="bg-accent-terracotta/5 p-3 rounded-lg border border-accent-terracotta/10 flex items-center justify-between shadow-sm">
-                                  <div className="space-y-0.5">
-                                    <span className="text-[8px] uppercase tracking-[0.3em] text-accent-terracotta font-bold block opacity-60">Required Reference</span>
-                                    <span className="text-xs font-bold text-accent-terracotta font-mono tracking-tighter">Wedding - [Your Name]</span>
-                                  </div>
-                                  <button onClick={() => handleCopy('Wedding - [Your Name]', 'rev-euro-ref')} className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === 'rev-euro-ref' ? 'bg-green-500 text-white' : 'bg-accent-terracotta text-white'}`}>{copiedId === 'rev-euro-ref' ? <Check size={12} /> : <Copy size={12} />}</button>
+                                  <div className="space-y-0.5"><span className="text-[8px] uppercase tracking-[0.3em] text-accent-terracotta font-bold block opacity-60">Required Reference</span><span className="text-xs font-bold text-accent-terracotta font-mono tracking-tighter">Wedding - [Your Name]</span></div>
+                                  <button onClick={() => handleCopy('Wedding - [Your Name]', 'rev-euro-ref')} className={`p-1.5 rounded-full transition-all duration-300 ${copiedId === 'rev-euro-ref' ? 'bg-green-600 text-white' : 'bg-accent-terracotta text-white'}`}>{copiedId === 'rev-euro-ref' ? <Check size={12} /> : <Copy size={12} />}</button>
                                </div>
                             </div>
                           )}
@@ -319,47 +264,24 @@ export function GiftsPage() {
 
           {/* B. LOCAL OPTIONS */}
           {activeRegion === 'france' && renderLocalCard('France', 'BoursoBank', 'Lama Loay', 'FR76 4061 8803 3500 0402 2902 922', 'BOUS FRPP XXX')}
-          
           {activeRegion === 'switzerland' && (
-            <>
-              {renderLocalCard('Switzerland', 'UBS', 'Lama Loay', 'CH16 0021 5215 1631 0340 Y', 'UBSWCHZH80A')}
-              {renderLocalCard('Switzerland', 'TWINT', 'Lama Loay', '+41 76 701 34 52', '', true)}
-            </>
+            <><font color="#6B7864">{renderLocalCard('Switzerland', 'UBS', 'Lama Loay', 'CH16 0021 5215 1631 0340 Y', 'UBSWCHZH80A')}</font>{renderLocalCard('Switzerland', 'TWINT', 'Lama Loay', '+41 76 701 34 52', '', true)}</>
           )}
 
           {/* C. IN-PERSON WISHES */}
-          <div className={`group wedding-card bg-[#FBF9F4]/80 border transition-all duration-700 overflow-hidden ${activeProvider === 'inperson' ? 'shadow-xl shadow-accent-terracotta/5 border-accent-terracotta/20 bg-white' : 'hover:border-accent-terracotta/20 shadow-sm border-border/10'}`}>
-             <button 
-               onClick={() => handleProviderToggle('inperson')}
-               className={`w-full p-5 md:p-6 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'inperson' ? 'bg-[#FBF9F4]/60' : ''}`}
-             >
+          <div className={`group wedding-card bg-[#FBF9F4]/80 border transition-all duration-700 overflow-hidden ${activeProvider === 'inperson' ? 'shadow-xl shadow-accent-terracotta/5 border-border/20 bg-white' : 'hover:border-accent-terracotta/20 shadow-sm border-border/10'}`}>
+             <button onClick={() => handleProviderToggle('inperson')} className={`w-full p-5 md:p-6 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'inperson' ? 'bg-[#FBF9F4]/60' : ''}`}>
                 <div className="flex items-center gap-4">
-                   <div className={`w-9 h-9 md:w-11 md:h-11 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-white/50 text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}>
-                      <Heart size={16} strokeWidth={1.5} />
-                   </div>
-                   <div>
-                      <span className="block text-[8px] uppercase tracking-[0.25em] text-secondary-text font-bold opacity-40">Venue / Physical</span>
-                      <h3 className={`text-lg md:text-2xl font-serif italic transition-all duration-500 ${activeProvider === 'inperson' ? 'text-accent-terracotta' : 'text-primary-text'}`}>In-Person Wishes</h3>
-                   </div>
+                   <div className={`w-9 h-9 md:w-11 md:h-11 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-white/50 text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><Heart size={16} strokeWidth={1.5} /></div>
+                   <div><span className="block text-[8px] uppercase tracking-[0.25em] text-secondary-text font-bold opacity-40">Venue / Physical</span><h3 className={`text-lg md:text-2xl font-serif italic transition-all duration-500 ${activeProvider === 'inperson' ? 'text-accent-terracotta' : 'text-primary-text'}`}>In-Person Wishes</h3></div>
                 </div>
-                <div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}>
-                   <ChevronDown size={14} strokeWidth={2.5} />
-                </div>
+                <div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}><ChevronDown size={14} strokeWidth={2.5} /></div>
              </button>
 
              <AnimatePresence>
                 {activeProvider === 'inperson' && (
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                     <div className="px-8 pb-12 pt-6 border-t border-accent-terracotta/5 space-y-8 overflow-hidden text-center relative bg-[#FBF9F4]/20">
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-6 bg-gradient-to-b from-accent-terracotta/20 to-transparent" />
-                        <div className="max-w-md mx-auto space-y-5 relative z-10">
-                           <p className="text-lg md:text-xl text-secondary-text italic leading-relaxed font-serif pt-2 opacity-70">"For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace."</p>
-                           <div className="pt-2 flex flex-col items-center gap-2">
-                              <div className="w-1 h-1 rounded-full bg-accent-terracotta/20" />
-                              <span className="label-uppercase text-[9px] opacity-40 tracking-[0.3em] text-accent-terracotta font-serif italic">Castillo de Monda</span>
-                           </div>
-                        </div>
-                     </div>
+                     <div className="px-8 pb-12 pt-6 border-t border-accent-terracotta/5 space-y-8 overflow-hidden text-center relative bg-[#FBF9F4]/20"><div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-6 bg-gradient-to-b from-accent-terracotta/20 to-transparent" /><div className="max-w-md mx-auto space-y-5 relative z-10"><p className="text-lg md:text-xl text-secondary-text italic leading-relaxed font-serif pt-2 opacity-70">"For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace."</p><div className="pt-2 flex flex-col items-center gap-2"><div className="w-1 h-1 rounded-full bg-accent-terracotta/20" /><span className="label-uppercase text-[9px] opacity-40 tracking-[0.3em] text-accent-terracotta font-serif italic">Castillo de Monda</span></div></div></div>
                   </motion.div>
                 )}
              </AnimatePresence>
@@ -369,10 +291,7 @@ export function GiftsPage() {
 
       {/* FINAL RSVP CTA */}
       <section className="bg-background py-20 px-6 border-t border-border/5">
-        <div className="max-w-xl mx-auto text-center reveal">
-          <h2 className="text-2xl md:text-3xl font-serif text-primary-text mb-4 italic tracking-tight opacity-80">Finalize Your Plans</h2>
-          <Link to="/rsvp" className="btn-primary inline-flex px-12 py-4 text-[10px] rounded-full hover:shadow-lg transition-all duration-500">Submit RSVP</Link>
-        </div>
+        <div className="max-w-xl mx-auto text-center reveal"><h2 className="text-2xl md:text-3xl font-serif text-primary-text mb-4 italic tracking-tight opacity-80">Finalize Your Plans</h2><Link to="/rsvp" className="btn-primary inline-flex px-12 py-4 text-[10px] rounded-full hover:shadow-lg transition-all duration-500">Submit RSVP</Link></div>
       </section>
 
     </div>
