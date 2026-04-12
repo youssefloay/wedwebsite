@@ -346,7 +346,7 @@ export function TravelPage() {
               {/* Essentials Dashboard */}
               <div className="pt-8 border-t border-accent-terracotta/20">
                 <h4 className="label-uppercase mb-6 text-[10px]">Andalusian Essentials Dashboard</h4>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                   <div className="p-4 bg-white/40 rounded-2xl border border-white/50">
                     <div className="flex items-center gap-2 mb-1">
                       <Zap size={16} strokeWidth={1.25} className="text-accent-terracotta" />
@@ -361,12 +361,19 @@ export function TravelPage() {
                     </div>
                     <span className="text-sm font-bold text-primary-text">CEST</span>
                   </div>
-                  <div className="p-4 bg-white/40 rounded-2xl border border-white/50 col-span-2 md:col-span-1">
+                  <div className="p-4 bg-white/40 rounded-2xl border border-white/50">
                     <div className="flex items-center gap-2 mb-1">
                       <Banknote size={16} strokeWidth={1.25} className="text-accent-terracotta" />
                       <span className="text-[9px] uppercase tracking-widest text-secondary-text">Currency</span>
                     </div>
                     <span className="text-sm font-bold text-primary-text">Euros (€)</span>
+                  </div>
+                  <div className="p-4 bg-white/40 rounded-2xl border border-white/50">
+                    <div className="flex items-center gap-2 mb-1">
+                      <ShieldCheck size={16} strokeWidth={1.25} className="text-accent-terracotta" />
+                      <span className="text-[9px] uppercase tracking-widest text-secondary-text">Safety</span>
+                    </div>
+                    <span className="text-sm font-bold text-primary-text">Insurance</span>
                   </div>
                 </div>
               </div>
