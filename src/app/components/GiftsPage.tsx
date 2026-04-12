@@ -126,7 +126,7 @@ export function GiftsPage() {
       {/* 1. HERO */}
       <section className="relative pt-12 pb-4 px-6 overflow-hidden text-center section-layer-1 border-b border-border/5">
         <div className="absolute inset-0 z-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
-        <div className="relative z-10 max-w-3xl mx-auto reveal animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        <div className="relative z-10 max-w-3xl mx-auto reveal">
           <span className="label-uppercase mb-4">Gifting</span>
           <h1 className="text-4xl md:text-5xl font-serif text-primary-text mb-4 italic tracking-tighter">Support Our Story</h1>
           <div className="w-10 h-px mx-auto mb-6 bg-accent-terracotta/20" />
@@ -197,7 +197,7 @@ export function GiftsPage() {
                    <div className={`w-9 h-9 md:w-11 md:h-11 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'bg-accent-terracotta text-white border-accent-terracotta' : 'bg-white/50 text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><Sparkles size={16} strokeWidth={1.5} /></div>
                    <div><span className="block text-[8px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-40 font-cinzel">Modern Global</span><h3 className={`text-lg md:text-xl font-cinzel transition-all duration-500 ${activeProvider === 'revolut' ? 'text-accent-terracotta' : 'text-primary-text'}`}>Revolut Hub</h3></div>
                 </div>
-                <div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-500 ${activeProvider === 'revolut' ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}><ChevronDown size={14} strokeWidth={2.5} /></div>
+                <div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}><ChevronDown size={14} strokeWidth={2.5} /></div>
              </button>
 
              <AnimatePresence>
@@ -328,7 +328,3 @@ export function GiftsPage() {
     </div>
   );
 }
-
-const ExternalLink = ({ size }: { size: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-40 font-bold"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-);
