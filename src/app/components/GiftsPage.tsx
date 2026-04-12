@@ -97,139 +97,88 @@ export function GiftsPage() {
         </div>
       </section>
 
-      {/* 4. REGION SELECTOR */}
-      <section className="px-6 sticky top-[72px] md:top-[80px] z-[60] bg-background/90 backdrop-blur-xl py-6 border-b border-border/10 shadow-sm transition-all duration-300">
-        <div className="max-w-2xl mx-auto flex flex-col items-center gap-6">
-          <span className="label-uppercase text-[10px] tracking-[0.4em] opacity-60">Select region for transfer details</span>
-          <div className="bg-white/30 backdrop-blur-md p-1.5 rounded-full border border-border/10 flex gap-1 shadow-inner relative overflow-hidden isolate">
-            {regions.map((region) => (
-              <button
-                key={region.id}
-                onClick={() => {
-                   setActiveRegion(region.id as Region);
-                   if (region.id === 'switzerland') setRevolutMode('chf');
-                   else setRevolutMode('tag');
-                }}
-                className={`flex-1 relative px-4 md:px-8 py-2.5 rounded-full text-[10px] md:text-[11px] uppercase font-bold tracking-[0.2em] transition-all duration-500 whitespace-nowrap ${
-                  activeRegion === region.id ? 'text-white' : 'text-secondary-text hover:text-primary-text'
-                }`}
-              >
-                {activeRegion === region.id && (
-                  <motion.div
-                    layoutId="activeRegionTab"
-                    className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1]"
-                    initial={false}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                {region.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. THE HUB & LOCAL BANKS */}
-      <div className="max-w-5xl mx-auto px-6 py-16 space-y-24">
-        <section>
-          <div className="flex flex-col items-center mb-12">
-            <div className="flex items-center gap-3 mb-4">
-              <Sparkles size={20} className="text-accent-terracotta" strokeWidth={1.25} />
-              <span className="label-uppercase font-bold">Recommended Method</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">The Revolut Hub</h2>
-          </div>
-
-          <div className="wedding-card bg-white border border-border/10 p-0 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-1000">
-            <div className="flex border-b border-border/10 bg-[#FBF9F4] overflow-x-auto no-scrollbar">
-              <button onClick={() => setRevolutMode('tag')} className={`flex-1 min-w-[100px] py-5 text-[10px] uppercase tracking-[0.2em] font-bold transition-all ${revolutMode === 'tag' ? 'text-accent-terracotta bg-white border-b-2 border-accent-terracotta' : 'text-secondary-text'}`}>Revolut Tag</button>
-              {activeRegion !== 'switzerland' && <button onClick={() => setRevolutMode('iban')} className={`flex-1 min-w-[100px] py-5 text-[10px] uppercase tracking-[0.2em] font-bold transition-all ${revolutMode === 'iban' ? 'text-accent-terracotta bg-white border-b-2 border-accent-terracotta' : 'text-secondary-text'}`}>Euro IBAN</button>}
-              {activeRegion === 'switzerland' && <button onClick={() => setRevolutMode('chf')} className={`flex-1 min-w-[100px] py-5 text-[10px] uppercase tracking-[0.2em] font-bold transition-all ${revolutMode === 'chf' ? 'text-accent-terracotta bg-white border-b-2 border-accent-terracotta' : 'text-secondary-text'}`}>Swiss CHF</button>}
-            </div>
-
-            <div className="p-8 md:p-16 min-h-[420px] flex items-center justify-center">
-              {revolutMode === 'chf' && activeRegion === 'switzerland' ? (
-                <div className="w-full max-w-md space-y-6 animate-in fade-in zoom-in-95 duration-700">
-                  <div className="bg-accent-terracotta/[0.03] p-5 rounded-2xl border border-accent-terracotta/20 mb-8">
-                    <div className="flex justify-between items-center mb-2">
-                       <span className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold italic">Required Reference</span>
-                       <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className="text-[9px] font-bold text-accent-terracotta uppercase">{copiedId === 'rev-chf-ref' ? 'Copied' : 'Copy'}</button>
-                    </div>
-                    <span className="text-xl font-bold text-accent-terracotta font-mono tracking-tight underline decoration-dotted underline-offset-4">LAMA LOAY, CH</span>
-                  </div>
-                  {renderDetailRow('Beneficiary', 'Revolut Bank UAB')}
-                  {renderDetailRow('IBAN', 'CH44 0900 0W0C 1638 5407 7', 'rev-chf-iban')}
-                  {renderDetailRow('Bank', 'PostFinance AG, Bern')}
-                </div>
-              ) : revolutMode === 'tag' ? (
-                <div className="flex flex-col items-center gap-8 animate-in fade-in zoom-in-95 duration-700 text-center">
-                  <span className="text-5xl md:text-7xl font-serif text-primary-text italic tracking-tight">@lamaloay</span>
-                  <div className="flex flex-col gap-4">
-                    <button onClick={() => handleCopy('@lamaloay', 'rev-tag')} className={`btn-primary px-12 py-4 rounded-full text-xs transition-all ${copiedId === 'rev-tag' ? 'bg-green-500' : ''}`}>
-                      {copiedId === 'rev-tag' ? 'Tag Copied!' : 'Copy Tag to Clipboard'}
-                    </button>
-                    <a 
-                      href="https://revolut.me/lamaloay" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold flex items-center justify-center gap-2 hover:underline"
-                    >
-                      Open in App <ExternalLink size={12} />
-                    </a>
-                  </div>
-                </div>
-              ) : (
-                <div className="w-full max-w-md space-y-6 animate-in fade-in zoom-in-95 duration-700">
-                  {renderDetailRow('Beneficiary', 'LAMA LOAY')}
-                  {renderDetailRow('Euro IBAN', 'LT18 3250 0331 5970 5728', 'rev-euro-iban')}
-                  {renderDetailRow('BIC / SWIFT', 'REVOLT21', 'rev-euro-bic')}
-                  {renderReferenceBlock('rev-euro-ref')}
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* LOCAL BANKS SECTION */}
-        <section className="space-y-12">
-          <div className="text-center mb-12">
-            <span className="label-uppercase mb-4 block">Traditional Transfers</span>
-            <h2 className="text-3xl md:text-4xl font-serif italic text-primary-text">Regional Bank Accounts</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {activeRegion === 'france' && renderLocalCard('France', 'BoursoBank', 'Lama Loay', 'FR76 4061 8803 3500 0402 2902 922', 'BOUS FRPP XXX', '44 rue Traversière, 92772, FR')}
-            {activeRegion === 'switzerland' && (
-              <>
-                {renderLocalCard('Switzerland', 'UBS', 'Lama Loay', 'CH16 0021 5215 1631 0340 Y', 'UBSWCHZH80A', 'Switzerland')}
-                {renderLocalCard('Switzerland', 'TWINT', 'Lama Loay', '+41 76 701 34 52', '', '', true)}
-              </>
-            )}
-
-            {activeRegion === 'international' && (
-              <div className="col-span-full wedding-card bg-[#F5EFEB]/30 text-center p-8 flex flex-col items-center justify-center border border-border/10">
-                <Globe className="text-accent-terracotta mb-6 opacity-40" size={32} />
-                <p className="text-lg italic text-secondary-text mb-4">International Guest?</p>
-                <p className="text-xs text-secondary-text max-w-[200px] mb-8 leading-relaxed">The Revolut Hub above is your best option for global transfers.</p>
-                <button onClick={() => window.scrollTo({ top: 500, behavior: 'smooth' })} className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold underline underline-offset-4">Back to Hub</button>
+        {/* 4. THE TWO PATHS: DIGITAL & PHYSICAL */}
+        <div className="space-y-32">
+          
+          {/* DIGITAL PATH: REVOLUT */}
+          <section className="reveal">
+            <div className="flex flex-col items-center mb-12">
+              <div className="flex items-center gap-3 mb-4">
+                <Smartphone size={20} className="text-accent-terracotta" strokeWidth={1.25} />
+                <span className="label-uppercase font-bold">Digital Transfer</span>
               </div>
-            )}
-          </div>
-        </section>
-
-        {/* IN-PERSON SECTION (Separate) */}
-        <section className="pt-12 reveal">
-          <div className="max-w-xl mx-auto">
-            <div className="wedding-card bg-accent-terracotta/[0.02] border-2 border-dashed border-accent-terracotta/20 p-12 flex flex-col items-center text-center group hover:bg-white hover:border-accent-terracotta/40 transition-all duration-700 shadow-sm">
-              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-accent-terracotta mb-6">On the Day Gestures</span>
-              <h3 className="text-3xl font-serif italic mb-6">In-Person Wishes</h3>
-              <p className="text-lg text-secondary-text italic leading-relaxed font-serif max-w-[320px]">
-                "For those who prefer to share their wishes in person, a collection box will be available at the venue terrace on our celebration day."
-              </p>
-              <div className="w-12 h-px bg-accent-terracotta/20 mt-10" />
+              <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">The Revolut Hub</h2>
+              <div className="w-16 h-px bg-accent-terracotta/20" />
             </div>
-          </div>
-        </section>
+
+            <div className="wedding-card bg-white border border-border/10 p-0 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-1000 max-w-4xl mx-auto">
+              <div className="flex border-b border-border/10 bg-[#FBF9F4] overflow-x-auto no-scrollbar">
+                <button onClick={() => setRevolutMode('tag')} className={`flex-1 min-w-[120px] py-6 text-[11px] uppercase tracking-[0.2em] font-bold transition-all ${revolutMode === 'tag' ? 'text-accent-terracotta bg-white border-b-2 border-accent-terracotta shadow-sm' : 'text-secondary-text opacity-60'}`}>Revolut Tag</button>
+                <button onClick={() => setRevolutMode('iban')} className={`flex-1 min-w-[120px] py-6 text-[11px] uppercase tracking-[0.2em] font-bold transition-all ${revolutMode === 'iban' ? 'text-accent-terracotta bg-white border-b-2 border-accent-terracotta shadow-sm' : 'text-secondary-text opacity-60'}`}>Euro IBAN</button>
+              </div>
+
+              <div className="p-8 md:p-20 min-h-[400px] flex items-center justify-center">
+                {revolutMode === 'tag' ? (
+                  <div className="flex flex-col items-center gap-8 animate-in fade-in zoom-in-95 duration-700 text-center">
+                    <span className="text-5xl md:text-7xl font-serif text-primary-text italic tracking-tight">@lamaloay</span>
+                    <div className="flex flex-col gap-4">
+                      <button onClick={() => handleCopy('@lamaloay', 'rev-tag')} className={`btn-primary px-16 py-4 rounded-full text-xs transition-all ${copiedId === 'rev-tag' ? 'bg-green-500' : 'shadow-lg hover:shadow-accent-terracotta/20'}`}>
+                        {copiedId === 'rev-tag' ? 'Tag Copied!' : 'Copy Tag to Clipboard'}
+                      </button>
+                      <a 
+                        href="https://revolut.me/lamaloay" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold flex items-center justify-center gap-2 hover:underline"
+                      >
+                        Open in Revolut App <ExternalLink size={12} />
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full max-w-md space-y-8 animate-in fade-in zoom-in-95 duration-700">
+                    <div className="space-y-6">
+                      {renderDetailRow('Beneficiary', 'LAMA LOAY')}
+                      {renderDetailRow('Euro IBAN', 'LT18 3250 0331 5970 5728', 'rev-euro-iban')}
+                      {renderDetailRow('BIC / SWIFT', 'REVOLT21', 'rev-euro-bic')}
+                    </div>
+                    {renderReferenceBlock('rev-euro-ref')}
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* PHYSICAL PATH: IN-PERSON */}
+          <section className="reveal pb-16">
+            <div className="max-w-3xl mx-auto">
+              <div className="wedding-card bg-[#F5EFEB]/40 backdrop-blur-sm border-2 border-dashed border-accent-terracotta/20 p-12 md:p-20 flex flex-col items-center text-center group hover:bg-white hover:border-accent-terracotta/40 transition-all duration-1000 shadow-sm relative overflow-visible">
+                {/* Visual anchor icon */}
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 rounded-full bg-white border border-border/10 flex items-center justify-center text-accent-terracotta shadow-xl rotate-12 group-hover:rotate-0 transition-transform duration-1000">
+                   <Heart size={32} strokeWidth={1.25} />
+                </div>
+
+                <div className="max-w-xl mx-auto space-y-8">
+                  <div className="flex flex-col items-center gap-4">
+                    <span className="label-uppercase tracking-[0.4em] opacity-60">Traditional Gestures</span>
+                    <h3 className="text-4xl md:text-6xl font-serif italic text-primary-text">In-Person Wishes</h3>
+                  </div>
+                  
+                  <div className="w-16 h-px bg-accent-terracotta/20 mx-auto" />
+                  
+                  <p className="text-xl md:text-2xl text-secondary-text italic leading-relaxed font-serif max-w-lg mx-auto">
+                    "For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace throughout the celebration."
+                  </p>
+                  
+                  <div className="pt-6 flex flex-col items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-accent-terracotta/20" />
+                    <span className="label-uppercase text-[10px] opacity-40">Castillo de Monda</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
 
       {/* FINAL RSVP CTA */}
