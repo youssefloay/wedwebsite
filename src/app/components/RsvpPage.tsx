@@ -382,7 +382,7 @@ export function RsvpPage() {
                                     onClick={() => updateFormData('accommodation', opt.id)}
                                     className={`group relative flex flex-col items-center transition-all duration-700 ${formData.accommodation === opt.id ? 'scale-[1.05]' : 'opacity-80 hover:opacity-100'}`}
                                   >
-                                    <div className={`stamp-visual mb-6 w-full aspect-square ${opt.rotate} group-hover:rotate-0 transition-transform duration-1000 ${formData.accommodation === opt.id ? 'ring-2 ring-accent-terracotta/40 ring-offset-8 bg-[#FBF9F4]' : ''}`}>
+                                    <div className={`stamp-visual mb-6 w-full aspect-square ${opt.rotate} group-hover:rotate-0 transition-transform duration-1000 ${formData.accommodation === opt.id ? 'ring-2 ring-[#515C4C]/40 ring-offset-8 bg-[#FBF9F4]' : ''}`}>
                                       <img src={opt.image} alt={opt.detail} className="stamp-image w-full h-full object-cover" />
                                     </div>
                                     <div className="text-center">
@@ -391,7 +391,7 @@ export function RsvpPage() {
                                       <p className="text-[11px] label-uppercase tracking-widest text-accent-terracotta mt-3 opacity-60">{opt.sub}</p>
                                     </div>
                                     {formData.accommodation === opt.id && (
-                                      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-accent-terracotta flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
+                                      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-[#515C4C] flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
                                         <Check size={16} className="text-white" />
                                       </div>
                                     )}
@@ -412,14 +412,12 @@ export function RsvpPage() {
                                         key={r.name}
                                         type="button"
                                         onClick={() => updateFormData('roomPreference', r.name)}
-                                        className={`group relative p-8 md:p-10 border transition-all duration-700 overflow-hidden flex flex-col items-start gap-4 ${formData.roomPreference === r.name ? 'bg-white border-accent-terracotta/40 shadow-[0_20px_40px_rgba(92,50,16,0.06)] scale-[1.03] z-10' : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100 hover:border-accent-terracotta/30'}`}
+                                        className={`group relative p-8 md:p-10 border transition-all duration-700 overflow-hidden flex flex-col items-start gap-4 ${formData.roomPreference === r.name ? 'bg-[#FBF9F4] border-[#515C4C] shadow-[0_20px_40px_rgba(92,50,16,0.06)] scale-[1.03] z-10' : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100 hover:border-accent-terracotta/30'}`}
                                       >
-                                        <div className={`absolute top-0 left-0 w-1 h-full bg-accent-terracotta transition-transform duration-700 ${formData.roomPreference === r.name ? 'translate-x-0' : '-translate-x-full'}`} />
-                                        
                                         <div className="w-full flex justify-between items-start">
-                                          <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.roomPreference === r.name ? 'text-accent-terracotta' : 'text-accent-terracotta'}`}>Room Type</span>
+                                          <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.roomPreference === r.name ? 'text-[#515C4C]' : 'text-accent-terracotta'}`}>Room Type</span>
                                           {formData.roomPreference === r.name && (
-                                            <div className="w-6 h-6 rounded-full bg-accent-terracotta flex items-center justify-center shadow-sm">
+                                            <div className="w-6 h-6 rounded-full bg-[#515C4C] flex items-center justify-center shadow-sm">
                                               <Check size={12} className="text-white" />
                                             </div>
                                           )}
@@ -452,13 +450,13 @@ export function RsvpPage() {
                                             key={opt.id}
                                             type="button"
                                             onClick={() => toggleStayDuration(opt.label)}
-                                            className={`p-8 border text-left transition-all duration-700 flex justify-between items-center ${formData.stayDuration.includes(opt.label) ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md' : 'bg-white border-accent-terracotta/10 opacity-70'}`}
+                                            className={`p-8 border text-left transition-all duration-700 flex justify-between items-center ${formData.stayDuration.includes(opt.label) ? 'bg-[#FBF9F4] border-[#515C4C] shadow-md' : 'bg-white border-accent-terracotta/10 opacity-70'}`}
                                           >
                                             <div className="space-y-1">
                                               <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.stayDuration.includes(opt.label) ? 'text-accent-terracotta' : 'text-accent-terracotta opacity-60'}`}>{opt.label}</span>
                                               <p className="font-serif italic text-2xl text-primary-text leading-tight">{opt.detail}</p>
                                             </div>
-                                            <div className={`w-8 h-8 rounded-full border border-accent-terracotta/20 flex items-center justify-center transition-all ${formData.stayDuration.includes(opt.label) ? 'bg-accent-terracotta border-accent-terracotta shadow-lg scale-110' : ''}`}>
+                                            <div className={`w-8 h-8 rounded-full border border-accent-terracotta/20 flex items-center justify-center transition-all ${formData.stayDuration.includes(opt.label) ? 'bg-[#515C4C] border-[#515C4C] shadow-lg scale-110' : ''}`}>
                                                {formData.stayDuration.includes(opt.label) && <Check size={16} className="text-white" />}
                                             </div>
                                           </button>
@@ -527,7 +525,7 @@ export function RsvpPage() {
                                       <p className="text-sm text-secondary-text opacity-70 font-serif italic">{item.sub}</p>
                                     </div>
                                     {formData[item.id as keyof RsvpFormData] === 'Yes' && (
-                                      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-accent-terracotta flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
+                                      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-[#515C4C] flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
                                         <Check size={12} className="text-white" />
                                       </div>
                                     )}
@@ -576,7 +574,7 @@ export function RsvpPage() {
                                       <p className="font-serif italic text-2xl text-primary-text leading-tight">{opt.detail}</p>
                                     </div>
                                     {formData.visaSupport === opt.id && (
-                                      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-accent-terracotta flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
+                                      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-[#515C4C] flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
                                         <Check size={12} className="text-white" />
                                       </div>
                                     )}
