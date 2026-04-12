@@ -163,7 +163,7 @@ export function Home() {
 
           {/* BOTTOM: THE PROMISE (DATES & COUNTDOWN) */}
           <motion.div 
-            className="w-full flex flex-col items-center"
+            className="w-full flex flex-col items-center pb-8 md:pb-20"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: "easeOut" } }
