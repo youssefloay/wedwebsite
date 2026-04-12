@@ -268,38 +268,48 @@ export function GiftsPage() {
     const isShowing = showDetails === bank;
     return (
       <div className="wedding-card bg-white border border-border/10 p-0 flex flex-col group hover:border-accent-terracotta/20 transition-all duration-700 text-left overflow-hidden">
-        <div className="bg-[#FBF9F4] p-6 border-b border-border/10 flex justify-between items-start">
-          <div className="flex flex-col items-start gap-1">
+        <div className="bg-[#FBF9F4] p-6 border-b border-border/10">
+          <div className="flex justify-between items-start mb-4">
             <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-accent-terracotta">{region}</span>
-            <h3 className="text-2xl font-serif italic">{bank}</h3>
+            {isTwint ? <Smartphone size={20} className="text-accent-terracotta/30" /> : <CreditCard size={20} className="text-accent-terracotta/30" />}
           </div>
-          {isTwint ? <Smartphone size={24} className="text-accent-terracotta/30" /> : <CreditCard size={24} className="text-accent-terracotta/30" />}
+          <div className="flex items-end justify-between gap-4">
+             <div className="flex flex-col gap-1">
+                <h3 className="text-2xl font-serif italic text-primary-text">{bank}</h3>
+                <button 
+                  onClick={() => setShowDetails(isShowing ? null : bank)}
+                  className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold underline underline-offset-4 decoration-accent-terracotta/30 hover:decoration-accent-terracotta transition-all text-left"
+                >
+                  {isShowing ? 'Hide Details' : 'Show Details'}
+                </button>
+             </div>
+          </div>
         </div>
+
         <div className="p-8 space-y-6">
-           <div className="flex flex-col items-start border-b border-border/5 pb-3 w-full">
-             <span className="text-[9px] uppercase tracking-widest text-secondary-text mb-1">Holder</span>
-             <span className="text-sm font-medium">{holder}</span>
+           <div className="flex flex-col items-start gap-1 pb-4 border-b border-border/5">
+             <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold opacity-60">Account Holder</span>
+             <span className="text-xl font-serif italic text-primary-text">{holder}</span>
            </div>
            
-           <div className={`space-y-4 transition-all duration-700 overflow-hidden ${isShowing ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className="flex flex-col items-start gap-1">
+           <div className={`space-y-6 transition-all duration-700 overflow-hidden ${isShowing ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0'}`}>
+              <div className="flex flex-col items-start gap-2">
                 <div className="flex justify-between w-full">
-                  <span className="text-[9px] uppercase tracking-widest text-secondary-text">{isTwint ? 'Number' : 'IBAN'}</span>
-                  <button onClick={() => handleCopy(ival, bank + '-num')} className="text-[8px] text-accent-terracotta uppercase font-bold">{copiedId === bank + '-num' ? 'Copied' : 'Copy'}</button>
+                  <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold">{isTwint ? 'Number' : 'IBAN'}</span>
+                  <button onClick={() => handleCopy(ival, bank + '-num')} className="text-[9px] text-accent-terracotta uppercase font-bold hover:underline">{copiedId === bank + '-num' ? 'Copied' : 'Copy'}</button>
                 </div>
-                <span className="text-xs font-mono break-all bg-[#FBF9F4] p-3 rounded-lg w-full border border-border/10">{ival}</span>
+                <span className="text-xs font-mono break-all bg-[#FBF9F4] p-4 rounded-xl w-full border border-border/10 leading-relaxed shadow-sm">
+                  {ival}
+                </span>
               </div>
               {!isTwint && bic && (
-                <div className="flex justify-between items-center py-2 border-t border-border/10">
-                  <span className="text-[9px] uppercase tracking-widest text-secondary-text">BIC/SWIFT</span>
-                  <span className="text-xs font-bold font-mono">{bic}</span>
+                <div className="flex justify-between items-center py-4 border-t border-border/10">
+                  <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold">BIC / SWIFT</span>
+                  <span className="text-sm font-bold font-mono text-primary-text">{bic}</span>
                 </div>
               )}
+              {!isTwint && renderReferenceBlock(bank + '-ref')}
            </div>
-           
-           <button onClick={() => setShowDetails(isShowing ? null : bank)} className="w-full py-3 border border-border/10 rounded-full text-[9px] uppercase font-bold tracking-[0.2em] hover:bg-accent-terracotta hover:text-white transition-all shadow-sm">
-              {isShowing ? 'Hide Details' : `Show Details`}
-           </button>
         </div>
       </div>
     );
