@@ -108,13 +108,8 @@ export function GiftsPage() {
                    if (region.id === 'switzerland') setRevolutMode('chf');
                    else setRevolutMode('tag');
                 }}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full text-[10px] uppercase tracking-widest transition-all duration-500 font-bold border ${
-                  activeRegion === region.id 
-                    ? 'bg-primary-text text-white border-primary-text shadow-lg scale-105' 
-                    : 'bg-white text-secondary-text border-border hover:border-accent-terracotta hover:text-accent-terracotta'
-                }`}
+                className={activeRegion === region.id ? 'btn-primary' : 'btn-secondary'}
               >
-                {region.icon}
                 {region.label}
               </button>
             ))}

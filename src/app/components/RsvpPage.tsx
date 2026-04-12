@@ -307,8 +307,8 @@ export function RsvpPage() {
                           </div>
                         </div>
                         <div className="flex justify-end pt-12">
-                          <button type="button" onClick={handleNext} disabled={!formData.firstName || !formData.lastName || !formData.email} className="group flex items-center gap-4 text-[12px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all disabled:opacity-30">
-                            Continue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                          <button type="button" onClick={handleNext} disabled={!formData.firstName || !formData.lastName || !formData.email} className="link-tertiary disabled:opacity-30">
+                            Continue
                           </button>
                         </div>
                       </div>
@@ -357,9 +357,9 @@ export function RsvpPage() {
                                 type="button" 
                                 onClick={handleNext} 
                                 disabled={formData.guestNames.length > 0 && !formData.guestNames.every(g => g.firstName.trim() && g.lastName.trim())}
-                                className="group flex items-center gap-4 text-[12px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all disabled:opacity-30"
+                                className="link-tertiary disabled:opacity-30"
                               >
-                                Continue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                Continue
                               </button>
                             </div>
                           </div>
@@ -482,8 +482,8 @@ export function RsvpPage() {
                                 </div>
                               )}
                               <div className="flex justify-end pt-12">
-                                <button type="button" onClick={handleNext} disabled={!formData.accommodation} className="group flex items-center gap-4 text-[12px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all disabled:opacity-30">
-                                  Continue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                <button type="button" onClick={handleNext} disabled={!formData.accommodation} className="link-tertiary disabled:opacity-30">
+                                  Continue
                                 </button>
                               </div>
                             </div>
@@ -539,9 +539,9 @@ export function RsvpPage() {
                                   type="button" 
                                   onClick={handleNext} 
                                   disabled={formData.carRental !== 'Yes' && formData.transfer !== 'Yes'}
-                                  className="group flex items-center gap-4 text-[12px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all disabled:opacity-30"
+                                  className="link-tertiary disabled:opacity-30"
                                 >
-                                  Continue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                  Continue
                                 </button>
                               </div>
                             </div>
@@ -588,9 +588,9 @@ export function RsvpPage() {
                                   type="button" 
                                   onClick={handleNext} 
                                   disabled={!formData.visaSupport}
-                                  className="group flex items-center gap-4 text-[11px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all disabled:opacity-30"
+                                  className="link-tertiary disabled:opacity-30"
                                 >
-                                  Continue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                  Continue
                                 </button>
                               </div>
                             </div>
@@ -614,8 +614,8 @@ export function RsvpPage() {
                             />
                           </div>
                           <div className="flex justify-end pt-12">
-                            <button type="button" onClick={handleNext} className="group flex items-center gap-4 text-[11px] uppercase tracking-[0.4em] font-medium text-accent-beige hover:text-accent-terracotta transition-all">
-                              Continue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                            <button type="button" onClick={handleNext} className="link-tertiary">
+                              Continue to Review
                             </button>
                           </div>
                         </div>

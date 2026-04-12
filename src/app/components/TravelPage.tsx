@@ -155,7 +155,7 @@ export function TravelPage() {
                       >
                         Open Parking Map
                       </a>
-                      <Link to="/rsvp" className="link-tertiary">
+                      <Link to="/rsvp" className="btn-secondary w-full lg:w-auto">
                         Request Spot via RSVP
                       </Link>
                     </div>
