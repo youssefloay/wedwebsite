@@ -131,7 +131,7 @@ export function TravelPage() {
                       <span className="font-serif text-xl text-primary-text">€150–160</span>
                     </div>
                   </div>
-                  <Link to="/rsvp" className="btn-primary w-full text-center py-4 transition-all hover:scale-[1.02] shadow-lg">
+                  <Link to="/rsvp" className="btn-primary w-full">
                     Coordinate Transfer
                   </Link>
                 </div>
@@ -139,25 +139,23 @@ export function TravelPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Link to="/rsvp" className="wedding-card !bg-transparent border-dashed border-border/40 hover:border-accent-terracotta/60 transition-all duration-300 group/card block">
                     <h3 className="font-serif text-xl text-primary-text mb-2 italic">Car Rental</h3>
-                    <p className="text-[11px] text-secondary-text mb-4 leading-relaxed">Rentals available at Málaga Airport from €30/day. Please tell us your plans in the <span className="text-accent-terracotta underline">RSVP</span>.</p>
-                    <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-accent-terracotta font-bold">
-                      <Car size={14} className="group-hover/card:translate-x-1 transition-transform" /> Málaga Airport
-                    </div>
+                    <p className="text-[11px] text-secondary-text mb-4 leading-relaxed">Rentals available at Málaga Airport from €30/day. Please tell us your plans in the RSVP.</p>
+                    <div className="btn-secondary text-center">View Details</div>
                   </Link>
 
                   <div className="wedding-card !bg-transparent border-dashed border-border/40 group/card block">
                     <h3 className="font-serif text-xl text-primary-text mb-2 italic">Free Parking</h3>
                     <p className="text-[11px] text-secondary-text mb-4 leading-relaxed">Requested via RSVP. Self-service parking located at Calle Castillo.</p>
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-4">
                       <a
                         href="https://maps.app.goo.gl/TyTof35JTLYVxBZj6?g_st=iw"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-accent-terracotta font-bold hover:translate-x-1 transition-all"
+                        className="btn-secondary"
                       >
-                        <MapPin size={14} /> Open Parking Map
+                        Open Parking Map
                       </a>
-                      <Link to="/rsvp" className="text-[9px] uppercase tracking-widest font-bold text-secondary-text opacity-50 hover:opacity-100 transition-all">
+                      <Link to="/rsvp" className="link-tertiary">
                         Request Spot via RSVP
                       </Link>
                     </div>
@@ -252,7 +250,7 @@ export function TravelPage() {
                 { time: "Arrive", label: "Welcome", icon: <HomeIcon size={18} /> }
               ].map((step, i) => (
                 <div key={i} className="flex flex-col items-center text-center px-2 z-10">
-                  <div className="w-14 h-14 bg-white border border-accent-terracotta/20 rounded-full flex items-center justify-center text-accent-terracotta shadow-sm mb-3">
+                  <div className="w-14 h-14 bg-white border border-accent-terracotta rounded-full flex items-center justify-center text-accent-terracotta shadow-sm mb-3">
                     {step.icon}
                   </div>
                   <span className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold mb-0.5">{step.time}</span>
@@ -292,26 +290,25 @@ export function TravelPage() {
                         setCopiedId('coords');
                         setTimeout(() => setCopiedId(null), 2000);
                       }}
-                      className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-white border border-border/20 rounded-xl text-[10px] uppercase tracking-widest font-bold text-secondary-text hover:border-accent-terracotta transition-all shadow-sm"
+                      className="btn-secondary"
                     >
-                      {copiedId === 'coords' ? <Check size={14} /> : <Copy size={14} />}
                       {copiedId === 'coords' ? 'Copied' : 'Copy Coordinates'}
                     </button>
                     <a
                       href="https://maps.google.com/?q=Castillo+de+Monda"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-accent-terracotta text-white rounded-xl text-[10px] uppercase tracking-widest font-bold hover:opacity-90 transition-all shadow-md"
+                      className="btn-primary"
                     >
-                      Venue Location <Compass size={14} />
+                      Venue Location
                     </a>
                     <a
                       href="https://maps.app.goo.gl/TyTof35JTLYVxBZj6?g_st=iw"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-[#F5EFEB] text-accent-terracotta border border-accent-terracotta/20 rounded-xl text-[10px] uppercase tracking-widest font-bold hover:border-accent-terracotta transition-all shadow-sm"
+                      className="btn-secondary"
                     >
-                      Parking Map <MapPin size={14} />
+                      Parking Map
                     </a>
                   </div>
                 </div>

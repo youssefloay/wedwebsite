@@ -214,12 +214,10 @@
   .section-layer-2 { background-color: var(--bg-subtle); }
   .section-layer-3 { background-color: var(--bg-deep); }
 
-  /* CTA System */
+  /* Primary CTA - Olive Green */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-10 py-5 text-white outline-none focus-visible:ring-4 focus-visible:ring-secondary-text/30;
-    position: relative;
-    overflow: hidden;
-    background-color: #6F7F6C;
+    @apply inline-flex items-center justify-center px-10 py-5 text-white outline-none transition-all duration-500;
+    background-color: #515C4C;
     border-radius: 999px;
     font-family: var(--font-cinzel);
     font-size: 13px;
@@ -227,32 +225,54 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    z-index: 1;
-    transition: all var(--transition-duration) var(--transition-ease);
-  }
-
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: -1;
-    /* Intricate Interlaced Horseshoe Arches in Beige */
-    background-image: url("data:image/svg+xml,%3Csvg width='80' height='40' viewBox='0 0 80 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23A08F7A' stroke-width='1'%3E%3Cpath d='M0 40c0-35 20-35 20 0M20 40c0-35 20-35 20 0M40 40c0-35 20-35 20 0M60 40c0-35 20-35 20 0'/%3E%3Cpath d='M10 40c0-35 20-35 20 0M30 40c0-35 20-35 20 0M50 40c0-35 20-35 20 0' stroke-opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: 50px auto;
-    background-repeat: repeat;
-    background-position: center bottom;
   }
 
   .btn-primary:hover {
-    background-color: #5d6d5a;
+    background-color: #434D40;
     transform: scale(1.02);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   }
 
   .btn-primary:active {
     transform: scale(0.98);
+  }
+
+  /* Secondary CTA - Outline */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-10 py-5 transition-all duration-500;
+    background-color: transparent;
+    border: 1px solid rgba(81, 92, 76, 0.3);
+    color: #515C4C;
+    border-radius: 999px;
+    font-family: var(--font-cinzel);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .btn-secondary:hover {
+    background-color: rgba(81, 92, 76, 0.03);
+    border-color: rgba(81, 92, 76, 0.6);
+    transform: translateY(-2px);
+  }
+
+  /* Tertiary Link - Minimalist */
+  .link-tertiary {
+    @apply inline-flex items-center border-b border-transparent transition-all duration-300;
+    font-family: var(--font-cinzel);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-weight: 600;
+    color: var(--accent-beige);
+    padding-bottom: 2px;
+  }
+
+  .link-tertiary:hover {
+    color: var(--primary-text);
+    border-color: var(--accent-terracotta);
+    letter-spacing: 0.4em;
   }
 
   .btn-primary-white {

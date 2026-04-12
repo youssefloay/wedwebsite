@@ -180,8 +180,8 @@ export function DiscoveryPage() {
           <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
             "Once you have explored our story and the beauty of Monda, kindly finalize your plans by submitting your response."
           </p>
-          <Link to="/rsvp" className="btn-primary inline-flex shadow-xl group">
-             Go to RSVP <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
+          <Link to="/rsvp" className="btn-primary">
+             Go to RSVP
           </Link>
         </div>
       </section>
