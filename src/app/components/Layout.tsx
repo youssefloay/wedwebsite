@@ -25,10 +25,39 @@ export function Layout() {
         </header>
       )}
 
-      <main className="min-h-screen relative pb-48">
+      <main className="min-h-screen relative pb-64">
         <ScrollToTop />
         <Outlet />
       </main>
+
+      {/* ── UNIFIED GLOBAL FOOTER ── */}
+      <footer className="w-full py-20 flex flex-col items-center justify-center text-center opacity-40 hover:opacity-100 transition-opacity duration-700">
+        <div className="w-16 h-[1px] bg-accent-terracotta/30 mb-10" />
+        
+        <div className="mb-6">
+          <img 
+            src="/logo_cursive.png" 
+            alt="L&A Logo" 
+            className="w-24 md:w-32 h-auto mx-auto grayscale opacity-80"
+          />
+        </div>
+
+        <div className="space-y-4">
+          <p className="font-cinzel text-[9px] md:text-[11px] tracking-[0.4em] text-primary-text uppercase">
+            Granada • Spain • 2027
+          </p>
+          <p className="font-serif italic text-xs md:text-sm text-secondary-text">
+            Con todo nuestro amor
+          </p>
+        </div>
+
+        {/* Subtle Decorative Arch */}
+        <div className="mt-12 opacity-10">
+          <svg width="40" height="60" viewBox="0 0 100 120" className="fill-accent-terracotta">
+            <path d="M50 0 C22.38 0 0 22.38 0 50 C0 65 5 78 15 88 L15 120 L85 120 L85 88 C95 78 100 65 100 50 C100 22.38 77.62 0 50 0 Z" />
+          </svg>
+        </div>
+      </footer>
     </>
   );
 }
