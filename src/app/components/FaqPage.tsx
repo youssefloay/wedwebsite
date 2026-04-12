@@ -30,10 +30,6 @@ export function FaqPage() {
     { 
       q: "What will the weather be like?", 
       a: "April in Monda is typically beautiful and mild, with temperatures between 20-25°C. However, it can get cooler in the evenings, so we recommend a light layer for the outdoor portions of the celebration." 
-    },
-    { 
-      q: "How do I get home after the party?", 
-      a: "For guests not staying at the Castillo, we will coordinate local shuttles at the end of the night to transport you safely back to your village accommodations or the Monda center." 
     }
   ];
 

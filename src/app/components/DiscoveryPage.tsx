@@ -44,8 +44,7 @@ export function DiscoveryPage() {
   const essentials = [
     { title: "The Cobblestone Standard", desc: "Monda's charm lies in its winding stone paths. We recommend elegant but comfortable footwear for all outdoor moments.", icon: <Sparkles size={18} /> },
     { title: "The Sunset Hour", desc: "The light in Andalusia changes dramatically at 7 PM. Ensure your camera is ready for the golden glow on the castle walls.", icon: <Camera size={18} /> },
-    { title: "Andalusian Pace", desc: "Life here moves with the sun. Many local shops observe the traditional afternoon siesta between 2 PM and 5 PM.", icon: <Wind size={18} /> },
-    { title: "The Coffee Ritual", desc: "In Málaga, coffee is an art of proportions. Ask for a 'Sombra' (mostly milk) or a 'Nube' (just a cloud of milk) to order like a local.", icon: <Coffee size={18} /> }
+    { title: "Andalusian Pace", desc: "Life here moves with the sun. Many local shops observe the traditional afternoon siesta between 2 PM and 5 PM.", icon: <Wind size={18} /> }
   ];
 
   return (
