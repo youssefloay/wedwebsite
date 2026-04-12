@@ -351,7 +351,7 @@ export function TravelPage() {
                     { label: 'Power', val: 'Type F', icon: <Zap size={20} strokeWidth={1.5} /> },
                     { label: 'Time', val: 'CEST', icon: <Clock size={20} strokeWidth={1.5} /> },
                     { label: 'Currency', val: 'Euro (€)', icon: <Banknote size={20} strokeWidth={1.5} /> },
-                    { label: 'Safety', val: 'EU Coverage', icon: <ShieldCheck size={20} strokeWidth={1.5} /> }
+                    { label: 'Health', val: 'EU Coverage', icon: <ShieldCheck size={20} strokeWidth={1.5} /> }
                   ].map((item, i) => (
                     <div key={i} className="flex flex-col items-center p-8 bg-white/50 backdrop-blur-md rounded-[32px] md:rounded-[40px] border border-white/60 shadow-sm transition-transform hover:scale-105 duration-500">
                       <div className="w-12 h-12 bg-accent-terracotta/5 rounded-full flex items-center justify-center text-accent-terracotta mb-6">
