@@ -42,7 +42,7 @@ interface RsvpFormData {
 }
 
 interface RsvpStep {
-  id: 'attendance' | 'identity' | 'note' | 'party' | 'stay' | 'journey' | 'review';
+  id: 'attendance' | 'identity' | 'note' | 'party' | 'stay' | 'journey' | 'visa' | 'dietary' | 'review';
   label: string;
 }
 
@@ -104,6 +104,7 @@ export function RsvpPage() {
       { id: 'stay', label: "Stay" },
       { id: 'journey', label: "Journey" },
       { id: 'visa', label: "Visa" },
+      { id: 'dietary', label: "Dietary" },
       { id: 'note', label: "Note" },
       { id: 'review', label: "Review" }
     ] as RsvpStep[];
@@ -594,6 +595,31 @@ export function RsvpPage() {
                             </div>
                           )}
 
+                          {/* DIETARY */}
+                          {currentStep >= 7 && (
+                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={currentStep === 7 ? nextSectionRef : null}>
+                              <div className="text-left mb-12 space-y-6">
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none">Dietary Restrictions</p>
+                                <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
+                                  Please let us know if you or anyone in your party has specific dietary requirements or allergies.
+                                </p>
+                                <div className="w-12 h-px bg-accent-terracotta mt-6" />
+                              </div>
+                              <div className="relative p-4">
+                                <textarea
+                                  placeholder="Allergies, vegetarian, vegan, etc..."
+                                  className="w-full bg-[#FAF8F5]/60 border border-accent-terracotta/20 p-10 outline-none focus:border-accent-terracotta font-serif italic text-2xl h-48 text-center placeholder:text-accent-terracotta/20 transition-all rounded-3xl"
+                                  value={formData.dietary} onChange={(e) => updateFormData('dietary', e.target.value)}
+                                />
+                              </div>
+                              <div className="flex justify-end pt-12">
+                                <button type="button" onClick={handleNext} className="link-tertiary">
+                                  Continue
+                                </button>
+                              </div>
+                            </div>
+                          )}
+
                         </div>
                       )}
 
@@ -607,7 +633,7 @@ export function RsvpPage() {
                           <div className="relative p-4">
                             <textarea
                               placeholder="Share your wishes..."
-                              className="w-full bg-[#FAF8F5]/60 border border-accent-terracotta/20 p-10 outline-none focus:border-accent-terracotta font-serif italic text-2xl h-64 text-center placeholder:text-accent-terracotta/20 transition-all"
+                              className="w-full bg-[#FAF8F5]/60 border border-accent-terracotta/20 p-10 outline-none focus:border-accent-terracotta font-serif italic text-2xl h-64 text-center placeholder:text-accent-terracotta/20 transition-all rounded-3xl"
                               value={formData.notes} onChange={(e) => updateFormData('notes', e.target.value)}
                             />
                           </div>
@@ -652,9 +678,15 @@ export function RsvpPage() {
                                 </div>
                               )}
                               {formData.attendance === 'Joyfully accept' && (
-                                <div className="space-y-2 col-span-full">
+                                <div className="space-y-2">
                                   <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Visa Assistance</span>
                                   <p className="text-2xl font-serif italic text-primary-text">{formData.visaSupport === 'Yes' ? 'Assistance Needed' : 'Not Required'}</p>
+                                </div>
+                              )}
+                              {formData.attendance === 'Joyfully accept' && formData.dietary && (
+                                <div className="space-y-2 col-span-full">
+                                  <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Dietary Requirements</span>
+                                  <p className="text-2xl font-serif italic text-primary-text">{formData.dietary}</p>
                                 </div>
                               )}
                             </div>
