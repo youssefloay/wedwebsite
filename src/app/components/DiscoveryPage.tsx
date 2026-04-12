@@ -77,7 +77,7 @@ export function DiscoveryPage() {
                 {/* Content Side */}
                 <div className="w-full lg:w-1/2 text-center lg:text-left">
                   <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
-                    <span className="label-uppercase tracking-[0.4em] text-accent-terracotta">{item.tag}</span>
+                    <span className="label-uppercase text-accent-terracotta">{item.tag}</span>
                     <div className="w-8 h-px bg-accent-terracotta/20" />
                   </div>
                   <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-primary-text mb-4 leading-tight italic">{item.title}</h2>
@@ -137,7 +137,7 @@ export function DiscoveryPage() {
                   <div className="w-10 h-10 rounded-full bg-accent-terracotta/5 flex items-center justify-center text-accent-terracotta">
                     {cat.icon}
                   </div>
-                  <h3 className="label-uppercase text-[12px] font-extrabold tracking-[0.3em] text-primary-text">{cat.category}</h3>
+                  <h3 className="label-uppercase text-[12px] font-extrabold text-primary-text">{cat.category}</h3>
                 </div>
                 <div className="space-y-8">
                   {cat.items.map((item, j) => (
@@ -171,7 +171,7 @@ export function DiscoveryPage() {
       {/* FINAL RSVP CTA */}
       <section className="section-layer-1 py-32 px-6 border-t border-border/10">
         <div className="max-w-2xl mx-auto text-center reveal">
-          <span className="label-uppercase mb-6 block font-bold tracking-[0.4em]">Primary Action</span>
+          <span className="label-uppercase mb-6 block font-bold">Primary Action</span>
           <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-8 italic">Inspired to Join Us?</h2>
           <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
             "Once you have explored our story and the beauty of Monda, kindly finalize your plans by submitting your response."

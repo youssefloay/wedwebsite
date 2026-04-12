@@ -128,7 +128,7 @@ export function GiftsPage() {
           <div className="flex flex-col items-center mb-12">
             <div className="flex items-center gap-3 mb-4">
               <Sparkles size={20} className="text-accent-terracotta" strokeWidth={1.25} />
-              <span className="label-uppercase tracking-[0.3em] font-bold">Recommended Method</span>
+              <span className="label-uppercase font-bold">Recommended Method</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-serif italic mb-6">The Revolut Hub</h2>
           </div>
@@ -186,7 +186,7 @@ export function GiftsPage() {
         {/* LOCAL BANKS SECTION */}
         <section className="space-y-12">
           <div className="text-center mb-12">
-            <span className="label-uppercase mb-4 block tracking-[0.25em]">Traditional Methods</span>
+            <span className="label-uppercase mb-4 block">Traditional Methods</span>
             <h2 className="text-3xl md:text-4xl font-serif italic">Regional Bank Options</h2>
           </div>
 
