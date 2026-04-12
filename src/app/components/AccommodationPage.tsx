@@ -1,4 +1,4 @@
-import { Users, Info, Globe, ShieldCheck, Zap, Clock, Compass } from 'lucide-react';
+import { Users, Info, Globe, ShieldCheck, Zap, Clock, Compass, MoonStar } from 'lucide-react';
 import { useNavigate, Link } from 'react-router';
 
 export function AccommodationPage() {
@@ -143,7 +143,24 @@ export function AccommodationPage() {
         </div>
       </section>
 
-      {/* 4. BOOKING PROCESS */}
+      {/* 4. AFTER-HOURS ADVISORY */}
+      <section className="pb-24 px-6 reveal">
+        <div className="max-w-4xl mx-auto">
+          <div className="wedding-card bg-white border-2 border-dashed border-accent-terracotta/20 text-center py-12 px-8 -rotate-1 relative overflow-visible">
+            <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-background border border-accent-terracotta/20 flex items-center justify-center text-accent-terracotta shadow-md">
+              <MoonStar size={20} />
+            </div>
+            <div className="max-w-xl mx-auto space-y-4">
+              <h3 className="font-serif italic text-3xl text-primary-text mb-2">Leaving after the wedding</h3>
+              <p className="text-lg text-secondary-text font-serif italic leading-relaxed opacity-80">
+                The celebration will continue until late. We recommend staying nearby rather than planning late-night travel.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. BOOKING PROCESS */}
       <section className="py-32 px-6 section-layer-2">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-20">
