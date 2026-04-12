@@ -210,7 +210,7 @@ export function RsvpPage() {
         <div className="max-w-4xl mx-auto px-6 pt-10 pb-32">
 
           {/* Sectional Header */}
-          <div className="text-center mb-10 flex flex-col items-center reveal">
+          <div className="text-center mb-0 flex flex-col items-center reveal">
             <span className="label-uppercase tracking-[0.6em] mb-6 block font-bold">YOU ARE INVITED</span>
             <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">The RSVP</h1>
             <p className="text-xl md:text-2xl text-secondary-text font-serif italic mb-6 max-w-lg mx-auto leading-relaxed px-4 opacity-80">
