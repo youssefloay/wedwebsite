@@ -430,7 +430,7 @@ export function Home() {
               Gentle Request: Please avoid wearing all-black or dark navy.
             </p>
           </div>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-6xl mx-auto px-4">
           {[
