@@ -333,10 +333,10 @@ export function RsvpPage() {
                                       key={n}
                                       type="button"
                                       onClick={() => updateFormData('guests', n)}
-                                      className={`aspect-square border flex flex-col items-center justify-center transition-all duration-700 group ${formData.guests === n ? 'border-accent-terracotta bg-[#FBF9F4] scale-110 shadow-lg z-10' : 'border-accent-terracotta/10 bg-white'}`}
+                                      className={`aspect-square border rounded-2xl flex flex-col items-center justify-center transition-all duration-500 ${formData.guests === n ? 'border-accent-terracotta bg-[#FBF9F4] scale-105 shadow-md' : 'border-accent-terracotta/10 bg-white hover:border-accent-terracotta/30'}`}
                                     >
-                                      <span className={`text-4xl font-serif italic ${formData.guests === n ? 'text-primary-text' : 'text-accent-terracotta opacity-30 font-light'}`}>{n}</span>
-                                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-accent-terracotta">Guest{n !== '1' ? 's' : ''}</span>
+                                      <span className={`text-4xl font-serif italic ${formData.guests === n ? 'text-primary-text' : 'text-accent-terracotta/30 font-light'}`}>{n}</span>
+                                      <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-accent-terracotta">Guest{n !== '1' ? 's' : ''}</span>
                                     </button>
                                   ))}
                                 </div>
@@ -499,10 +499,10 @@ export function RsvpPage() {
                                 </p>
                                 <div className="w-12 h-px bg-accent-terracotta mt-6" />
                               </div>
-                              <div className="grid grid-cols-1 gap-12">
+                              <div className="grid grid-cols-1 gap-6">
                                 {[
-                                  { id: 'carRental', label: 'My Own Route', detail: 'I will be driving to Monda', sub: 'A parking space at the venue would be appreciated.', image: '/journey-car.png', rotate: 'rotate-1' },
-                                  { id: 'transfer', label: 'Assisted Transfer', detail: 'I would love help with transport', sub: 'Shuttle or private transfer options.', image: '/journey-shuttle.png', rotate: '-rotate-1' }
+                                  { id: 'carRental', label: 'My Own Route', detail: 'I will be driving to Monda', sub: 'A parking space would be appreciated.', image: '/journey-car.png' },
+                                  { id: 'transfer', label: 'Assisted Transfer', detail: 'I would love help with transport', sub: 'Shuttle or private options.', image: '/journey-shuttle.png' }
                                 ].map(item => (
                                   <button
                                     key={item.id}
@@ -516,21 +516,21 @@ export function RsvpPage() {
                                         updateFormData('carRental', 'No');
                                       }
                                     }}
-                                    className={`group relative flex flex-col md:flex-row items-center gap-8 md:gap-12 transition-all duration-700 border border-transparent p-6 rounded-3xl ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-[#FBF9F4] border-accent-terracotta/20 shadow-md' : 'hover:bg-white/50'}`}
+                                    className={`relative p-8 border rounded-3xl transition-all duration-500 flex flex-col md:flex-row items-center gap-8 ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-[#FBF9F4] border-accent-terracotta shadow-md scale-[1.02]' : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100'}`}
                                   >
-                                    <div className={`stamp-visual w-40 md:w-56 aspect-square ${item.rotate} group-hover:rotate-0 transition-transform duration-1000 flex-shrink-0 ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'ring-2 ring-accent-terracotta/40' : ''}`}>
-                                      <img src={item.image} alt={item.label} className="stamp-image w-full h-full object-cover" />
+                                    <div className="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border border-accent-terracotta/5">
+                                      <img src={item.image} alt={item.label} className="w-full h-full object-cover" />
                                     </div>
                                     <div className="text-center md:text-left flex-grow">
-                                      <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
-                                        <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'text-accent-terracotta' : 'text-accent-terracotta'}`}>{item.label}</span>
-                                        <div className={`w-5 h-5 rounded-full border border-accent-terracotta/20 flex items-center justify-center transition-all ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-accent-terracotta border-accent-terracotta' : ''}`}>
-                                          {formData[item.id as keyof RsvpFormData] === 'Yes' && <Check size={10} className="text-white" />}
-                                        </div>
-                                      </div>
-                                      <p className="font-serif italic text-2xl md:text-3xl text-primary-text leading-tight mb-2">"{item.detail}"</p>
-                                      <p className="text-[16px] text-secondary-text opacity-70 font-serif italic leading-relaxed">{item.sub}</p>
+                                      <span className="label-uppercase text-[10px] font-bold tracking-[0.2em] text-accent-terracotta mb-2 block">{item.label}</span>
+                                      <p className="font-serif italic text-2xl text-primary-text leading-tight mb-2">{item.detail}</p>
+                                      <p className="text-sm text-secondary-text opacity-70 font-serif italic">{item.sub}</p>
                                     </div>
+                                    {formData[item.id as keyof RsvpFormData] === 'Yes' && (
+                                      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-accent-terracotta flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
+                                        <Check size={12} className="text-white" />
+                                      </div>
+                                    )}
                                   </button>
                                 ))}
                               </div>
@@ -557,27 +557,27 @@ export function RsvpPage() {
                                 </p>
                                 <div className="w-12 h-px bg-accent-terracotta mt-6" />
                               </div>
-                              <div className="grid grid-cols-2 gap-8 md:gap-12">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {[
-                                  { id: 'Yes', label: 'Assistance', detail: 'Invitation Letter', image: '/visa-yes.png', rotate: 'rotate-1' },
-                                  { id: 'No', label: 'Independent', detail: 'No Help Needed', image: '/visa-no.png', rotate: '-rotate-1' }
+                                  { id: 'Yes', label: 'Assistance Needed', detail: 'Invitation and liaison Support', image: '/visa-yes.png' },
+                                  { id: 'No', label: 'Not Required', detail: 'Independent documentation', image: '/visa-no.png' }
                                 ].map(opt => (
                                   <button
                                     key={opt.id}
                                     type="button"
                                     onClick={() => updateFormData('visaSupport', opt.id)}
-                                    className={`group relative flex flex-col items-center transition-all duration-700 ${formData.visaSupport === opt.id ? 'scale-[1.05]' : 'opacity-80 hover:opacity-100'}`}
+                                    className={`relative p-8 border rounded-3xl transition-all duration-500 overflow-hidden flex flex-col items-center text-center gap-6 ${formData.visaSupport === opt.id ? 'bg-[#FBF9F4] border-accent-terracotta shadow-md scale-105' : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100'}`}
                                   >
-                                    <div className={`stamp-visual mb-6 w-full aspect-square ${opt.rotate} group-hover:rotate-0 transition-transform duration-1000 ${formData.visaSupport === opt.id ? 'ring-2 ring-accent-terracotta/40 ring-offset-8 bg-[#FBF9F4]' : ''}`}>
-                                      <img src={opt.image} alt={opt.label} className="stamp-image w-full h-full object-cover" />
+                                    <div className="w-20 h-20 rounded-2xl overflow-hidden border border-accent-terracotta/5">
+                                      <img src={opt.image} alt={opt.label} className="w-full h-full object-cover" />
                                     </div>
-                                    <div className="text-center">
-                                      <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] mb-2 block ${formData.visaSupport === opt.id ? 'text-accent-terracotta' : 'text-accent-terracotta'}`}>{opt.label}</span>
+                                    <div className="space-y-2">
+                                      <span className="label-uppercase text-[10px] font-bold tracking-[0.2em] text-accent-terracotta">{opt.label}</span>
                                       <p className="font-serif italic text-2xl text-primary-text leading-tight">{opt.detail}</p>
                                     </div>
                                     {formData.visaSupport === opt.id && (
-                                      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-accent-terracotta flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
-                                        <Check size={16} className="text-white" />
+                                      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-accent-terracotta flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
+                                        <Check size={12} className="text-white" />
                                       </div>
                                     )}
                                   </button>
