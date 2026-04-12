@@ -36,13 +36,14 @@ interface RsvpFormData {
   needsParking: string;
   visaSupport: string;
   dietary: string;
+  songRequest: string;
   stayDuration: string;
   manualStayDates: string;
   notes: string;
 }
 
 interface RsvpStep {
-  id: 'attendance' | 'identity' | 'note' | 'party' | 'stay' | 'journey' | 'review';
+  id: 'attendance' | 'identity' | 'note' | 'party' | 'stay' | 'journey' | 'visa' | 'preferences' | 'review';
   label: string;
 }
 
@@ -76,6 +77,7 @@ export function RsvpPage() {
     needsParking: "No",
     visaSupport: "No",
     dietary: "",
+    songRequest: "",
     stayDuration: "",
     manualStayDates: "",
     notes: ""
@@ -104,6 +106,7 @@ export function RsvpPage() {
       { id: 'stay', label: "Stay" },
       { id: 'journey', label: "Journey" },
       { id: 'visa', label: "Visa" },
+      { id: 'preferences', label: "Preferences" },
       { id: 'note', label: "Note" },
       { id: 'review', label: "Review" }
     ] as RsvpStep[];
@@ -597,6 +600,46 @@ export function RsvpPage() {
                         </div>
                       )}
 
+                      {/* PREFERENCES (Dietary & Music) — shown when current step id is 'preferences' */}
+                      {activeStep?.id === 'preferences' && (
+                        <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={nextSectionRef}>
+                          <div className="text-left mb-12 space-y-6">
+                            <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none">Melody & Morsels</p>
+                            <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
+                              Kindly let us know of any dietary requirements and the songs that will bring you to the dance floor.
+                            </p>
+                            <div className="w-12 h-px bg-accent-terracotta mt-6" />
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="bg-white p-10 border border-accent-terracotta/10 rounded-3xl shadow-sm space-y-4">
+                              <span className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-[0.3em] block">Dietary Requirements</span>
+                              <input 
+                                placeholder="Allergies or Restrictions..." 
+                                className="w-full bg-transparent border-b border-accent-terracotta/10 py-4 font-serif italic text-2xl focus:border-[#515C4C] transition-all"
+                                value={formData.dietary}
+                                onChange={(e) => updateFormData('dietary', e.target.value)}
+                              />
+                            </div>
+                            <div className="bg-white p-10 border border-accent-terracotta/10 rounded-3xl shadow-sm space-y-4">
+                              <span className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-[0.3em] block">Celebration Playlist</span>
+                              <input 
+                                placeholder="Song & Artist..." 
+                                className="w-full bg-transparent border-b border-accent-terracotta/10 py-4 font-serif italic text-2xl focus:border-[#515C4C] transition-all"
+                                value={formData.songRequest}
+                                onChange={(e) => updateFormData('songRequest', e.target.value)}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex justify-end pt-12">
+                            <button type="button" onClick={handleNext} className="link-tertiary">
+                              Continue to Note
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
                       {/* NOTE — shown when current step id is 'note' */}
                       {activeStep?.id === 'note' && (
                         <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={nextSectionRef}>
@@ -655,6 +698,18 @@ export function RsvpPage() {
                                 <div className="space-y-2 col-span-full">
                                   <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Visa Assistance</span>
                                   <p className="text-2xl font-serif italic text-primary-text">{formData.visaSupport === 'Yes' ? 'Assistance Needed' : 'Not Required'}</p>
+                                </div>
+                              )}
+                              {formData.attendance === 'Joyfully accept' && formData.dietary && (
+                                <div className="space-y-2">
+                                  <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Dietary</span>
+                                  <p className="text-2xl font-serif italic text-primary-text">{formData.dietary}</p>
+                                </div>
+                              )}
+                              {formData.attendance === 'Joyfully accept' && formData.songRequest && (
+                                <div className="space-y-2">
+                                  <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Song Request</span>
+                                  <p className="text-2xl font-serif italic text-primary-text">{formData.songRequest}</p>
                                 </div>
                               )}
                             </div>

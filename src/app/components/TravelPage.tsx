@@ -340,6 +340,10 @@ export function TravelPage() {
                     <CheckCircle2 size={18} className="text-accent-terracotta shrink-0 mt-0.5" />
                     <span className="text-sm text-secondary-text">Sun protection for the terrace</span>
                   </li>
+                  <li className="flex items-start gap-3 border-t border-accent-terracotta/5 pt-4">
+                    <CheckCircle2 size={18} className="text-accent-terracotta/40 shrink-0 mt-0.5" />
+                    <span className="text-sm text-secondary-text italic font-serif opacity-80">Monda's streets are historic and narrow; we recommend using the designated village lot or the Castle's private parking.</span>
+                  </li>
                 </ul>
               </div>
 
