@@ -59,10 +59,11 @@ export function TravelPage() {
 
                 <div className="order-1 lg:order-2">
                   <span className="label-uppercase mb-4 block">Part I: Arrival</span>
-                  <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8 italic leading-tight">
+                  <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic leading-tight">
                     Arriving at the <br />
                     Gateway
                   </h2>
+                  <div className="w-16 h-px bg-accent-terracotta mb-8" />
                   <p className="text-lg text-secondary-text leading-relaxed mb-8">
                     Your journey begins at <span className="text-primary-text font-medium">Málaga Airport</span>. We recommend arriving a day or two early to soak in the seaside atmosphere of the Costa del Sol before heading into the hills.
                   </p>
@@ -99,10 +100,11 @@ export function TravelPage() {
 
             <div className="lg:col-span-5">
               <span className="label-uppercase mb-4 block">Part II: Ascent</span>
-              <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8 italic leading-tight">
+              <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic leading-tight">
                 Into the <br />
                 Rolling Hills
               </h2>
+              <div className="w-16 h-px bg-accent-terracotta mb-8" />
               <p className="text-lg text-secondary-text leading-relaxed mb-10">
                 The drive to Monda is spectacular, winding through ancient olive groves. Whether you prefer a private transfer or the freedom of a rental car, the path is yours to choose.
               </p>
@@ -195,10 +197,11 @@ export function TravelPage() {
             <div className="lg:col-span-10">
               <div className="max-w-2xl">
                 <span className="label-uppercase mb-4 block">Part III: Entry</span>
-                <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8 italic leading-tight">
+                <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic leading-tight">
                   Visa & Entry <br />
                   Requirements
                 </h2>
+                <div className="w-16 h-px bg-accent-terracotta mb-8" />
                 <p className="text-lg text-secondary-text leading-relaxed mb-8">
                   Spain is part of the Schengen Area. We recommend all our international guests check their specific entry requirements well in advance.
                 </p>
@@ -254,7 +257,8 @@ export function TravelPage() {
             {/* Left: Journey Notes */}
             <div className="lg:col-span-2 p-12 md:p-16 border-r border-border/10">
               <span className="label-uppercase mb-4 block">Essentials</span>
-              <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-12 italic">Journey Notes</h2>
+              <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Journey Notes</h2>
+              <div className="w-16 h-px bg-accent-terracotta mb-8" />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-3">
