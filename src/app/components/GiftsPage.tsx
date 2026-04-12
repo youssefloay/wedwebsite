@@ -127,7 +127,7 @@ export function GiftsPage() {
       </section>
 
       {/* 2. THE NOTE (Private Celebration Mirror) */}
-      <section className="px-6 pb-24 bg-background reveal">
+      <section className="px-6 pb-12 pt-12 bg-background reveal">
         <div className="max-w-4xl mx-auto">
           <div className="wedding-card bg-[#F5EFEB]/50 backdrop-blur-sm border-accent-terracotta/20 text-center py-16 px-8 md:px-16 hover:-translate-y-2 transition-all duration-700 shadow-lg shadow-black/[0.02]">
             <div className="max-w-2xl mx-auto space-y-8">
@@ -140,6 +140,49 @@ export function GiftsPage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* 3. THE FUNDS (Borderless Section Mirror) */}
+      <section className="py-24 px-6 bg-[#F5EFEB]/30 border-y border-border/10 reveal">
+        <div className="max-w-2xl mx-auto space-y-16 text-center">
+          
+          {/* Part 1: Post-Wedding Adventures */}
+          <div className="space-y-8 flex flex-col items-center">
+            <span className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-accent-beige font-bold font-cinzel">Honeymoon Fund</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic tracking-tight">Post-Wedding Adventures</h2>
+            <div className="w-16 h-px bg-accent-terracotta/40" />
+            <p className="text-sm md:text-base text-secondary-text leading-[2.2] uppercase tracking-[0.15em] opacity-80 font-serif italic max-w-lg mx-auto">
+              "Help us create lifelong memories as we explore new horizons together on our first journey as husband and wife."
+            </p>
+          </div>
+
+          {/* The Watercolor Image */}
+          <div className="relative mx-auto w-64 h-64 md:w-80 md:h-80 bg-white p-3 md:p-4 shadow-xl shadow-black/5 rotate-[-1deg] transition-transform duration-700 hover:rotate-1">
+            <div className="w-full h-full border border-border/10 overflow-hidden relative group">
+              <img src="/gift-honeymoon.png" alt="Post-Wedding Adventures" className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" />
+              <div className="absolute inset-0 ring-1 ring-inset ring-black/5 pointer-events-none" />
+            </div>
+          </div>
+
+          {/* Part 2: Our Future Sanctuary */}
+          <div className="space-y-8 flex flex-col items-center">
+            <span className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-accent-beige font-bold font-cinzel">Home Fund</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic tracking-tight">Our Future Sanctuary</h2>
+            <div className="w-16 h-px bg-accent-terracotta/40" />
+            <p className="text-sm md:text-base text-secondary-text leading-[2.2] uppercase tracking-[0.15em] opacity-80 font-serif italic max-w-lg mx-auto">
+              "Contributions will help us create a space filled with love, laughter, and lifelong memories to share with our friends and family."
+            </p>
+          </div>
+
+          {/* Home Fund Illustration */}
+          <div className="relative mx-auto w-64 h-64 md:w-80 md:h-80 bg-white p-3 md:p-4 shadow-xl shadow-black/5 rotate-[1deg] transition-transform duration-700 hover:rotate-[-1deg]">
+            <div className="w-full h-full border border-border/10 overflow-hidden relative group">
+              <img src="/gift-home.png" alt="Our Future Sanctuary" className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" />
+              <div className="absolute inset-0 ring-1 ring-inset ring-black/5 pointer-events-none" />
+            </div>
+          </div>
+
         </div>
       </section>
 
