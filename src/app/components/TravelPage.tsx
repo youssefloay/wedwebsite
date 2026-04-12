@@ -344,37 +344,23 @@ export function TravelPage() {
               </div>
 
               {/* Essentials Dashboard */}
-              <div className="pt-8 border-t border-accent-terracotta/20">
-                <h4 className="label-uppercase mb-6 text-[10px]">Andalusian Essentials Dashboard</h4>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="p-4 bg-white/40 rounded-2xl border border-white/50">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Zap size={16} strokeWidth={1.25} className="text-accent-terracotta" />
-                      <span className="text-[9px] uppercase tracking-widest text-secondary-text">Power</span>
+              <div className="pt-12 border-t border-accent-terracotta/20 mt-8">
+                <h4 className="label-uppercase mb-10 text-center text-[10px] tracking-[0.4em] opacity-60">Andalusian Essentials</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { label: 'Power', val: 'Type F', icon: <Zap size={20} strokeWidth={1.5} /> },
+                    { label: 'Time', val: 'CEST', icon: <Clock size={20} strokeWidth={1.5} /> },
+                    { label: 'Currency', val: 'Euro (€)', icon: <Banknote size={20} strokeWidth={1.5} /> },
+                    { label: 'Safety', val: 'EU Coverage', icon: <ShieldCheck size={20} strokeWidth={1.5} /> }
+                  ].map((item, i) => (
+                    <div key={i} className="flex flex-col items-center p-8 bg-white/50 backdrop-blur-md rounded-[32px] md:rounded-[40px] border border-white/60 shadow-sm transition-transform hover:scale-105 duration-500">
+                      <div className="w-12 h-12 bg-accent-terracotta/5 rounded-full flex items-center justify-center text-accent-terracotta mb-6">
+                        {item.icon}
+                      </div>
+                      <span className="text-[10px] uppercase tracking-[0.3em] text-accent-beige font-bold mb-2">{item.label}</span>
+                      <span className="text-lg font-serif italic text-primary-text text-center">{item.val}</span>
                     </div>
-                    <span className="text-sm font-bold text-primary-text">Type F</span>
-                  </div>
-                  <div className="p-4 bg-white/40 rounded-2xl border border-white/50">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Clock size={16} strokeWidth={1.25} className="text-accent-terracotta" />
-                      <span className="text-[9px] uppercase tracking-widest text-secondary-text">Time</span>
-                    </div>
-                    <span className="text-sm font-bold text-primary-text">CEST</span>
-                  </div>
-                  <div className="p-4 bg-white/40 rounded-2xl border border-white/50">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Banknote size={16} strokeWidth={1.25} className="text-accent-terracotta" />
-                      <span className="text-[9px] uppercase tracking-widest text-secondary-text">Currency</span>
-                    </div>
-                    <span className="text-sm font-bold text-primary-text">Euros (€)</span>
-                  </div>
-                  <div className="p-4 bg-white/40 rounded-2xl border border-white/50">
-                    <div className="flex items-center gap-2 mb-1">
-                      <ShieldCheck size={16} strokeWidth={1.25} className="text-accent-terracotta" />
-                      <span className="text-[9px] uppercase tracking-widest text-secondary-text">Safety</span>
-                    </div>
-                    <span className="text-sm font-bold text-primary-text">Insurance</span>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
