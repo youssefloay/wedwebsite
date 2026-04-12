@@ -48,7 +48,7 @@ export function FaqPage() {
           <p className="text-xl md:text-2xl text-secondary-text font-serif italic max-w-lg mx-auto px-4 leading-relaxed opacity-80">
             "Everything you need to know about our Andalusian celebration, from logistical details to the spirit of the day."
           </p>
-          <div className="w-16 h-px mx-auto mt-12 bg-accent-terracotta" />
+          <div className="w-16 h-px mx-auto mt-12 mb-20 bg-accent-terracotta" />
         </div>
       </section>
 
