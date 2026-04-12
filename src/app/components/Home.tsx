@@ -91,7 +91,7 @@ export function Home() {
           }}
         >
           <img 
-            src="/hero_arch.png" 
+            src="/hero-bg.png" 
             alt="Andalusian Arch background" 
             className="w-full h-full object-cover object-bottom"
           />
