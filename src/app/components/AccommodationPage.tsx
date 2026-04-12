@@ -80,7 +80,7 @@ export function AccommodationPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 flex flex-col items-center reveal">
             <span className="label-uppercase">The Sanctuaries</span>
-            <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-6">Private Rooms</h2>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Private Rooms</h2>
             <div className="w-16 h-px bg-accent-terracotta" />
           </div>
 

@@ -46,24 +46,27 @@ export function TravelPage() {
             <div className="lg:col-span-1 hidden lg:block" />
 
             <div className="lg:col-span-12 xl:col-span-10">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div className="relative order-2 lg:order-1 flex justify-center reveal">
-                  <div className="stamp-visual transform rotate-2 max-w-[400px]">
-                    <img
-                      src="/malaga-coast.png"
-                      alt="Málaga Coastline"
-                      className="stamp-image"
-                    />
-                  </div>
-                </div>
+            {/* Section Header - MIRRORED FROM HOME (Centered Above) */}
+            <div className="text-center mb-16 flex flex-col items-center reveal">
+              <span className="label-uppercase">Part I: Arrival</span>
+              <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic leading-tight">
+                Arriving at the Gateway
+              </h2>
+              <div className="w-16 h-px bg-accent-terracotta" />
+            </div>
 
-                <div className="order-1 lg:order-2">
-                  <span className="label-uppercase mb-4 block">Part I: Arrival</span>
-                  <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic leading-tight">
-                    Arriving at the <br />
-                    Gateway
-                  </h2>
-                  <div className="w-16 h-px bg-accent-terracotta mb-8" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div className="relative order-2 lg:order-1 flex justify-center reveal">
+                <div className="stamp-visual transform rotate-2 max-w-[400px]">
+                  <img
+                    src="/malaga-coast.png"
+                    alt="Málaga Coastline"
+                    className="stamp-image"
+                  />
+                </div>
+              </div>
+
+              <div className="order-1 lg:order-2 flex flex-col items-center lg:items-start text-center lg:text-left">
                   <p className="text-lg text-secondary-text leading-relaxed mb-8">
                     Your journey begins at <span className="text-primary-text font-medium">Málaga Airport</span>. We recommend arriving a day or two early to soak in the seaside atmosphere of the Costa del Sol before heading into the hills.
                   </p>
@@ -95,19 +98,22 @@ export function TravelPage() {
         <div className="absolute inset-0 z-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
-            <div className="lg:col-span-1 hidden lg:block" />
-
-            <div className="lg:col-span-5">
-              <span className="label-uppercase mb-4 block">Part II: Ascent</span>
+            {/* Section Header - MIRRORED FROM HOME (Centered Above) */}
+            <div className="text-center mb-16 flex flex-col items-center reveal">
+              <span className="label-uppercase">Part II: Ascent</span>
               <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic leading-tight">
-                Into the <br />
-                Rolling Hills
+                Into the Rolling Hills
               </h2>
-              <div className="w-16 h-px bg-accent-terracotta mb-8" />
-              <p className="text-lg text-secondary-text leading-relaxed mb-10">
-                The drive to Monda is spectacular, winding through ancient olive groves. Whether you prefer a private transfer or the freedom of a rental car, the path is yours to choose.
-              </p>
+              <div className="w-16 h-px bg-accent-terracotta" />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+              <div className="lg:col-span-1 hidden lg:block" />
+
+              <div className="lg:col-span-5">
+                <p className="text-lg text-secondary-text leading-relaxed mb-10 text-center lg:text-left">
+                  The drive to Monda is spectacular, winding through ancient olive groves. Whether you prefer a private transfer or the freedom of a rental car, the path is yours to choose.
+                </p>
 
               <div className="space-y-6">
                 <div className="wedding-card group hover:shadow-2xl transition-all duration-700 bg-white/40 border border-border/5">
@@ -195,13 +201,16 @@ export function TravelPage() {
             <div className="lg:col-span-1 hidden lg:block" />
 
             <div className="lg:col-span-10">
-              <div className="max-w-2xl">
-                <span className="label-uppercase mb-4 block">Part III: Entry</span>
+              {/* Section Header - MIRRORED FROM HOME (Centered Above) */}
+              <div className="text-center mb-16 flex flex-col items-center reveal">
+                <span className="label-uppercase">Part III: Entry Requirements</span>
                 <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic leading-tight">
-                  Visa & Entry <br />
-                  Requirements
+                  Visa & Documentation
                 </h2>
-                <div className="w-16 h-px bg-accent-terracotta mb-8" />
+                <div className="w-16 h-px bg-accent-terracotta" />
+              </div>
+
+              <div className="max-w-2xl mx-auto text-center lg:text-left">
                 <p className="text-lg text-secondary-text leading-relaxed mb-8">
                   Spain is part of the Schengen Area. We recommend all our international guests check their specific entry requirements well in advance.
                 </p>
@@ -253,12 +262,16 @@ export function TravelPage() {
             </div>
           </div>
 
+          {/* Section Header - Centered Above (Home Standard) */}
+          <div className="text-center mb-16 flex flex-col items-center reveal">
+            <span className="label-uppercase">Essentials</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Journey Notes</h2>
+            <div className="w-16 h-px bg-accent-terracotta" />
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 bg-white rounded-[40px] shadow-2xl overflow-hidden border border-border/5">
             {/* Left: Journey Notes */}
             <div className="lg:col-span-2 p-12 md:p-16 border-r border-border/10">
-              <span className="label-uppercase mb-4 block">Essentials</span>
-              <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Journey Notes</h2>
-              <div className="w-16 h-px bg-accent-terracotta mb-8" />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-3">
