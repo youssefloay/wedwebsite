@@ -7,7 +7,6 @@ type Region = 'international' | 'france' | 'switzerland';
 
 export function GiftsPage() {
   const [activeRegion, setActiveRegion] = useState<Region>('france');
-  const [revolutMode, setRevolutMode] = useState<'tag' | 'iban' | 'chf'>('tag');
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showDetails, setShowDetails] = useState<string | null>(null);
 
@@ -56,7 +55,7 @@ export function GiftsPage() {
         </div>
       </section>
 
-      {/* 3. FUNDS */}
+      {/* 3. FUNDS (Home & Honeymoon Illustrations) */}
       <section className="py-12 px-6 bg-[#FBF9F4] border-y border-border/5 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
@@ -97,135 +96,122 @@ export function GiftsPage() {
         </div>
       </section>
 
-      {/* 4. THE HUB & LOCAL OPTIONS */}
-      <div className="max-w-5xl mx-auto px-6 py-16 space-y-32">
+      {/* 4. DYNAMIC TRANSFERS (Revolut + Banks) */}
+      <div className="max-w-5xl mx-auto px-6 py-24 space-y-24">
         
-        {/* REVOLUT HUB */}
-        <section className="reveal">
-          <div className="flex flex-col items-center mb-12">
-            <div className="flex items-center gap-3 mb-4">
-              <Sparkles size={20} className="text-accent-terracotta" strokeWidth={1.25} />
-              <span className="label-uppercase font-bold">Recommended Method</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">The Revolut Hub</h2>
-          </div>
-
-          <div className="wedding-card bg-white border border-border/10 p-0 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-1000 max-w-4xl mx-auto">
-            <div className="flex border-b border-border/10 bg-[#FBF9F4] overflow-x-auto no-scrollbar">
-              <button onClick={() => setRevolutMode('tag')} className={`flex-1 min-w-[120px] py-6 text-[11px] uppercase tracking-[0.2em] font-bold transition-all ${revolutMode === 'tag' ? 'text-accent-terracotta bg-white border-b-2 border-accent-terracotta shadow-sm' : 'text-secondary-text opacity-60'}`}>Revolut Tag</button>
-              {activeRegion !== 'switzerland' && <button onClick={() => setRevolutMode('iban')} className={`flex-1 min-w-[120px] py-6 text-[11px] uppercase tracking-[0.2em] font-bold transition-all ${revolutMode === 'iban' ? 'text-accent-terracotta bg-white border-b-2 border-accent-terracotta shadow-sm' : 'text-secondary-text opacity-60'}`}>Euro IBAN</button>}
-              {activeRegion === 'switzerland' && <button onClick={() => setRevolutMode('chf')} className={`flex-1 min-w-[120px] py-6 text-[11px] uppercase tracking-[0.2em] font-bold transition-all ${revolutMode === 'chf' ? 'text-accent-terracotta bg-white border-b-2 border-accent-terracotta shadow-sm' : 'text-secondary-text opacity-60'}`}>Swiss CHF</button>}
-            </div>
-
-            <div className="p-8 md:p-16 min-h-[400px] flex items-center justify-center">
-              {revolutMode === 'chf' && activeRegion === 'switzerland' ? (
-                <div className="w-full max-w-md space-y-6 animate-in fade-in zoom-in-95 duration-700">
-                  <div className="bg-accent-terracotta/[0.03] p-5 rounded-2xl border border-accent-terracotta/20 mb-8">
-                    <div className="flex justify-between items-center mb-2">
-                       <span className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold italic">Required Reference</span>
-                       <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className="text-[9px] font-bold text-accent-terracotta uppercase">{copiedId === 'rev-chf-ref' ? 'Copied' : 'Copy'}</button>
-                    </div>
-                    <span className="text-xl font-bold text-accent-terracotta font-mono tracking-tight underline decoration-dotted underline-offset-4">LAMA LOAY, CH</span>
-                  </div>
-                  {renderDetailRow('Beneficiary', 'Revolut Bank UAB')}
-                  {renderDetailRow('IBAN', 'CH44 0900 0W0C 1638 5407 7', 'rev-chf-iban')}
-                  {renderDetailRow('Bank', 'PostFinance AG, Bern')}
-                </div>
-              ) : revolutMode === 'tag' ? (
-                <div className="flex flex-col items-center gap-8 animate-in fade-in zoom-in-95 duration-700 text-center">
-                  <span className="text-5xl md:text-7xl font-serif text-primary-text italic tracking-tight">@lamaloay</span>
-                  <div className="flex flex-col gap-4">
-                    <button onClick={() => handleCopy('@lamaloay', 'rev-tag')} className={`btn-primary px-12 py-4 rounded-full text-xs transition-all ${copiedId === 'rev-tag' ? 'bg-green-500' : ''}`}>
-                      {copiedId === 'rev-tag' ? 'Tag Copied!' : 'Copy Tag to Clipboard'}
-                    </button>
-                    <a 
-                      href="https://revolut.me/lamaloay" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold flex items-center justify-center gap-2 hover:underline"
-                    >
-                      Open in App <ExternalLink size={12} />
-                    </a>
-                  </div>
-                </div>
-              ) : (
-                <div className="w-full max-w-md space-y-8 animate-in fade-in zoom-in-95 duration-700">
-                  <div className="space-y-6">
-                    {renderDetailRow('Beneficiary', 'LAMA LOAY')}
-                    {renderDetailRow('Euro IBAN', 'LT18 3250 0331 5970 5728', 'rev-euro-iban')}
-                    {renderDetailRow('BIC / SWIFT', 'REVOLT21', 'rev-euro-bic')}
-                  </div>
-                  {renderReferenceBlock('rev-euro-ref')}
-                </div>
-              )}
-            </div>
+        {/* REGION SELECTION (THE FRONT DOOR) */}
+        <section className="flex flex-col items-center gap-8 sticky top-[72px] md:top-[80px] z-[60] py-6 bg-background/80 backdrop-blur-xl border-b border-border/10 -mx-6 px-6">
+          <span className="label-uppercase text-[10px] tracking-[0.4em] opacity-60">Where are you transfering from?</span>
+          <div className="bg-white/30 backdrop-blur-md p-1.5 rounded-full border border-border/10 flex gap-1 shadow-inner relative overflow-hidden isolate">
+            {regions.map((region) => (
+              <button
+                key={region.id}
+                onClick={() => {
+                   setActiveRegion(region.id as Region);
+                   setShowDetails(null);
+                }}
+                className={`flex-1 relative px-6 md:px-10 py-3 rounded-full text-[10px] md:text-[12px] uppercase font-bold tracking-[0.2em] transition-all duration-500 whitespace-nowrap ${
+                  activeRegion === region.id ? 'text-white' : 'text-secondary-text hover:text-primary-text'
+                }`}
+              >
+                {activeRegion === region.id && (
+                  <motion.div
+                    layoutId="activeRegionTab"
+                    className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1]"
+                    initial={false}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                {region.label}
+              </button>
+            ))}
           </div>
         </section>
 
-        {/* REGION SELECTION PANEL */}
-        <section className="space-y-16">
-          <div className="flex flex-col items-center gap-8">
-            <span className="label-uppercase text-[10px] tracking-[0.4em] opacity-60">Regional Bank Transfers</span>
-            <div className="bg-white/30 backdrop-blur-md p-1.5 rounded-full border border-border/10 flex gap-1 shadow-inner relative overflow-hidden isolate">
-              {regions.map((region) => (
-                <button
-                  key={region.id}
-                  onClick={() => {
-                    setActiveRegion(region.id as Region);
-                    if (region.id === 'switzerland') setRevolutMode('chf');
-                    else setRevolutMode('tag');
-                  }}
-                  className={`relative px-4 md:px-10 py-3 rounded-full text-[10px] md:text-[12px] uppercase font-bold tracking-[0.2em] transition-all duration-500 whitespace-nowrap ${
-                    activeRegion === region.id ? 'text-white' : 'text-secondary-text hover:text-primary-text'
-                  }`}
-                >
-                  {activeRegion === region.id && (
-                    <motion.div
-                      layoutId="activeRegionTabRestored"
-                      className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1]"
-                      initial={false}
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                  {region.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
+        {/* DYNAMIC GRID (REVOLUT HUB + LOCAL BANKS) */}
+        <section className="space-y-16 reveal">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-            {activeRegion === 'france' && renderLocalCard('France', 'BoursoBank', 'Lama Loay', 'FR76 4061 8803 3500 0402 2902 922', 'BOUS FRPP XXX', '44 rue Traversière, 92772, FR')}
+            
+            {/* 1. REVOLUT (Always top left, dynamic content) */}
+            <div className="wedding-card bg-white border border-border/10 p-0 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-1000 col-span-full md:col-span-1">
+               <div className="bg-[#FBF9F4] p-6 border-b border-border/10 flex justify-between items-center">
+                  <div className="flex flex-col items-start gap-1">
+                    <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-accent-terracotta">Modern Transfer</span>
+                    <h3 className="text-2xl font-serif italic">Revolut Hub</h3>
+                  </div>
+                  <Sparkles size={20} className="text-accent-terracotta opacity-40" />
+               </div>
+               
+               <div className="p-8 space-y-6">
+                  {activeRegion === 'switzerland' ? (
+                    <div className="space-y-6 animate-in fade-in duration-700">
+                      <div className="bg-accent-terracotta/[0.03] p-4 rounded-xl border border-accent-terracotta/20">
+                         <div className="flex justify-between items-center mb-1">
+                            <span className="text-[8px] uppercase tracking-widest text-accent-terracotta font-bold">Required Reference</span>
+                            <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className="text-[8px] font-bold text-accent-terracotta uppercase">{copiedId === 'rev-chf-ref' ? 'Copied' : 'Copy'}</button>
+                         </div>
+                         <span className="text-sm font-bold text-accent-terracotta font-mono tracking-tight underline decoration-dotted underline-offset-4">LAMA LOAY, CH</span>
+                      </div>
+                      {renderDetailRowSmall('Beneficiary', 'Revolut Bank UAB')}
+                      {renderDetailRowSmall('Swiss CHF IBAN', 'CH44 0900 0W0C 1638 5407 7', 'rev-chf-iban')}
+                      {renderDetailRowSmall('Bank', 'PostFinance AG')}
+                    </div>
+                  ) : (
+                    <div className="space-y-6 animate-in fade-in duration-700">
+                      <div className="flex flex-col items-center py-4 gap-4 bg-accent-terracotta/[0.02] rounded-xl border border-accent-terracotta/10 mb-2">
+                         <span className="text-3xl font-serif italic text-primary-text">@lamaloay</span>
+                         <button onClick={() => handleCopy('@lamaloay', 'rev-tag')} className="text-[9px] uppercase font-bold tracking-widest text-accent-terracotta border border-accent-terracotta/30 px-6 py-2 rounded-full hover:bg-accent-terracotta hover:text-white transition-all">
+                            {copiedId === 'rev-tag' ? 'Tag Copied' : 'Copy Tag'}
+                         </button>
+                      </div>
+                      {renderDetailRowSmall('Beneficiary', 'LAMA LOAY')}
+                      {renderDetailRowSmall('Euro IBAN', 'LT18 3250 0331 5970 5728', 'rev-euro-iban')}
+                      <div className="bg-accent-terracotta/[0.03] p-4 rounded-xl border border-accent-terracotta/20 mt-2">
+                         <div className="flex justify-between items-center mb-1">
+                            <span className="text-[8px] uppercase tracking-widest text-accent-terracotta font-bold">Required Reference</span>
+                            <button onClick={() => handleCopy('Wedding - [Your Name]', 'rev-ref')} className="text-[8px] font-bold text-accent-terracotta uppercase">{copiedId === 'rev-ref' ? 'Copied' : 'Copy'}</button>
+                         </div>
+                         <span className="text-[10px] font-bold text-accent-terracotta">Wedding - [Your Name]</span>
+                      </div>
+                    </div>
+                  )}
+                  <a href="https://revolut.me/lamaloay" target="_blank" rel="noopener noreferrer" className="btn-secondary w-full py-3 text-[9px] flex items-center justify-center gap-2">
+                    Open In Revolut App <ExternalLink size={12} />
+                  </a>
+               </div>
+            </div>
+
+            {/* 2. LOCAL OPTIONS (Filtered by region) */}
+            {activeRegion === 'france' && renderLocalCard('France', 'BoursoBank', 'Lama Loay', 'FR76 4061 8803 3500 0402 2902 922', 'BOUS FRPP XXX')}
+            
             {activeRegion === 'switzerland' && (
               <>
-                {renderLocalCard('Switzerland', 'UBS', 'Lama Loay', 'CH16 0021 5215 1631 0340 Y', 'UBSWCHZH80A', 'Switzerland')}
-                {renderLocalCard('Switzerland', 'TWINT', 'Lama Loay', '+41 76 701 34 52', '', '', true)}
+                {renderLocalCard('Switzerland', 'UBS', 'Lama Loay', 'CH16 0021 5215 1631 0340 Y', 'UBSWCHZH80A')}
+                {renderLocalCard('Switzerland', 'TWINT', 'Lama Loay', '+41 76 701 34 52', '', true)}
               </>
             )}
+
+            {/* International helper for non-revolut? */}
             {activeRegion === 'international' && (
-              <div className="col-span-full wedding-card bg-[#F5EFEB]/30 text-center p-12 flex flex-col items-center justify-center border border-border/10">
-                <Globe className="text-accent-terracotta mb-6 opacity-40" size={40} strokeWidth={1} />
-                <p className="text-xl italic text-primary-text mb-4">International Guest?</p>
-                <p className="text-sm text-secondary-text max-w-[280px] mb-8 leading-relaxed italic">
-                  The Revolut Hub at the top of this page is optimized for all international transfers.
-                </p>
-                <button 
-                  onClick={() => window.scrollTo({ top: 400, behavior: 'smooth' })} 
-                  className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold underline underline-offset-8"
-                >
-                  Return to Digital Hub
-                </button>
-              </div>
+               <div className="wedding-card bg-[#F5EFEB]/30 p-8 flex flex-col items-center justify-center border border-border/10 text-center col-span-full md:col-span-1">
+                  <Globe className="text-accent-terracotta/40 mb-6" size={40} strokeWidth={1} />
+                  <p className="text-lg italic text-primary-text mb-4">Global Guest?</p>
+                  <p className="text-xs text-secondary-text leading-relaxed max-w-[220px] italic">
+                    The Revolut Hub is our primary destination for international transfers. Safe, instant, and borderless.
+                  </p>
+               </div>
             )}
           </div>
         </section>
 
-        {/* PHYSICAL PATH: IN-PERSON (Highlighted) */}
+        {/* 5. PHYSICAL PATH: IN-PERSON */}
         <section className="reveal pb-16">
           <div className="max-w-3xl mx-auto">
             <div className="wedding-card bg-[#F5EFEB]/40 backdrop-blur-sm border-2 border-dashed border-accent-terracotta/20 p-12 md:p-20 flex flex-col items-center text-center group hover:bg-white hover:border-accent-terracotta/40 transition-all duration-1000 shadow-sm relative overflow-visible">
               <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 rounded-full bg-white border border-border/10 flex items-center justify-center text-accent-terracotta shadow-xl rotate-12 group-hover:rotate-0 transition-transform duration-1000">
                  <Heart size={32} strokeWidth={1.25} />
               </div>
+
               <div className="max-w-xl mx-auto space-y-8">
                 <div className="flex flex-col items-center gap-4">
                   <span className="label-uppercase tracking-[0.4em] opacity-60">Traditional Gestures</span>
@@ -253,7 +239,7 @@ export function GiftsPage() {
           <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
             "Once you have explored our story, kindly finalize your plans by submitting your RSVP."
           </p>
-          <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
+          <Link to="/rsvp" className="btn-primary inline-flex shadow-xl px-12">
              Go to RSVP
           </Link>
         </div>
@@ -262,53 +248,40 @@ export function GiftsPage() {
     </div>
   );
 
-  function renderReferenceBlock(id: string) {
+  function renderDetailRowSmall(label: string, value: string, copyId?: string) {
     return (
-      <div className="bg-accent-terracotta/[0.03] p-4 rounded-xl border border-accent-terracotta/20 mt-4 text-left">
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold">Required Reference</span>
-          <button onClick={() => handleCopy('Wedding - [Your Name]', id)} className="text-[8px] font-bold text-accent-terracotta uppercase">
-            {copiedId === id ? 'Copied' : 'Copy'}
-          </button>
-        </div>
-        <span className="text-xs font-bold text-accent-terracotta">Wedding - [Your Name]</span>
-      </div>
-    );
-  }
-
-  function renderDetailRow(label: string, value: string, copyId?: string) {
-    return (
-      <div className="flex flex-col gap-1 text-left border-b border-border/10 pb-4">
-        <div className="flex justify-between items-end">
-          <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold opacity-60">{label}</span>
+      <div className="flex flex-col gap-1 text-left border-b border-border/5 pb-3">
+        <div className="flex justify-between items-center">
+          <span className="text-[8px] uppercase tracking-widest text-secondary-text font-bold opacity-60">{label}</span>
           {copyId && (
             <button onClick={() => handleCopy(value, copyId)} className="text-[8px] uppercase tracking-widest text-accent-terracotta font-bold hover:underline">
               {copiedId === copyId ? 'Copied' : 'Copy'}
             </button>
           )}
         </div>
-        <span className="text-sm md:text-base font-serif text-primary-text font-medium">{value}</span>
+        <span className="text-xs font-serif text-primary-text font-medium break-all">{value}</span>
       </div>
     );
   }
 
-  function renderLocalCard(region: string, bank: string, holder: string, ival: string, bic: string, address?: string, isTwint = false) {
+  function renderLocalCard(region: string, bank: string, holder: string, ival: string, bic: string, isTwint = false) {
     const isShowing = showDetails === bank;
     return (
-      <div className="wedding-card bg-white border border-border/10 p-8 flex flex-col group hover:border-accent-terracotta/20 transition-all duration-700 text-left">
-        <div className="flex justify-between items-start mb-6">
+      <div className="wedding-card bg-white border border-border/10 p-0 flex flex-col group hover:border-accent-terracotta/20 transition-all duration-700 text-left overflow-hidden">
+        <div className="bg-[#FBF9F4] p-6 border-b border-border/10 flex justify-between items-start">
           <div className="flex flex-col items-start gap-1">
             <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-accent-terracotta">{region}</span>
             <h3 className="text-2xl font-serif italic">{bank}</h3>
           </div>
           {isTwint ? <Smartphone size={24} className="text-accent-terracotta/30" /> : <CreditCard size={24} className="text-accent-terracotta/30" />}
         </div>
-        <div className="space-y-5">
+        <div className="p-8 space-y-6">
            <div className="flex flex-col items-start border-b border-border/5 pb-3 w-full">
              <span className="text-[9px] uppercase tracking-widest text-secondary-text mb-1">Holder</span>
              <span className="text-sm font-medium">{holder}</span>
            </div>
-           <div className={`space-y-4 transition-all duration-700 overflow-hidden ${isShowing ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
+           
+           <div className={`space-y-4 transition-all duration-700 overflow-hidden ${isShowing ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
               <div className="flex flex-col items-start gap-1">
                 <div className="flex justify-between w-full">
                   <span className="text-[9px] uppercase tracking-widest text-secondary-text">{isTwint ? 'Number' : 'IBAN'}</span>
@@ -322,11 +295,10 @@ export function GiftsPage() {
                   <span className="text-xs font-bold font-mono">{bic}</span>
                 </div>
               )}
-              {!isTwint && renderReferenceBlock(bank + '-ref')}
-              {address && <p className="text-[9px] italic text-secondary-text mt-2">{address}</p>}
            </div>
-           <button onClick={() => setShowDetails(isShowing ? null : bank)} className="w-full py-4 border border-border/10 rounded-2xl text-[10px] uppercase font-bold tracking-[0.2em] hover:bg-accent-terracotta hover:text-white transition-all shadow-sm">
-              {isShowing ? 'Hide Details' : `Show ${bank} Details`}
+           
+           <button onClick={() => setShowDetails(isShowing ? null : bank)} className="w-full py-3 border border-border/10 rounded-full text-[9px] uppercase font-bold tracking-[0.2em] hover:bg-accent-terracotta hover:text-white transition-all shadow-sm">
+              {isShowing ? 'Hide Details' : `Show Details`}
            </button>
         </div>
       </div>
