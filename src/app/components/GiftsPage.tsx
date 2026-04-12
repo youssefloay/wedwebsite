@@ -97,7 +97,7 @@ export function GiftsPage() {
       </section>
 
       {/* 4. REGION SELECTOR */}
-      <section className="px-6 pb-12 sticky top-20 z-40 bg-background/80 backdrop-blur-md py-4 border-b border-border/10">
+      <section className="px-6 sticky top-[72px] md:top-[80px] z-[60] bg-background/90 backdrop-blur-xl py-6 border-b border-border/10 shadow-sm transition-all duration-300">
         <div className="max-w-2xl mx-auto">
           <div className="flex flex-wrap justify-center gap-3 md:gap-4">
             {regions.map((region) => (
