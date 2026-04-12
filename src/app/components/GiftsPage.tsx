@@ -31,8 +31,8 @@ export function GiftsPage() {
         <div className="relative z-10 max-w-3xl mx-auto reveal">
           <span className="label-uppercase mb-6 block">Gifting</span>
           <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Our Future</h1>
-          <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-lg mx-auto px-4 opacity-80">
-            "Your presence is the greatest gift."
+          <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80">
+            "Your presence is the greatest gift. If you wish to contribute, we thank you for helping us build our new life together."
           </p>
           <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta" />
         </div>
@@ -130,7 +130,7 @@ export function GiftsPage() {
               <Sparkles size={20} className="text-accent-terracotta" strokeWidth={1.25} />
               <span className="label-uppercase font-bold">Recommended Method</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-serif italic mb-6">The Revolut Hub</h2>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">The Revolut Hub</h2>
           </div>
 
           <div className="wedding-card bg-white border border-border/10 p-0 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-1000">

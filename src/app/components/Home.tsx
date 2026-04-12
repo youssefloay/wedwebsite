@@ -208,7 +208,7 @@ export function Home() {
         <div className="section-container">
           <div className="text-center mb-16 flex flex-col items-center reveal">
             <span className="label-uppercase">Our Story</span>
-            <h2 className="text-5xl md:text-6xl font-serif text-primary-text leading-[1.1] mb-6 max-w-3xl">
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">
               A journey between <br className="hidden md:block" /> two worlds
             </h2>
             <div className="w-16 h-px bg-accent-terracotta" />
@@ -243,7 +243,7 @@ export function Home() {
       <section id="dress-code" className="section-layer-1 px-6 pt-12 pb-32 relative border-t border-border/10">
         <div className="text-center mb-16 flex flex-col items-center">
           <span className="label-uppercase">Dress Code</span>
-          <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-6 italic">Black Tie & Color</h2>
+          <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Black Tie & Color</h2>
           <div className="w-16 h-px bg-accent-terracotta mb-10" />
           
           <div className="max-w-xl mx-auto space-y-6 mb-8">
@@ -303,7 +303,7 @@ export function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20 flex flex-col items-center">
             <span className="label-uppercase">The Celebration</span>
-            <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-6 italic">Wedding Schedule</h2>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Wedding Schedule</h2>
             <div className="w-16 h-px bg-accent-terracotta" />
             <p className="mt-8 text-secondary-text font-serif italic max-w-none mx-auto w-full whitespace-nowrap text-lg md:text-xl">Saturday, 17th April 2027</p>
           </div>
@@ -376,7 +376,7 @@ export function Home() {
         <div className="max-w-2xl mx-auto">
           <div className="text-center reveal">
             <span className="label-uppercase mb-4 block">RSVP</span>
-            <h2 className="text-5xl md:text-6xl font-serif text-primary-text mb-8">Join Our Story</h2>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-8 italic">Join Our Story</h2>
             <p className="text-lg text-secondary-text font-serif italic leading-relaxed mb-12">
               Please kindly let us know if you can join us <br className="hidden md:block" /> by November 13th, 2026.
             </p>

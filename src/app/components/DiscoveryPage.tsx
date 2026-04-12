@@ -46,10 +46,8 @@ export function DiscoveryPage() {
         
         <div className="max-w-3xl mx-auto relative z-10 reveal">
           <span className="label-uppercase mb-6 block">Make a weekend of it</span>
-          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 italic leading-tight">
-            The Andalusian <br className="hidden md:block" /> Discovery
-          </h1>
-          <p className="text-xl md:text-2xl text-secondary-text font-serif italic max-w-lg mx-auto px-4 leading-relaxed opacity-80">
+          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Discover Monda</h1>
+          <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80">
             "Andalusia is a tapestry of history, light, and flavor. We invite you to linger, explore, and fall in love with the magic of the Costa del Sol."
           </p>
           <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta" />
@@ -98,7 +96,7 @@ export function DiscoveryPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20 reveal">
             <span className="label-uppercase mb-4 block reveal">The Andalusian Ledger</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic mb-6">Curated Experiences</h2>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Curated Experiences</h2>
             <div className="w-16 h-px bg-accent-terracotta/20 mx-auto" />
           </div>
 

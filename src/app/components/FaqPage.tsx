@@ -41,12 +41,10 @@ export function FaqPage() {
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
         <div className="max-w-3xl mx-auto relative z-10 reveal">
-          <span className="label-uppercase mb-6 block">Information Guide</span>
-          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight italic">
-            Commonly <br className="hidden md:block" /> Asked
-          </h1>
-          <p className="text-xl md:text-2xl text-secondary-text font-serif italic max-w-lg mx-auto px-4 leading-relaxed opacity-80">
-            "Everything you need to know about our Andalusian celebration, from logistical details to the spirit of the day."
+          <span className="label-uppercase mb-6 block">Information Hub</span>
+          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">The Journal</h1>
+          <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80">
+            "Everything you need to know for our weekend in Monda, from travel logistics to dress code details."
           </p>
           <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta" />
         </div>

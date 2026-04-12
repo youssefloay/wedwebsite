@@ -16,7 +16,7 @@ export function TravelPage() {
         <div className="relative z-10 max-w-3xl mx-auto text-center reveal">
           <span className="label-uppercase mb-6 block">The Voyage</span>
           <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">Journey to Monda</h1>
-          <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-2xl mx-auto px-4 opacity-80">
+          <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80">
             "A scenic passage from the Mediterranean coast to the heart of the Andalusian hills."
           </p>
           <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta" />
