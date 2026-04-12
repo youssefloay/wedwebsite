@@ -52,7 +52,7 @@ export function DiscoveryPage() {
           <p className="text-xl md:text-2xl text-secondary-text font-serif italic max-w-lg mx-auto px-4 leading-relaxed opacity-80">
             "Andalusia is a tapestry of history, light, and flavor. We invite you to linger, explore, and fall in love with the magic of the Costa del Sol."
           </p>
-          <div className="w-16 h-px mx-auto mt-12 mb-10 bg-accent-terracotta" />
+          <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta" />
         </div>
       </section>
 
