@@ -312,7 +312,7 @@ export function GiftsPage() {
             </>
           )}
 
-          {/* C. IN-PERSON WISHES (Now part of the stack!) */}
+          {/* C. IN-PERSON WISHES (Unified Choice) */}
           <div className={`wedding-card bg-white border border-border/10 transition-all duration-700 overflow-hidden ${activeProvider === 'inperson' ? 'shadow-xl border-accent-terracotta/20' : 'hover:border-accent-terracotta/20'}`}>
              <button 
                onClick={() => handleProviderToggle('inperson')}
@@ -354,23 +354,6 @@ export function GiftsPage() {
                 )}
              </AnimatePresence>
           </div>
-
-          {/* D. INTERNATIONAL HELPER */}
-          {activeRegion === 'international' && (
-             <div className="wedding-card bg-[#F5EFEB]/30 p-12 flex flex-col items-center justify-center border border-border/10 text-center transition-all duration-700">
-                <Globe className="text-accent-terracotta/30 mb-6" size={48} strokeWidth={1} />
-                <h3 className="text-2xl font-serif italic text-primary-text mb-4">Borderless Gifting</h3>
-                <p className="text-sm text-secondary-text leading-relaxed max-w-[280px] italic opacity-80 mb-8">
-                  The Revolut Hub above is our dedicated destination for all global transfers. Safe, instant, and refined.
-                </p>
-                <button 
-                  onClick={() => setActiveProvider('revolut')}
-                  className="btn-secondary px-8 py-3 text-[10px]"
-                >
-                   Open Revolut Hub
-                </button>
-             </div>
-          )}
         </div>
       </div>
 
