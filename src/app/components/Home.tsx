@@ -1,5 +1,6 @@
 import { Link, useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { VideoEntrance } from './VideoEntrance';
 
 export function Home() {
@@ -77,82 +78,134 @@ export function Home() {
       </div>
 
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-screen flex items-center justify-center pt-20 pb-16 overflow-hidden bg-background">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/hero-bg.png"
-            alt="Andalusian Arch background"
-            className="w-full h-full object-cover opacity-80"
+      <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden bg-background">
+        {/* CINEMATIC BACKGROUND REVEAL (BOTTOM-UP) */}
+        <motion.div 
+          className="absolute inset-0 z-0"
+          initial={{ y: 80, opacity: 0, scale: 1.05 }}
+          animate={{ y: 0, opacity: 0.6, scale: 1 }}
+          transition={{ 
+            duration: 2, 
+            ease: [0.22, 1, 0.36, 1],
+            delay: shouldSkip ? 0 : 1 
+          }}
+        >
+          <img 
+            src="/hero_arch.png" 
+            alt="Andalusian Arch background" 
+            className="w-full h-full object-cover object-bottom"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-transparent to-background/5 backdrop-blur-[0.5px]" />
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/5" />
+        </motion.div>
 
-        <div className="relative z-10 text-center px-6 max-w-2xl mx-auto flex flex-col items-center">
-          <div className="reveal-scale active mb-0 w-64 md:w-80 transition-all duration-1000 flex justify-center">
-            <img
-              src="/bismillah.png"
-              alt="Bismillah"
-              className="w-full h-auto object-contain hover:scale-[1.02] transition-transform duration-1000"
-            />
-          </div>
+        {/* CONTENT REVEAL SEQUENCE */}
+        <motion.div 
+          className="container relative z-10 px-6 max-w-5xl mx-auto flex flex-col items-center justify-center text-center"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { 
+              opacity: 1,
+              transition: { 
+                staggerChildren: 0.5,
+                delayChildren: shouldSkip ? 0 : 1.5
+              } 
+            }
+          }}
+        >
+          {/* BISMILLAH / BLESSING */}
+          <motion.div 
+            className="mb-14 flex flex-col items-center"
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { 
+                opacity: 1, 
+                y: 0, 
+                transition: { duration: 1.2, ease: "easeOut" } 
+              }
+            }}
+          >
+            <div className="w-64 md:w-80 mb-6">
+              <img 
+                src="/bismillah.png" 
+                alt="Bismillah" 
+                className="w-full h-auto object-contain mix-blend-multiply opacity-90 drop-shadow-sm"
+              />
+            </div>
+            <span className="font-cinzel text-[10px] md:text-xs tracking-[0.5em] text-secondary-text uppercase font-bold">
+              En el nombre de Dios, el Compasivo, el Misericordioso
+            </span>
+          </motion.div>
 
-          <p className="reveal delay-100 font-cinzel text-[10px] md:text-[11px] tracking-[0.6em] text-secondary-text -mt-16 mb-10 uppercase font-bold">
-            En el nombre de Dios
-          </p>
+          {/* THE NAMES */}
+          <motion.div 
+            className="mb-16 flex flex-col items-center"
+            variants={{
+              hidden: { opacity: 0, scale: 0.98, y: 30 },
+              visible: { 
+                opacity: 1, 
+                scale: 1, 
+                y: 0, 
+                transition: { duration: 1.5, ease: [0.19, 1, 0.22, 1] } 
+              }
+            }}
+          >
+            <div className="flex flex-col items-center font-serif text-primary-text leading-[0.85] mb-8">
+              <h1 className="text-7xl md:text-9xl uppercase tracking-wider mb-2">Lama</h1>
+              <div className="flex items-center gap-6 my-4">
+                <div className="h-px w-12 bg-accent-terracotta/40" />
+                <span className="script-accent text-4xl md:text-5xl opacity-80 italic">&</span>
+                <div className="h-px w-12 bg-accent-terracotta/40" />
+              </div>
+              <h1 className="text-7xl md:text-9xl uppercase tracking-wider">Álvaro</h1>
+            </div>
+          </motion.div>
 
-          <p className="reveal delay-200 font-script text-xl md:text-2xl text-secondary-text mb-12 max-w-xs md:max-w-md italic">
-            You are invited to celebrate the wedding of
-          </p>
-
-          <div className="reveal delay-300 flex flex-col items-center gap-4 mb-2 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.85]">
-              <span className="text-6xl md:text-8xl uppercase tracking-wider">Lama</span>
-              <span className="text-3xl md:text-4xl mt-2 uppercase tracking-widest">Loay</span>
-            </h1>
-
-            <div className="flex items-center justify-center my-8">
-              <span className="script-accent text-3xl md:text-4xl opacity-60 italic">&</span>
+          {/* DATES & COUNTDOWN */}
+          <motion.div 
+            className="w-full flex flex-col items-center"
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { 
+                opacity: 1, 
+                y: 0, 
+                transition: { duration: 1, ease: "easeOut" } 
+              }
+            }}
+          >
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-4xl font-serif text-primary-text tracking-[0.2em] mb-2">
+                17 April 2027
+              </h2>
+              <p className="font-cinzel text-[10px] md:text-xs tracking-[0.3em] text-secondary-text uppercase font-bold">
+                Castillo de Monda • Andalusia, Spain
+              </p>
             </div>
 
-            <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.85]">
-              <span className="text-6xl md:text-8xl uppercase tracking-wider">Alvaro</span>
-              <span className="text-3xl md:text-4xl mt-2 uppercase tracking-widest">Recas</span>
-            </h1>
-          </div>
-
-          <div className="w-16 h-px bg-accent-terracotta mt-8 mb-10" />
-
-          <h2 className="script-accent text-3xl md:text-4xl mb-12 text-primary-text">
-            17 April 2027
-          </h2>
-
-          <div className="reveal delay-400 flex justify-center gap-12 mb-10 scale-110">
-            <div className="flex flex-col items-center">
-              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-2">{daysUntil}</span>
-              <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">DAYS</span>
+            <div className="flex justify-center gap-10 md:gap-16 mb-12">
+              <div className="flex flex-col items-center">
+                <span className="text-5xl md:text-6xl font-serif text-primary-text mb-2">{daysUntil}</span>
+                <span className="font-cinzel text-[9px] md:text-[11px] tracking-widest text-secondary-text font-bold">DÍAS</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-5xl md:text-6xl font-serif text-primary-text mb-2">{hoursUntil}</span>
+                <span className="font-cinzel text-[9px] md:text-[11px] tracking-widest text-secondary-text font-bold">HORAS</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-5xl md:text-6xl font-serif text-primary-text mb-2">{minutesUntil}</span>
+                <span className="font-cinzel text-[9px] md:text-[11px] tracking-widest text-secondary-text font-bold">MIN</span>
+              </div>
             </div>
-            <div className="flex flex-col items-center">
-              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-2">{hoursUntil}</span>
-              <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">HRS</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-4xl md:text-5xl font-serif text-primary-text mb-2">{minutesUntil}</span>
-              <span className="font-cinzel text-[10px] tracking-widest text-secondary-text font-bold">MIN</span>
-            </div>
-          </div>
 
-          <div className="reveal delay-500 space-y-2">
-            <p className="text-xl md:text-3xl font-serif text-primary-text tracking-wide">
-              Castillo de Monda
-            </p>
-            <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-secondary-text opacity-100 leading-relaxed font-bold mb-10">
-              De La Villeta 6, 29110 Monda, Spain
-            </p>
-            <Link to="/rsvp" className="btn-primary inline-flex">
-              Kindly RSVP
+            <Link 
+              to="/rsvp" 
+              className="btn-primary"
+            >
+              Confirmar Asistencia
             </Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* 2. OUR STORY SECTION */}
