@@ -264,6 +264,36 @@ export function GiftsPage() {
     );
   }
 
+  function renderReferenceBlock(id: string) {
+    return (
+      <div className="bg-accent-terracotta/[0.03] p-4 rounded-xl border border-accent-terracotta/20 mt-4 text-left">
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold">Required Reference</span>
+          <button onClick={() => handleCopy('Wedding - [Your Name]', id)} className="text-[8px] font-bold text-accent-terracotta uppercase">
+            {copiedId === id ? 'Copied' : 'Copy'}
+          </button>
+        </div>
+        <span className="text-xs font-bold text-accent-terracotta">Wedding - [Your Name]</span>
+      </div>
+    );
+  }
+
+  function renderDetailRow(label: string, value: string, copyId?: string) {
+    return (
+      <div className="flex flex-col gap-1 text-left border-b border-border/10 pb-4">
+        <div className="flex justify-between items-end">
+          <span className="text-[9px] uppercase tracking-widest text-secondary-text font-bold opacity-60">{label}</span>
+          {copyId && (
+            <button onClick={() => handleCopy(value, copyId)} className="text-[8px] uppercase tracking-widest text-accent-terracotta font-bold hover:underline">
+              {copiedId === copyId ? 'Copied' : 'Copy'}
+            </button>
+          )}
+        </div>
+        <span className="text-sm md:text-base font-serif text-primary-text font-medium">{value}</span>
+      </div>
+    );
+  }
+
   function renderLocalCard(region: string, bank: string, holder: string, ival: string, bic: string, isTwint = false) {
     const isShowing = showDetails === bank;
     return (
