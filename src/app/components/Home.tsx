@@ -136,7 +136,7 @@ export function Home() {
 
           {/* CENTER: THE NAMES (PILLAR) */}
           <motion.div 
-            className="flex flex-col items-center py-10"
+            className="flex flex-col items-center py-6 md:py-10"
             variants={{
               hidden: { opacity: 0, scale: 0.98 },
               visible: { opacity: 1, scale: 1, transition: { duration: 1.5, ease: [0.19, 1, 0.22, 1] } }
@@ -144,8 +144,8 @@ export function Home() {
           >
             <h1 className="flex flex-col items-center font-serif text-primary-text leading-[0.9] gap-4">
               <div className="flex flex-col items-center">
-                <span className="text-6xl md:text-8xl lg:text-9xl uppercase tracking-[0.2em]">Lama</span>
-                <span className="text-xl md:text-3xl lg:text-4xl mt-2 uppercase tracking-[0.5em] opacity-60 font-cinzel">Loay</span>
+                <span className="text-5xl md:text-8xl lg:text-9xl uppercase tracking-[0.2em]">Lama</span>
+                <span className="text-base md:text-3xl lg:text-4xl mt-2 uppercase tracking-[0.5em] opacity-60 font-cinzel">Loay</span>
               </div>
               
               <div className="my-4 md:my-8 flex items-center justify-center w-full">
@@ -153,8 +153,8 @@ export function Home() {
               </div>
 
               <div className="flex flex-col items-center">
-                <span className="text-6xl md:text-8xl lg:text-9xl uppercase tracking-[0.2em]">Álvaro</span>
-                <span className="text-xl md:text-3xl lg:text-4xl mt-2 uppercase tracking-[0.5em] opacity-60 font-cinzel">Recas</span>
+                <span className="text-5xl md:text-8xl lg:text-9xl uppercase tracking-[0.2em]">Álvaro</span>
+                <span className="text-base md:text-3xl lg:text-4xl mt-2 uppercase tracking-[0.5em] opacity-60 font-cinzel">Recas</span>
               </div>
             </h1>
           </motion.div>
@@ -167,8 +167,8 @@ export function Home() {
               visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: "easeOut" } }
             }}
           >
-            <div className="mb-8 md:mb-12">
-              <h2 className="text-xl md:text-3xl font-serif text-primary-text tracking-[0.3em] uppercase mb-2">
+            <div className="mb-6 md:mb-12">
+              <h2 className="text-lg md:text-3xl font-serif text-primary-text tracking-[0.3em] uppercase mb-2">
                 17 April 2027
               </h2>
               <p className="font-cinzel text-[9px] md:text-[11px] tracking-[0.2em] text-accent-beige uppercase font-bold opacity-80">
@@ -176,7 +176,7 @@ export function Home() {
               </p>
             </div>
 
-            <div className="flex justify-center gap-8 md:gap-16 mb-8 md:mb-12 pt-8 w-full max-w-sm">
+            <div className="flex justify-center gap-8 md:gap-16 mb-6 md:mb-12 pt-8 w-full max-w-sm">
               <div className="flex flex-col items-center">
                 <span className="text-3xl md:text-5xl font-serif text-primary-text mb-1">{daysUntil}</span>
                 <span className="font-cinzel text-[8px] md:text-[10px] tracking-widest text-secondary-text font-bold">DAYS</span>
