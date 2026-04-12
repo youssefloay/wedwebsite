@@ -19,7 +19,7 @@ export function TravelPage() {
           <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-2xl mx-auto px-4 opacity-80">
             "A scenic passage from the Mediterranean coast to the heart of the Andalusian hills."
           </p>
-          <div className="w-16 h-px mx-auto mt-12 mb-20 bg-accent-terracotta" />
+          <div className="w-16 h-px mx-auto mt-12 mb-10 bg-accent-terracotta" />
         </div>
       </section>
 

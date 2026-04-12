@@ -34,7 +34,7 @@ export function GiftsPage() {
           <p className="text-xl md:text-2xl font-serif text-secondary-text leading-relaxed italic max-w-lg mx-auto px-4 opacity-80">
             "Your presence is the greatest gift."
           </p>
-          <div className="w-16 h-px mx-auto mt-12 mb-20 bg-accent-terracotta" />
+          <div className="w-16 h-px mx-auto mt-12 mb-10 bg-accent-terracotta" />
         </div>
       </section>
 
