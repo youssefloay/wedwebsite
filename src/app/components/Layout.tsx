@@ -9,7 +9,7 @@ export function Layout() {
   const isHome = location.pathname === "/";
 
   return (
-    <>
+    <div className="overflow-x-hidden min-h-screen flex flex-col relative bg-background">
       <Navigation />
 
       {/* Global Header Logo - Only shown on sub-pages */}
@@ -25,7 +25,7 @@ export function Layout() {
         </header>
       )}
 
-      <main className="min-h-screen relative pb-12">
+      <main className="flex-grow min-h-screen relative pb-12">
         <ScrollToTop />
         <Outlet />
       </main>
@@ -58,6 +58,6 @@ export function Layout() {
           </svg>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

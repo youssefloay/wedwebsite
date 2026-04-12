@@ -220,8 +220,8 @@ export function RsvpPage() {
           </div>
 
           <div className="relative max-w-2xl mx-auto reveal delay-200">
-            <div className="absolute inset-x-[-20px] inset-y-[-40px] border border-accent-terracotta/5 rounded-[60px] pointer-events-none -z-10 bg-[#FAF9F6]/50 shadow-[0_20px_50px_rgba(92,50,16,0.03)] backdrop-blur-sm" />
-            <div className="absolute inset-x-[-30px] inset-y-[-50px] border border-accent-terracotta/5 rounded-[70px] pointer-events-none -z-10" />
+            <div className="absolute inset-0 border border-accent-terracotta/5 rounded-[40px] md:rounded-[60px] pointer-events-none -z-10 bg-[#FAF9F6]/50 shadow-[0_20px_50px_rgba(92,50,16,0.03)] backdrop-blur-sm" />
+            <div className="absolute -inset-2 border border-accent-terracotta/5 rounded-[50px] md:rounded-[70px] pointer-events-none -z-10" />
 
             <form onSubmit={handleSubmit} className="relative z-10 px-8 py-4">
 
