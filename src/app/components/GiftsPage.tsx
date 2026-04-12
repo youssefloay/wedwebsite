@@ -174,7 +174,7 @@ export function GiftsPage() {
               >
                 {activeRegion === region.id && (
                   <motion.div
-                    layoutId="activeRegionTabWarmer"
+                    layoutId="activeRegionTabWarmerFinal"
                     className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1] shadow-md shadow-accent-terracotta/10"
                     initial={false}
                     transition={{ type: "spring", bounce: 0.1, duration: 0.6 }}
@@ -204,7 +204,7 @@ export function GiftsPage() {
                       <h3 className={`text-lg md:text-2xl font-serif italic transition-all duration-500 ${activeProvider === 'revolut' ? 'text-accent-terracotta' : 'text-primary-text'}`}>Revolut Hub</h3>
                    </div>
                 </div>
-                <div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-500 ${activeProvider === 'revolut' ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}>
+                <div className={`w-7 h-7 rounded-full border border-accent-terracotta/10 flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'rotate-180 bg-accent-terracotta/10 text-accent-terracotta' : 'text-secondary-text opacity-30'}`}>
                    <ChevronDown size={14} strokeWidth={2.5} />
                 </div>
              </button>
@@ -344,7 +344,3 @@ export function GiftsPage() {
     </div>
   );
 }
-
-const ExternalLink = ({ size }: { size: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-40 font-bold"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-);
