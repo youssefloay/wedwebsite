@@ -182,11 +182,11 @@ export function GiftsPage() {
         {/* LOCAL BANKS SECTION */}
         <section className="space-y-12">
           <div className="text-center mb-12">
-            <span className="label-uppercase mb-4 block">Traditional Methods</span>
-            <h2 className="text-3xl md:text-4xl font-serif italic">Regional Bank Options</h2>
+            <span className="label-uppercase mb-4 block">Traditional Transfers</span>
+            <h2 className="text-3xl md:text-4xl font-serif italic text-primary-text">Regional Bank Accounts</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {activeRegion === 'france' && renderLocalCard('France', 'BoursoBank', 'Lama Loay', 'FR76 4061 8803 3500 0402 2902 922', 'BOUS FRPP XXX', '44 rue Traversière, 92772, FR')}
             {activeRegion === 'switzerland' && (
               <>
@@ -195,23 +195,28 @@ export function GiftsPage() {
               </>
             )}
 
-            {/* Permanent In-Person Card */}
-            <div className="wedding-card bg-accent-beige/10 border-2 border-dashed border-accent-terracotta/20 p-8 flex flex-col items-center text-center group hover:bg-accent-beige/20 transition-all duration-700">
-              <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-accent-terracotta mb-4">Celebration Day</span>
-              <h3 className="text-2xl font-serif italic mb-6">In-Person Wishes</h3>
-              <p className="text-sm text-secondary-text italic leading-relaxed font-serif max-w-[240px]">
-                "A collection box will be available at the venue terrace for those who prefer to share their wishes in person."
-              </p>
-            </div>
-
             {activeRegion === 'international' && (
-              <div className="wedding-card bg-[#F5EFEB]/30 text-center p-8 flex flex-col items-center justify-center border border-border/10">
+              <div className="col-span-full wedding-card bg-[#F5EFEB]/30 text-center p-8 flex flex-col items-center justify-center border border-border/10">
                 <Globe className="text-accent-terracotta mb-6 opacity-40" size={32} />
                 <p className="text-lg italic text-secondary-text mb-4">International Guest?</p>
                 <p className="text-xs text-secondary-text max-w-[200px] mb-8 leading-relaxed">The Revolut Hub above is your best option for global transfers.</p>
                 <button onClick={() => window.scrollTo({ top: 500, behavior: 'smooth' })} className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold underline underline-offset-4">Back to Hub</button>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* IN-PERSON SECTION (Separate) */}
+        <section className="pt-12 reveal">
+          <div className="max-w-xl mx-auto">
+            <div className="wedding-card bg-accent-terracotta/[0.02] border-2 border-dashed border-accent-terracotta/20 p-12 flex flex-col items-center text-center group hover:bg-white hover:border-accent-terracotta/40 transition-all duration-700 shadow-sm">
+              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-accent-terracotta mb-6">On the Day Gestures</span>
+              <h3 className="text-3xl font-serif italic mb-6">In-Person Wishes</h3>
+              <p className="text-lg text-secondary-text italic leading-relaxed font-serif max-w-[320px]">
+                "For those who prefer to share their wishes in person, a collection box will be available at the venue terrace on our celebration day."
+              </p>
+              <div className="w-12 h-px bg-accent-terracotta/20 mt-10" />
+            </div>
           </div>
         </section>
       </div>
