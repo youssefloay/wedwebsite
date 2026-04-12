@@ -220,7 +220,7 @@ export function RsvpPage() {
           </div>
 
           <div className="relative max-w-2xl mx-auto reveal delay-200">
-            <div className="absolute inset-0 border border-accent-terracotta/5 rounded-[40px] md:rounded-[60px] pointer-events-none -z-10 bg-[#FAF9F6]/50 shadow-[0_20px_50px_rgba(92,50,16,0.03)] backdrop-blur-sm" />
+            <div className="absolute inset-0 border border-accent-terracotta/10 rounded-[40px] md:rounded-[60px] pointer-events-none -z-10 bg-[#FBF9F4] shadow-[0_20px_50px_rgba(92,50,16,0.06)] backdrop-blur-sm" />
             <div className="absolute -inset-2 border border-accent-terracotta/5 rounded-[50px] md:rounded-[70px] pointer-events-none -z-10" />
 
             <form onSubmit={handleSubmit} className="relative z-10 px-8 py-4">
@@ -228,7 +228,7 @@ export function RsvpPage() {
               {/* Header */}
               <div className="text-left mb-8 max-w-none mx-auto animate-in fade-in duration-1000">
                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight md:leading-none mb-6 whitespace-nowrap">Join us in Monda?</p>
-                <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
+                <div className="w-12 h-px bg-accent-terracotta/40 mt-6" />
               </div>
 
 
@@ -237,7 +237,7 @@ export function RsvpPage() {
                 <div className="space-y-12">
 
                   {/* STEP 1: ATTENDANCE */}
-                  <div className="space-y-16 pt-4 pb-12 border-b border-accent-beige/10">
+                  <div className="space-y-16 pt-4 pb-12 border-b border-accent-terracotta/10">
                     <div className="grid grid-cols-2 gap-8 md:gap-16 max-w-2xl mx-auto items-stretch">
                       {[
                         { label: 'Joyfully Accept', value: 'Joyfully accept', sub: 'I will be there!', image: '/rsvp-accept.png', rotate: 'rotate-2' },
@@ -255,7 +255,7 @@ export function RsvpPage() {
                           
                           <div className="text-center space-y-2">
                             <span className={`block text-xl md:text-3xl font-serif italic transition-colors duration-500 ${formData.attendance === opt.value ? 'text-accent-terracotta' : 'text-primary-text'}`}>{opt.label}</span>
-                            <span className="label-uppercase text-[12px] md:text-[14px] text-accent-beige tracking-[0.3em] font-medium">{opt.sub}</span>
+                            <span className="label-uppercase text-[12px] md:text-[14px] text-accent-terracotta tracking-[0.3em] font-medium">{opt.sub}</span>
                           </div>
 
                           {formData.attendance === opt.value && (
@@ -278,30 +278,30 @@ export function RsvpPage() {
                           <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6 whitespace-nowrap">
                             {formData.attendance === 'Regretfully decline' ? "We'll miss you" : 'Who is attending?'}
                           </p>
-                          <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
+                          <div className="w-12 h-px bg-accent-terracotta/40 mt-6" />
                         </div>
                         <div className="space-y-12 relative z-10">
                           <div className="space-y-2">
-                            <label className="label-uppercase text-[12px] text-accent-beige font-bold tracking-[0.3em]">First Name</label>
+                            <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em]">First Name</label>
                             <input
                               type="text" required placeholder="Guest name"
-                              className="w-full bg-transparent border-b border-accent-beige/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-beige/20"
+                              className="w-full bg-transparent border-b border-accent-terracotta/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-terracotta/20"
                               value={formData.firstName} onChange={(e) => updateFormData('firstName', e.target.value)}
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="label-uppercase text-[12px] text-accent-beige font-bold tracking-[0.3em]">Last Name</label>
+                            <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em]">Last Name</label>
                             <input
                               type="text" required placeholder="Family name"
-                              className="w-full bg-transparent border-b border-accent-beige/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-beige/20"
+                              className="w-full bg-transparent border-b border-accent-terracotta/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-terracotta/20"
                               value={formData.lastName} onChange={(e) => updateFormData('lastName', e.target.value)}
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="label-uppercase text-[12px] text-accent-beige font-bold tracking-[0.3em] block">Email Address</label>
+                            <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em] block">Email Address</label>
                             <input
                               type="email" required placeholder="your@email.com"
-                              className="w-full bg-transparent border-b border-accent-beige/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-beige/20"
+                              className="w-full bg-transparent border-b border-accent-terracotta/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-terracotta/20"
                               value={formData.email} onChange={(e) => updateFormData('email', e.target.value)}
                             />
                           </div>
@@ -325,7 +325,7 @@ export function RsvpPage() {
                             </div>
                             <div className="flex flex-col items-start gap-10">
                               <div className="space-y-4 w-full">
-                                <label className="label-uppercase text-[12px] text-accent-beige font-bold tracking-[0.3em] block mb-2">Number of Guests</label>
+                                <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em] block mb-2">Number of Guests</label>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">Please check with us first regarding additional guests or +1s.</p>
                                 <div className="grid grid-cols-4 gap-4 max-w-sm">
                                   {['1', '2', '3', '4'].map(n => (
@@ -333,21 +333,21 @@ export function RsvpPage() {
                                       key={n}
                                       type="button"
                                       onClick={() => updateFormData('guests', n)}
-                                      className={`aspect-square border flex flex-col items-center justify-center transition-all duration-700 group ${formData.guests === n ? 'border-accent-terracotta bg-[#FBF9F4] scale-110 shadow-lg z-10' : 'border-accent-beige/10 bg-white'}`}
+                                      className={`aspect-square border flex flex-col items-center justify-center transition-all duration-700 group ${formData.guests === n ? 'border-accent-terracotta bg-[#FBF9F4] scale-110 shadow-lg z-10' : 'border-accent-terracotta/10 bg-white'}`}
                                     >
-                                      <span className={`text-4xl font-serif italic ${formData.guests === n ? 'text-primary-text' : 'text-accent-beige opacity-30 font-light'}`}>{n}</span>
-                                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-accent-beige">Guest{n !== '1' ? 's' : ''}</span>
+                                      <span className={`text-4xl font-serif italic ${formData.guests === n ? 'text-primary-text' : 'text-accent-terracotta opacity-30 font-light'}`}>{n}</span>
+                                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-accent-terracotta">Guest{n !== '1' ? 's' : ''}</span>
                                     </button>
                                   ))}
                                 </div>
                               </div>
                             </div>
                             {formData.guestNames.length > 0 && (
-                              <div className="space-y-8 pt-10 border-t border-accent-beige/10">
+                              <div className="space-y-8 pt-10 border-t border-accent-terracotta/10">
                                 {formData.guestNames.map((guest, idx) => (
-                                  <div key={idx} className="bg-[#FAF8F5]/30 p-8 border border-accent-beige/10 grid grid-cols-2 gap-8">
-                                    <input placeholder="First Name" required className="bg-transparent border-b border-accent-beige/20 py-2 font-serif italic text-xl" value={guest.firstName} onChange={(e) => updateGuestName(idx, 'firstName', e.target.value)} />
-                                    <input placeholder="Last Name" required className="bg-transparent border-b border-accent-beige/20 py-2 font-serif italic text-xl" value={guest.lastName} onChange={(e) => updateGuestName(idx, 'lastName', e.target.value)} />
+                                  <div key={idx} className="bg-[#FAF8F5]/30 p-8 border border-accent-terracotta/10 grid grid-cols-2 gap-8">
+                                    <input placeholder="First Name" required className="bg-transparent border-b border-accent-terracotta/20 py-2 font-serif italic text-xl" value={guest.firstName} onChange={(e) => updateGuestName(idx, 'firstName', e.target.value)} />
+                                    <input placeholder="Last Name" required className="bg-transparent border-b border-accent-terracotta/20 py-2 font-serif italic text-xl" value={guest.lastName} onChange={(e) => updateGuestName(idx, 'lastName', e.target.value)} />
                                   </div>
                                 ))}
                               </div>
@@ -366,7 +366,7 @@ export function RsvpPage() {
 
                           {/* STAY */}
                           {currentStep >= 4 && (
-                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 4 ? nextSectionRef : null}>
+                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={currentStep === 4 ? nextSectionRef : null}>
                               <div className="text-left mb-12">
                                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6 whitespace-nowrap">Where will you rest?</p>
                                 <div className="w-12 h-px bg-accent-terracotta mt-6" />
@@ -386,9 +386,9 @@ export function RsvpPage() {
                                       <img src={opt.image} alt={opt.detail} className="stamp-image w-full h-full object-cover" />
                                     </div>
                                     <div className="text-center">
-                                      <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] mb-2 block ${formData.accommodation === opt.id ? 'text-accent-terracotta' : 'text-accent-beige'}`}>{opt.label}</span>
+                                      <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] mb-2 block ${formData.accommodation === opt.id ? 'text-accent-terracotta' : 'text-accent-terracotta'}`}>{opt.label}</span>
                                       <p className="font-serif italic text-3xl text-primary-text leading-tight">{opt.detail}</p>
-                                      <p className="text-[11px] label-uppercase tracking-widest text-accent-beige mt-3 opacity-60">{opt.sub}</p>
+                                      <p className="text-[11px] label-uppercase tracking-widest text-accent-terracotta mt-3 opacity-60">{opt.sub}</p>
                                     </div>
                                     {formData.accommodation === opt.id && (
                                       <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-accent-terracotta flex items-center justify-center shadow-lg animate-in zoom-in duration-500">
@@ -412,12 +412,12 @@ export function RsvpPage() {
                                         key={r.name}
                                         type="button"
                                         onClick={() => updateFormData('roomPreference', r.name)}
-                                        className={`group relative p-8 md:p-10 border transition-all duration-700 overflow-hidden flex flex-col items-start gap-4 ${formData.roomPreference === r.name ? 'bg-white border-accent-terracotta/40 shadow-[0_20px_40px_rgba(92,50,16,0.06)] scale-[1.03] z-10' : 'bg-white border-accent-beige/10 opacity-70 hover:opacity-100 hover:border-accent-beige/30'}`}
+                                        className={`group relative p-8 md:p-10 border transition-all duration-700 overflow-hidden flex flex-col items-start gap-4 ${formData.roomPreference === r.name ? 'bg-white border-accent-terracotta/40 shadow-[0_20px_40px_rgba(92,50,16,0.06)] scale-[1.03] z-10' : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100 hover:border-accent-terracotta/30'}`}
                                       >
                                         <div className={`absolute top-0 left-0 w-1 h-full bg-accent-terracotta transition-transform duration-700 ${formData.roomPreference === r.name ? 'translate-x-0' : '-translate-x-full'}`} />
                                         
                                         <div className="w-full flex justify-between items-start">
-                                          <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.roomPreference === r.name ? 'text-accent-terracotta' : 'text-accent-beige'}`}>Room Type</span>
+                                          <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.roomPreference === r.name ? 'text-accent-terracotta' : 'text-accent-terracotta'}`}>Room Type</span>
                                           {formData.roomPreference === r.name && (
                                             <div className="w-6 h-6 rounded-full bg-accent-terracotta flex items-center justify-center shadow-sm">
                                               <Check size={12} className="text-white" />
@@ -427,8 +427,8 @@ export function RsvpPage() {
                                         
                                         <p className="font-serif italic text-3xl text-primary-text leading-tight">{r.name}</p>
                                         
-                                        <div className="mt-4 pt-4 border-t border-accent-beige/10 w-full flex justify-between items-center">
-                                          <span className="text-[12px] label-uppercase tracking-widest text-accent-beige opacity-60">Nightly Rate</span>
+                                        <div className="mt-4 pt-4 border-t border-accent-terracotta/10 w-full flex justify-between items-center">
+                                          <span className="text-[12px] label-uppercase tracking-widest text-accent-terracotta opacity-60">Nightly Rate</span>
                                           <span className="font-serif italic text-xl text-primary-text">€{r.price}</span>
                                         </div>
                                       </button>
@@ -452,13 +452,13 @@ export function RsvpPage() {
                                             key={opt.id}
                                             type="button"
                                             onClick={() => toggleStayDuration(opt.label)}
-                                            className={`p-8 border text-left transition-all duration-700 flex justify-between items-center ${formData.stayDuration.includes(opt.label) ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md' : 'bg-white border-accent-beige/10 opacity-70'}`}
+                                            className={`p-8 border text-left transition-all duration-700 flex justify-between items-center ${formData.stayDuration.includes(opt.label) ? 'bg-[#FBF9F4] border-accent-terracotta/60 shadow-md' : 'bg-white border-accent-terracotta/10 opacity-70'}`}
                                           >
                                             <div className="space-y-1">
-                                              <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.stayDuration.includes(opt.label) ? 'text-accent-terracotta' : 'text-accent-beige opacity-60'}`}>{opt.label}</span>
+                                              <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.stayDuration.includes(opt.label) ? 'text-accent-terracotta' : 'text-accent-terracotta opacity-60'}`}>{opt.label}</span>
                                               <p className="font-serif italic text-2xl text-primary-text leading-tight">{opt.detail}</p>
                                             </div>
-                                            <div className={`w-8 h-8 rounded-full border border-accent-beige/20 flex items-center justify-center transition-all ${formData.stayDuration.includes(opt.label) ? 'bg-accent-terracotta border-accent-terracotta shadow-lg scale-110' : ''}`}>
+                                            <div className={`w-8 h-8 rounded-full border border-accent-terracotta/20 flex items-center justify-center transition-all ${formData.stayDuration.includes(opt.label) ? 'bg-accent-terracotta border-accent-terracotta shadow-lg scale-110' : ''}`}>
                                                {formData.stayDuration.includes(opt.label) && <Check size={16} className="text-white" />}
                                             </div>
                                           </button>
@@ -467,11 +467,11 @@ export function RsvpPage() {
 
                                       {formData.stayDuration.includes('Extra Night') && (
                                         <div className="pt-8 animate-in fade-in slide-in-from-top-8 duration-700">
-                                          <p className="label-uppercase text-[10px] text-accent-beige font-bold tracking-[0.3em] mb-4">Please specify your arrival & departure</p>
+                                          <p className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-[0.3em] mb-4">Please specify your arrival & departure</p>
                                           <input 
                                             type="text"
                                             placeholder="e.g. Wednesday 14th to Sunday 18th"
-                                            className="w-full bg-white border-b border-accent-beige/20 p-6 outline-none focus:border-accent-terracotta font-serif italic text-2xl"
+                                            className="w-full bg-white border-b border-accent-terracotta/20 p-6 outline-none focus:border-accent-terracotta font-serif italic text-2xl"
                                             value={formData.manualStayDates}
                                             onChange={(e) => updateFormData('manualStayDates', e.target.value)}
                                           />
@@ -491,7 +491,7 @@ export function RsvpPage() {
 
                           {/* JOURNEY */}
                           {currentStep >= 5 && (
-                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 5 ? nextSectionRef : null}>
+                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={currentStep === 5 ? nextSectionRef : null}>
                               <div className="text-left mb-12 space-y-6">
                                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none whitespace-nowrap">How will you travel?</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
@@ -523,8 +523,8 @@ export function RsvpPage() {
                                     </div>
                                     <div className="text-center md:text-left flex-grow">
                                       <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
-                                        <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'text-accent-terracotta' : 'text-accent-beige'}`}>{item.label}</span>
-                                        <div className={`w-5 h-5 rounded-full border border-accent-beige/20 flex items-center justify-center transition-all ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-accent-terracotta border-accent-terracotta' : ''}`}>
+                                        <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'text-accent-terracotta' : 'text-accent-terracotta'}`}>{item.label}</span>
+                                        <div className={`w-5 h-5 rounded-full border border-accent-terracotta/20 flex items-center justify-center transition-all ${formData[item.id as keyof RsvpFormData] === 'Yes' ? 'bg-accent-terracotta border-accent-terracotta' : ''}`}>
                                           {formData[item.id as keyof RsvpFormData] === 'Yes' && <Check size={10} className="text-white" />}
                                         </div>
                                       </div>
@@ -549,7 +549,7 @@ export function RsvpPage() {
 
                           {/* VISA */}
                           {currentStep >= 6 && (
-                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 6 ? nextSectionRef : null}>
+                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={currentStep === 6 ? nextSectionRef : null}>
                               <div className="text-left mb-12 space-y-6">
                                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none">Visa Assistance</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
@@ -572,7 +572,7 @@ export function RsvpPage() {
                                       <img src={opt.image} alt={opt.label} className="stamp-image w-full h-full object-cover" />
                                     </div>
                                     <div className="text-center">
-                                      <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] mb-2 block ${formData.visaSupport === opt.id ? 'text-accent-terracotta' : 'text-accent-beige'}`}>{opt.label}</span>
+                                      <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] mb-2 block ${formData.visaSupport === opt.id ? 'text-accent-terracotta' : 'text-accent-terracotta'}`}>{opt.label}</span>
                                       <p className="font-serif italic text-2xl text-primary-text leading-tight">{opt.detail}</p>
                                     </div>
                                     {formData.visaSupport === opt.id && (
@@ -601,7 +601,7 @@ export function RsvpPage() {
 
                       {/* NOTE — shown when current step id is 'note' */}
                       {activeStep?.id === 'note' && (
-                        <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={nextSectionRef}>
+                        <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={nextSectionRef}>
                           <div className="text-left mb-12">
                             <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">A Note for the Couple</p>
                             <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
@@ -609,7 +609,7 @@ export function RsvpPage() {
                           <div className="relative p-4">
                             <textarea
                               placeholder="Share your wishes..."
-                              className="w-full bg-[#FAF8F5]/60 border border-accent-beige/20 p-10 outline-none focus:border-accent-terracotta font-serif italic text-2xl h-64 text-center placeholder:text-accent-beige/20 transition-all"
+                              className="w-full bg-[#FAF8F5]/60 border border-accent-terracotta/20 p-10 outline-none focus:border-accent-terracotta font-serif italic text-2xl h-64 text-center placeholder:text-accent-terracotta/20 transition-all"
                               value={formData.notes} onChange={(e) => updateFormData('notes', e.target.value)}
                             />
                           </div>
@@ -623,39 +623,39 @@ export function RsvpPage() {
 
                       {/* REVIEW & SUBMIT — shown when current step id is 'review' */}
                       {activeStep?.id === 'review' && (
-                        <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={nextSectionRef}>
-                          <div className="text-left py-10 border-y border-accent-beige/10 relative space-y-12">
+                        <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={nextSectionRef}>
+                          <div className="text-left py-10 border-y border-accent-terracotta/10 relative space-y-12">
                             <div className="space-y-4">
-                              <p className="label-uppercase text-[10px] text-accent-beige font-bold tracking-[0.3em]">Confirmation</p>
+                              <p className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-[0.3em]">Confirmation</p>
                               <p className="text-3xl md:text-5xl font-serif italic text-primary-text mb-10 leading-none">{formData.attendance}</p>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-8">
                               <div className="space-y-2">
-                                <span className="label-uppercase text-[9px] text-accent-beige font-bold tracking-[0.2em]">Primary Guest</span>
+                                <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Primary Guest</span>
                                 <p className="text-2xl font-serif italic text-primary-text">{formData.firstName} {formData.lastName}</p>
-                                <p className="text-xs text-accent-beige/60">{formData.email}</p>
+                                <p className="text-xs text-accent-terracotta/60">{formData.email}</p>
                               </div>
                               {formData.attendance === 'Joyfully accept' && (
                                 <div className="space-y-2">
-                                  <span className="label-uppercase text-[9px] text-accent-beige font-bold tracking-[0.2em]">Guest Count</span>
+                                  <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Guest Count</span>
                                   <p className="text-2xl font-serif italic text-primary-text">{formData.guests} Guests</p>
                                 </div>
                               )}
                               {formData.attendance === 'Joyfully accept' && (
                                 <div className="space-y-2">
-                                  <span className="label-uppercase text-[9px] text-accent-beige font-bold tracking-[0.2em]">Sanctuary</span>
+                                  <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Sanctuary</span>
                                   <p className="text-2xl font-serif italic text-primary-text">{formData.accommodation === 'Yes, please' ? formData.roomPreference : 'Independent Resting'}</p>
                                 </div>
                               )}
                               {formData.attendance === 'Joyfully accept' && (
                                 <div className="space-y-2">
-                                  <span className="label-uppercase text-[9px] text-accent-beige font-bold tracking-[0.2em]">Journey</span>
+                                  <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Journey</span>
                                   <p className="text-2xl font-serif italic text-primary-text">{formData.carRental === 'Yes' ? 'Renting a Car' : formData.transfer === 'Yes' ? 'Assisted Transfer' : 'Independent Arrival'}</p>
                                 </div>
                               )}
                               {formData.attendance === 'Joyfully accept' && (
                                 <div className="space-y-2 col-span-full">
-                                  <span className="label-uppercase text-[9px] text-accent-beige font-bold tracking-[0.2em]">Visa Assistance</span>
+                                  <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Visa Assistance</span>
                                   <p className="text-2xl font-serif italic text-primary-text">{formData.visaSupport === 'Yes' ? 'Assistance Needed' : 'Not Required'}</p>
                                 </div>
                               )}
@@ -671,7 +671,7 @@ export function RsvpPage() {
                                 </span>
                               )}
                             </button>
-                            <button type="button" onClick={() => setCurrentStep(currentStep - 1)} className="text-[10px] uppercase tracking-[0.4em] text-accent-beige hover:text-accent-terracotta transition-all py-4">
+                            <button type="button" onClick={() => setCurrentStep(currentStep - 1)} className="text-[10px] uppercase tracking-[0.4em] text-accent-terracotta hover:text-accent-terracotta transition-all py-4">
                               Back to Edit
                             </button>
                           </div>
