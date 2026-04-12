@@ -27,7 +27,6 @@ export function GiftsPage() {
     setActiveProvider(activeProvider === id ? null : id);
   };
 
-  // HELPER FUNCTIONS (Defined inside component scope)
   function renderReferenceBlock(id: string) {
     return (
       <div className="bg-accent-terracotta/[0.03] p-4 rounded-xl border border-accent-terracotta/20 mt-4 text-left">
@@ -108,17 +107,7 @@ export function GiftsPage() {
                             <span className="text-sm font-bold font-mono text-primary-text">{bic}</span>
                           </div>
                        )}
-                       {!isTwint && (
-                         <div className="bg-accent-terracotta/[0.03] p-4 rounded-xl border border-accent-terracotta/20 mt-4 text-left">
-                           <div className="flex justify-between items-center mb-1">
-                             <span className="text-[9px] uppercase tracking-widest text-accent-terracotta font-bold">Required Reference</span>
-                             <button onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} className="text-[8px] font-bold text-accent-terracotta uppercase">
-                               {copiedId === bank + '-ref' ? 'Copied' : 'Copy'}
-                             </button>
-                           </div>
-                           <span className="text-xs font-bold text-accent-terracotta font-mono uppercase tracking-tight">Wedding - [Your Name]</span>
-                         </div>
-                       )}
+                       {!isTwint && renderReferenceBlock(bank + '-ref')}
                     </div>
                  </div>
               </motion.div>
@@ -226,7 +215,7 @@ export function GiftsPage() {
               >
                 {activeRegion === region.id && (
                   <motion.div
-                    layoutId="activeRegionTabUI"
+                    layoutId="activeRegionTabTarget"
                     className="absolute inset-0 bg-accent-terracotta rounded-full z-[-1]"
                     initial={false}
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
@@ -385,7 +374,3 @@ export function GiftsPage() {
     </div>
   );
 }
-
-const ExternalLink = ({ size }: { size: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-);
