@@ -44,7 +44,7 @@ export function Layout() {
 
         <div className="space-y-4">
           <p className="font-cinzel text-[9px] md:text-[11px] tracking-[0.4em] text-primary-text uppercase">
-            Granada • Spain • 2027
+            Monda • Spain • 2027
           </p>
           <p className="font-serif italic text-xs md:text-sm text-secondary-text">
             Con todo nuestro amor
