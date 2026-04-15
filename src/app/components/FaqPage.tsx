@@ -119,55 +119,55 @@ export function FaqPage() {
       </section>
 
       {/* PACKING ESSENTIALS */}
-      <section className="py-32 px-6 section-layer-2 border-t border-border/10 bg-white/30 backdrop-blur-sm">
+      <section className="py-16 md:py-24 px-6 section-layer-2 border-t border-border/10 bg-[#FAF8F5]/20 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20 reveal">
+          <div className="text-center mb-12 reveal">
             <span className="label-uppercase mb-4 block">The Checklist</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Packing For Monda</h2>
-            <div className="w-16 h-px bg-accent-terracotta mx-auto mb-10" />
-            <p className="text-lg text-secondary-text font-serif italic max-w-xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-serif text-primary-text mb-4 italic">Packing For Monda</h2>
+            <div className="w-12 h-px bg-accent-terracotta mx-auto mb-6" />
+            <p className="text-base text-secondary-text font-serif italic max-w-xl mx-auto opacity-70">
               "To ensure your comfort as we celebrate, we recommend a few essentials tailored for the Andalusian terrain."
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10">
             {[
               { 
                 title: "Cobblestone-Ready Shoes", 
-                desc: "The whitewashed streets of Monda are as ancient as they are charming. We suggest block heels or wedges over stilettos for navigating the village paths with ease.",
-                icon: <MapPin size={24} />
+                desc: "The whitewashed streets of Monda are as ancient as they are charming. We suggest block heels or wedges over stilettos for navigating the village paths.",
+                icon: <MapPin size={22} />
               },
               { 
                 title: "Evening Layers", 
-                desc: "The hills of Andalusia can be deceptive; while the afternoons are sun-drenched, the mountain air can turn crisp once the sun dips behind the Castle.",
-                icon: <Sun size={24} />
+                desc: "The hills of Andalusia can be deceptive; while afternoons are sun-drenched, the air can turn crisp once the sun dips behind the Castle.",
+                icon: <Sun size={22} />
               },
               { 
                 title: "EU Power Adapters", 
-                desc: "Spain uses Type F (Schuko) and Type C sockets. For our international guests, ensure you bring a standard European two-pin adapter for your devices.",
-                icon: <Zap size={24} />
+                desc: "Spain uses Type F (Schuko) and Type C sockets. For our international guests, ensure you bring a standard European two-pin adapter.",
+                icon: <Zap size={22} />
               },
               { 
                 title: "Sun Protection", 
-                desc: "Even in mid-April, the Spanish sun is generous. A light sunscreen and your favorite pair of sunglasses will be your best companions for the daytime festivities.",
-                icon: <Sun size={24} />
+                desc: "Even in mid-April, the Spanish sun is generous. A light sunscreen and your favorite pair of sunglasses will be your best companions.",
+                icon: <Sun size={22} />
               }
             ].map((item, i) => (
               <div 
                 key={i} 
-                className={`relative flex flex-col md:flex-row gap-8 p-10 bg-white/30 border border-dashed border-accent-terracotta/20 rounded-sm shadow-sm transition-all duration-700 hover:shadow-md ${
+                className={`relative flex gap-6 p-6 bg-[#FAF8F5]/40 border border-dashed border-accent-terracotta/20 rounded-sm transition-all duration-700 ${
                   i % 2 === 0 ? '-rotate-1' : 'rotate-1'
                 }`}
               >
                 {/* Vintage Pin Effect */}
-                <div className="absolute top-4 right-4 w-4 h-4 rounded-full bg-accent-terracotta/20 border border-white/40 shadow-inner" />
+                <div className="absolute top-3 right-3 w-3 h-3 rounded-full bg-accent-terracotta/15 border border-white/30" />
                 
-                <div className="flex-shrink-0 w-14 h-14 rounded-full bg-white border border-accent-terracotta/10 flex items-center justify-center text-accent-terracotta">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white border border-accent-terracotta/10 flex items-center justify-center text-accent-terracotta">
                   {item.icon}
                 </div>
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-serif text-primary-text italic leading-tight">{item.title}</h3>
-                  <p className="text-lg text-secondary-text font-serif italic leading-relaxed opacity-80">{item.desc}</p>
+                <div className="space-y-2">
+                  <h3 className="text-xl md:text-2xl font-serif text-primary-text italic leading-tight">{item.title}</h3>
+                  <p className="text-base text-secondary-text font-serif italic leading-relaxed opacity-70">{item.desc}</p>
                 </div>
               </div>
             ))}
