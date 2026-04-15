@@ -173,7 +173,10 @@ export function DiscoveryPage() {
       </section>
 
       {/* SPANISH CHEAT SHEET */}
-      <section className="py-16 md:py-24 px-6 section-layer-2 bg-[#F5EFEB]/20 border-t border-border/10">
+      <section className="py-16 md:py-24 px-6 section-layer-2 border-t border-accent-terracotta/10 relative">
+        {/* Decorative Divider Line */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent-terracotta/20" />
+        
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12 reveal">
             <span className="label-uppercase mb-4 block">Lingua Franca</span>
