@@ -228,7 +228,10 @@ export function RsvpPage() {
 
               {/* Header */}
               <div className="text-left mb-8 max-w-none mx-auto animate-in fade-in duration-1000">
-                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight md:leading-none mb-6 whitespace-nowrap">Join us in Monda?</p>
+                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight md:leading-none mb-6">Join us in Monda?</p>
+                <p className="text-lg md:text-xl text-secondary-text font-serif italic mb-6 opacity-80 leading-relaxed">
+                  Please confirm your attendance and indicate your accommodation and travel preferences so we can help coordinate your stay.
+                </p>
                 <div className="w-12 h-px bg-accent-terracotta/40 mt-6" />
               </div>
 
@@ -276,8 +279,8 @@ export function RsvpPage() {
                       {/* IDENTITY */}
                       <div className="max-w-none mx-auto space-y-16 -mt-12" ref={currentStep === 2 ? nextSectionRef : null}>
                         <div className="text-left mb-12">
-                          <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6 whitespace-nowrap">
-                            {formData.attendance === 'Regretfully decline' ? "We'll miss you" : 'Who is attending?'}
+                          <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight mb-6">
+                            {formData.attendance === 'Regretfully decline' ? "We'll miss you" : 'Could you share your names so we can prepare your welcome?'}
                           </p>
                           <div className="w-12 h-px bg-accent-terracotta/40 mt-6" />
                         </div>
@@ -321,7 +324,7 @@ export function RsvpPage() {
                           {/* PARTY */}
                           <div className="space-y-12 max-w-none mx-auto border-t border-accent-beige/10 pt-12" ref={currentStep === 3 ? nextSectionRef : null}>
                             <div className="text-left mb-12">
-                              <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6 whitespace-nowrap">Who is in your party?</p>
+                              <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight mb-6">How many guests will be joining you in your celebration party?</p>
                               <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                             </div>
                             <div className="flex flex-col items-start gap-10">
@@ -369,7 +372,7 @@ export function RsvpPage() {
                           {currentStep >= 4 && (
                             <div className="space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={currentStep === 4 ? nextSectionRef : null}>
                               <div className="text-left mb-12">
-                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6 whitespace-nowrap">Where will you rest?</p>
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight mb-6">Would you like to reserve a room at Castillo de Monda or are you staying elsewhere?</p>
                                 <div className="w-12 h-px bg-accent-terracotta mt-6" />
                               </div>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
@@ -402,7 +405,7 @@ export function RsvpPage() {
                               {formData.accommodation === 'Yes, please' && (
                                 <div className="pt-10 space-y-6">
                                   <div className="space-y-6">
-                                    <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">Which sanctuary would you prefer to reserve?</p>
+                                    <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight mb-6">Which of the Castle's sanctuaries would you like to call home for your stay?</p>
                                     <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                       Rooms are allocated on first-come, first-served basis. Payment is required to confirm your stay; the hotel concierge will contact you.
                                     </p>
@@ -437,7 +440,7 @@ export function RsvpPage() {
                                   {formData.roomPreference && (
                                     <div className="pt-16 space-y-12 animate-in fade-in slide-in-from-top-12 duration-1000">
                                       <div className="space-y-6">
-                                        <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">How long do you need a room at Castillo de Monda?</p>
+                                        <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight mb-6">Which nights will you be staying with us at the Castle?</p>
                                         <div className="w-12 h-px bg-accent-terracotta mt-6" />
                                       </div>
                                       
@@ -492,7 +495,7 @@ export function RsvpPage() {
                           {currentStep >= 5 && (
                             <div className="space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={currentStep === 5 ? nextSectionRef : null}>
                               <div className="text-left mb-12 space-y-6">
-                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none whitespace-nowrap">How will you travel?</p>
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight">How are you planning to reach Monda?</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                   We understand that these details are not yet final. A formal logistics form will be shared between December and January to coordinate your definitive travel arrangements.
                                 </p>
@@ -501,7 +504,7 @@ export function RsvpPage() {
                               <div className="grid grid-cols-1 gap-6">
                                 {[
                                   { id: 'carRental', label: 'My Own Route', detail: 'I will be driving to Monda', sub: 'A parking space would be appreciated.', image: '/journey-car.png' },
-                                  { id: 'transfer', label: 'Assisted Transfer', detail: 'I would love help with transport', sub: 'Shuttle or private options.', image: '/journey-shuttle.png' }
+                                  { id: 'transfer', label: 'Assisted Transfer', detail: 'Would you like us to help organize a transfer from Málaga airport?', sub: 'Shuttle or private options.', image: '/journey-shuttle.png' }
                                 ].map(item => (
                                   <button
                                     key={item.id}
@@ -550,7 +553,7 @@ export function RsvpPage() {
                           {currentStep >= 6 && (
                             <div className="space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={currentStep === 6 ? nextSectionRef : null}>
                               <div className="text-left mb-12 space-y-6">
-                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none">Visa Assistance</p>
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight">Do you require any assistance with your Visa documentation for Spain?</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                   Do you require assistance with your Visa application? We are happy to provide liaison and invitation documentation.
                                 </p>
@@ -599,7 +602,7 @@ export function RsvpPage() {
                           {currentStep >= 7 && (
                             <div className="space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={currentStep === 7 ? nextSectionRef : null}>
                               <div className="text-left mb-12 space-y-6">
-                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none">Dietary Restrictions</p>
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight">Do you have any dietary requirements or allergies we should share with the chef?</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                   Please let us know if you or anyone in your party has specific dietary requirements or allergies.
                                 </p>
@@ -627,7 +630,7 @@ export function RsvpPage() {
                       {activeStep?.id === 'note' && (
                         <div className="animate-in fade-in slide-in-from-top-12 duration-1000 space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={nextSectionRef}>
                           <div className="text-left mb-12">
-                            <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-none mb-6">A Note for the Couple</p>
+                            <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight mb-6">Would you like to share a message or a wish for Lama & Álvaro?</p>
                             <div className="w-12 h-px bg-accent-terracotta/20 mt-6" />
                           </div>
                           <div className="relative p-4">
