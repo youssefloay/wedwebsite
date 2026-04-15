@@ -173,16 +173,13 @@ export function DiscoveryPage() {
       </section>
 
       {/* SPANISH CHEAT SHEET */}
-      <section className="py-16 md:py-24 px-6 section-layer-2 border-t border-accent-terracotta/10 relative">
-        {/* Decorative Divider Line */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent-terracotta/20" />
-        
+      <section className="py-16 md:py-24 px-6 bg-[#515C4C] border-t border-white/5">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12 reveal">
-            <span className="label-uppercase mb-4 block">Lingua Franca</span>
-            <h2 className="text-3xl md:text-4xl font-serif text-primary-text mb-4 italic">A Few Words in Spanish</h2>
-            <div className="w-12 h-px bg-accent-terracotta mx-auto mb-6" />
-            <p className="text-base text-secondary-text font-serif italic max-w-xl mx-auto opacity-70">
+            <span className="label-uppercase mb-4 block text-white/60">Lingua Franca</span>
+            <h2 className="text-3xl md:text-4xl font-serif text-white mb-4 italic">A Few Words in Spanish</h2>
+            <div className="w-12 h-px bg-white/20 mx-auto mb-6" />
+            <p className="text-base text-white/70 font-serif italic max-w-xl mx-auto">
               "While Álvaro can translate, the locals in Monda will always appreciate a warm greeting in their own tongue."
             </p>
           </div>
@@ -198,17 +195,17 @@ export function DiscoveryPage() {
             ].map((item, i) => (
               <div 
                 key={i} 
-                className={`relative p-5 bg-transparent border border-dashed border-accent-terracotta/30 rounded-sm transition-all duration-700 hover:scale-105 flex flex-col items-center gap-2 ${
+                className={`relative p-5 bg-white/5 border border-dashed border-white/20 rounded-sm transition-all duration-700 hover:scale-105 flex flex-col items-center gap-2 ${
                   i % 3 === 0 ? 'rotate-1' : i % 3 === 1 ? '-rotate-1' : 'rotate-2'
                 }`}
               >
                 {/* Vintage Tape Effect */}
-                <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-4 bg-accent-terracotta/5 backdrop-blur-sm border border-accent-terracotta/10 rotate-[-2deg]" />
+                <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-4 bg-white/10 backdrop-blur-sm border border-white/10 rotate-[-2deg]" />
                 
-                <span className="text-xl md:text-2xl font-serif text-primary-text italic group-hover:text-accent-terracotta transition-colors">{item.phrase}</span>
-                <div className="w-6 h-px bg-accent-terracotta/20" />
-                <span className="label-uppercase text-[9px] tracking-[0.2em] font-bold text-accent-terracotta/60">{item.meaning}</span>
-                <p className="text-[12px] text-secondary-text font-serif italic opacity-70 leading-relaxed text-center">{item.sub}</p>
+                <span className="text-xl md:text-2xl font-serif text-white italic group-hover:text-accent-beige transition-colors">{item.phrase}</span>
+                <div className="w-6 h-px bg-white/10" />
+                <span className="label-uppercase text-[9px] tracking-[0.2em] font-bold text-white/50">{item.meaning}</span>
+                <p className="text-[12px] text-white/60 font-serif italic leading-relaxed text-center">{item.sub}</p>
               </div>
             ))}
           </div>

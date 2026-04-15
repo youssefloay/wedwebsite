@@ -119,16 +119,13 @@ export function FaqPage() {
       </section>
 
       {/* PACKING ESSENTIALS */}
-      <section className="py-16 md:py-24 px-6 section-layer-2 border-t border-accent-terracotta/10 relative bg-transparent">
-        {/* Decorative Divider Line */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-accent-terracotta/20" />
-        
+      <section className="py-16 md:py-24 px-6 bg-[#515C4C] border-t border-white/5">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 reveal">
-            <span className="label-uppercase mb-4 block">The Checklist</span>
-            <h2 className="text-3xl md:text-4xl font-serif text-primary-text mb-4 italic">Packing For Monda</h2>
-            <div className="w-12 h-px bg-accent-terracotta mx-auto mb-6" />
-            <p className="text-base text-secondary-text font-serif italic max-w-xl mx-auto opacity-70">
+            <span className="label-uppercase mb-4 block text-white/60">The Checklist</span>
+            <h2 className="text-3xl md:text-4xl font-serif text-white mb-4 italic">Packing For Monda</h2>
+            <div className="w-12 h-px bg-white/20 mx-auto mb-6" />
+            <p className="text-base text-white/70 font-serif italic max-w-xl mx-auto">
               "To ensure your comfort as we celebrate, we recommend a few essentials tailored for the Andalusian terrain."
             </p>
           </div>
@@ -158,19 +155,19 @@ export function FaqPage() {
             ].map((item, i) => (
               <div 
                 key={i} 
-                className={`relative flex gap-6 p-6 bg-transparent border border-dashed border-accent-terracotta/30 rounded-sm transition-all duration-700 ${
+                className={`relative flex gap-6 p-6 bg-white/5 border border-dashed border-white/20 rounded-sm transition-all duration-700 ${
                   i % 2 === 0 ? '-rotate-1' : 'rotate-1'
                 }`}
               >
                 {/* Vintage Pin Effect */}
-                <div className="absolute top-3 right-3 w-3 h-3 rounded-full bg-accent-terracotta/20 border border-accent-terracotta/30" />
+                <div className="absolute top-3 right-3 w-3 h-3 rounded-full bg-white/10 border border-white/20" />
                 
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white/50 border border-accent-terracotta/10 flex items-center justify-center text-accent-terracotta">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-white">
                   {item.icon}
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-xl md:text-2xl font-serif text-primary-text italic leading-tight">{item.title}</h3>
-                  <p className="text-base text-secondary-text font-serif italic leading-relaxed opacity-70">{item.desc}</p>
+                  <h3 className="text-xl md:text-2xl font-serif text-white italic leading-tight">{item.title}</h3>
+                  <p className="text-base text-white/70 font-serif italic leading-relaxed">{item.desc}</p>
                 </div>
               </div>
             ))}
