@@ -312,7 +312,7 @@ export function GiftsPage() {
                       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-10 bg-gradient-to-b from-accent-terracotta/20 to-transparent" />
                       <div className="max-w-md mx-auto space-y-8 relative z-10">
                         <p className="text-xl md:text-2xl text-secondary-text italic leading-relaxed font-serif pt-2 opacity-80">
-                          "For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace."
+                          "For those who prefer a more traditional gesture, we will have a collection box available at the venue."
                         </p>
                       </div>
                     </div>
