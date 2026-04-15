@@ -155,19 +155,19 @@ export function FaqPage() {
             ].map((item, i) => (
               <div 
                 key={i} 
-                className={`relative flex gap-6 p-6 bg-white/5 border border-dashed border-white/20 rounded-sm transition-all duration-700 ${
+                className={`relative flex gap-6 p-6 bg-[#FDFBF7] border border-dashed border-accent-terracotta/20 rounded-sm shadow-md transition-all duration-700 ${
                   i % 2 === 0 ? '-rotate-1' : 'rotate-1'
                 }`}
               >
                 {/* Vintage Pin Effect */}
-                <div className="absolute top-3 right-3 w-3 h-3 rounded-full bg-white/10 border border-white/20" />
+                <div className="absolute top-3 right-3 w-3 h-3 rounded-full bg-accent-terracotta/20 border border-accent-terracotta/30" />
                 
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-white">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-terracotta/5 border border-accent-terracotta/10 flex items-center justify-center text-accent-terracotta">
                   {item.icon}
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-xl md:text-2xl font-serif text-white italic leading-tight">{item.title}</h3>
-                  <p className="text-base text-white/70 font-serif italic leading-relaxed">{item.desc}</p>
+                  <h3 className="text-xl md:text-2xl font-serif text-primary-text italic leading-tight">{item.title}</h3>
+                  <p className="text-base text-secondary-text font-serif italic leading-relaxed opacity-70">{item.desc}</p>
                 </div>
               </div>
             ))}
