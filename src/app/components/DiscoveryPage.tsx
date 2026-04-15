@@ -172,20 +172,6 @@ export function DiscoveryPage() {
         </div>
       </section>
 
-      {/* FINAL RSVP CTA */}
-      <section className="section-layer-1 py-32 px-6 border-t border-border/10">
-        <div className="max-w-2xl mx-auto text-center reveal">
-          <span className="label-uppercase mb-6 block font-bold">Primary Action</span>
-          <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-8 italic">Inspired to Join Us?</h2>
-          <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
-            "Once you have explored our story and the beauty of Monda, kindly finalize your plans by submitting your response."
-          </p>
-          <Link to="/rsvp" className="btn-primary">
-             Go to RSVP
-          </Link>
-        </div>
-      </section>
-
       {/* SPANISH CHEAT SHEET */}
       <section className="py-32 px-6 section-layer-2 bg-[#F5EFEB]/30 border-t border-border/10">
         <div className="max-w-5xl mx-auto">
@@ -215,6 +201,20 @@ export function DiscoveryPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* FINAL RSVP CTA */}
+      <section className="section-layer-1 py-32 px-6 border-t border-border/10">
+        <div className="max-w-2xl mx-auto text-center reveal">
+          <span className="label-uppercase mb-6 block font-bold">Primary Action</span>
+          <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-8 italic">Inspired to Join Us?</h2>
+          <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
+            "Once you have explored our story and the beauty of Monda, kindly finalize your plans by submitting your response."
+          </p>
+          <Link to="/rsvp" className="btn-primary">
+             Go to RSVP
+          </Link>
         </div>
       </section>
 
