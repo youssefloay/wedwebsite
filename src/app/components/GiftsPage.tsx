@@ -306,7 +306,18 @@ export function GiftsPage() {
                 <div className={`w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-500 ${activeProvider === 'inperson' ? 'rotate-180 bg-[#515C4C]/10 text-[#515C4C] border-[#515C4C]/20' : 'text-secondary-text opacity-30 border-accent-terracotta/10'}`}><ChevronDown size={12} strokeWidth={3} /></div>
              </button>
              <AnimatePresence>
-                {activeProvider === 'inperson' && (<motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}><div className="px-12 pb-16 pt-12 border-t border-border/5 space-y-10 overflow-hidden text-center relative bg-[#F5EFEB]/20"><div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-10 bg-gradient-to-b from-accent-terracotta/20 to-transparent" /><div className="max-w-md mx-auto space-y-8 relative z-10"><p className="text-xl md:text-2xl text-secondary-text italic leading-relaxed font-serif pt-2 opacity-80">"For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace."</p><div className="pt-4 flex flex-col items-center gap-4"><div className="w-2 h-2 rounded-full bg-accent-terracotta/30 animate-pulse" /><span className="label-uppercase !mb-0 tracking-[0.6em] text-accent-terracotta opacity-60">Castillo de Monda</span></div></div></div></motion.div>)}
+                {activeProvider === 'inperson' && (
+                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
+                    <div className="px-12 pb-16 pt-12 border-t border-border/5 space-y-10 overflow-hidden text-center relative bg-[#F5EFEB]/20">
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-10 bg-gradient-to-b from-accent-terracotta/20 to-transparent" />
+                      <div className="max-w-md mx-auto space-y-8 relative z-10">
+                        <p className="text-xl md:text-2xl text-secondary-text italic leading-relaxed font-serif pt-2 opacity-80">
+                          "For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace."
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
              </AnimatePresence>
           </div>
         </div>
