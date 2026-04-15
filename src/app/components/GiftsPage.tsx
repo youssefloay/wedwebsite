@@ -91,7 +91,11 @@ export function GiftsPage() {
                                    <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
                                    <div className="w-1 h-1 rounded-full bg-[#515C4C]/40 animate-pulse" />
                                 </div>
-                                <button onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === bank + '-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
+                                <button 
+                                  onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} 
+                                  className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 flex items-center gap-2 font-cinzel ${copiedId === bank + '-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}
+                                >
+                                   {copiedId === bank + '-ref' ? <Check size={10} strokeWidth={3} /> : <Copy size={10} strokeWidth={2.5} />}
                                    {copiedId === bank + '-ref' ? 'Copied' : 'Copy'}
                                 </button>
                              </div>
@@ -241,9 +245,13 @@ export function GiftsPage() {
                                <div className="group/row flex flex-col gap-1 py-4 border-t border-[#515C4C]/10 mt-6 relative text-left">
                                   <div className="flex justify-between items-center px-1">
                                      <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
-                                     <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === 'rev-chf-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
-                                        {copiedId === 'rev-chf-ref' ? 'Copied' : 'Copy'}
-                                     </button>
+                                     <button 
+                                        onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} 
+                                        className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 flex items-center gap-2 font-cinzel ${copiedId === 'rev-chf-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}
+                                      >
+                                         {copiedId === 'rev-chf-ref' ? <Check size={10} strokeWidth={3} /> : <Copy size={10} strokeWidth={2.5} />}
+                                         {copiedId === 'rev-chf-ref' ? 'Copied' : 'Copy'}
+                                      </button>
                                   </div>
                                   <span className="text-xl font-serif italic text-[#515C4C] tracking-tight">LAMA LOAY, CH</span>
                                </div>
@@ -263,9 +271,13 @@ export function GiftsPage() {
                                <div className="group/row flex flex-col gap-1 py-4 border-t border-[#515C4C]/10 mt-6 relative text-left">
                                   <div className="flex justify-between items-center px-1">
                                      <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
-                                     <button onClick={() => handleCopy('Wedding - [Your Name]', 'rev-euro-ref')} className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === 'rev-euro-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
-                                        {copiedId === 'rev-euro-ref' ? 'Copied' : 'Copy'}
-                                     </button>
+                                     <button 
+                                        onClick={() => handleCopy('Wedding - [Your Name]', 'rev-euro-ref')} 
+                                        className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 flex items-center gap-2 font-cinzel ${copiedId === 'rev-euro-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}
+                                      >
+                                         {copiedId === 'rev-euro-ref' ? <Check size={10} strokeWidth={3} /> : <Copy size={10} strokeWidth={2.5} />}
+                                         {copiedId === 'rev-euro-ref' ? 'Copied' : 'Copy'}
+                                      </button>
                                   </div>
                                   <span className="text-xl font-serif italic text-[#515C4C] tracking-tight">Wedding - [Your Name]</span>
                                </div>
