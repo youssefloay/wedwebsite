@@ -246,14 +246,14 @@ export function GiftsPage() {
                                   <div className="flex justify-between items-center px-1">
                                      <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
                                      <button 
-                                        onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} 
+                                        onClick={() => handleCopy('Lama Loay, CH', 'rev-chf-ref')} 
                                         className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 flex items-center gap-2 font-cinzel ${copiedId === 'rev-chf-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}
                                       >
                                          {copiedId === 'rev-chf-ref' ? <Check size={10} strokeWidth={3} /> : <Copy size={10} strokeWidth={2.5} />}
                                          {copiedId === 'rev-chf-ref' ? 'Copied' : 'Copy'}
                                       </button>
                                   </div>
-                                  <span className="text-xl font-serif italic text-[#515C4C] tracking-tight">LAMA LOAY, CH</span>
+                                  <span className="text-xl font-serif italic text-[#515C4C] tracking-tight">Lama Loay, CH</span>
                                </div>
                             </div>
                           ) : revolutMode === 'tag' ? (
@@ -266,7 +266,7 @@ export function GiftsPage() {
                             </div>
                           ) : (
                             <div className="w-full space-y-1">
-                               {renderDetailRow('Recipient Name', 'LAMA LOAY', 'rev-euro-holder')}
+                               {renderDetailRow('Recipient Name', 'Lama Loay', 'rev-euro-holder')}
                                {renderDetailRow('Euro IBAN Account', 'LT18 3250 0331 5970 5728', 'rev-euro-iban')}
                                <div className="group/row flex flex-col gap-1 py-4 border-t border-[#515C4C]/10 mt-6 relative text-left">
                                   <div className="flex justify-between items-center px-1">
