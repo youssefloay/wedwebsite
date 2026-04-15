@@ -153,16 +153,21 @@ export function FaqPage() {
                 icon: <Sun size={24} />
               }
             ].map((item, i) => (
-              <div key={i} className="flex gap-6 group">
-                <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-[16px] bg-white shadow-md border border-accent-terracotta/10 flex items-center justify-center text-accent-terracotta group-hover:bg-accent-terracotta group-hover:text-white transition-all duration-700">
-                  {/* Reuse icon with smaller size */}
-                  <div className="scale-75 md:scale-90">
-                    {item.icon}
-                  </div>
+              <div 
+                key={i} 
+                className={`relative flex flex-col md:flex-row gap-8 p-10 bg-white/30 border border-dashed border-accent-terracotta/20 rounded-sm shadow-sm transition-all duration-700 hover:shadow-md ${
+                  i % 2 === 0 ? '-rotate-1' : 'rotate-1'
+                }`}
+              >
+                {/* Vintage Pin Effect */}
+                <div className="absolute top-4 right-4 w-4 h-4 rounded-full bg-accent-terracotta/20 border border-white/40 shadow-inner" />
+                
+                <div className="flex-shrink-0 w-14 h-14 rounded-full bg-white border border-accent-terracotta/10 flex items-center justify-center text-accent-terracotta">
+                  {item.icon}
                 </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl md:text-2xl font-serif text-primary-text italic leading-tight group-hover:translate-x-1 transition-transform">{item.title}</h3>
-                  <p className="text-base text-secondary-text font-serif italic leading-relaxed opacity-70">{item.desc}</p>
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-serif text-primary-text italic leading-tight">{item.title}</h3>
+                  <p className="text-lg text-secondary-text font-serif italic leading-relaxed opacity-80">{item.desc}</p>
                 </div>
               </div>
             ))}
