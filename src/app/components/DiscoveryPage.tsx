@@ -193,11 +193,11 @@ export function DiscoveryPage() {
               { phrase: "¡Salud!", meaning: "Cheers!", sub: "To be said with eye contact." },
               { phrase: "¡Qué bonito!", meaning: "How beautiful!", sub: "You will say this often in Monda." }
             ].map((item, i) => (
-              <div key={i} className="group p-10 bg-white shadow-sm border border-accent-terracotta/5 rounded-[40px] transition-all duration-700 hover:shadow-xl hover:-translate-y-2 text-center flex flex-col items-center gap-4">
-                <span className="text-3xl md:text-4xl font-serif text-primary-text italic mb-2 group-hover:text-accent-terracotta transition-colors">{item.phrase}</span>
-                <div className="w-8 h-px bg-accent-terracotta/20" />
-                <span className="label-uppercase text-[10px] tracking-[0.3em] font-bold text-accent-terracotta">{item.meaning}</span>
-                <p className="text-sm text-secondary-text font-serif italic opacity-60 leading-relaxed mt-2">{item.sub}</p>
+              <div key={i} className="group p-6 md:p-8 bg-white/60 backdrop-blur-sm border border-accent-terracotta/10 rounded-[24px] shadow-sm transition-all duration-700 hover:shadow-xl hover:-translate-y-1 text-center flex flex-col items-center gap-3">
+                <span className="text-xl md:text-2xl font-serif text-primary-text italic group-hover:text-accent-terracotta transition-colors">{item.phrase}</span>
+                <div className="w-6 h-px bg-accent-terracotta/20" />
+                <span className="label-uppercase text-[9px] tracking-[0.2em] font-bold text-accent-terracotta">{item.meaning}</span>
+                <p className="text-[13px] text-secondary-text font-serif italic opacity-70 leading-relaxed text-center">{item.sub}</p>
               </div>
             ))}
           </div>

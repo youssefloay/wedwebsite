@@ -153,13 +153,16 @@ export function FaqPage() {
                 icon: <Sun size={24} />
               }
             ].map((item, i) => (
-              <div key={i} className="flex gap-8 group">
-                <div className="flex-shrink-0 w-16 h-16 rounded-[20px] bg-white shadow-lg border border-accent-terracotta/10 flex items-center justify-center text-accent-terracotta group-hover:bg-accent-terracotta group-hover:text-white transition-all duration-700">
-                  {item.icon}
+              <div key={i} className="flex gap-6 group">
+                <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-[16px] bg-white shadow-md border border-accent-terracotta/10 flex items-center justify-center text-accent-terracotta group-hover:bg-accent-terracotta group-hover:text-white transition-all duration-700">
+                  {/* Reuse icon with smaller size */}
+                  <div className="scale-75 md:scale-90">
+                    {item.icon}
+                  </div>
                 </div>
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-serif text-primary-text italic leading-tight group-hover:translate-x-1 transition-transform">{item.title}</h3>
-                  <p className="text-lg text-secondary-text font-serif italic leading-relaxed opacity-80">{item.desc}</p>
+                <div className="space-y-2">
+                  <h3 className="text-xl md:text-2xl font-serif text-primary-text italic leading-tight group-hover:translate-x-1 transition-transform">{item.title}</h3>
+                  <p className="text-base text-secondary-text font-serif italic leading-relaxed opacity-70">{item.desc}</p>
                 </div>
               </div>
             ))}
