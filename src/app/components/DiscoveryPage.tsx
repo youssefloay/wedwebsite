@@ -195,17 +195,17 @@ export function DiscoveryPage() {
             ].map((item, i) => (
               <div 
                 key={i} 
-                className={`relative p-5 bg-[#FAF8F5]/40 border border-dashed border-accent-terracotta/20 rounded-sm transition-all duration-700 hover:scale-105 flex flex-col items-center gap-2 ${
+                className={`relative p-5 bg-transparent border border-dashed border-accent-terracotta/30 rounded-sm transition-all duration-700 hover:scale-105 flex flex-col items-center gap-2 ${
                   i % 3 === 0 ? 'rotate-1' : i % 3 === 1 ? '-rotate-1' : 'rotate-2'
                 }`}
               >
                 {/* Vintage Tape Effect */}
-                <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-4 bg-accent-beige/15 backdrop-blur-sm border border-white/10 rotate-[-2deg]" />
+                <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-4 bg-accent-terracotta/5 backdrop-blur-sm border border-accent-terracotta/10 rotate-[-2deg]" />
                 
                 <span className="text-xl md:text-2xl font-serif text-primary-text italic group-hover:text-accent-terracotta transition-colors">{item.phrase}</span>
-                <div className="w-6 h-px bg-accent-terracotta/10" />
-                <span className="label-uppercase text-[9px] tracking-[0.2em] font-bold text-accent-terracotta/50">{item.meaning}</span>
-                <p className="text-[12px] text-secondary-text font-serif italic opacity-60 leading-relaxed text-center">{item.sub}</p>
+                <div className="w-6 h-px bg-accent-terracotta/20" />
+                <span className="label-uppercase text-[9px] tracking-[0.2em] font-bold text-accent-terracotta/60">{item.meaning}</span>
+                <p className="text-[12px] text-secondary-text font-serif italic opacity-70 leading-relaxed text-center">{item.sub}</p>
               </div>
             ))}
           </div>

@@ -155,14 +155,14 @@ export function FaqPage() {
             ].map((item, i) => (
               <div 
                 key={i} 
-                className={`relative flex gap-6 p-6 bg-[#FAF8F5]/40 border border-dashed border-accent-terracotta/20 rounded-sm transition-all duration-700 ${
+                className={`relative flex gap-6 p-6 bg-transparent border border-dashed border-accent-terracotta/30 rounded-sm transition-all duration-700 ${
                   i % 2 === 0 ? '-rotate-1' : 'rotate-1'
                 }`}
               >
                 {/* Vintage Pin Effect */}
-                <div className="absolute top-3 right-3 w-3 h-3 rounded-full bg-accent-terracotta/15 border border-white/30" />
+                <div className="absolute top-3 right-3 w-3 h-3 rounded-full bg-accent-terracotta/20 border border-accent-terracotta/30" />
                 
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white border border-accent-terracotta/10 flex items-center justify-center text-accent-terracotta">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white/50 border border-accent-terracotta/10 flex items-center justify-center text-accent-terracotta">
                   {item.icon}
                 </div>
                 <div className="space-y-2">
