@@ -34,18 +34,18 @@ export function GiftsPage() {
   function renderDetailRow(label: string, value: string, copyId: string, isMono = false) {
     const isCopied = copiedId === copyId;
     return (
-      <div className="group/row flex flex-col gap-2 py-5 border-b border-accent-terracotta/10 last:border-0 text-left relative">
+      <div className="group/row flex flex-col gap-1 py-3 border-b border-accent-terracotta/10 last:border-0 text-left relative">
         <div className="flex justify-between items-center px-1">
-          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel leading-none">{label}</span>
+          <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-40 font-cinzel leading-none">{label}</span>
           <button 
             onClick={() => handleCopy(value, copyId)} 
-            className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 flex items-center gap-2 font-cinzel ${isCopied ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}
+            className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 flex items-center gap-2 font-cinzel ${isCopied ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}
           >
-            {isCopied ? <Check size={11} strokeWidth={3} /> : <Copy size={11} strokeWidth={2.5} />}
+            {isCopied ? <Check size={10} strokeWidth={3} /> : <Copy size={10} strokeWidth={2.5} />}
             {isCopied ? 'Copied' : 'Copy'}
           </button>
         </div>
-        <span className={`text-xl md:text-2xl text-primary-text leading-tight ${isMono ? 'font-mono text-sm md:text-lg tracking-[0.1em] opacity-60' : 'font-serif italic'}`}>
+        <span className={`text-lg md:text-xl text-primary-text leading-tight ${isMono ? 'font-mono text-[13px] md:text-base tracking-tight opacity-70' : 'font-serif italic'}`}>
            {value}
         </span>
       </div>
@@ -56,22 +56,22 @@ export function GiftsPage() {
   function renderLocalCard(region: string, bank: string, holder: string, ival: string, bic: string, isTwint = false) {
     const isOpen = activeProvider === bank;
     return (
-      <div className={`group wedding-card transition-all duration-700 overflow-hidden ${isOpen ? 'shadow-xl shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
+      <div className={`group wedding-card transition-all duration-700 overflow-hidden ${isOpen ? 'shadow-lg shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
          <button 
            onClick={() => handleProviderToggle(bank)}
-           className={`w-full p-6 md:p-8 flex justify-between items-center text-left transition-colors duration-500 ${isOpen ? 'bg-[#F5EFEB]/30' : ''}`}
+           className={`w-full p-4 md:p-5 flex justify-between items-center text-left transition-colors duration-500 ${isOpen ? 'bg-[#F5EFEB]/30' : ''}`}
          >
-            <div className="flex items-center gap-6">
-               <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full border flex items-center justify-center transition-all duration-700 ${isOpen ? 'bg-[#515C4C] text-white border-[#515C4C]' : 'bg-white text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}>
-                  {isTwint ? <Smartphone size={18} strokeWidth={1.5} /> : <Landmark size={18} strokeWidth={1.5} />}
+            <div className="flex items-center gap-4">
+               <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-700 ${isOpen ? 'bg-[#515C4C] text-white border-[#515C4C]' : 'bg-white text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}>
+                  {isTwint ? <Smartphone size={16} strokeWidth={1.5} /> : <Landmark size={16} strokeWidth={1.5} />}
                </div>
                <div>
-                  <span className="block text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-40 font-cinzel mb-1">{region} Local</span>
-                  <h3 className={`text-xl md:text-2xl font-cinzel tracking-[0.1em] transition-all duration-500 ${isOpen ? 'text-[#515C4C]' : 'text-primary-text'}`}>{bank}</h3>
+                  <span className="block text-[10px] uppercase tracking-[0.2em] text-secondary-text font-bold opacity-40 font-cinzel mb-0.5">{region} Local</span>
+                  <h3 className={`text-lg md:text-xl font-cinzel tracking-tight transition-all duration-500 ${isOpen ? 'text-[#515C4C]' : 'text-primary-text'}`}>{bank}</h3>
                </div>
             </div>
-            <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-500 ${isOpen ? 'rotate-180 bg-[#515C4C]/10 text-[#515C4C] border-[#515C4C]/20 font-bold' : 'text-secondary-text opacity-30 border-accent-terracotta/10 font-bold'}`}>
-               <ChevronDown size={14} strokeWidth={3} />
+            <div className={`w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-500 ${isOpen ? 'rotate-180 bg-[#515C4C]/10 text-[#515C4C] border-[#515C4C]/20' : 'text-secondary-text opacity-30 border-accent-terracotta/10'}`}>
+               <ChevronDown size={12} strokeWidth={3} />
             </div>
          </button>
 
@@ -219,13 +219,13 @@ export function GiftsPage() {
         <div className="max-w-2xl mx-auto space-y-6">
           
           {/* A. REVOLUT (Hub) */}
-          <div className={`group wedding-card transition-all duration-700 overflow-hidden ${activeProvider === 'revolut' ? 'shadow-xl shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
-             <button onClick={() => handleProviderToggle('revolut')} className={`w-full p-6 md:p-8 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'revolut' ? 'bg-[#F5EFEB]/30' : ''}`}>
-                <div className="flex items-center gap-6">
-                   <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'bg-[#515C4C] text-white border-[#515C4C]' : 'bg-white text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><Globe size={18} strokeWidth={1.5} /></div>
-                   <div><span className="block text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel mb-1">Modern Global</span><h3 className={`text-xl md:text-2xl font-cinzel tracking-[0.1em] transition-all duration-500 ${activeProvider === 'revolut' ? 'text-[#515C4C]' : 'text-primary-text'}`}>Revolut Hub</h3></div>
+          <div className={`group wedding-card transition-all duration-700 overflow-hidden ${activeProvider === 'revolut' ? 'shadow-lg shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
+             <button onClick={() => handleProviderToggle('revolut')} className={`w-full p-4 md:p-5 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'revolut' ? 'bg-[#F5EFEB]/30' : ''}`}>
+                <div className="flex items-center gap-4">
+                   <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'bg-[#515C4C] text-white border-[#515C4C]' : 'bg-white text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><Globe size={16} strokeWidth={1.5} /></div>
+                   <div><span className="block text-[10px] uppercase tracking-[0.2em] text-secondary-text font-bold opacity-40 font-cinzel mb-0.5">Modern Global</span><h3 className={`text-lg md:text-xl font-cinzel tracking-tight transition-all duration-500 ${activeProvider === 'revolut' ? 'text-[#515C4C]' : 'text-primary-text'}`}>Revolut Hub</h3></div>
                 </div>
-                <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'revolut' ? 'rotate-180 bg-[#515C4C]/10 text-[#515C4C] border-[#515C4C]/20 font-bold' : 'text-secondary-text opacity-30 border-accent-terracotta/10 font-bold'}`}><ChevronDown size={14} strokeWidth={3} /></div>
+                <div className={`w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-500 ${activeProvider === 'revolut' ? 'rotate-180 bg-[#515C4C]/10 text-[#515C4C] border-[#515C4C]/20' : 'text-secondary-text opacity-30 border-accent-terracotta/10'}`}><ChevronDown size={12} strokeWidth={3} /></div>
              </button>
 
              <AnimatePresence>
@@ -291,12 +291,12 @@ export function GiftsPage() {
 
           {/* C. IN-PERSON WISHES (Master Architecture) */}
           <div className={`group wedding-card transition-all duration-700 overflow-hidden ${activeProvider === 'inperson' ? 'shadow-xl shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
-             <button onClick={() => handleProviderToggle('inperson')} className={`w-full p-6 md:p-8 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'inperson' ? 'bg-[#F5EFEB]/30' : ''}`}>
-                <div className="flex items-center gap-6">
-                   <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'bg-[#515C4C] text-white border-[#515C4C]' : 'bg-white text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><PiggyBank size={18} strokeWidth={1.5} /></div>
-                   <div><span className="block text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-secondary-text font-bold opacity-40 font-cinzel mb-1">Venue / Physical</span><h3 className={`text-xl md:text-2xl font-cinzel tracking-[0.1em] transition-all duration-500 ${activeProvider === 'inperson' ? 'text-[#515C4C]' : 'text-primary-text'}`}>In-Person Wishes</h3></div>
+             <button onClick={() => handleProviderToggle('inperson')} className={`w-full p-4 md:p-5 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'inperson' ? 'bg-[#F5EFEB]/30' : ''}`}>
+                <div className="flex items-center gap-4">
+                   <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'bg-[#515C4C] text-white border-[#515C4C]' : 'bg-white text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><PiggyBank size={16} strokeWidth={1.5} /></div>
+                   <div><span className="block text-[10px] uppercase tracking-[0.2em] text-secondary-text font-bold opacity-40 font-cinzel mb-0.5">Venue / Physical</span><h3 className={`text-lg md:text-xl font-cinzel tracking-tight transition-all duration-500 ${activeProvider === 'inperson' ? 'text-[#515C4C]' : 'text-primary-text'}`}>In-Person Wishes</h3></div>
                 </div>
-                <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'rotate-180 bg-[#515C4C]/10 text-[#515C4C] border-[#515C4C]/20 font-bold' : 'text-secondary-text opacity-30 border-accent-terracotta/10 font-bold'}`}><ChevronDown size={14} strokeWidth={3} /></div>
+                <div className={`w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-500 ${activeProvider === 'inperson' ? 'rotate-180 bg-[#515C4C]/10 text-[#515C4C] border-[#515C4C]/20' : 'text-secondary-text opacity-30 border-accent-terracotta/10'}`}><ChevronDown size={12} strokeWidth={3} /></div>
              </button>
              <AnimatePresence>
                 {activeProvider === 'inperson' && (<motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}><div className="px-12 pb-16 pt-12 border-t border-border/5 space-y-10 overflow-hidden text-center relative bg-[#F5EFEB]/20"><div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-10 bg-gradient-to-b from-accent-terracotta/20 to-transparent" /><div className="max-w-md mx-auto space-y-8 relative z-10"><p className="text-xl md:text-2xl text-secondary-text italic leading-relaxed font-serif pt-2 opacity-80">"For those who prefer a more traditional gesture, we will have a collection box available at the venue terrace."</p><div className="pt-4 flex flex-col items-center gap-4"><div className="w-2 h-2 rounded-full bg-accent-terracotta/30 animate-pulse" /><span className="label-uppercase !mb-0 tracking-[0.6em] text-accent-terracotta opacity-60">Castillo de Monda</span></div></div></div></motion.div>)}
