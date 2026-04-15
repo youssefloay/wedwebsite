@@ -186,6 +186,38 @@ export function DiscoveryPage() {
         </div>
       </section>
 
+      {/* SPANISH CHEAT SHEET */}
+      <section className="py-32 px-6 section-layer-2 bg-[#F5EFEB]/30 border-t border-border/10">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-20 reveal">
+            <span className="label-uppercase mb-4 block">Lingua Franca</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">A Few Words in Spanish</h2>
+            <div className="w-16 h-px bg-accent-terracotta mx-auto mb-10" />
+            <p className="text-lg text-secondary-text font-serif italic max-w-xl mx-auto">
+              "While Álvaro can translate, the locals in Monda will always appreciate a warm greeting in their own tongue."
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { phrase: "¡Hola!", meaning: "Hello", sub: "A universal start to any conversation." },
+              { phrase: "¿Cómo estás?", meaning: "How are you?", sub: "For a friendly greeting." },
+              { phrase: "Dos copas, por favor", meaning: "Two glasses, please", sub: "Essential for the sunset cocktails." },
+              { phrase: "Muchas gracias", meaning: "Thank you very much", sub: "Always appreciated." },
+              { phrase: "¡Salud!", meaning: "Cheers!", sub: "To be said with eye contact." },
+              { phrase: "¡Qué bonito!", meaning: "How beautiful!", sub: "You will say this often in Monda." }
+            ].map((item, i) => (
+              <div key={i} className="group p-10 bg-white shadow-sm border border-accent-terracotta/5 rounded-[40px] transition-all duration-700 hover:shadow-xl hover:-translate-y-2 text-center flex flex-col items-center gap-4">
+                <span className="text-3xl md:text-4xl font-serif text-primary-text italic mb-2 group-hover:text-accent-terracotta transition-colors">{item.phrase}</span>
+                <div className="w-8 h-px bg-accent-terracotta/20" />
+                <span className="label-uppercase text-[10px] tracking-[0.3em] font-bold text-accent-terracotta">{item.meaning}</span>
+                <p className="text-sm text-secondary-text font-serif italic opacity-60 leading-relaxed mt-2">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
