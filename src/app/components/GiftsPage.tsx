@@ -30,8 +30,8 @@ export function GiftsPage() {
   const SITE_GREEN = '#515C4C'; 
   const SITE_BROWN = '#5C3210'; 
 
-  // 1. HELPER: Unified Detail Row (Architecturally consistent)
-  function renderDetailRow(label: string, value: string, copyId: string, isMono = false) {
+  // 1. HELPER: Unified Detail Row
+  function renderDetailRow(label: string, value: string, copyId: string) {
     const isCopied = copiedId === copyId;
     return (
       <div className="group/row flex flex-col gap-1 py-3 border-b border-accent-terracotta/10 last:border-0 text-left relative">
@@ -45,7 +45,7 @@ export function GiftsPage() {
             {isCopied ? 'Copied' : 'Copy'}
           </button>
         </div>
-        <span className={`text-lg md:text-xl text-primary-text leading-tight ${isMono ? 'font-mono text-[13px] md:text-base tracking-tight opacity-70' : 'font-serif italic'}`}>
+        <span className="text-lg md:text-xl text-primary-text leading-tight font-serif italic tracking-tight">
            {value}
         </span>
       </div>
@@ -81,23 +81,23 @@ export function GiftsPage() {
                  <div className="px-8 md:px-12 pb-12 pt-4 border-t border-border/5 bg-[#F5EFEB]/20 text-left overflow-hidden">
                     <div className="space-y-1">
                        {renderDetailRow('Account Holder', holder, bank + '-holder')}
-                       {renderDetailRow(isTwint ? 'Mobile Phone' : 'Full IBAN', ival, bank + '-num', !isTwint)}
-                       {!isTwint && bic && renderDetailRow('BIC Code', bic, bank + '-bic', true)}
+                       {renderDetailRow(isTwint ? 'Mobile Phone' : 'Full IBAN', ival, bank + '-num')}
+                       {!isTwint && bic && renderDetailRow('BIC Code', bic, bank + '-bic')}
 
                        {!isTwint && (
-                         <div className="group/row flex flex-col gap-2 py-6 border-t border-[#515C4C]/10 mt-6 relative">
-                            <div className="flex justify-between items-center px-2">
-                               <div className="flex items-center gap-2">
-                                  <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
-                                  <div className="w-1 h-1 rounded-full bg-[#515C4C]/40 animate-pulse" />
-                               </div>
-                               <button onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === bank + '-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
-                                  {copiedId === bank + '-ref' ? 'Copied' : 'Copy'}
-                               </button>
-                            </div>
-                            <span className="text-lg md:text-xl font-bold text-[#515C4C] font-mono uppercase tracking-tight opacity-70 px-1">
-                               Wedding - [Your Name]
-                            </span>
+                         <div className="group/row flex flex-col gap-1 py-4 border-t border-[#515C4C]/10 mt-6 relative text-left">
+                             <div className="flex justify-between items-center px-1">
+                                <div className="flex items-center gap-2">
+                                   <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
+                                   <div className="w-1 h-1 rounded-full bg-[#515C4C]/40 animate-pulse" />
+                                </div>
+                                <button onClick={() => handleCopy('Wedding - [Your Name]', bank + '-ref')} className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === bank + '-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
+                                   {copiedId === bank + '-ref' ? 'Copied' : 'Copy'}
+                                </button>
+                             </div>
+                             <span className="text-xl font-serif italic text-[#515C4C] tracking-tight">
+                                Wedding - [Your Name]
+                             </span>
                          </div>
                        )}
                     </div>
@@ -112,7 +112,7 @@ export function GiftsPage() {
   return (
     <div className="min-h-screen bg-background text-primary-text font-cinzel">
       
-      {/* 1. RESTORED GRAND HEADER (Discovery Mirror) */}
+      {/* 1. RESTORED GRAND HEADER */}
       <section className="relative pt-12 pb-0 px-6 overflow-hidden text-center section-layer-1 border-b border-border/10">
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
@@ -126,7 +126,7 @@ export function GiftsPage() {
         </div>
       </section>
 
-      {/* 2. THE NOTE (Private Celebration Mirror) */}
+      {/* 2. THE NOTE */}
       <section className="px-6 pb-12 pt-12 bg-background reveal">
         <div className="max-w-4xl mx-auto">
           <div className="wedding-card bg-[#F5EFEB]/50 backdrop-blur-sm border-accent-terracotta/20 text-center py-16 px-8 md:px-16 hover:-translate-y-2 transition-all duration-700 shadow-lg shadow-black/[0.02]">
@@ -143,11 +143,10 @@ export function GiftsPage() {
         </div>
       </section>
 
-      {/* 3. THE FUNDS (Borderless Section Mirror) */}
+      {/* 3. THE FUNDS */}
       <section className="py-24 px-6 bg-[#F5EFEB]/30 border-y border-border/10 reveal">
         <div className="max-w-2xl mx-auto space-y-16 text-center">
           
-          {/* Part 1: Post-Wedding Adventures */}
           <div className="space-y-8 flex flex-col items-center">
             <span className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-accent-beige font-bold font-cinzel">Honeymoon Fund</span>
             <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic tracking-tight">Post-Wedding Adventures</h2>
@@ -157,7 +156,6 @@ export function GiftsPage() {
             </p>
           </div>
 
-          {/* The Watercolor Image */}
           <div className="relative mx-auto w-64 h-64 md:w-80 md:h-80 bg-white p-3 md:p-4 shadow-xl shadow-black/5 rotate-[-1deg] transition-transform duration-700 hover:rotate-1">
             <div className="w-full h-full border border-border/10 overflow-hidden relative group">
               <img src="/gift-honeymoon.png" alt="Post-Wedding Adventures" className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" />
@@ -165,7 +163,6 @@ export function GiftsPage() {
             </div>
           </div>
 
-          {/* Part 2: Our Future Sanctuary */}
           <div className="space-y-8 flex flex-col items-center">
             <span className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-accent-beige font-bold font-cinzel">Home Fund</span>
             <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic tracking-tight">Our Future Sanctuary</h2>
@@ -175,7 +172,6 @@ export function GiftsPage() {
             </p>
           </div>
 
-          {/* Home Fund Illustration */}
           <div className="relative mx-auto w-64 h-64 md:w-80 md:h-80 bg-white p-3 md:p-4 shadow-xl shadow-black/5 rotate-[1deg] transition-transform duration-700 hover:rotate-[-1deg]">
             <div className="w-full h-full border border-border/10 overflow-hidden relative group">
               <img src="/gift-home.png" alt="Our Future Sanctuary" className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" />
@@ -186,7 +182,7 @@ export function GiftsPage() {
         </div>
       </section>
 
-      {/* 3. DYNAMIC TRANSFERS (Selection Panel) */}
+      {/* 4. DYNAMIC TRANSFERS */}
       <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
         <section className="flex flex-col items-center gap-8 mb-16 relative">
           <div className="flex flex-col items-center gap-3 text-center">
@@ -215,10 +211,9 @@ export function GiftsPage() {
           </div>
         </section>
 
-        {/* PROVIDER STACK (Unified Architecture) */}
         <div className="max-w-2xl mx-auto space-y-6">
           
-          {/* A. REVOLUT (Hub) */}
+          {/* REVOLUT HUB */}
           <div className={`group wedding-card transition-all duration-700 overflow-hidden ${activeProvider === 'revolut' ? 'shadow-lg shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
              <button onClick={() => handleProviderToggle('revolut')} className={`w-full p-4 md:p-5 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'revolut' ? 'bg-[#F5EFEB]/30' : ''}`}>
                 <div className="flex items-center gap-4">
@@ -242,37 +237,37 @@ export function GiftsPage() {
                           {revolutMode === 'chf' && activeRegion === 'switzerland' ? (
                             <div className="w-full space-y-1">
                                {renderDetailRow('Recipient Name', 'Revolut Bank UAB', 'rev-chf-holder')}
-                               {renderDetailRow('Swiss CHF IBAN', 'CH44 0900 0W0C 1638 5407 7', 'rev-chf-iban', true)}
-                               <div className="group/row flex flex-col gap-2 py-6 border-t border-[#515C4C]/10 mt-6 relative">
+                               {renderDetailRow('Swiss CHF IBAN', 'CH44 0900 0W0C 1638 5407 7', 'rev-chf-iban')}
+                               <div className="group/row flex flex-col gap-1 py-4 border-t border-[#515C4C]/10 mt-6 relative text-left">
                                   <div className="flex justify-between items-center px-1">
-                                     <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
-                                     <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === 'rev-chf-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
+                                     <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
+                                     <button onClick={() => handleCopy('LAMA LOAY, CH', 'rev-chf-ref')} className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === 'rev-chf-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
                                         {copiedId === 'rev-chf-ref' ? 'Copied' : 'Copy'}
                                      </button>
                                   </div>
-                                  <span className="text-lg md:text-xl font-bold text-[#515C4C] font-mono uppercase tracking-tight opacity-70">LAMA LOAY, CH</span>
+                                  <span className="text-xl font-serif italic text-[#515C4C] tracking-tight">LAMA LOAY, CH</span>
                                </div>
                             </div>
                           ) : revolutMode === 'tag' ? (
                             <div className="w-full space-y-1">
                                {renderDetailRow('Username', '@lamaloay', 'rev-tag')}
                                <div className="pt-8 flex flex-col items-center gap-4">
-                                  <a href="https://revolut.me/lamaloay" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-[0.4em] text-[#515C4C] font-bold flex items-center justify-center gap-2 opacity-60 hover:opacity-100 transition-opacity font-cinzel whitespace-nowrap">Open Revolut Secure Link <ExternalLink size={10} /></a>
+                                  <a href="https://revolut.me/lamaloay" target="_blank" rel="noopener noreferrer" className="text-[9px] uppercase tracking-[0.3em] text-[#515C4C] font-bold flex items-center justify-center gap-2 opacity-60 hover:opacity-100 transition-opacity font-cinzel whitespace-nowrap">Open Revolut Secure Link <ExternalLink size={10} /></a>
                                   <div className="w-1 h-1 rounded-full bg-[#515C4C]/20" />
                                </div>
                             </div>
                           ) : (
                             <div className="w-full space-y-1">
                                {renderDetailRow('Recipient Name', 'LAMA LOAY', 'rev-euro-holder')}
-                               {renderDetailRow('Euro IBAN Account', 'LT18 3250 0331 5970 5728', 'rev-euro-iban', true)}
-                               <div className="group/row flex flex-col gap-2 py-6 border-t border-[#515C4C]/10 mt-6 relative">
+                               {renderDetailRow('Euro IBAN Account', 'LT18 3250 0331 5970 5728', 'rev-euro-iban')}
+                               <div className="group/row flex flex-col gap-1 py-4 border-t border-[#515C4C]/10 mt-6 relative text-left">
                                   <div className="flex justify-between items-center px-1">
-                                     <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
-                                     <button onClick={() => handleCopy('Wedding - [Your Name]', 'rev-euro-ref')} className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === 'rev-euro-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
+                                     <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-[#515C4C] font-bold font-cinzel">Required Reference</span>
+                                     <button onClick={() => handleCopy('Wedding - [Your Name]', 'rev-euro-ref')} className={`text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 font-cinzel ${copiedId === 'rev-euro-ref' ? 'text-green-600' : 'text-[#515C4C]/40 group-hover/row:text-[#515C4C]'}`}>
                                         {copiedId === 'rev-euro-ref' ? 'Copied' : 'Copy'}
                                      </button>
                                   </div>
-                                  <span className="text-lg md:text-xl font-bold text-[#515C4C] font-mono uppercase tracking-tight opacity-70">Wedding - [Your Name]</span>
+                                  <span className="text-xl font-serif italic text-[#515C4C] tracking-tight">Wedding - [Your Name]</span>
                                </div>
                             </div>
                           )}
@@ -283,14 +278,14 @@ export function GiftsPage() {
              </AnimatePresence>
           </div>
 
-          {/* B. LOCAL OPTIONS (Using Master Unified Helpers) */}
+          {/* LOCAL OPTIONS */}
           {activeRegion === 'france' && renderLocalCard('France', 'BoursoBank', 'Lama Loay', 'FR76 4061 8803 3500 0402 2902 922', 'BOUS FRPP XXX')}
           {activeRegion === 'switzerland' && (
             <>{renderLocalCard('Switzerland', 'UBS', 'Lama Loay', 'CH16 0021 5215 1631 0340 Y', 'UBSWCHZH80A')}{renderLocalCard('Switzerland', 'TWINT', 'Lama Loay', '+41 76 701 34 52', '', true)}</>
           )}
 
-          {/* C. IN-PERSON WISHES (Master Architecture) */}
-          <div className={`group wedding-card transition-all duration-700 overflow-hidden ${activeProvider === 'inperson' ? 'shadow-xl shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
+          {/* IN-PERSON WISHES */}
+          <div className={`group wedding-card transition-all duration-700 overflow-hidden ${activeProvider === 'inperson' ? 'shadow-lg shadow-black/5 bg-white border-[#515C4C]/20' : 'hover:border-border/20 shadow-sm border-border/10'}`}>
              <button onClick={() => handleProviderToggle('inperson')} className={`w-full p-4 md:p-5 flex justify-between items-center text-left transition-colors duration-500 ${activeProvider === 'inperson' ? 'bg-[#F5EFEB]/30' : ''}`}>
                 <div className="flex items-center gap-4">
                    <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-700 ${activeProvider === 'inperson' ? 'bg-[#515C4C] text-white border-[#515C4C]' : 'bg-white text-accent-terracotta border-accent-terracotta/10 group-hover:bg-accent-terracotta/5'}`}><PiggyBank size={16} strokeWidth={1.5} /></div>
