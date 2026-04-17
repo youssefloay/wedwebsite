@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import doorClosedArch from '@/assets/door_closed_arch.png';
 import doorOpenedArch from '@/assets/door_opened_arch.png';
+import knockerImg from '@/assets/knocker.png';
 
 interface DoorEntranceProps {
   onEnter: () => void;
@@ -66,6 +67,20 @@ export function DoorEntrance({ onEnter }: DoorEntranceProps) {
           transition: 'opacity 0.3s ease-out', // Step 1: Immediately fade out
         }}
       >
+        <style>{`
+          @keyframes subtle-swing-door {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(1deg); }
+            75% { transform: rotate(-1deg); }
+            100% { transform: rotate(0deg); }
+          }
+          .knocker-img-hover {
+            transition: transform 0.5s ease-out;
+          }
+          .group:hover .knocker-img-hover {
+            animation: subtle-swing-door 2s ease-in-out infinite;
+          }
+        `}</style>
         <h1 
           className="mb-10 text-center px-6"
           style={{
@@ -80,11 +95,28 @@ export function DoorEntrance({ onEnter }: DoorEntranceProps) {
           Lama & Álvaro
         </h1>
         
+        {/* Thematic Knocker Button */}
         <div 
-          className="btn-primary pointer-events-auto cursor-pointer"
           onClick={handleClick}
+          className="group relative cursor-pointer flex flex-col items-center pointer-events-auto"
         >
-          Enter
+          {/* Photorealistic Knocker Image */}
+          <div className="relative w-36 h-36 mb-6 transition-all duration-700 ease-out group-hover:scale-110">
+            <img 
+              src={knockerImg} 
+              alt="Door Knocker"
+              className="w-full h-full object-contain knocker-img-hover drop-shadow-[0_20px_40px_rgba(0,0,0,0.7)]"
+              style={{
+                filter: 'contrast(1.2) brightness(1.2)',
+                mixBlendMode: 'screen'
+              }}
+            />
+            <div className="absolute inset-0 bg-accent-terracotta/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          </div>
+
+          <span className="font-serif text-[#FAF6F0] text-3xl tracking-[0.05em] italic transition-colors duration-500 group-hover:text-[#E2C38A] drop-shadow-lg">
+            Knock to Enter
+          </span>
         </div>
 
         <div 

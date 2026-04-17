@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import doorClosedArch from '@/assets/door_closed_arch.png';
+import knockerImg from '@/assets/knocker.png';
 
 interface VideoEntranceProps {
   onEnter: () => void;
@@ -35,6 +36,18 @@ export function VideoEntrance({ onEnter }: VideoEntranceProps) {
           animation: walk-in 30s linear forwards;
           transform-origin: center center;
         }
+        @keyframes subtle-swing {
+          0% { transform: rotate(0deg); }
+          25% { transform: rotate(1.5deg); }
+          75% { transform: rotate(-1.5deg); }
+          100% { transform: rotate(0deg); }
+        }
+        .knocker-hover {
+          transition: transform 0.5s ease-out;
+        }
+        .group:hover .knocker-hover {
+          animation: subtle-swing 2s ease-in-out infinite;
+        }
       `}</style>
 
       <video
@@ -49,7 +62,7 @@ export function VideoEntrance({ onEnter }: VideoEntranceProps) {
 
       {/* ── SPLASH SCREEN (door image + button, fades out on click) ── */}
       <div
-        className="absolute inset-0 transition-opacity duration-600"
+        className={`absolute inset-0 transition-opacity duration-[600ms]`}
         style={{
           opacity: phase === 'splash' ? 1 : 0,
           pointerEvents: phase === 'splash' ? 'auto' : 'none'
@@ -81,20 +94,37 @@ export function VideoEntrance({ onEnter }: VideoEntranceProps) {
             Lama & Álvaro
           </h1>
 
-          <button
+          {/* Thematic Knocker Button */}
+          <div 
             onClick={handleStart}
-            className="group relative px-12 py-5 overflow-hidden rounded-full border border-white/30 bg-white/5 backdrop-blur-md transition-all duration-500 hover:bg-white/10 hover:border-white/50 active:scale-95"
+            className="group relative cursor-pointer flex flex-col items-center"
           >
-            <span className="relative z-10 font-cinzel text-white text-xs tracking-[0.5em] uppercase font-bold">
-              Play Story
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-          </button>
+            {/* Photorealistic Knocker Image */}
+            <div className="relative w-40 h-40 mb-4 transition-all duration-700 ease-out group-hover:scale-110">
+              <img 
+                src={knockerImg} 
+                alt="Door Knocker"
+                className="w-full h-full object-contain knocker-hover drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+                style={{
+                  filter: 'contrast(1.2) brightness(1.2)',
+                  mixBlendMode: 'screen'
+                }}
+              />
+              <div className="absolute inset-0 bg-accent-terracotta/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+            </div>
 
-          <div className="mt-16 animate-pulse">
-            <p className="font-cinzel text-white/40 text-[9px] tracking-[0.4em] uppercase">
-              Click to begin
-            </p>
+            {/* Label */}
+            <div className="text-center space-y-3">
+              <span className="block font-serif text-[#FAF6F0] text-3xl tracking-[0.05em] italic transition-all duration-500 group-hover:text-[#E2C38A] drop-shadow-lg">
+                Knock to Enter
+              </span>
+              <div className="flex flex-col items-center">
+                <div className="w-12 h-[1px] bg-white/20 transition-all duration-700 group-hover:w-32 group-hover:bg-[#E2C38A] shadow-[0_0_10px_rgba(226,195,138,0.5)]" />
+                <p className="mt-4 font-cinzel text-white/40 text-[9px] tracking-[0.4em] uppercase">
+                  Open the story
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
