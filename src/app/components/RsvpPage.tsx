@@ -38,11 +38,12 @@ interface RsvpFormData {
   dietary: string;
   stayDuration: string;
   manualStayDates: string;
+  musicSuggestion: string;
   notes: string;
 }
 
 interface RsvpStep {
-  id: 'attendance' | 'identity' | 'note' | 'party' | 'stay' | 'journey' | 'visa' | 'dietary' | 'review';
+  id: 'attendance' | 'identity' | 'note' | 'party' | 'stay' | 'journey' | 'visa' | 'dietary' | 'music' | 'review';
   label: string;
 }
 
@@ -78,14 +79,15 @@ export function RsvpPage() {
     dietary: "",
     stayDuration: "",
     manualStayDates: "",
+    musicSuggestion: "",
     notes: ""
   });
 
   const roomTypes = [
-    { name: 'Comfy', maxGuests: 2, price: 153.5 },
-    { name: 'Superior Comfy', maxGuests: 3, price: 183.5 },
-    { name: 'Castillo Junior', maxGuests: 2, price: 208.5 },
-    { name: 'Family Room', maxGuests: 4, price: 218.5 }
+    { name: 'Comfy', maxGuests: 2, price: 154 },
+    { name: 'Superior Comfy', maxGuests: 3, price: 184 },
+    { name: 'Castillo Junior', maxGuests: 2, price: 209 },
+    { name: 'Family Room', maxGuests: 4, price: 219 }
   ];
 
   const steps = useMemo<RsvpStep[]>(() => {
@@ -105,6 +107,7 @@ export function RsvpPage() {
       { id: 'journey', label: "Journey" },
       { id: 'visa', label: "Visa" },
       { id: 'dietary', label: "Dietary" },
+      { id: 'music', label: "Music" },
       { id: 'note', label: "Note" },
       { id: 'review', label: "Review" }
     ] as RsvpStep[];
@@ -623,6 +626,31 @@ export function RsvpPage() {
                             </div>
                           )}
 
+                          {/* MUSIC */}
+                          {currentStep >= 8 && (
+                            <div className="space-y-12 max-w-none mx-auto border-t border-accent-terracotta/10 pt-12" ref={currentStep === 8 ? nextSectionRef : null}>
+                              <div className="text-left mb-12 space-y-6">
+                                <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight">What song will definitely get you on the dance floor?</p>
+                                <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
+                                  Our DJ is building the perfect playlist. Share your favorite tracks or music recommendations!
+                                </p>
+                                <div className="w-12 h-px bg-accent-terracotta mt-6" />
+                              </div>
+                              <div className="relative p-4">
+                                <textarea
+                                  placeholder="Song name, artist, or genre..."
+                                  className="w-full bg-[#FAF8F5]/60 border border-accent-terracotta/20 p-10 outline-none focus:border-accent-terracotta font-serif italic text-2xl h-48 text-center placeholder:text-accent-terracotta/20 transition-all rounded-3xl"
+                                  value={formData.musicSuggestion} onChange={(e) => updateFormData('musicSuggestion', e.target.value)}
+                                />
+                              </div>
+                              <div className="flex justify-end pt-12">
+                                <button type="button" onClick={handleNext} className="link-tertiary">
+                                  Continue
+                                </button>
+                              </div>
+                            </div>
+                          )}
+
                         </div>
                       )}
 
@@ -690,6 +718,12 @@ export function RsvpPage() {
                                 <div className="space-y-2 col-span-full">
                                   <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Dietary Requirements</span>
                                   <p className="text-2xl font-serif italic text-primary-text">{formData.dietary}</p>
+                                </div>
+                              )}
+                              {formData.attendance === 'Joyfully accept' && formData.musicSuggestion && (
+                                <div className="space-y-2 col-span-full">
+                                  <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Music Recommendations</span>
+                                  <p className="text-2xl font-serif italic text-primary-text">{formData.musicSuggestion}</p>
                                 </div>
                               )}
                             </div>

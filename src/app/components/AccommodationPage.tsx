@@ -9,7 +9,7 @@ export function AccommodationPage() {
       name: 'Comfy',
       rooms: 13,
       maxGuests: 2,
-      pricePerNight: 153.5,
+      pricePerNight: 154,
       image: "/room-comfy.png",
       description: 'Our "Comfy" rooms offer the perfect retreat, whether for a short stay or an extended escape.'
     },
@@ -17,7 +17,7 @@ export function AccommodationPage() {
       name: 'Superior Comfy',
       rooms: 15,
       maxGuests: 3,
-      pricePerNight: 183.5,
+      pricePerNight: 184,
       image: "/room-superior.png",
       description: 'Spacious retreat with a large double bed or two twins, offering a perfect blend of luxury and character.'
     },
@@ -25,7 +25,7 @@ export function AccommodationPage() {
       name: 'Castillo Junior',
       rooms: 6,
       maxGuests: 2,
-      pricePerNight: 208.5,
+      pricePerNight: 209,
       image: "/room-junior.png",
       description: 'Top of the range rooms featuring both a balcony and a private seating area.'
     },
@@ -33,7 +33,7 @@ export function AccommodationPage() {
       name: 'Family Room',
       rooms: 1,
       maxGuests: 4,
-      pricePerNight: 218.5,
+      pricePerNight: 219,
       image: "/room-family.png",
       description: 'Consists of two bedrooms sharing one bathroom, perfect for family groups.'
     }

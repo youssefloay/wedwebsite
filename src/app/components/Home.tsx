@@ -311,6 +311,20 @@ export function Home() {
             
             <div className="space-y-24">
               <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="order-2 md:order-1 relative group max-w-[300px] mx-auto cursor-pointer">
+                  <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
+                  <div className="stamp-visual transform -rotate-1 relative z-10 transition-transform duration-700 group-hover:scale-105">
+                    <img src="/arrival_sketch.png" alt="Guest Arrival" className="stamp-image" />
+                  </div>
+                </div>
+                <div className="order-1 md:order-2">
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">16:30</span>
+                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Guest Arrival</h3>
+                  <p className="text-secondary-text leading-relaxed max-w-xs">Welcoming our family and friends as they arrive at the Castle gates.</p>
+                </div>
+              </div>
+
+              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div className="md:text-right">
                   <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">17:00</span>
                   <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">The Ceremony</h3>
@@ -332,7 +346,7 @@ export function Home() {
                   </div>
                 </div>
                 <div className="order-1 md:order-2">
-                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">18:30</span>
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">18:00</span>
                   <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Sunset Cocktails</h3>
                   <p className="text-secondary-text leading-relaxed max-w-xs">Hors d'oeuvres and signature drinks on the Mediterranean terrace.</p>
                 </div>
@@ -340,7 +354,7 @@ export function Home() {
 
               <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div className="md:text-right">
-                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">19:30</span>
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">19:00</span>
                   <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Wedding Banquet</h3>
                   <p className="text-secondary-text leading-relaxed max-w-xs md:ml-auto">A grand dinner celebration featuring local Andalusian delicacies.</p>
                 </div>
@@ -360,37 +374,23 @@ export function Home() {
                   </div>
                 </div>
                 <div className="order-1 md:order-2">
-                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">21:30</span>
-                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">The First Dance</h3>
-                  <p className="text-secondary-text leading-relaxed max-w-xs">The magic begins as we share our first dance, followed by the DJ opening the floor.</p>
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">21:00</span>
+                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">The First Dance & Party</h3>
+                  <p className="text-secondary-text leading-relaxed max-w-xs">The magic begins as we share our first dance, followed by the DJ opening the floor for a night of celebration.</p>
                 </div>
               </div>
 
               <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div className="md:text-right">
-                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">22:30</span>
-                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">The Party</h3>
-                  <p className="text-secondary-text leading-relaxed max-w-xs md:ml-auto">Celebration and dancing as the night comes alive with joy and music.</p>
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">02:00</span>
+                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">End of Celebration</h3>
+                  <p className="text-secondary-text leading-relaxed max-w-xs md:ml-auto">Goodnight and sweet dreams as we conclude our magical wedding day.</p>
                 </div>
                 <div className="relative group max-w-[300px] mx-auto cursor-pointer">
                   <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
-                  <div className="stamp-visual transform -rotate-2 relative z-10 transition-transform duration-700 group-hover:scale-105">
-                    <img src="/party.png" alt="Wedding Party" className="stamp-image" />
+                  <div className="stamp-visual transform -rotate-1 relative z-10 transition-transform duration-700 group-hover:scale-105">
+                    <img src="/celebration_end.png" alt="End of Celebration" className="stamp-image" />
                   </div>
-                </div>
-              </div>
-
-              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div className="order-2 md:order-1 relative group max-w-[300px] mx-auto cursor-pointer">
-                  <div className="absolute inset-0 bg-accent-terracotta/10 rounded-full blur-2xl transform scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
-                  <div className="stamp-visual transform rotate-1 relative z-10 transition-transform duration-700 group-hover:scale-105">
-                    <img src="/midnight_snacks_sketch.png" alt="Midnight Snacks" className="stamp-image" />
-                  </div>
-                </div>
-                <div className="order-1 md:order-2">
-                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">01:30</span>
-                  <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Midnight Feast</h3>
-                  <p className="text-secondary-text leading-relaxed max-w-xs">A delicious Spanish "Recena" to fuel the final memories of the night.</p>
                 </div>
               </div>
             </div>
