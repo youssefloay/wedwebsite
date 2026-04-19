@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import { saveRsvp } from "../../lib/rsvpService";
 import {
   Check,
   ArrowRight,
@@ -164,21 +165,14 @@ export function RsvpPage() {
       setIsSubmitting(true);
       setError(null);
       try {
-        const response = await fetch("https://formspree.io/f/YOUR_FORMSPREE_ID", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({
-            ...formData,
-            guestNames: formData.guestNames.map(g => `${g.firstName} ${g.lastName}`).join(", ")
-          })
+        await saveRsvp({
+          ...formData,
+          guests: parseInt(formData.guests)
         });
-        if (response.ok) {
-          setIsSubmitted(true);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          throw new Error("Submission failed");
-        }
+        setIsSubmitted(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
+        console.error("Firebase error details:", err);
         setError("Connection issue. Please try again.");
       } finally {
         setIsSubmitting(false);
