@@ -168,9 +168,9 @@ export function AccommodationPage() {
             <h2 className="text-5xl md:text-6xl font-serif text-primary-text italic">Securing Your Stay</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 relative max-w-4xl mx-auto">
             {/* Visual connector for desktop */}
-            <div className="hidden md:block absolute top-[50px] left-0 w-full h-px bg-accent-terracotta/20 -z-10" />
+            <div className="hidden md:block absolute top-[50px] left-[25%] w-[50%] h-px bg-accent-terracotta/20 -z-10" />
 
             {[
               {
@@ -180,13 +180,8 @@ export function AccommodationPage() {
               },
               {
                 step: "02",
-                title: "Coordination",
-                text: "The hotel will contact you directly to confirm your details."
-              },
-              {
-                step: "03",
-                title: "Finalize",
-                text: "Payment is required upon booking to guarantee your room."
+                title: "Confirmation",
+                text: "The hotel will contact you directly to coordinate details and payment. Please note that payment is mandatory to confirm and guarantee your room."
               }
             ].map((item, i) => (
               <div key={i} className="text-center group">
@@ -194,7 +189,7 @@ export function AccommodationPage() {
                   {item.step}
                 </div>
                 <h4 className="text-2xl font-serif text-primary-text mb-4 italic">{item.title}</h4>
-                <p className="text-sm text-secondary-text leading-relaxed font-serif italic">{item.text}</p>
+                <p className="text-sm text-secondary-text leading-relaxed font-serif italic max-w-[280px] mx-auto">{item.text}</p>
               </div>
             ))}
           </div>

@@ -241,16 +241,39 @@ export function Home() {
       <section id="dress-code" className="section-layer-1 px-6 pt-12 pb-32 relative border-t border-border/10">
         <div className="text-center mb-16 flex flex-col items-center">
           <span className="label-uppercase">Dress Code</span>
-          <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Black Tie & Color</h2>
+          <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Elegant Attire in Color</h2>
           <div className="w-16 h-px bg-accent-terracotta mb-10" />
           
-          <div className="max-w-xl mx-auto space-y-6 mb-8">
-            <p className="text-lg text-secondary-text font-serif leading-relaxed italic border-x-2 border-accent-terracotta/20 px-8 py-2">
-              "We invite our guests to embrace the vibrant spirit of Spain through a palette of earthy tones."
+          <div className="max-w-2xl mx-auto space-y-10 text-center">
+            <p className="text-xl text-secondary-text font-serif leading-relaxed italic border-x-2 border-accent-terracotta/20 px-8 py-4">
+              We invite our guests to dress in an elegant and festive style, inspired by the vibrant spirit of Spain and a palette of warm, earthy tones.
             </p>
-            <p className="text-sm uppercase tracking-widest text-accent-terracotta font-bold pt-4">
-              Gentle Request: Please avoid wearing all-black or dark navy.
+
+            <p className="text-lg text-primary-text font-serif italic opacity-90">
+              Think formal or cocktail attire - refined, polished, and comfortable.
             </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+              <div className="space-y-3">
+                <span className="label-uppercase text-[10px] tracking-[0.3em] font-bold text-accent-terracotta">For Men</span>
+                <p className="font-serif italic text-lg opacity-80 leading-relaxed">Suits or dressy shirts with trousers<br/>(tie optional)</p>
+              </div>
+              <div className="space-y-3">
+                <span className="label-uppercase text-[10px] tracking-[0.3em] font-bold text-accent-terracotta">For Women</span>
+                <p className="font-serif italic text-lg opacity-80 leading-relaxed">Elegant dresses, midi/long dresses,<br/>or chic jumpsuits</p>
+              </div>
+            </div>
+
+            <div className="pt-8 border-t border-accent-terracotta/10">
+              <p className="text-sm uppercase tracking-[0.3em] text-accent-terracotta font-extrabold flex items-center justify-center gap-3">
+                <span className="w-1 h-1 rounded-full bg-accent-terracotta animate-pulse" />
+                Gentle request
+                <span className="w-1 h-1 rounded-full bg-accent-terracotta animate-pulse" />
+              </p>
+              <p className="mt-4 font-serif italic text-xl text-primary-text opacity-90">
+                Please avoid wearing all-black or dark navy.
+              </p>
+            </div>
           </div>
         </div>
 
