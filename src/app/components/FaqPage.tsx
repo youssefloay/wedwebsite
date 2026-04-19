@@ -8,8 +8,8 @@ export function FaqPage() {
       a: "Our celebration takes place at the Castillo de Monda, a historic fortress nestled in the Andalusian hills. The address is Calle de la Villeta 6, 29110 Monda, Spain. It is approximately 45 minutes by car from Málaga." 
     },
     { 
-      q: "What does 'Black Tie & Color' mean?", 
-      a: "We invite our guests to dress formally with a focus on vibrant, earthy tones. We kindly ask you to avoid wearing all-black, dark navy, or dark tuxedos to fully embrace the colorful Mediterranean spirit of our celebration." 
+      q: "What does 'Elegant Attire in Color' mean?", 
+      a: "We invite our guests to dress in an elegant and festive style, inspired by the vibrant spirit of Spain and a palette of warm, earthy tones. Think formal or cocktail attire - refined, polished, and comfortable (Men: suits or dressy shirts with trousers; Women: elegant dresses or chic jumpsuits). We kindly ask you to avoid wearing all-black or dark navy." 
     },
     { 
       q: "How do I reach Monda from Málaga?", 
