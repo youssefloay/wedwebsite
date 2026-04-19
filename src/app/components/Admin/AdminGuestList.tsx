@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllRsvps, deleteRsvp, RsvpData, mapToExportFormat, convertToCSV } from "../../../lib/rsvpService";
+import { getAllRsvps, deleteRsvp, RsvpData, mapToExportFormat, convertToCSV, downloadExcel } from "../../../lib/rsvpService";
 import { 
   Download, 
   Search, 
@@ -9,7 +9,8 @@ import {
   MoreVertical,
   ChevronLeft,
   ChevronRight,
-  FileSpreadsheet
+  FileSpreadsheet,
+  X
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -19,6 +20,7 @@ export const AdminGuestList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
+  const [selectedGuest, setSelectedGuest] = useState<RsvpData | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -65,7 +67,7 @@ export const AdminGuestList = () => {
     }
   };
 
-  const handleExport = () => {
+  const handleExportCSV = () => {
     try {
       const exportData = rsvps.map(r => mapToExportFormat(r));
       const csv = convertToCSV(exportData);
@@ -77,9 +79,19 @@ export const AdminGuestList = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      toast.success("Guest list exported successfully!");
+      toast.success("Guest list exported to CSV successfully!");
     } catch (err) {
-      toast.error("Failed to export data");
+      toast.error("Failed to export data to CSV");
+    }
+  };
+
+  const handleExportExcel = () => {
+    try {
+      const exportData = rsvps.map(r => mapToExportFormat(r));
+      downloadExcel(exportData, `wedding_rsvps_${new Date().toISOString().split('T')[0]}`);
+      toast.success("Guest list exported to Excel successfully!");
+    } catch (err) {
+      toast.error("Failed to export data to Excel");
     }
   };
 
@@ -90,13 +102,21 @@ export const AdminGuestList = () => {
           <h2 className="text-4xl font-serif italic text-primary-text">Guest Management</h2>
           <p className="text-secondary-text font-serif italic mt-1 opacity-70">Manage responses and export data for vendors.</p>
         </div>
-        <button 
-          onClick={handleExport}
-          className="flex items-center gap-3 bg-accent-terracotta text-white px-8 py-4 rounded-2xl hover:bg-accent-terracotta/90 transition-all shadow-lg active:scale-95"
-        >
-          <FileSpreadsheet size={20} />
-          <span className="font-serif uppercase tracking-widest text-sm">Export to CSV</span>
-        </button>
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={handleExportCSV}
+            className="flex items-center gap-3 bg-white text-accent-terracotta border border-accent-terracotta/20 px-6 py-4 rounded-2xl hover:bg-black/5 transition-all shadow-sm active:scale-95"
+          >
+            <span className="font-serif uppercase tracking-widest text-[10px] font-bold">Export .CSV</span>
+          </button>
+          <button 
+            onClick={handleExportExcel}
+            className="flex items-center gap-3 bg-accent-terracotta text-white px-8 py-4 rounded-2xl hover:bg-accent-terracotta/90 transition-all shadow-lg active:scale-95"
+          >
+            <FileSpreadsheet size={20} />
+            <span className="font-serif uppercase tracking-widest text-sm">Export .XLSX</span>
+          </button>
+        </div>
       </div>
 
       {/* Filters & Search */}
@@ -131,12 +151,12 @@ export const AdminGuestList = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-accent-terracotta/5 bg-black/5">
-                <th className="p-6 text-[10px] label-uppercase tracking-widest text-accent-terracotta font-bold">Guest</th>
-                <th className="p-6 text-[10px] label-uppercase tracking-widest text-accent-terracotta font-bold">Status</th>
-                <th className="p-6 text-[10px] label-uppercase tracking-widest text-accent-terracotta font-bold">Party</th>
-                <th className="p-6 text-[10px] label-uppercase tracking-widest text-accent-terracotta font-bold">Accom.</th>
-                <th className="p-6 text-[10px] label-uppercase tracking-widest text-accent-terracotta font-bold">Dietary</th>
-                <th className="p-6 text-[10px] label-uppercase tracking-widest text-accent-terracotta font-bold">Actions</th>
+                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Guest</th>
+                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Status</th>
+                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Party</th>
+                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Accom.</th>
+                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Dietary</th>
+                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -193,7 +213,10 @@ export const AdminGuestList = () => {
                     </td>
                     <td className="p-6">
                       <div className="flex items-center gap-3">
-                        <button className="p-2 text-secondary-text hover:text-accent-terracotta hover:bg-accent-terracotta/10 rounded-xl transition-all">
+                        <button 
+                          onClick={() => setSelectedGuest(rsvp)}
+                          className="p-2 text-secondary-text hover:text-accent-terracotta hover:bg-accent-terracotta/10 rounded-xl transition-all"
+                        >
                           <Eye size={18} />
                         </button>
                         <button 
@@ -226,6 +249,41 @@ export const AdminGuestList = () => {
           </div>
         </div>
       </div>
+
+      {selectedGuest && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 backdrop-blur-sm" onClick={() => setSelectedGuest(null)}>
+          <div className="bg-[#FBF9F4] rounded-[40px] max-w-2xl w-full max-h-[85vh] overflow-y-auto p-10 border border-accent-terracotta/20 shadow-2xl relative" onClick={e => e.stopPropagation()}>
+            <button 
+              className="absolute top-8 right-8 p-3 bg-white border border-accent-terracotta/10 rounded-full hover:bg-accent-terracotta hover:text-white transition-colors" 
+              onClick={() => setSelectedGuest(null)}
+            >
+              <X size={20} />
+            </button>
+            <div className="mb-10">
+              <h3 className="text-4xl font-serif italic text-primary-text">{selectedGuest.firstName} {selectedGuest.lastName}</h3>
+              <p className="text-secondary-text mt-2 font-serif uppercase tracking-widest text-[11px] font-bold">{selectedGuest.email}</p>
+            </div>
+            
+            <div className="space-y-8">
+              <div>
+                <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Personal Note for Lama & Álvaro</span>
+                <p className="font-serif italic text-xl text-primary-text bg-white border border-accent-terracotta/10 p-8 rounded-3xl mt-4 leading-relaxed">
+                  {selectedGuest.notes ? `"${selectedGuest.notes}"` : "No message provided."}
+                </p>
+              </div>
+              
+              {selectedGuest.attendance === "Joyfully accept" && (
+                <div>
+                  <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Music Recommendations</span>
+                  <p className="font-serif italic text-xl text-primary-text bg-white border border-accent-terracotta/10 p-8 rounded-3xl mt-4 leading-relaxed">
+                    {selectedGuest.musicSuggestion || "No songs requested."}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

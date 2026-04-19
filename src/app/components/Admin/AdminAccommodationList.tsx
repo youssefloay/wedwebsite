@@ -61,15 +61,16 @@ export const AdminAccommodationList = () => {
       </div>
 
       <div className="bg-white rounded-[40px] border border-accent-terracotta/10 shadow-sm overflow-hidden">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-black/5 border-b border-accent-terracotta/10">
-              <th className="p-6 text-[10px] label-uppercase tracking-widest text-accent-terracotta font-bold">Guest</th>
-              <th className="p-6 text-[10px] label-uppercase tracking-widest text-accent-terracotta font-bold">Room Preference</th>
-              <th className="p-6 text-[10px] label-uppercase tracking-widest text-accent-terracotta font-bold">Stay Dates</th>
-              <th className="p-6 text-[10px] label-uppercase tracking-widest text-accent-terracotta font-bold">Party Size</th>
-            </tr>
-          </thead>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-black/5 border-b border-accent-terracotta/10">
+                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Guest</th>
+                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Room Preference</th>
+                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Stay Dates</th>
+                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Party Size</th>
+              </tr>
+            </thead>
           <tbody>
             {isLoading ? (
                <tr><td colSpan={4} className="p-20 text-center animate-pulse">Loading accommodation data...</td></tr>
@@ -100,6 +101,7 @@ export const AdminAccommodationList = () => {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
