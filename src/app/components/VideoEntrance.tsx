@@ -101,16 +101,16 @@ export function VideoEntrance({ onEnter }: VideoEntranceProps) {
           >
             {/* Photorealistic Knocker Image */}
             <div className="relative w-40 h-40 mb-4 transition-all duration-700 ease-out group-hover:scale-110">
-              <div className="absolute inset-0 rounded-full bg-[#1a0f08]/40 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="absolute inset-0 rounded-full bg-[#1a0f08]/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               <img 
                 src={knockerImg} 
                 alt="Door Knocker"
-                className="w-full h-full object-contain knocker-hover"
+                className="w-full h-full object-contain knocker-hover opacity-90 transition-opacity duration-500 group-hover:opacity-100"
                 style={{
                   mixBlendMode: 'screen',
-                  filter: 'brightness(1.05) contrast(1.1)',
-                  maskImage: 'radial-gradient(circle, black 65%, transparent 100%)',
-                  WebkitMaskImage: 'radial-gradient(circle, black 65%, transparent 100%)'
+                  filter: 'brightness(1.02) contrast(1.1)',
+                  maskImage: 'radial-gradient(circle, black 40%, transparent 90%)',
+                  WebkitMaskImage: 'radial-gradient(circle, black 40%, transparent 90%)'
                 }}
               />
               <div className="absolute inset-0 bg-accent-terracotta/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
