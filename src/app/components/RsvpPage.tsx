@@ -770,7 +770,16 @@ export function RsvpPage() {
             <h2 className="text-6xl md:text-8xl font-serif italic text-primary-text mb-8 leading-none">Muchas Gracias</h2>
             <div className="w-16 h-px bg-accent-terracotta mb-10" />
             <p className="text-xl md:text-2xl text-secondary-text leading-relaxed font-serif italic mb-16 max-w-lg">
-              We have received your response, {formData.firstName}. We cannot wait to celebrate this journey with you in the hills of Monda.
+              {formData.attendance === 'Joyfully accept' ? (
+                <>
+                  We have received your response, {formData.firstName}. We cannot wait to celebrate this journey with you in the hills of Monda.<br/><br/>
+                  <span className="text-lg opacity-80">
+                    As you are joining us, please keep an eye on your inbox in November or December. We will send a follow-up form to finalize your arrival details and coordinate any last-minute arrangements.
+                  </span>
+                </>
+              ) : (
+                `We have received your response, ${formData.firstName}. While we are sad you cannot join us, we appreciate you letting us know and we look forward to catching up with you soon.`
+              )}
             </p>
             <Link to="/" className="group flex items-center gap-4 text-[11px] uppercase tracking-[0.4em] font-bold text-accent-terracotta hover:text-primary-text transition-all">
               Return to the Story <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
