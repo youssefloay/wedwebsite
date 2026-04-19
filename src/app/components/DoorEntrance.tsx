@@ -81,19 +81,7 @@ export function DoorEntrance({ onEnter }: DoorEntranceProps) {
             animation: subtle-swing-door 2s ease-in-out infinite;
           }
         `}</style>
-        <h1 
-          className="mb-10 text-center px-6"
-          style={{
-            fontFamily: 'Cormorant Garamond, serif',
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            fontWeight: 400,
-            color: '#FAF6F0',
-            textShadow: '0 4px 30px rgba(0,0,0,0.9), 0 0 50px rgba(92, 50, 16, 0.5)',
-            letterSpacing: '0.05em'
-          }}
-        >
-          Lama & Álvaro
-        </h1>
+
         
         {/* Thematic Knocker Button */}
         <div 

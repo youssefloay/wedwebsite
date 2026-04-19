@@ -58,6 +58,7 @@ export function VideoEntrance({ onEnter }: VideoEntranceProps) {
         onEnded={onEnter}
         playsInline
         preload="auto"
+        muted
       />
 
       {/* ── SPLASH SCREEN (door image + button, fades out on click) ── */}
@@ -81,18 +82,7 @@ export function VideoEntrance({ onEnter }: VideoEntranceProps) {
 
         {/* Text & Button */}
         <div className="relative z-20 h-full flex flex-col items-center justify-center px-6">
-          <h1
-            className="mb-12 text-[#FAF6F0]"
-            style={{
-              fontFamily: 'Cormorant Garamond, serif',
-              fontSize: 'clamp(2.5rem, 8vw, 5rem)',
-              fontWeight: 300,
-              letterSpacing: '0.1em',
-              textShadow: '0 4px 30px rgba(0,0,0,0.5)'
-            }}
-          >
-            Lama & Álvaro
-          </h1>
+
 
           {/* Thematic Knocker Button */}
           <div 
