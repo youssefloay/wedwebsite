@@ -289,7 +289,7 @@ export function RsvpPage() {
                         </div>
                         <div className="space-y-12 relative z-10">
                           <div className="space-y-2">
-                            <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em]">First Name</label>
+                            <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em]">First Name (Required)</label>
                             <input
                               type="text" required placeholder="Guest name"
                               className="w-full bg-transparent border-b border-accent-terracotta/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-terracotta/20"
@@ -297,7 +297,7 @@ export function RsvpPage() {
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em]">Last Name</label>
+                            <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em]">Last Name (Required)</label>
                             <input
                               type="text" required placeholder="Family name"
                               className="w-full bg-transparent border-b border-accent-terracotta/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-terracotta/20"
@@ -305,7 +305,7 @@ export function RsvpPage() {
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em] block">Email Address</label>
+                            <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em] block">Email Address (Required)</label>
                             <input
                               type="email" required placeholder="your@email.com"
                               className="w-full bg-transparent border-b border-accent-terracotta/30 py-4 focus:border-accent-terracotta outline-none transition-all font-serif text-3xl italic text-primary-text placeholder:text-accent-terracotta/20"
