@@ -104,11 +104,7 @@ export function VideoEntrance({ onEnter }: VideoEntranceProps) {
               <img 
                 src={knockerImg} 
                 alt="Door Knocker"
-                className="w-full h-full object-contain knocker-hover drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
-                style={{
-                  filter: 'contrast(1.2) brightness(1.2)',
-                  mixBlendMode: 'screen'
-                }}
+                className="w-full h-full object-contain knocker-hover drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)]"
               />
               <div className="absolute inset-0 bg-accent-terracotta/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
             </div>
