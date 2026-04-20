@@ -17,6 +17,8 @@ import { AdminAccommodationList } from "./components/Admin/AdminAccommodationLis
 import { AdminTravelList } from "./components/Admin/AdminTravelList";
 import { AdminLogin } from "./components/Admin/AdminLogin";
 import { ProtectedRoute } from "./components/Admin/ProtectedRoute";
+import { AdminMusicList } from "./components/Admin/AdminMusicList";
+import { AdminNotesList } from "./components/Admin/AdminNotesList";
 
 export const router = createHashRouter([
   {
@@ -83,6 +85,14 @@ export const router = createHashRouter([
       {
         path: "travel",
         element: <AdminTravelList />,
+      },
+      {
+        path: "music",
+        element: <AdminMusicList />,
+      },
+      {
+        path: "notes",
+        element: <AdminNotesList />,
       },
     ],
   },

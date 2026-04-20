@@ -71,7 +71,7 @@ export const mapToExportFormat = (rsvp: RsvpData) => {
   const guest_4 = rsvp.guestNames[2] || {};
 
   return {
-    submission_time: rsvp.submittedAt instanceof Timestamp ? rsvp.submittedAt.toDate().toLocaleString() : new Date(rsvp.submittedAt).toLocaleString(),
+    "Date & Time": rsvp.submittedAt instanceof Timestamp ? rsvp.submittedAt.toDate().toLocaleString() : new Date(rsvp.submittedAt).toLocaleString(),
     attendance: rsvp.attendance,
     first_name: rsvp.firstName,
     last_name: rsvp.lastName,

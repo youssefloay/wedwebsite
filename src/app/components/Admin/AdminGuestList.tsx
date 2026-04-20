@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAllRsvps, deleteRsvp, RsvpData, mapToExportFormat, convertToCSV, downloadExcel } from "../../../lib/rsvpService";
+import { Timestamp } from "firebase/firestore";
 import { 
   Download, 
   Search, 
@@ -107,14 +108,14 @@ export const AdminGuestList = () => {
             onClick={handleExportCSV}
             className="flex items-center gap-3 bg-white text-accent-terracotta border border-accent-terracotta/20 px-6 py-4 rounded-2xl hover:bg-black/5 transition-all shadow-sm active:scale-95"
           >
-            <span className="font-serif uppercase tracking-widest text-[10px] font-bold">Export .CSV</span>
+            <span className="font-serif uppercase tracking-widest text-xs font-bold">Export .CSV</span>
           </button>
           <button 
             onClick={handleExportExcel}
             className="flex items-center gap-3 bg-accent-terracotta text-white px-8 py-4 rounded-2xl hover:bg-accent-terracotta/90 transition-all shadow-lg active:scale-95"
           >
-            <FileSpreadsheet size={20} />
-            <span className="font-serif uppercase tracking-widest text-sm">Export .XLSX</span>
+            <FileSpreadsheet size={24} />
+            <span className="font-serif uppercase tracking-widest text-base font-bold">Export .XLSX</span>
           </button>
         </div>
       </div>
@@ -151,18 +152,19 @@ export const AdminGuestList = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-accent-terracotta/5 bg-black/5">
-                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Guest</th>
-                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Status</th>
-                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Party</th>
-                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Accom.</th>
-                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Dietary</th>
-                <th className="p-6 text-[10px] uppercase tracking-widest text-accent-terracotta font-bold font-serif">Actions</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Submitted</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Guest</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Status</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Party</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Accom.</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Dietary</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Actions</th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="p-20 text-center">
+                  <td colSpan={7} className="p-20 text-center">
                     <div className="animate-pulse flex flex-col items-center gap-2">
                        <div className="w-8 h-8 border-4 border-accent-terracotta border-t-transparent rounded-full animate-spin" />
                        <p className="font-serif italic text-secondary-text opacity-40">Fetching guests...</p>
@@ -171,7 +173,7 @@ export const AdminGuestList = () => {
                 </tr>
               ) : filteredRsvps.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="p-20 text-center">
+                  <td colSpan={7} className="p-20 text-center">
                     <p className="font-serif italic text-secondary-text opacity-40 text-xl">No guests found matching your search.</p>
                   </td>
                 </tr>
@@ -179,13 +181,21 @@ export const AdminGuestList = () => {
                 filteredRsvps.map((rsvp) => (
                   <tr key={rsvp.id} className="border-b border-accent-terracotta/5 hover:bg-black/[0.02] transition-colors group">
                     <td className="p-6">
+                      <p className="text-xs font-bold text-accent-terracotta uppercase tracking-tighter opacity-70">
+                        {rsvp.submittedAt instanceof Timestamp ? rsvp.submittedAt.toDate().toLocaleDateString() : new Date(rsvp.submittedAt).toLocaleDateString()}
+                      </p>
+                      <p className="text-[11px] text-secondary-text opacity-50 uppercase mt-1">
+                        {rsvp.submittedAt instanceof Timestamp ? rsvp.submittedAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : new Date(rsvp.submittedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </td>
+                    <td className="p-6">
                       <div>
-                        <p className="font-serif italic text-lg text-primary-text">{rsvp.firstName} {rsvp.lastName}</p>
-                        <p className="text-xs text-secondary-text opacity-60 uppercase tracking-tighter">{rsvp.email}</p>
+                        <p className="font-serif italic text-xl text-primary-text">{rsvp.firstName} {rsvp.lastName}</p>
+                        <p className="text-sm text-secondary-text opacity-70 uppercase tracking-tighter mt-1">{rsvp.email}</p>
                       </div>
                     </td>
                     <td className="p-6">
-                      <span className={`px-4 py-1.5 rounded-full text-[10px] uppercase tracking-widest font-bold ${
+                      <span className={`px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold ${
                         rsvp.attendance === 'Joyfully accept' 
                           ? 'bg-green-50 text-green-600' 
                           : 'bg-red-50 text-red-600'
@@ -197,7 +207,7 @@ export const AdminGuestList = () => {
                       <p className="font-serif italic text-primary-text">{rsvp.attendance === 'Joyfully accept' ? `${rsvp.guests} Guests` : '-'}</p>
                     </td>
                     <td className="p-6">
-                      <p className="text-sm font-serif italic text-secondary-text">
+                      <p className="text-base font-serif italic text-secondary-text leading-relaxed">
                         {rsvp.accommodation === 'Yes, please' ? rsvp.roomPreference : 'Independent'}
                       </p>
                     </td>

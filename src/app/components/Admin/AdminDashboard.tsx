@@ -44,18 +44,18 @@ export const AdminDashboard = () => {
     return (
       <div className="flex items-center justify-center h-[60vh]">
         <div className="animate-pulse flex flex-col items-center gap-4">
-          <Heart className="text-accent-terracotta/20 animate-bounce" size={48} />
-          <p className="label-uppercase text-[10px] tracking-widest text-accent-terracotta">Loading Stats...</p>
+          <Heart className="text-accent-terracotta/20 animate-bounce" size={56} />
+          <p className="label-uppercase text-xs tracking-widest text-accent-terracotta font-bold">Loading Stats...</p>
         </div>
       </div>
     );
   }
 
   const cards = [
-    { label: "Total Headcount", value: stats.totalGuests, sub: "Guests attending", icon: <Users />, color: "bg-blue-50 text-blue-600" },
-    { label: "RSVP Responses", value: stats.totalSubmissions, sub: `${stats.attendingCount} Accept / ${stats.declinedCount} Decline`, icon: <Heart />, color: "bg-red-50 text-red-600" },
-    { label: "Hotel Requests", value: stats.accommodationInterest, sub: "Castillo de Monda", icon: <Bed />, color: "bg-green-50 text-green-600" },
-    { label: "Dietary Needs", value: stats.dietaryCount, sub: "Allergies & Restrictions", icon: <Utensils />, color: "bg-orange-50 text-orange-600" },
+    { label: "Total Headcount", value: stats.totalGuests, sub: "Guests attending", icon: <Users size={24} />, color: "bg-blue-50 text-blue-600" },
+    { label: "RSVP Responses", value: stats.totalSubmissions, sub: `${stats.attendingCount} Accept / ${stats.declinedCount} Decline`, icon: <Heart size={24} />, color: "bg-red-50 text-red-600" },
+    { label: "Hotel Requests", value: stats.accommodationInterest, sub: "Castillo de Monda", icon: <Bed size={24} />, color: "bg-green-50 text-green-600" },
+    { label: "Dietary Needs", value: stats.dietaryCount, sub: "Allergies & Restrictions", icon: <Utensils size={24} />, color: "bg-orange-50 text-orange-600" },
   ];
 
   return (
@@ -65,9 +65,9 @@ export const AdminDashboard = () => {
           <h2 className="text-4xl font-serif italic text-primary-text">Dashboard Overview</h2>
           <p className="text-secondary-text font-serif italic mt-1 opacity-70">A snapshot of your wedding guest preparations.</p>
         </div>
-        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-2xl border border-accent-terracotta/10 text-xs">
-          <Clock size={14} className="text-accent-terracotta" />
-          <span className="text-secondary-text">Last updated: {new Date().toLocaleTimeString()}</span>
+        <div className="flex items-center gap-3 bg-white px-6 py-3 rounded-2xl border border-accent-terracotta/10 text-sm shadow-sm">
+          <Clock size={16} className="text-accent-terracotta" />
+          <span className="text-secondary-text font-medium">Last updated: {new Date().toLocaleTimeString()}</span>
         </div>
       </div>
 
@@ -76,14 +76,14 @@ export const AdminDashboard = () => {
           <div key={i} className="bg-white p-8 rounded-[30px] border border-accent-terracotta/10 shadow-sm hover:shadow-md transition-all duration-500 group">
             <div className="flex justify-between items-start mb-6">
               <div className={`p-3 rounded-2xl ${card.color} group-hover:scale-110 transition-transform duration-500`}>
-                {React.cloneElement(card.icon as React.ReactElement, { size: 24 })}
+                {card.icon}
               </div>
               <TrendingUp size={16} className="text-green-500 opacity-20" />
             </div>
-            <div className="space-y-1">
-              <p className="text-[10px] label-uppercase tracking-[0.2em] font-bold text-accent-terracotta">{card.label}</p>
-              <p className="text-4xl font-serif italic text-primary-text">{card.value}</p>
-              <p className="text-xs text-secondary-text opacity-60 font-serif italic">{card.sub}</p>
+            <div className="space-y-2">
+              <p className="text-xs label-uppercase tracking-[0.2em] font-bold text-accent-terracotta">{card.label}</p>
+              <p className="text-5xl font-serif italic text-primary-text">{card.value}</p>
+              <p className="text-sm text-secondary-text opacity-70 font-serif italic">{card.sub}</p>
             </div>
           </div>
         ))}
@@ -93,8 +93,8 @@ export const AdminDashboard = () => {
         {/* Recent RSVPs */}
         <div className="bg-white rounded-[40px] border border-accent-terracotta/10 p-8 shadow-sm">
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-2xl font-serif italic text-primary-text">Recent Responses</h3>
-            <button className="text-[10px] label-uppercase tracking-widest text-accent-terracotta hover:opacity-100 opacity-60 transition-opacity">View All</button>
+            <h3 className="text-3xl font-serif italic text-primary-text">Recent Responses</h3>
+            <button className="text-xs label-uppercase tracking-widest text-accent-terracotta hover:opacity-100 font-bold opacity-70 transition-opacity">View All</button>
           </div>
           <div className="space-y-6">
             {rsvps.slice(0, 5).map((rsvp) => (
@@ -128,7 +128,7 @@ export const AdminDashboard = () => {
                return (
                  <div key={room} className="space-y-3">
                    <div className="flex justify-between items-end">
-                     <span className="font-serif italic text-primary-text">{room}</span>
+                     <span className="font-serif italic text-primary-text">{room} <span className="text-sm opacity-50 ml-1">({room === 'Comfy' ? '€154' : room === 'Superior Comfy' ? '€184' : room === 'Castillo Junior' ? '€209' : '€219'})</span></span>
                      <span className="text-xs text-accent-terracotta font-bold">{count} rooms</span>
                    </div>
                    <div className="h-2 w-full bg-black/5 rounded-full overflow-hidden">

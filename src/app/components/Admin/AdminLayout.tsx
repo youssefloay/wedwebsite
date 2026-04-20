@@ -6,10 +6,12 @@ import {
   Settings, 
   LogOut, 
   ChevronRight,
-  ClipboardList,
+  MessageSquare,
   Utensils,
   Bed,
-  Car
+  Car,
+  Music,
+  ClipboardList
 } from "lucide-react";
 import { auth } from "../../../lib/firebase";
 import { signOut } from "firebase/auth";
@@ -29,6 +31,8 @@ export const AdminLayout = () => {
     { label: "Dietaries", path: "/admin/dietaries", icon: <Utensils size={20} /> },
     { label: "Accommodation", path: "/admin/accommodation", icon: <Bed size={20} /> },
     { label: "Travel & Visas", path: "/admin/travel", icon: <ClipboardList size={20} /> },
+    { label: "Music", path: "/admin/music", icon: <Music size={20} /> },
+    { label: "Notes", path: "/admin/notes", icon: <MessageSquare size={20} /> },
   ];
 
   return (
@@ -36,8 +40,8 @@ export const AdminLayout = () => {
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-accent-terracotta/10 flex flex-col shadow-sm">
         <div className="p-8 border-b border-accent-terracotta/10">
-          <h1 className="text-2xl font-serif italic text-accent-terracotta">Admin Portal</h1>
-          <p className="text-[10px] label-uppercase tracking-widest opacity-60 mt-2">Lama & Álvaro</p>
+          <h1 className="text-3xl font-serif italic text-accent-terracotta">Admin Portal</h1>
+          <p className="text-xs label-uppercase tracking-[0.2em] opacity-70 mt-3">Lama & Álvaro</p>
         </div>
         
         <nav className="flex-1 p-4 space-y-2 mt-4">
@@ -54,8 +58,8 @@ export const AdminLayout = () => {
                 }`}
               >
                 {item.icon}
-                <span className="text-sm font-medium">{item.label}</span>
-                {isActive && <ChevronRight size={14} className="ml-auto" />}
+                <span className="text-base font-medium">{item.label}</span>
+                {isActive && <ChevronRight size={16} className="ml-auto" />}
               </Link>
             );
           })}
@@ -67,7 +71,7 @@ export const AdminLayout = () => {
             className="flex items-center gap-3 w-full px-4 py-3 text-secondary-text hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300"
           >
             <LogOut size={20} />
-            <span className="text-sm font-medium">Log Out</span>
+            <span className="text-base font-medium">Log Out</span>
           </button>
         </div>
       </aside>
@@ -76,9 +80,9 @@ export const AdminLayout = () => {
       <main className="flex-1 overflow-auto bg-[#FBF9F4]/50">
         <header className="h-16 bg-white border-b border-accent-terracotta/10 flex items-center justify-between px-8 shadow-sm">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-secondary-text">Pages</span>
-            <ChevronRight size={14} className="text-secondary-text/40" />
-            <span className="text-sm font-medium text-primary-text">
+            <span className="text-base text-secondary-text">Pages</span>
+            <ChevronRight size={16} className="text-secondary-text/40" />
+            <span className="text-base font-medium text-primary-text">
               {navItems.find(i => i.path === location.pathname)?.label || "Page"}
             </span>
           </div>
