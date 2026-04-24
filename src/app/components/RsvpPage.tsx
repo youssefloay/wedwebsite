@@ -214,6 +214,9 @@ export function RsvpPage() {
             <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80 mb-2">
               "We await your joy as we coordinate your stay in the quiet beauty of the Andalusian hills."
             </p>
+            <p className="text-sm uppercase tracking-[0.3em] font-bold text-accent-terracotta mt-4 animate-pulse">
+              Kindly RSVP by November 13th, 2026
+            </p>
             <div className="w-16 h-px bg-accent-terracotta mx-auto my-10" />
           </div>
 

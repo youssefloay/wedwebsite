@@ -220,9 +220,10 @@ export function AccommodationPage() {
         <div className="max-w-2xl mx-auto text-center reveal">
           <span className="label-uppercase mb-6 block font-bold">Secure your Sanctuary</span>
           <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-8 italic">Rest at the Castle</h2>
-          <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
+          <p className="text-xl text-secondary-text font-serif italic mb-8 opacity-80 leading-relaxed">
             "Room reservations are handled exclusively through our RSVP process to ensure every guest is perfectly accommodated."
           </p>
+          <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-accent-terracotta font-bold mb-10 animate-pulse">Kindly RSVP by November 13th, 2026</p>
           <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
              Select & RSVP
           </Link>

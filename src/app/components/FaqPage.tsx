@@ -46,6 +46,9 @@ export function FaqPage() {
           <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80">
             "Everything you need to know for our weekend in Monda, from travel logistics to dress code details."
           </p>
+          <p className="text-sm uppercase tracking-[0.3em] font-bold text-accent-terracotta mt-6 animate-pulse">
+            Kindly RSVP by November 13th, 2026
+          </p>
           <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta" />
         </div>
       </section>

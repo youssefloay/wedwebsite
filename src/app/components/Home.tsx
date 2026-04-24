@@ -197,6 +197,9 @@ export function Home() {
             >
               Begin your RSVP
             </Link>
+            <p className="mt-6 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-accent-terracotta font-bold opacity-80">
+              Please RSVP by Nov 13th
+            </p>
           </motion.div>
         </motion.div>
       </section>
@@ -426,8 +429,11 @@ export function Home() {
           <div className="text-center reveal">
             <span className="label-uppercase mb-4 block">RSVP</span>
             <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-8 italic">Join Our Story</h2>
-            <p className="text-lg text-secondary-text font-serif italic leading-relaxed mb-12">
-              Please kindly let us know if you can join us <br className="hidden md:block" /> by November 13th, 2026.
+            <p className="text-xl text-secondary-text font-serif italic leading-relaxed mb-12">
+              Please kindly let us know if you can join us <br className="hidden md:block" /> 
+              <span className="text-accent-terracotta font-bold not-italic block mt-4 uppercase tracking-[0.2em] text-sm">
+                by November 13th, 2026
+              </span>
             </p>
             <div className="flex justify-center pt-4">
               <Link to="/rsvp" className="btn-primary inline-flex">
