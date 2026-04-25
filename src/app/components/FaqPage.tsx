@@ -20,6 +20,10 @@ export function FaqPage() {
       a: "Yes, we kindly ask all guests to finalize their attendance and logistics (including accommodation and transfers) via the online RSVP form by November 13th, 2026." 
     },
     { 
+      q: "Are children invited?", 
+      a: "To allow all our guests a night of relaxation and celebration, we have chosen to make our special day an adults-only occasion. We hope you understand and can still join us to celebrate!" 
+    },
+    { 
       q: "Will you provide visa support letters?", 
       a: "Absolutely. For our Egyptian guests or anyone requiring a Schengen visa, you can request a formal invitation and hotel confirmation letter directly through the RSVP process. We recommend applying 3-4 months in advance." 
     },

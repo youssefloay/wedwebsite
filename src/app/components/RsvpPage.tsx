@@ -217,6 +217,9 @@ export function RsvpPage() {
             <p className="text-sm uppercase tracking-[0.3em] font-bold text-accent-terracotta mt-4 animate-pulse">
               Kindly RSVP by November 13th, 2026
             </p>
+            <p className="text-xs md:text-sm text-secondary-text font-serif italic mt-4 opacity-70 max-w-lg mx-auto leading-relaxed">
+              If you don't have the answers for logistics yet, it's okay to leave them empty or skip. We will reach out again in November to finalize everything if you've RSVPed yes!
+            </p>
             <div className="w-16 h-px bg-accent-terracotta mx-auto my-10" />
           </div>
 
@@ -231,6 +234,9 @@ export function RsvpPage() {
                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight md:leading-none mb-6">Join us in Monda?</p>
                 <p className="text-lg md:text-xl text-secondary-text font-serif italic mb-6 opacity-80 leading-relaxed">
                   Please confirm your attendance and indicate your accommodation and travel preferences so we can help coordinate your stay.
+                </p>
+                <p className="text-sm md:text-base text-accent-terracotta font-serif italic mb-6 opacity-90 leading-relaxed">
+                  Note: If you don't have the answers for logistics yet, it's okay to leave them empty or skip. We will reach out again in November to finalize everything if you've RSVPed yes!
                 </p>
                 <div className="w-12 h-px bg-accent-terracotta/40 mt-6" />
               </div>
@@ -331,8 +337,8 @@ export function RsvpPage() {
                               <div className="space-y-4 w-full">
                                 <label className="label-uppercase text-[12px] text-accent-terracotta font-bold tracking-[0.3em] block mb-2">Number of Guests</label>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">Please check with us first regarding additional guests or +1s.</p>
-                                <div className="grid grid-cols-4 gap-4 max-w-sm">
-                                  {['1', '2', '3', '4'].map(n => (
+                                <div className="grid grid-cols-2 gap-4 max-w-xs">
+                                  {['1', '2'].map(n => (
                                     <button
                                       key={n}
                                       type="button"
@@ -497,7 +503,7 @@ export function RsvpPage() {
                               <div className="text-left mb-12 space-y-6">
                                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight">How are you planning to reach Monda?</p>
                                 <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
-                                  We understand that these details are not yet final. A formal logistics form will be shared between December and January to coordinate your definitive travel arrangements.
+                                  We understand that these details are not yet final. A formal logistics form will be shared in November to coordinate your definitive travel arrangements.
                                 </p>
                                 <div className="w-12 h-px bg-accent-terracotta mt-6" />
                               </div>
@@ -771,7 +777,7 @@ export function RsvpPage() {
                 <>
                   We have received your response, {formData.firstName}. We cannot wait to celebrate this journey with you in the hills of Monda.<br/><br/>
                   <span className="text-lg opacity-80">
-                    As you are joining us, please keep an eye on your inbox in November or December. We will send a follow-up form to finalize your arrival details and coordinate any last-minute arrangements.
+                    As you are joining us, please keep an eye on your inbox in November. We will send a follow-up form to finalize your arrival details and coordinate any last-minute arrangements.
                   </span>
                 </>
               ) : (
