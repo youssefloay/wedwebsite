@@ -7,7 +7,8 @@ import {
   orderBy, 
   Timestamp,
   deleteDoc,
-  doc
+  doc,
+  updateDoc
 } from "firebase/firestore";
 
 export interface RsvpData {
@@ -43,14 +44,33 @@ export const saveRsvp = async (data: Omit<RsvpData, "submittedAt">) => {
 export const getAllRsvps = async (): Promise<RsvpData[]> => {
   const q = query(collection(db, RSVP_COLLECTION), orderBy("submittedAt", "desc"));
   const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map(doc => ({
+  const data = querySnapshot.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
   } as RsvpData));
+
+  // Patch for Nadine Seleem as requested by admin
+  return data.map(rsvp => {
+    if (rsvp.firstName?.trim().toLowerCase() === "nadine" && rsvp.lastName?.trim().toLowerCase() === "seleem") {
+      if (!rsvp.stayDuration?.includes("Saturday 17th")) {
+        rsvp.stayDuration = rsvp.stayDuration 
+          ? (rsvp.stayDuration.includes("Saturday 17th") ? rsvp.stayDuration : `${rsvp.stayDuration}, Saturday 17th`)
+          : "Saturday 17th";
+      }
+    }
+    return rsvp;
+  });
 };
 
 export const deleteRsvp = async (id: string) => {
   await deleteDoc(doc(db, RSVP_COLLECTION, id));
+};
+
+export const updateRsvp = async (id: string, data: Partial<RsvpData>) => {
+  const rsvpRef = doc(db, RSVP_COLLECTION, id);
+  // Remove id from data to avoid updating the id field itself if present
+  const { id: _, ...updateData } = data as any;
+  await updateDoc(rsvpRef, updateData);
 };
 
 /**

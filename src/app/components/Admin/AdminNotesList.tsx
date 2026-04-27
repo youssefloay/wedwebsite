@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { getAllRsvps, RsvpData } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
-import { MessageSquare, Search, Sparkles, FileSpreadsheet, Download } from "lucide-react";
-import { convertToCSV, downloadExcel } from "../../../lib/rsvpService";
+import { MessageSquare, Search, Sparkles, FileSpreadsheet, Download, Pencil, Trash2 } from "lucide-react";
+import { convertToCSV, downloadExcel, deleteRsvp } from "../../../lib/rsvpService";
+import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
 
 export const AdminNotesList = () => {
   const [rsvps, setRsvps] = useState<RsvpData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -26,6 +28,23 @@ export const AdminNotesList = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this RSVP?")) {
+      try {
+        await deleteRsvp(id);
+        toast.success("RSVP deleted successfully");
+        fetchData();
+      } catch (err) {
+        toast.error("Failed to delete RSVP");
+      }
+    }
+  };
+
+  const handleEditSuccess = () => {
+    setEditingGuest(null);
+    fetchData();
   };
 
   const filteredRsvps = rsvps.filter(r => 

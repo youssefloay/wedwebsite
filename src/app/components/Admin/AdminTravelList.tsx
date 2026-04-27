@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { getAllRsvps, RsvpData } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
-import { PlaneTakeoff, Search, HelpCircle, FileSpreadsheet, Download } from "lucide-react";
-import { convertToCSV, downloadExcel } from "../../../lib/rsvpService";
+import { PlaneTakeoff, Search, HelpCircle, FileSpreadsheet, Download, Pencil, Trash2 } from "lucide-react";
+import { convertToCSV, downloadExcel, deleteRsvp } from "../../../lib/rsvpService";
+import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
 
 export const AdminTravelList = () => {
   const [rsvps, setRsvps] = useState<RsvpData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -29,6 +31,23 @@ export const AdminTravelList = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this RSVP?")) {
+      try {
+        await deleteRsvp(id);
+        toast.success("RSVP deleted successfully");
+        fetchData();
+      } catch (err) {
+        toast.error("Failed to delete RSVP");
+      }
+    }
+  };
+
+  const handleEditSuccess = () => {
+    setEditingGuest(null);
+    fetchData();
   };
 
   const filteredRsvps = rsvps.filter(r => 
@@ -136,15 +155,16 @@ export const AdminTravelList = () => {
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Submitted</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Guest</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Transfer Needed</th>
-                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Renting Car</th>
-                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Visa Assistance</th>
-              </tr>
-            </thead>
+                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Renting Car</th>
+                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Visa Assistance</th>
+                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Actions</th>
+               </tr>
+             </thead>
           <tbody>
             {isLoading ? (
-               <tr><td colSpan={5} className="p-20 text-center animate-pulse">Loading travel data...</td></tr>
+               <tr><td colSpan={6} className="p-20 text-center animate-pulse">Loading travel data...</td></tr>
             ) : filteredRsvps.length === 0 ? (
-               <tr><td colSpan={5} className="p-20 text-center font-serif italic text-xl opacity-50">No travel requirements found.</td></tr>
+               <tr><td colSpan={6} className="p-20 text-center font-serif italic text-xl opacity-50">No travel requirements found.</td></tr>
             ) : (
                 filteredRsvps.map(rsvp => (
                   <tr key={rsvp.id} className="border-b border-accent-terracotta/5 hover:bg-black/[0.02]">
@@ -170,18 +190,44 @@ export const AdminTravelList = () => {
                        {rsvp.carRental === 'Yes' ? 'Yes, renting' : 'No'}
                      </span>
                    </td>
-                   <td className="p-6">
-                     <span className={`text-sm font-serif italic px-4 py-1.5 rounded-full ${rsvp.visaSupport !== 'No' && rsvp.visaSupport ? 'bg-red-50 text-red-600' : 'text-secondary-text opacity-30 shadow-none'}`}>
-                       {rsvp.visaSupport !== 'No' && rsvp.visaSupport ? 'Assistance Needed' : 'Not Required'}
-                     </span>
-                   </td>
-                 </tr>
+                    <td className="p-6">
+                      <span className={`text-sm font-serif italic px-4 py-1.5 rounded-full ${rsvp.visaSupport !== 'No' && rsvp.visaSupport ? 'bg-red-50 text-red-600' : 'text-secondary-text opacity-30 shadow-none'}`}>
+                        {rsvp.visaSupport !== 'No' && rsvp.visaSupport ? 'Assistance Needed' : 'Not Required'}
+                      </span>
+                    </td>
+                    <td className="p-6">
+                      <div className="flex items-center gap-3">
+                        <button 
+                          onClick={() => setEditingGuest(rsvp)}
+                          className="p-2 text-secondary-text hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all"
+                          title="Edit Response"
+                        >
+                          <Pencil size={18} />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(rsvp.id!)}
+                          className="p-2 text-secondary-text hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                          title="Delete Response"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
                ))
             )}
           </tbody>
         </table>
         </div>
       </div>
+
+      {editingGuest && (
+        <EditRsvpModal 
+          rsvp={editingGuest} 
+          onClose={() => setEditingGuest(null)} 
+          onSuccess={handleEditSuccess} 
+        />
+      )}
     </div>
   );
 };

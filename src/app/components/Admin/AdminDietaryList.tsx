@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { getAllRsvps, RsvpData } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
-import { Utensils, Search, AlertCircle, FileSpreadsheet, Download } from "lucide-react";
-import { convertToCSV, downloadExcel } from "../../../lib/rsvpService";
+import { Utensils, Search, AlertCircle, FileSpreadsheet, Download, Pencil, Trash2 } from "lucide-react";
+import { convertToCSV, downloadExcel, deleteRsvp } from "../../../lib/rsvpService";
+import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
 
 export const AdminDietaryList = () => {
   const [rsvps, setRsvps] = useState<RsvpData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -26,6 +28,23 @@ export const AdminDietaryList = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this RSVP?")) {
+      try {
+        await deleteRsvp(id);
+        toast.success("RSVP deleted successfully");
+        fetchData();
+      } catch (err) {
+        toast.error("Failed to delete RSVP");
+      }
+    }
+  };
+
+  const handleEditSuccess = () => {
+    setEditingGuest(null);
+    fetchData();
   };
 
   const filteredRsvps = rsvps.filter(r => 
@@ -110,6 +129,14 @@ export const AdminDietaryList = () => {
         </div>
       </div>
 
+      {editingGuest && (
+        <EditRsvpModal 
+          rsvp={editingGuest} 
+          onClose={() => setEditingGuest(null)} 
+          onSuccess={handleEditSuccess} 
+        />
+      )}
+
       <div className="bg-white p-4 rounded-3xl border border-accent-terracotta/10 shadow-sm flex items-center">
         <Search className="text-accent-terracotta/30 mx-4" size={18} />
         <input 
@@ -129,13 +156,30 @@ export const AdminDietaryList = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredRsvps.map(rsvp => (
-               <div key={rsvp.id} className="p-6 rounded-3xl border border-accent-terracotta/10 bg-[#FBF9F4]/50 hover:bg-[#FBF9F4] transition-colors relative">
+               <div key={rsvp.id} className="group p-6 rounded-3xl border border-accent-terracotta/10 bg-[#FBF9F4]/50 hover:bg-[#FBF9F4] transition-colors relative">
                  <div className="flex justify-between items-start mb-4">
                     <div>
                       <p className="font-serif italic text-2xl text-primary-text">{rsvp.firstName} {rsvp.lastName}</p>
                       <p className="text-sm label-uppercase tracking-widest text-accent-terracotta mt-2 font-bold">
                         {rsvp.guests > 1 ? `Party of ${rsvp.guests}` : 'Single Guest'} • {rsvp.submittedAt instanceof Timestamp ? rsvp.submittedAt.toDate().toLocaleString([], { dateStyle: 'short', timeStyle: 'short' }) : new Date(rsvp.submittedAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
                       </p>
+                    </div>
+                    <div className="absolute top-6 right-6 flex items-center gap-2">
+                      <button 
+                        onClick={() => setEditingGuest(rsvp)}
+                        className="p-2 text-secondary-text hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all opacity-0 group-hover:opacity-100"
+                        title="Edit Response"
+                      >
+                        <Pencil size={18} />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(rsvp.id!)}
+                        className="p-2 text-secondary-text hover:text-red-500 hover:bg-red-50 rounded-xl transition-all opacity-0 group-hover:opacity-100"
+                        title="Delete Response"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                      <div className="w-2 h-2 rounded-full bg-orange-400 group-hover:hidden" />
                     </div>
                  </div>
                   <div className="p-6 bg-white rounded-3xl border border-orange-100 text-orange-900 shadow-sm">

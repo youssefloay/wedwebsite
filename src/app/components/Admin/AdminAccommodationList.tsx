@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getAllRsvps, RsvpData } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
-import { Bed, Search, CheckCircle2, FileSpreadsheet, Download } from "lucide-react";
-import { convertToCSV, downloadExcel } from "../../../lib/rsvpService";
+import { Bed, Search, CheckCircle2, FileSpreadsheet, Download, Pencil, Trash2 } from "lucide-react";
+import { convertToCSV, downloadExcel, deleteRsvp } from "../../../lib/rsvpService";
+import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
 
 const ROOM_PRICES: Record<string, string> = {
@@ -21,6 +22,7 @@ export const AdminAccommodationList = () => {
   const [rsvps, setRsvps] = useState<RsvpData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -38,6 +40,23 @@ export const AdminAccommodationList = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this RSVP?")) {
+      try {
+        await deleteRsvp(id);
+        toast.success("RSVP deleted successfully");
+        fetchData();
+      } catch (err) {
+        toast.error("Failed to delete RSVP");
+      }
+    }
+  };
+
+  const handleEditSuccess = () => {
+    setEditingGuest(null);
+    fetchData();
   };
 
   const filteredRsvps = rsvps.filter(r => 
@@ -147,13 +166,14 @@ export const AdminAccommodationList = () => {
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Room Preference</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Stay Dates</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Party Size</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Actions</th>
               </tr>
             </thead>
           <tbody>
             {isLoading ? (
-               <tr><td colSpan={5} className="p-20 text-center animate-pulse">Loading accommodation data...</td></tr>
+               <tr><td colSpan={6} className="p-20 text-center animate-pulse">Loading accommodation data...</td></tr>
             ) : filteredRsvps.length === 0 ? (
-               <tr><td colSpan={5} className="p-20 text-center font-serif italic text-xl opacity-50">No room requests found.</td></tr>
+               <tr><td colSpan={6} className="p-20 text-center font-serif italic text-xl opacity-50">No room requests found.</td></tr>
             ) : (
                 filteredRsvps.map(rsvp => (
                   <tr key={rsvp.id} className="border-b border-accent-terracotta/5 hover:bg-black/[0.02]">
@@ -176,12 +196,30 @@ export const AdminAccommodationList = () => {
                    </td>
                    <td className="p-6">
                       <p className="text-sm font-serif italic text-secondary-text max-w-[200px] leading-relaxed">
-                        {rsvp.stayDuration.includes("Extra Night") ? rsvp.manualStayDates : rsvp.stayDuration}
+                        {rsvp.stayDuration.split(', ').map(d => d === 'Extra Night' ? (rsvp.manualStayDates ? `Extra: ${rsvp.manualStayDates}` : d) : d).join(', ')}
                       </p>
                    </td>
                    <td className="p-6 font-serif italic text-primary-text text-lg">
                      {rsvp.guests}
                    </td>
+                   <td className="p-6">
+                      <div className="flex items-center gap-3">
+                        <button 
+                          onClick={() => setEditingGuest(rsvp)}
+                          className="p-2 text-secondary-text hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all"
+                          title="Edit Response"
+                        >
+                          <Pencil size={18} />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(rsvp.id!)}
+                          className="p-2 text-secondary-text hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                          title="Delete Response"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    </td>
                  </tr>
                ))
             )}
@@ -189,6 +227,14 @@ export const AdminAccommodationList = () => {
         </table>
         </div>
       </div>
+
+      {editingGuest && (
+        <EditRsvpModal 
+          rsvp={editingGuest} 
+          onClose={() => setEditingGuest(null)} 
+          onSuccess={handleEditSuccess} 
+        />
+      )}
     </div>
   );
 };

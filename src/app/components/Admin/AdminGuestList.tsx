@@ -4,15 +4,15 @@ import { Timestamp } from "firebase/firestore";
 import { 
   Download, 
   Search, 
-  Trash2, 
-  Eye, 
-  Filter,
-  MoreVertical,
-  ChevronLeft,
-  ChevronRight,
-  FileSpreadsheet,
-  X
+  X,
+  Pencil,
+  Save,
+  Check,
+  Eye,
+  Trash2
 } from "lucide-react";
+import { updateRsvp } from "../../../lib/rsvpService";
+import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
 
 export const AdminGuestList = () => {
@@ -22,6 +22,8 @@ export const AdminGuestList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
   const [selectedGuest, setSelectedGuest] = useState<RsvpData | null>(null);
+  const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -66,6 +68,11 @@ export const AdminGuestList = () => {
         toast.error("Failed to delete RSVP");
       }
     }
+  };
+
+  const handleEditSuccess = () => {
+    setEditingGuest(null);
+    fetchData();
   };
 
   const handleExportCSV = () => {
@@ -226,12 +233,21 @@ export const AdminGuestList = () => {
                         <button 
                           onClick={() => setSelectedGuest(rsvp)}
                           className="p-2 text-secondary-text hover:text-accent-terracotta hover:bg-accent-terracotta/10 rounded-xl transition-all"
+                          title="View Details"
                         >
                           <Eye size={18} />
                         </button>
                         <button 
+                          onClick={() => setEditingGuest(rsvp)}
+                          className="p-2 text-secondary-text hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all"
+                          title="Edit Response"
+                        >
+                          <Pencil size={18} />
+                        </button>
+                        <button 
                           onClick={() => handleDelete(rsvp.id!)}
                           className="p-2 text-secondary-text hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                          title="Delete Response"
                         >
                           <Trash2 size={18} />
                         </button>
@@ -275,6 +291,17 @@ export const AdminGuestList = () => {
             </div>
             
             <div className="space-y-8">
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Attendance</span>
+                  <p className="font-serif italic text-xl text-primary-text mt-2">{selectedGuest.attendance}</p>
+                </div>
+                <div>
+                  <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Party Size</span>
+                  <p className="font-serif italic text-xl text-primary-text mt-2">{selectedGuest.guests} Guests</p>
+                </div>
+              </div>
+
               <div>
                 <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Personal Note for Lama & Álvaro</span>
                 <p className="font-serif italic text-xl text-primary-text bg-white border border-accent-terracotta/10 p-8 rounded-3xl mt-4 leading-relaxed">
@@ -282,6 +309,40 @@ export const AdminGuestList = () => {
                 </p>
               </div>
               
+              {selectedGuest.attendance === "Joyfully accept" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Stay Dates</span>
+                    <p className="font-serif italic text-lg text-primary-text bg-white border border-accent-terracotta/10 p-6 rounded-3xl mt-4">
+                      {selectedGuest.stayDuration?.split(', ').map(d => d === 'Extra Night' ? (selectedGuest.manualStayDates ? `Extra: ${selectedGuest.manualStayDates}` : d) : d).join(', ') || "Not specified"}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Journey</span>
+                    <p className="font-serif italic text-lg text-primary-text bg-white border border-accent-terracotta/10 p-6 rounded-3xl mt-4">
+                      {selectedGuest.carRental === "Yes" ? "Renting a Car" : selectedGuest.transfer === "Yes" ? "Assisted Transfer" : "Independent Arrival"}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {selectedGuest.attendance === "Joyfully accept" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Accommodation</span>
+                    <p className="font-serif italic text-lg text-primary-text bg-white border border-accent-terracotta/10 p-6 rounded-3xl mt-4">
+                      {selectedGuest.accommodation === "Yes, please" ? selectedGuest.roomPreference : "Independent"}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Dietary</span>
+                    <p className="font-serif italic text-lg text-primary-text bg-white border border-accent-terracotta/10 p-6 rounded-3xl mt-4">
+                      {selectedGuest.dietary || "None"}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {selectedGuest.attendance === "Joyfully accept" && (
                 <div>
                   <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Music Recommendations</span>
@@ -291,8 +352,30 @@ export const AdminGuestList = () => {
                 </div>
               )}
             </div>
+            
+            <div className="mt-10 flex justify-end">
+              <button 
+                onClick={() => {
+                  setSelectedGuest(null);
+                  setEditingGuest(selectedGuest);
+                }}
+                className="flex items-center gap-2 bg-accent-terracotta text-white px-8 py-3 rounded-2xl hover:bg-accent-terracotta/90 transition-all font-serif italic text-lg"
+              >
+                <Pencil size={18} />
+                Edit This Response
+              </button>
+            </div>
           </div>
         </div>
+      )}
+
+      {/* EDIT MODAL */}
+      {editingGuest && (
+        <EditRsvpModal 
+          rsvp={editingGuest} 
+          onClose={() => setEditingGuest(null)} 
+          onSuccess={handleEditSuccess} 
+        />
       )}
     </div>
   );
