@@ -11,7 +11,8 @@ import {
   Bed,
   Car,
   Music,
-  ClipboardList
+  ClipboardList,
+  Map
 } from "lucide-react";
 import { auth } from "../../../lib/firebase";
 import { signOut } from "firebase/auth";
@@ -30,6 +31,7 @@ export const AdminLayout = () => {
     { label: "Guest List", path: "/admin/guests", icon: <Users size={20} /> },
     { label: "Dietaries", path: "/admin/dietaries", icon: <Utensils size={20} /> },
     { label: "Accommodation", path: "/admin/accommodation", icon: <Bed size={20} /> },
+    { label: "Room Map", path: "/admin/rooms", icon: <Map size={20} /> },
     { label: "Travel & Visas", path: "/admin/travel", icon: <ClipboardList size={20} /> },
     { label: "Music", path: "/admin/music", icon: <Music size={20} /> },
     { label: "Notes", path: "/admin/notes", icon: <MessageSquare size={20} /> },

@@ -71,6 +71,7 @@ export const AdminAccommodationList = () => {
         Guest: `${r.firstName} ${r.lastName}`,
         Email: r.email,
         RoomPreference: formatRoom(r.roomPreference),
+        AssignedRoom: r.assignedRoom || "Unassigned",
         StayDuration: r.stayDuration,
         ManualDates: r.manualStayDates,
         PartySize: r.guests
@@ -97,6 +98,7 @@ export const AdminAccommodationList = () => {
         Guest: `${r.firstName} ${r.lastName}`,
         Email: r.email,
         RoomPreference: formatRoom(r.roomPreference),
+        AssignedRoom: r.assignedRoom || "Unassigned",
         StayDuration: r.stayDuration,
         ManualDates: r.manualStayDates,
         PartySize: r.guests
@@ -164,6 +166,7 @@ export const AdminAccommodationList = () => {
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Submitted</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Guest</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Room Preference</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Assigned Room</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Stay Dates</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Party Size</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Actions</th>
@@ -192,6 +195,11 @@ export const AdminAccommodationList = () => {
                    <td className="p-6">
                      <span className="bg-[#FBF9F4] px-4 py-2 border border-accent-terracotta/20 rounded-xl font-serif italic text-primary-text">
                        {formatRoom(rsvp.roomPreference)}
+                     </span>
+                   </td>
+                   <td className="p-6">
+                     <span className={`px-4 py-2 rounded-xl font-serif italic text-sm border ${rsvp.assignedRoom ? 'bg-green-50 text-green-700 border-green-200' : 'bg-black/5 text-secondary-text border-black/10'}`}>
+                       {rsvp.assignedRoom || "Unassigned"}
                      </span>
                    </td>
                    <td className="p-6">

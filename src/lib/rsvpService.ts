@@ -23,6 +23,7 @@ export interface RsvpData {
   roomPreference: string;
   stayDuration: string; // Comma separated: "Friday 16th, Saturday 17th, Extra Night"
   manualStayDates: string;
+  assignedRoom?: string;
   transfer: string;
   carRental: string;
   visaSupport: string;
@@ -105,6 +106,7 @@ export const mapToExportFormat = (rsvp: RsvpData) => {
     guest_4_last_name: isAttending && rsvp.guests >= 4 ? (guest_4.lastName || "") : "",
     accommodation_choice: isAttending ? (isStayingAtCastle ? "Castillo de Monda" : "Independent") : "",
     room_type_preference: isAttending && isStayingAtCastle ? rsvp.roomPreference : "",
+    assigned_room: isAttending && isStayingAtCastle ? (rsvp.assignedRoom || "") : "",
     stay_friday_16: isAttending && isStayingAtCastle ? (stay_friday_16 ? "Yes" : "No") : "",
     stay_saturday_17: isAttending && isStayingAtCastle ? (stay_saturday_17 ? "Yes" : "No") : "",
     stay_extra_night: isAttending && isStayingAtCastle ? (stay_extra_night ? "Yes" : "No") : "",
