@@ -100,10 +100,56 @@ export const EditRsvpModal = ({ rsvp, onClose, onSuccess }: EditRsvpModalProps) 
                 max="10"
                 className="w-full bg-black/5 border-none p-4 rounded-2xl outline-none focus:ring-1 ring-accent-terracotta/20 font-serif italic text-lg"
                 value={editingGuest.guests}
-                onChange={(e) => handleEditChange('guests', parseInt(e.target.value))}
+                onChange={(e) => {
+                  const numGuests = parseInt(e.target.value) || 1;
+                  const newGuestNames = Array(Math.max(0, numGuests - 1)).fill(null).map((_, i) =>
+                    (editingGuest.guestNames && editingGuest.guestNames[i]) || { firstName: '', lastName: '' }
+                  );
+                  setEditingGuest(prev => ({
+                    ...prev,
+                    guests: numGuests,
+                    guestNames: newGuestNames
+                  }));
+                }}
               />
             </div>
           </div>
+
+          {editingGuest.guests > 1 && (
+            <div className="space-y-4 border-t border-black/5 pt-10">
+              <h4 className="text-xl font-serif italic text-primary-text mb-4">Additional Guests</h4>
+              {(editingGuest.guestNames || []).map((guest, idx) => (
+                <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-black/5 p-6 rounded-2xl">
+                  <div className="space-y-2">
+                    <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Guest {idx + 2} First Name</label>
+                    <input 
+                      type="text"
+                      className="w-full bg-transparent border-b border-black/10 py-2 outline-none focus:border-accent-terracotta font-serif italic text-lg"
+                      value={guest.firstName}
+                      onChange={(e) => {
+                        const newGuestNames = [...(editingGuest.guestNames || [])];
+                        newGuestNames[idx] = { ...newGuestNames[idx], firstName: e.target.value };
+                        handleEditChange('guestNames', newGuestNames);
+                      }}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Guest {idx + 2} Last Name</label>
+                    <input 
+                      type="text"
+                      className="w-full bg-transparent border-b border-black/10 py-2 outline-none focus:border-accent-terracotta font-serif italic text-lg"
+                      value={guest.lastName}
+                      onChange={(e) => {
+                        const newGuestNames = [...(editingGuest.guestNames || [])];
+                        newGuestNames[idx] = { ...newGuestNames[idx], lastName: e.target.value };
+                        handleEditChange('guestNames', newGuestNames);
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
           <div className="space-y-8 border-t border-black/5 pt-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
