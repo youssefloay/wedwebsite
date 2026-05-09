@@ -4,50 +4,50 @@ import { X, Bed, Users, CheckCircle2 } from "lucide-react";
 
 export const HOTEL_ROOMS = [
   { level: "Level 1 & 2 (Level 2: Stairs Only)", rooms: [
-    { id: "101 (Superior, 3 pax, King + Sofa-bed)", number: "101", type: "Superior", pax: 3, bed: "King + Sofa-bed", features: "" },
-    { id: "201 (Standard, 2 pax, King)", number: "201", type: "Standard", pax: 2, bed: "King", features: "" },
+    { id: "101 (Superior Comfy, 3 pax, King + Sofa-bed)", number: "101", type: "Superior Comfy", pax: 3, bed: "King + Sofa-bed", features: "" },
+    { id: "201 (Comfy, 2 pax, King)", number: "201", type: "Comfy", pax: 2, bed: "King", features: "" },
     { id: "202 (Castillo Junior, 2 pax, King, Terrace)", number: "202", type: "Castillo Junior", pax: 2, bed: "King", features: "Terrace" }
   ]},
   { level: "Level 3 (Elevator Access)", rooms: [
-    { id: "301 (Standard, 2 pax, King)", number: "301", type: "Standard", pax: 2, bed: "King", features: "" },
-    { id: "302 (Standard, 2 pax, King)", number: "302", type: "Standard", pax: 2, bed: "King", features: "" },
-    { id: "303 (Standard, 2 pax, King)", number: "303", type: "Standard", pax: 2, bed: "King", features: "" }
+    { id: "301 (Comfy, 2 pax, King)", number: "301", type: "Comfy", pax: 2, bed: "King", features: "" },
+    { id: "302 (Comfy, 2 pax, King)", number: "302", type: "Comfy", pax: 2, bed: "King", features: "" },
+    { id: "303 (Comfy, 2 pax, King)", number: "303", type: "Comfy", pax: 2, bed: "King", features: "" }
   ]},
   { level: "Level 4 (Elevator Access)", rooms: [
-    { id: "400 (Superior, 2 pax, Twin)", number: "400", type: "Superior", pax: 2, bed: "Twin", features: "" },
-    { id: "400A (Family Room / Superior, 2 pax)", number: "400A", type: "Superior", pax: 2, bed: "Family", features: "" },
-    { id: "401 (Superior, 2 pax, Twin)", number: "401", type: "Superior", pax: 2, bed: "Twin", features: "" },
-    { id: "402 (Superior, 2 pax, Twin)", number: "402", type: "Superior", pax: 2, bed: "Twin", features: "" },
-    { id: "403 (Superior, 2 pax, Twin, Balcony)", number: "403", type: "Superior", pax: 2, bed: "Twin", features: "Balcony" },
-    { id: "404 (Superior, 2 pax, Twin, Balcony)", number: "404", type: "Superior", pax: 2, bed: "Twin", features: "Balcony" },
-    { id: "405 (Superior, 2 pax, Twin, Balcony)", number: "405", type: "Superior", pax: 2, bed: "Twin", features: "Balcony" },
-    { id: "406 (Superior, 2 pax, Twin)", number: "406", type: "Superior", pax: 2, bed: "Twin", features: "" },
-    { id: "407 (Superior, 2 pax, Twin, Balcony)", number: "407", type: "Superior", pax: 2, bed: "Twin", features: "Balcony" },
-    { id: "408 (Superior, 2 pax, Twin)", number: "408", type: "Superior", pax: 2, bed: "Twin", features: "" },
-    { id: "409 (Superior, 3 pax, Twin + Sofa-bed)", number: "409", type: "Superior", pax: 3, bed: "Twin + Sofa-bed", features: "" },
-    { id: "410 (Superior, 2 pax, Twin)", number: "410", type: "Superior", pax: 2, bed: "Twin", features: "" }
+    { id: "400 (Superior Comfy, 2 pax, Twin)", number: "400", type: "Superior Comfy", pax: 2, bed: "Twin", features: "" },
+    { id: "400A (Family Room / Superior Comfy, 2 pax)", number: "400A", type: "Superior Comfy", pax: 2, bed: "Family", features: "" },
+    { id: "401 (Superior Comfy, 2 pax, Twin)", number: "401", type: "Superior Comfy", pax: 2, bed: "Twin", features: "" },
+    { id: "402 (Superior Comfy, 2 pax, Twin)", number: "402", type: "Superior Comfy", pax: 2, bed: "Twin", features: "" },
+    { id: "403 (Superior Comfy, 2 pax, Twin, Balcony)", number: "403", type: "Superior Comfy", pax: 2, bed: "Twin", features: "Balcony" },
+    { id: "404 (Superior Comfy, 2 pax, Twin, Balcony)", number: "404", type: "Superior Comfy", pax: 2, bed: "Twin", features: "Balcony" },
+    { id: "405 (Superior Comfy, 2 pax, Twin, Balcony)", number: "405", type: "Superior Comfy", pax: 2, bed: "Twin", features: "Balcony" },
+    { id: "406 (Superior Comfy, 2 pax, Twin)", number: "406", type: "Superior Comfy", pax: 2, bed: "Twin", features: "" },
+    { id: "407 (Superior Comfy, 2 pax, Twin, Balcony)", number: "407", type: "Superior Comfy", pax: 2, bed: "Twin", features: "Balcony" },
+    { id: "408 (Superior Comfy, 2 pax, Twin)", number: "408", type: "Superior Comfy", pax: 2, bed: "Twin", features: "" },
+    { id: "409 (Superior Comfy, 3 pax, Twin + Sofa-bed)", number: "409", type: "Superior Comfy", pax: 3, bed: "Twin + Sofa-bed", features: "" },
+    { id: "410 (Superior Comfy, 2 pax, Twin)", number: "410", type: "Superior Comfy", pax: 2, bed: "Twin", features: "" }
   ]},
   { level: "Level 5 (Elevator Access)", rooms: [
-    { id: "501 (Standard, 2 pax)", number: "501", type: "Standard", pax: 2, bed: "", features: "" },
-    { id: "502 (Standard, 2 pax)", number: "502", type: "Standard", pax: 2, bed: "", features: "" },
-    { id: "505 (Family, 4 pax)", number: "505", type: "Family", pax: 4, bed: "", features: "" },
-    { id: "507 (Superior, 2 pax)", number: "507", type: "Superior", pax: 2, bed: "", features: "" },
-    { id: "508 (Standard, 2 pax, Twin)", number: "508", type: "Standard", pax: 2, bed: "Twin", features: "" }
+    { id: "501 (Comfy, 2 pax)", number: "501", type: "Comfy", pax: 2, bed: "", features: "" },
+    { id: "502 (Comfy, 2 pax)", number: "502", type: "Comfy", pax: 2, bed: "", features: "" },
+    { id: "505 (Family Room, 4 pax)", number: "505", type: "Family Room", pax: 4, bed: "", features: "" },
+    { id: "507 (Superior Comfy, 2 pax)", number: "507", type: "Superior Comfy", pax: 2, bed: "", features: "" },
+    { id: "508 (Comfy, 2 pax, Twin)", number: "508", type: "Comfy", pax: 2, bed: "Twin", features: "" }
   ]},
   { level: "Level 6 (Elevator Access)", rooms: [
-    { id: "503 (Standard, 2 pax)", number: "503", type: "Standard", pax: 2, bed: "", features: "" },
+    { id: "503 (Comfy, 2 pax)", number: "503", type: "Comfy", pax: 2, bed: "", features: "" },
     { id: "506 (Castillo Junior, 2 pax)", number: "506", type: "Castillo Junior", pax: 2, bed: "", features: "" },
-    { id: "601 (Standard, 2 pax)", number: "601", type: "Standard", pax: 2, bed: "", features: "" },
-    { id: "602 (Standard, 2 pax)", number: "602", type: "Standard", pax: 2, bed: "", features: "" },
+    { id: "601 (Comfy, 2 pax)", number: "601", type: "Comfy", pax: 2, bed: "", features: "" },
+    { id: "602 (Comfy, 2 pax)", number: "602", type: "Comfy", pax: 2, bed: "", features: "" },
     { id: "603 (Castillo Junior, 2 pax)", number: "603", type: "Castillo Junior", pax: 2, bed: "", features: "" },
     { id: "703 (Castillo Junior, 2 pax)", number: "703", type: "Castillo Junior", pax: 2, bed: "", features: "" }
   ]},
   { level: "Level 7 (Stairs Only)", rooms: [
     { id: "700 (Castillo Junior, 2 pax)", number: "700", type: "Castillo Junior", pax: 2, bed: "", features: "" },
-    { id: "701 (Superior, 2 pax, Twin)", number: "701", type: "Superior", pax: 2, bed: "Twin", features: "" },
-    { id: "702 (Superior, 2 pax, Twin)", number: "702", type: "Superior", pax: 2, bed: "Twin", features: "" },
-    { id: "704 (Standard, 2 pax)", number: "704", type: "Standard", pax: 2, bed: "", features: "" },
-    { id: "705 (Superior, 2 pax)", number: "705", type: "Superior", pax: 2, bed: "", features: "" },
+    { id: "701 (Superior Comfy, 2 pax, Twin)", number: "701", type: "Superior Comfy", pax: 2, bed: "Twin", features: "" },
+    { id: "702 (Superior Comfy, 2 pax, Twin)", number: "702", type: "Superior Comfy", pax: 2, bed: "Twin", features: "" },
+    { id: "704 (Comfy, 2 pax)", number: "704", type: "Comfy", pax: 2, bed: "", features: "" },
+    { id: "705 (Superior Comfy, 2 pax)", number: "705", type: "Superior Comfy", pax: 2, bed: "", features: "" },
     { id: "706 (Castillo Junior, 2 pax)", number: "706", type: "Castillo Junior", pax: 2, bed: "", features: "" }
   ]}
 ];

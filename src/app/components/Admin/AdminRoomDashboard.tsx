@@ -102,12 +102,21 @@ export const AdminRoomDashboard = () => {
   const unplacedRooms = ALL_ROOMS.filter(r => !coords[r.id]);
 
   // For the assignment dropdown
-  const unassignedGuests = rsvps.filter(r => 
-    r.attendance === "Joyfully accept" && 
-    r.accommodation === "Yes, please" && 
-    !r.assignedRoom &&
-    (`${r.firstName} ${r.lastName}`.toLowerCase().includes(guestSearch.toLowerCase()))
-  );
+  const unassignedGuests = rsvps
+    .filter(r => !r.assignedRoom && (`${r.firstName} ${r.lastName}`.toLowerCase().includes(guestSearch.toLowerCase())))
+    .sort((a, b) => {
+      const aRequested = a.attendance === "Joyfully accept" && a.accommodation === "Yes, please";
+      const bRequested = b.attendance === "Joyfully accept" && b.accommodation === "Yes, please";
+      if (aRequested && !bRequested) return -1;
+      if (!aRequested && bRequested) return 1;
+      
+      const aPending = !a.attendance || a.attendance === "Pending" || a.attendance === "";
+      const bPending = !b.attendance || b.attendance === "Pending" || b.attendance === "";
+      if (aPending && !bPending) return -1;
+      if (!aPending && bPending) return 1;
+
+      return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
+    });
 
   return (
     <div className="bg-white rounded-[40px] border border-accent-terracotta/10 shadow-sm flex overflow-hidden h-[85vh] relative animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -385,11 +394,20 @@ export const AdminRoomDashboard = () => {
                             unassignedGuests.map(guest => (
                               <div key={guest.id} className="border border-black/5 p-4 rounded-2xl flex items-center justify-between hover:border-accent-terracotta/20 transition-all bg-white shadow-sm">
                                 <div>
-                                  <p className="font-serif italic font-bold text-base text-primary-text">{guest.firstName} {guest.lastName}</p>
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <p className="font-serif italic font-bold text-base text-primary-text">{guest.firstName} {guest.lastName}</p>
+                                    {guest.attendance !== "Joyfully accept" ? (
+                                      <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-sm uppercase tracking-widest font-bold">No RSVP</span>
+                                    ) : guest.accommodation !== "Yes, please" ? (
+                                      <span className="text-[8px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-sm uppercase tracking-widest font-bold">Did Not Req</span>
+                                    ) : null}
+                                  </div>
                                   <p className="text-[10px] text-secondary-text uppercase mt-1 font-bold">Party of {guest.guests}</p>
-                                  <p className="text-[9px] text-secondary-text uppercase mt-0.5 opacity-80 truncate max-w-[150px]" title={guest.roomPreference}>
-                                    Req: {guest.roomPreference}
-                                  </p>
+                                  {guest.roomPreference && (
+                                    <p className="text-[9px] text-secondary-text uppercase mt-0.5 opacity-80 truncate max-w-[150px]" title={guest.roomPreference}>
+                                      Req: {guest.roomPreference}
+                                    </p>
+                                  )}
                                 </div>
                                 <button 
                                   onClick={() => handleAssignGuest(guest, room.id)}

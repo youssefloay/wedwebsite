@@ -219,50 +219,50 @@ export const EditRsvpModal = ({ rsvp, onClose, onSuccess }: EditRsvpModalProps) 
                   >
                     <option value="">-- Unassigned --</option>
                     <optgroup label="Level 1 & 2 (Level 2: Stairs Only)">
-                      <option value="101 (Superior, 3 pax, King + Sofa-bed)">101 (Superior, 3 pax, King + Sofa-bed)</option>
-                      <option value="201 (Standard, 2 pax, King)">201 (Standard, 2 pax, King)</option>
+                      <option value="101 (Superior Comfy, 3 pax, King + Sofa-bed)">101 (Superior Comfy, 3 pax, King + Sofa-bed)</option>
+                      <option value="201 (Comfy, 2 pax, King)">201 (Comfy, 2 pax, King)</option>
                       <option value="202 (Castillo Junior, 2 pax, King, Terrace)">202 (Castillo Junior, 2 pax, King, Terrace)</option>
                     </optgroup>
                     <optgroup label="Level 3 (Elevator Access)">
-                      <option value="301 (Standard, 2 pax, King)">301 (Standard, 2 pax, King)</option>
-                      <option value="302 (Standard, 2 pax, King)">302 (Standard, 2 pax, King)</option>
-                      <option value="303 (Standard, 2 pax, King)">303 (Standard, 2 pax, King)</option>
+                      <option value="301 (Comfy, 2 pax, King)">301 (Comfy, 2 pax, King)</option>
+                      <option value="302 (Comfy, 2 pax, King)">302 (Comfy, 2 pax, King)</option>
+                      <option value="303 (Comfy, 2 pax, King)">303 (Comfy, 2 pax, King)</option>
                     </optgroup>
                     <optgroup label="Level 4 (Elevator Access)">
-                      <option value="400 (Superior, 2 pax, Twin)">400 (Superior, 2 pax, Twin)</option>
-                      <option value="400A (Family Room / Superior, 2 pax)">400A (Family Room / Superior, 2 pax)</option>
-                      <option value="401 (Superior, 2 pax, Twin)">401 (Superior, 2 pax, Twin)</option>
-                      <option value="402 (Superior, 2 pax, Twin)">402 (Superior, 2 pax, Twin)</option>
-                      <option value="403 (Superior, 2 pax, Twin, Balcony)">403 (Superior, 2 pax, Twin, Balcony)</option>
-                      <option value="404 (Superior, 2 pax, Twin, Balcony)">404 (Superior, 2 pax, Twin, Balcony)</option>
-                      <option value="405 (Superior, 2 pax, Twin, Balcony)">405 (Superior, 2 pax, Twin, Balcony)</option>
-                      <option value="406 (Superior, 2 pax, Twin)">406 (Superior, 2 pax, Twin)</option>
-                      <option value="407 (Superior, 2 pax, Twin, Balcony)">407 (Superior, 2 pax, Twin, Balcony)</option>
-                      <option value="408 (Superior, 2 pax, Twin)">408 (Superior, 2 pax, Twin)</option>
-                      <option value="409 (Superior, 3 pax, Twin + Sofa-bed)">409 (Superior, 3 pax, Twin + Sofa-bed)</option>
-                      <option value="410 (Superior, 2 pax, Twin)">410 (Superior, 2 pax, Twin)</option>
+                      <option value="400 (Superior Comfy, 2 pax, Twin)">400 (Superior Comfy, 2 pax, Twin)</option>
+                      <option value="400A (Family Room / Superior Comfy, 2 pax)">400A (Family Room / Superior Comfy, 2 pax)</option>
+                      <option value="401 (Superior Comfy, 2 pax, Twin)">401 (Superior Comfy, 2 pax, Twin)</option>
+                      <option value="402 (Superior Comfy, 2 pax, Twin)">402 (Superior Comfy, 2 pax, Twin)</option>
+                      <option value="403 (Superior Comfy, 2 pax, Twin, Balcony)">403 (Superior Comfy, 2 pax, Twin, Balcony)</option>
+                      <option value="404 (Superior Comfy, 2 pax, Twin, Balcony)">404 (Superior Comfy, 2 pax, Twin, Balcony)</option>
+                      <option value="405 (Superior Comfy, 2 pax, Twin, Balcony)">405 (Superior Comfy, 2 pax, Twin, Balcony)</option>
+                      <option value="406 (Superior Comfy, 2 pax, Twin)">406 (Superior Comfy, 2 pax, Twin)</option>
+                      <option value="407 (Superior Comfy, 2 pax, Twin, Balcony)">407 (Superior Comfy, 2 pax, Twin, Balcony)</option>
+                      <option value="408 (Superior Comfy, 2 pax, Twin)">408 (Superior Comfy, 2 pax, Twin)</option>
+                      <option value="409 (Superior Comfy, 3 pax, Twin + Sofa-bed)">409 (Superior Comfy, 3 pax, Twin + Sofa-bed)</option>
+                      <option value="410 (Superior Comfy, 2 pax, Twin)">410 (Superior Comfy, 2 pax, Twin)</option>
                     </optgroup>
                     <optgroup label="Level 5 (Elevator Access)">
-                      <option value="501 (Standard, 2 pax)">501 (Standard, 2 pax)</option>
-                      <option value="502 (Standard, 2 pax)">502 (Standard, 2 pax)</option>
-                      <option value="505 (Family, 4 pax)">505 (Family, 4 pax)</option>
-                      <option value="507 (Superior, 2 pax)">507 (Superior, 2 pax)</option>
-                      <option value="508 (Standard, 2 pax, Twin)">508 (Standard, 2 pax, Twin)</option>
+                      <option value="501 (Comfy, 2 pax)">501 (Comfy, 2 pax)</option>
+                      <option value="502 (Comfy, 2 pax)">502 (Comfy, 2 pax)</option>
+                      <option value="505 (Family Room, 4 pax)">505 (Family Room, 4 pax)</option>
+                      <option value="507 (Superior Comfy, 2 pax)">507 (Superior Comfy, 2 pax)</option>
+                      <option value="508 (Comfy, 2 pax, Twin)">508 (Comfy, 2 pax, Twin)</option>
                     </optgroup>
                     <optgroup label="Level 6 (Elevator Access)">
-                      <option value="503 (Standard, 2 pax)">503 (Standard, 2 pax)</option>
+                      <option value="503 (Comfy, 2 pax)">503 (Comfy, 2 pax)</option>
                       <option value="506 (Castillo Junior, 2 pax)">506 (Castillo Junior, 2 pax)</option>
-                      <option value="601 (Standard, 2 pax)">601 (Standard, 2 pax)</option>
-                      <option value="602 (Standard, 2 pax)">602 (Standard, 2 pax)</option>
+                      <option value="601 (Comfy, 2 pax)">601 (Comfy, 2 pax)</option>
+                      <option value="602 (Comfy, 2 pax)">602 (Comfy, 2 pax)</option>
                       <option value="603 (Castillo Junior, 2 pax)">603 (Castillo Junior, 2 pax)</option>
                       <option value="703 (Castillo Junior, 2 pax)">703 (Castillo Junior, 2 pax)</option>
                     </optgroup>
                     <optgroup label="Level 7 (Stairs Only)">
                       <option value="700 (Castillo Junior, 2 pax)">700 (Castillo Junior, 2 pax)</option>
-                      <option value="701 (Superior, 2 pax, Twin)">701 (Superior, 2 pax, Twin)</option>
-                      <option value="702 (Superior, 2 pax, Twin)">702 (Superior, 2 pax, Twin)</option>
-                      <option value="704 (Standard, 2 pax)">704 (Standard, 2 pax)</option>
-                      <option value="705 (Superior, 2 pax)">705 (Superior, 2 pax)</option>
+                      <option value="701 (Superior Comfy, 2 pax, Twin)">701 (Superior Comfy, 2 pax, Twin)</option>
+                      <option value="702 (Superior Comfy, 2 pax, Twin)">702 (Superior Comfy, 2 pax, Twin)</option>
+                      <option value="704 (Comfy, 2 pax)">704 (Comfy, 2 pax)</option>
+                      <option value="705 (Superior Comfy, 2 pax)">705 (Superior Comfy, 2 pax)</option>
                       <option value="706 (Castillo Junior, 2 pax)">706 (Castillo Junior, 2 pax)</option>
                     </optgroup>
                   </select>
