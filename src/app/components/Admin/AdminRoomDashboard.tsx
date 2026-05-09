@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Check, Trash2, Settings, X, Search, UserPlus } from "lucide-react";
-import { RsvpData, getAllRsvps, updateRsvp } from "../../../lib/rsvpService";
+import { RsvpData, getAllRsvps, updateRsvp, saveRsvp } from "../../../lib/rsvpService";
 import { HOTEL_ROOMS } from "./RoomSelectorGrid";
 import { toast } from "sonner";
 
@@ -28,6 +28,10 @@ export const AdminRoomDashboard = () => {
   const [selectedRoomToPlace, setSelectedRoomToPlace] = useState<string | null>(null);
   const [selectedRoomForAssignment, setSelectedRoomForAssignment] = useState<string | null>(null);
   const [guestSearch, setGuestSearch] = useState("");
+  const [showAddCustom, setShowAddCustom] = useState(false);
+  const [customFirstName, setCustomFirstName] = useState("");
+  const [customLastName, setCustomLastName] = useState("");
+  const [customPax, setCustomPax] = useState(1);
 
   const fetchData = async () => {
     try {
@@ -95,6 +99,43 @@ export const AdminRoomDashboard = () => {
       fetchData(); // Refresh data
     } catch (err) {
       toast.error("Failed to unassign guest");
+    }
+  };
+
+  const handleCreateCustomGuest = async (roomId: string) => {
+    if (!customFirstName.trim() || !customLastName.trim()) {
+      toast.error("First and last name are required");
+      return;
+    }
+    try {
+      const newGuest: Omit<RsvpData, "submittedAt"> = {
+        firstName: customFirstName.trim(),
+        lastName: customLastName.trim(),
+        email: "placeholder@pending.com",
+        attendance: "Pending",
+        accommodation: "Yes, please",
+        guests: customPax,
+        guestNames: [],
+        roomPreference: "Admin Placement",
+        stayDuration: "",
+        manualStayDates: "",
+        assignedRoom: roomId,
+        transfer: "",
+        carRental: "",
+        visaSupport: "",
+        dietary: "",
+        musicSuggestion: "",
+        notes: "Placeholder created by admin."
+      };
+      await saveRsvp(newGuest);
+      toast.success(`${customFirstName} created and assigned!`);
+      setShowAddCustom(false);
+      setCustomFirstName("");
+      setCustomLastName("");
+      setCustomPax(1);
+      fetchData();
+    } catch (err) {
+      toast.error("Failed to create guest");
     }
   };
 
@@ -209,7 +250,15 @@ export const AdminRoomDashboard = () => {
                     >
                       <div className="flex justify-between items-center mb-1">
                         <span className="font-serif italic font-bold text-xl">{room.number}</span>
-                        {occupants.length > 0 && <span className="text-[9px] bg-red-100 text-red-600 px-2 py-1 rounded-full font-bold uppercase tracking-widest">Occupied</span>}
+                        {occupants.length > 0 && (
+                          <span className={`text-[9px] px-2 py-1 rounded-full font-bold uppercase tracking-widest ${
+                            occupants.some(o => !o.attendance || o.attendance === "Pending") 
+                              ? 'bg-yellow-100 text-yellow-700' 
+                              : 'bg-red-100 text-red-600'
+                          }`}>
+                            {occupants.some(o => !o.attendance || o.attendance === "Pending") ? 'Placeholder' : 'Occupied'}
+                          </span>
+                        )}
                       </div>
                       <p className="text-xs text-secondary-text">{room.type} • {room.pax} pax</p>
                       {occupants.length > 0 && (
@@ -252,6 +301,7 @@ export const AdminRoomDashboard = () => {
             if (!room) return null;
             const occupants = getOccupants(room.id);
             const isOccupied = occupants.length > 0;
+            const isPlaceholder = occupants.some(o => !o.attendance || o.attendance === "Pending");
             const isSelected = selectedRoomForAssignment === room.id;
 
             return (
@@ -269,6 +319,7 @@ export const AdminRoomDashboard = () => {
                   className={`relative flex flex-col items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-[3px] shadow-lg backdrop-blur-md transition-all hover:scale-125 hover:z-50 ${
                     editMode ? 'bg-yellow-400 border-white text-yellow-900 animate-pulse' :
                     isSelected ? 'bg-accent-terracotta text-white border-white scale-125 z-40 shadow-accent-terracotta/50 shadow-xl' :
+                    isPlaceholder ? 'bg-yellow-500 text-white border-white opacity-90' :
                     isOccupied ? 'bg-red-500 text-white border-white opacity-90' :
                     'bg-green-500 text-white border-white hover:bg-green-400'
                   }`}
@@ -290,7 +341,18 @@ export const AdminRoomDashboard = () => {
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-white rounded-2xl shadow-2xl p-5 w-56 opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-50 border border-accent-terracotta/10">
                     <p className="font-serif italic font-bold text-2xl mb-1 text-primary-text">{room.number}</p>
                     <p className="text-[10px] text-secondary-text uppercase tracking-widest font-bold mb-3 pb-3 border-b border-black/5">{room.type} • {room.pax} pax</p>
-                    {isOccupied ? (
+                    {isPlaceholder ? (
+                      <div className="bg-yellow-50 p-3 rounded-xl border border-yellow-200">
+                        <p className="text-[9px] text-yellow-700 uppercase tracking-widest font-bold mb-1">Placeholder For</p>
+                        <div className="space-y-2">
+                          {occupants.map(o => (
+                            <div key={o.id}>
+                              <p className="text-sm font-bold text-yellow-900 font-serif italic">{o.firstName} {o.lastName}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : isOccupied ? (
                       <div className="bg-red-50 p-3 rounded-xl border border-red-100">
                         <p className="text-[9px] text-red-600 uppercase tracking-widest font-bold mb-1">Occupied By</p>
                         <div className="space-y-2">
@@ -388,6 +450,51 @@ export const AdminRoomDashboard = () => {
                             className="w-full bg-black/5 border-none py-3 pl-10 pr-4 rounded-xl text-sm outline-none focus:ring-1 ring-accent-terracotta/20 font-serif italic"
                           />
                         </div>
+                        
+                        <div className="flex justify-between items-center mt-3 mb-2">
+                          <span className="text-xs text-secondary-text">Can't find them?</span>
+                          <button 
+                            onClick={() => setShowAddCustom(!showAddCustom)} 
+                            className="text-xs font-bold text-accent-terracotta hover:underline"
+                          >
+                            {showAddCustom ? "Cancel" : "+ Add Custom Guest"}
+                          </button>
+                        </div>
+
+                        {showAddCustom && (
+                          <div className="bg-black/5 p-4 rounded-xl mb-4 border border-black/10 space-y-3 animate-in fade-in slide-in-from-top-2">
+                            <div className="flex gap-2">
+                              <input 
+                                type="text" placeholder="First Name" 
+                                value={customFirstName} onChange={e => setCustomFirstName(e.target.value)}
+                                className="flex-1 bg-white border border-black/10 p-2 rounded-lg text-sm font-serif italic outline-none focus:border-accent-terracotta/50"
+                              />
+                              <input 
+                                type="text" placeholder="Last Name" 
+                                value={customLastName} onChange={e => setCustomLastName(e.target.value)}
+                                className="flex-1 bg-white border border-black/10 p-2 rounded-lg text-sm font-serif italic outline-none focus:border-accent-terracotta/50"
+                              />
+                            </div>
+                            <div className="flex gap-2 items-center">
+                              <span className="text-xs text-secondary-text whitespace-nowrap">Party:</span>
+                              <select 
+                                value={customPax} onChange={e => setCustomPax(Number(e.target.value))}
+                                className="bg-white border border-black/10 p-2 rounded-lg text-sm flex-1 outline-none"
+                              >
+                                {[1, 2, 3, 4, 5, 6].map(num => (
+                                  <option key={num} value={num}>{num} {num === 1 ? 'person' : 'people'}</option>
+                                ))}
+                              </select>
+                              <button 
+                                onClick={() => handleCreateCustomGuest(room.id)}
+                                className="bg-accent-terracotta text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm hover:bg-accent-terracotta/90 transition-all active:scale-95"
+                                disabled={customPax > remainingCapacity}
+                              >
+                                Assign
+                              </button>
+                            </div>
+                          </div>
+                        )}
                         
                         <div className="space-y-2 max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
                           {unassignedGuests.length > 0 ? (
