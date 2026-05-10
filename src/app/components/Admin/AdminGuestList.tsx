@@ -206,17 +206,21 @@ export const AdminGuestList = () => {
                       </div>
                     </td>
                     <td className="p-6">
-                      {rsvp.isPlaceholder ? (
-                        <span className="px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold bg-yellow-100 text-yellow-700 border border-yellow-200">
+                      {rsvp.isPlaceholder || rsvp.email?.includes('placeholder-') ? (
+                        <span className="px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold bg-yellow-50 text-yellow-700 border border-yellow-200">
                           Placeholder
                         </span>
+                      ) : rsvp.attendance === 'Joyfully accept' ? (
+                        <span className="px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold bg-green-50 text-green-700 border border-green-200">
+                          Attending
+                        </span>
+                      ) : rsvp.attendance === 'Regretfully decline' ? (
+                        <span className="px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold bg-red-50 text-red-600 border border-red-100">
+                          Declined
+                        </span>
                       ) : (
-                        <span className={`px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold ${
-                          rsvp.attendance === 'Joyfully accept' 
-                            ? 'bg-green-50 text-green-600' 
-                            : 'bg-red-50 text-red-600'
-                        }`}>
-                          {rsvp.attendance === 'Joyfully accept' ? 'Attending' : 'Declined'}
+                        <span className="px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold bg-yellow-50 text-yellow-700 border border-yellow-200">
+                          No RSVP
                         </span>
                       )}
                     </td>
