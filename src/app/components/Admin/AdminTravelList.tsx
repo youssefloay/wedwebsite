@@ -23,6 +23,7 @@ export const AdminTravelList = () => {
       // Only keep real guests (non-placeholders) who accepted and either need a transfer, car rental, or visa support
       const travelData = data.filter(r => 
         !r.isPlaceholder &&
+        !r.email?.includes('placeholder-') &&
         r.attendance === "Joyfully accept" && 
         (r.transfer === "Yes" || r.carRental === "Yes" || r.visaSupport !== "No")
       );

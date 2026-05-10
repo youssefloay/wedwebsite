@@ -21,7 +21,13 @@ export const AdminNotesList = () => {
     try {
       const data = await getAllRsvps();
       // Only keep real guests (non-placeholders) who have notes
-      const notesData = data.filter(r => !r.isPlaceholder && r.notes && r.notes.trim() !== "");
+      const notesData = data.filter(r => 
+        !r.isPlaceholder && 
+        !r.email?.includes('placeholder-') && 
+        r.notes && 
+        r.notes.trim() !== "" && 
+        r.notes !== "Placeholder created by admin."
+      );
       setRsvps(notesData);
     } catch (err) {
       console.error(err);

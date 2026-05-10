@@ -21,7 +21,7 @@ export const AdminDietaryList = () => {
     try {
       const data = await getAllRsvps();
       // Only keep real guests (non-placeholders) who accepted and have dietary requirements
-      const dietaryData = data.filter(r => !r.isPlaceholder && r.attendance === "Joyfully accept" && r.dietary && r.dietary.trim() !== "");
+      const dietaryData = data.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.attendance === "Joyfully accept" && r.dietary && r.dietary.trim() !== "");
       setRsvps(dietaryData);
     } catch (err) {
       console.error(err);
