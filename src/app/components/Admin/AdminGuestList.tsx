@@ -206,7 +206,7 @@ export const AdminGuestList = () => {
                       </div>
                     </td>
                     <td className="p-6">
-                      {rsvp.isPlaceholder || rsvp.email?.includes('placeholder-') ? (
+                      {rsvp.isPlaceholder || rsvp.email?.includes('placeholder-') || rsvp.notes === "Placeholder created by admin." ? (
                         <span className="px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold bg-yellow-50 text-yellow-700 border border-yellow-200">
                           Placeholder
                         </span>

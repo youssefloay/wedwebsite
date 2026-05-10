@@ -105,7 +105,7 @@ export const mapToExportFormat = (rsvp: RsvpData) => {
   return {
     "Date & Time": rsvp.submittedAt instanceof Timestamp ? rsvp.submittedAt.toDate().toLocaleString() : new Date(rsvp.submittedAt).toLocaleString(),
     attendance: rsvp.attendance,
-    is_placeholder: rsvp.isPlaceholder ? "Yes" : "No",
+    is_placeholder: (rsvp.isPlaceholder || rsvp.email?.includes('placeholder-') || rsvp.notes === "Placeholder created by admin.") ? "Yes" : "No",
     first_name: rsvp.firstName,
     last_name: rsvp.lastName,
     email: rsvp.email,
