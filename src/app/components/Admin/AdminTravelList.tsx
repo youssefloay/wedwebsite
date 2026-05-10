@@ -20,8 +20,9 @@ export const AdminTravelList = () => {
     setIsLoading(true);
     try {
       const data = await getAllRsvps();
-      // Only keep people who accepted and either need a transfer, car rental, or visa support
+      // Only keep real guests (non-placeholders) who accepted and either need a transfer, car rental, or visa support
       const travelData = data.filter(r => 
+        !r.isPlaceholder &&
         r.attendance === "Joyfully accept" && 
         (r.transfer === "Yes" || r.carRental === "Yes" || r.visaSupport !== "No")
       );
@@ -57,15 +58,28 @@ export const AdminTravelList = () => {
 
   const handleExportCSV = () => {
     try {
-      const exportData = filteredRsvps.map(r => ({
-        "Date & Time": r.submittedAt instanceof Timestamp ? r.submittedAt.toDate().toLocaleString() : new Date(r.submittedAt).toLocaleString(),
-        Guest: `${r.firstName} ${r.lastName}`,
-        Email: r.email,
-        Transfer: r.transfer,
-        CarRental: r.carRental,
-        VisaSupport: r.visaSupport,
-        PartySize: r.guests
-      }));
+      const exportData = filteredRsvps.map(r => {
+        const checkDate = (date: string) => {
+          const inDuration = r.stayDuration?.includes(date);
+          const inManual = r.manualStayDates?.toLowerCase().includes(date.toLowerCase());
+          return (inDuration || inManual) ? "X" : "";
+        };
+
+        return {
+          "Date & Time": r.submittedAt instanceof Timestamp ? r.submittedAt.toDate().toLocaleString() : new Date(r.submittedAt).toLocaleString(),
+          Guest: `${r.firstName} ${r.lastName}`,
+          Email: r.email,
+          Transfer: r.transfer,
+          CarRental: r.carRental,
+          VisaSupport: r.visaSupport,
+          "Thursday 15th": checkDate("Thursday 15th"),
+          "Friday 16th": checkDate("Friday 16th"),
+          "Saturday 17th": checkDate("Saturday 17th"),
+          "Sunday 18th": checkDate("Sunday 18th"),
+          "Monday 20th": checkDate("Monday 20th"),
+          PartySize: r.guests
+        };
+      });
       const csv = convertToCSV(exportData);
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
@@ -83,15 +97,28 @@ export const AdminTravelList = () => {
 
   const handleExportExcel = () => {
     try {
-      const exportData = filteredRsvps.map(r => ({
-        "Date & Time": r.submittedAt instanceof Timestamp ? r.submittedAt.toDate().toLocaleString() : new Date(r.submittedAt).toLocaleString(),
-        Guest: `${r.firstName} ${r.lastName}`,
-        Email: r.email,
-        Transfer: r.transfer,
-        CarRental: r.carRental,
-        VisaSupport: r.visaSupport,
-        PartySize: r.guests
-      }));
+      const exportData = filteredRsvps.map(r => {
+        const checkDate = (date: string) => {
+          const inDuration = r.stayDuration?.includes(date);
+          const inManual = r.manualStayDates?.toLowerCase().includes(date.toLowerCase());
+          return (inDuration || inManual) ? "X" : "";
+        };
+
+        return {
+          "Date & Time": r.submittedAt instanceof Timestamp ? r.submittedAt.toDate().toLocaleString() : new Date(r.submittedAt).toLocaleString(),
+          Guest: `${r.firstName} ${r.lastName}`,
+          Email: r.email,
+          Transfer: r.transfer,
+          CarRental: r.carRental,
+          VisaSupport: r.visaSupport,
+          "Thursday 15th": checkDate("Thursday 15th"),
+          "Friday 16th": checkDate("Friday 16th"),
+          "Saturday 17th": checkDate("Saturday 17th"),
+          "Sunday 18th": checkDate("Sunday 18th"),
+          "Monday 20th": checkDate("Monday 20th"),
+          PartySize: r.guests
+        };
+      });
       downloadExcel(exportData, `travel_and_visas_${new Date().toISOString().split('T')[0]}`);
       toast.success("Travel list exported to Excel");
     } catch (err) {

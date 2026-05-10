@@ -20,8 +20,8 @@ export const AdminNotesList = () => {
     setIsLoading(true);
     try {
       const data = await getAllRsvps();
-      // Only keep people who have notes
-      const notesData = data.filter(r => r.notes && r.notes.trim() !== "");
+      // Only keep real guests (non-placeholders) who have notes
+      const notesData = data.filter(r => !r.isPlaceholder && r.notes && r.notes.trim() !== "");
       setRsvps(notesData);
     } catch (err) {
       console.error(err);

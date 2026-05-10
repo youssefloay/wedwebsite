@@ -30,14 +30,14 @@ export const AdminDashboard = () => {
   }, []);
 
   const stats = {
-    totalSubmissions: rsvps.length,
-    attendingCount: rsvps.filter(r => r.attendance === "Joyfully accept").length,
-    declinedCount: rsvps.filter(r => r.attendance === "Regretfully decline").length,
+    totalSubmissions: rsvps.filter(r => !r.isPlaceholder).length,
+    attendingCount: rsvps.filter(r => !r.isPlaceholder && r.attendance === "Joyfully accept").length,
+    declinedCount: rsvps.filter(r => !r.isPlaceholder && r.attendance === "Regretfully decline").length,
     totalGuests: rsvps
-      .filter(r => r.attendance === "Joyfully accept")
+      .filter(r => !r.isPlaceholder && r.attendance === "Joyfully accept")
       .reduce((acc, curr) => acc + curr.guests, 0),
-    accommodationInterest: rsvps.filter(r => r.accommodation === "Yes, please").length,
-    dietaryCount: rsvps.filter(r => r.dietary && r.dietary.trim() !== "").length,
+    accommodationInterest: rsvps.filter(r => !r.isPlaceholder && r.accommodation === "Yes, please").length,
+    dietaryCount: rsvps.filter(r => !r.isPlaceholder && r.dietary && r.dietary.trim() !== "").length,
   };
 
   if (isLoading) {
@@ -97,7 +97,7 @@ export const AdminDashboard = () => {
             <button className="text-xs label-uppercase tracking-widest text-accent-terracotta hover:opacity-100 font-bold opacity-70 transition-opacity">View All</button>
           </div>
           <div className="space-y-6">
-            {rsvps.slice(0, 5).map((rsvp) => (
+            {rsvps.filter(r => !r.isPlaceholder).slice(0, 5).map((rsvp) => (
               <div key={rsvp.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-black/5 transition-colors group">
                 <div className="flex items-center gap-4">
                   <div className={`w-2 h-2 rounded-full ${rsvp.attendance === 'Joyfully accept' ? 'bg-green-500' : 'bg-red-400'}`} />

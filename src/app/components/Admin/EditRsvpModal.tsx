@@ -116,6 +116,17 @@ export const EditRsvpModal = ({ rsvp, onClose, onSuccess }: EditRsvpModalProps) 
                 }}
               />
             </div>
+            <div className="space-y-2 flex items-end">
+              <label className="flex items-center gap-3 bg-black/5 p-4 rounded-2xl cursor-pointer hover:bg-black/10 transition-all w-full h-[60px]">
+                <input
+                  type="checkbox"
+                  className="w-5 h-5 accent-accent-terracotta"
+                  checked={editingGuest.isPlaceholder || false}
+                  onChange={(e) => handleEditChange('isPlaceholder', e.target.checked)}
+                />
+                <span className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Admin Placeholder</span>
+              </label>
+            </div>
           </div>
 
           {editingGuest.guests > 1 && (

@@ -31,6 +31,7 @@ export interface RsvpData {
   musicSuggestion: string;
   notes: string;
   submittedAt: Timestamp | Date;
+  isPlaceholder?: boolean;
 }
 
 const RSVP_COLLECTION = "rsvps";
@@ -82,9 +83,19 @@ export const mapToExportFormat = (rsvp: RsvpData) => {
   const isStayingAtCastle = rsvp.accommodation === "Yes, please";
 
   // Nights logic
-  const stay_friday_16 = isAttending && isStayingAtCastle && rsvp.stayDuration.includes("Friday 16th");
-  const stay_saturday_17 = isAttending && isStayingAtCastle && rsvp.stayDuration.includes("Saturday 17th");
-  const stay_extra_night = isAttending && isStayingAtCastle && rsvp.stayDuration.includes("Extra Night");
+  const checkDate = (date: string) => {
+    if (!isAttending || !isStayingAtCastle) return "";
+    const inDuration = rsvp.stayDuration?.includes(date);
+    // Also check manualStayDates for extra nights
+    const inManual = rsvp.manualStayDates?.toLowerCase().includes(date.toLowerCase());
+    return (inDuration || inManual) ? "X" : "";
+  };
+
+  const stay_thursday_15 = checkDate("Thursday 15th");
+  const stay_friday_16 = checkDate("Friday 16th");
+  const stay_saturday_17 = checkDate("Saturday 17th");
+  const stay_sunday_18 = checkDate("Sunday 18th");
+  const stay_monday_20 = checkDate("Monday 20th");
 
   // Guest mapping
   const guest_2 = rsvp.guestNames[0] || {};
@@ -94,6 +105,7 @@ export const mapToExportFormat = (rsvp: RsvpData) => {
   return {
     "Date & Time": rsvp.submittedAt instanceof Timestamp ? rsvp.submittedAt.toDate().toLocaleString() : new Date(rsvp.submittedAt).toLocaleString(),
     attendance: rsvp.attendance,
+    is_placeholder: rsvp.isPlaceholder ? "Yes" : "No",
     first_name: rsvp.firstName,
     last_name: rsvp.lastName,
     email: rsvp.email,
@@ -107,10 +119,12 @@ export const mapToExportFormat = (rsvp: RsvpData) => {
     accommodation_choice: isAttending ? (isStayingAtCastle ? "Castillo de Monda" : "Independent") : "",
     room_type_preference: isAttending && isStayingAtCastle ? rsvp.roomPreference : "",
     assigned_room: isAttending && isStayingAtCastle ? (rsvp.assignedRoom || "") : "",
-    stay_friday_16: isAttending && isStayingAtCastle ? (stay_friday_16 ? "Yes" : "No") : "",
-    stay_saturday_17: isAttending && isStayingAtCastle ? (stay_saturday_17 ? "Yes" : "No") : "",
-    stay_extra_night: isAttending && isStayingAtCastle ? (stay_extra_night ? "Yes" : "No") : "",
-    extra_night_details: isAttending && stay_extra_night ? rsvp.manualStayDates : "",
+    "Thursday 15th": stay_thursday_15,
+    "Friday 16th": stay_friday_16,
+    "Saturday 17th": stay_saturday_17,
+    "Sunday 18th": stay_sunday_18,
+    "Monday 20th": stay_monday_20,
+    extra_night_details: isAttending && rsvp.stayDuration.includes("Extra Night") ? rsvp.manualStayDates : "",
     travel_method: isAttending ? (rsvp.carRental === "Yes" ? "Car Rental" : rsvp.transfer === "Yes" ? "Transfer" : "Own Transportation") : "",
     visa_support_needed: isAttending ? rsvp.visaSupport : "",
     dietary_requirements: isAttending ? rsvp.dietary : "",

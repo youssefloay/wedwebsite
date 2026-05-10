@@ -32,8 +32,8 @@ export const AdminAccommodationList = () => {
     setIsLoading(true);
     try {
       const data = await getAllRsvps();
-      // Only keep people who accepted and requested Castillo de Monda
-      const accomData = data.filter(r => r.attendance === "Joyfully accept" && r.accommodation === "Yes, please");
+      // Only keep people who accepted and requested Castillo de Monda, or admin placeholders
+      const accomData = data.filter(r => (r.attendance === "Joyfully accept" || r.isPlaceholder) && r.accommodation === "Yes, please");
       setRsvps(accomData);
     } catch (err) {
       console.error(err);
@@ -66,16 +66,28 @@ export const AdminAccommodationList = () => {
 
   const handleExportCSV = () => {
     try {
-      const exportData = filteredRsvps.map(r => ({
-        "Date & Time": r.submittedAt instanceof Timestamp ? r.submittedAt.toDate().toLocaleString() : new Date(r.submittedAt).toLocaleString(),
-        Guest: `${r.firstName} ${r.lastName}`,
-        Email: r.email,
-        RoomPreference: formatRoom(r.roomPreference),
-        AssignedRoom: r.assignedRoom || "Unassigned",
-        StayDuration: r.stayDuration,
-        ManualDates: r.manualStayDates,
-        PartySize: r.guests
-      }));
+      const exportData = filteredRsvps.map(r => {
+        const checkDate = (date: string) => {
+          const inDuration = r.stayDuration?.includes(date);
+          const inManual = r.manualStayDates?.toLowerCase().includes(date.toLowerCase());
+          return (inDuration || inManual) ? "X" : "";
+        };
+
+        return {
+          "Date & Time": r.submittedAt instanceof Timestamp ? r.submittedAt.toDate().toLocaleString() : new Date(r.submittedAt).toLocaleString(),
+          Guest: `${r.firstName} ${r.lastName}`,
+          Email: r.email,
+          RoomPreference: formatRoom(r.roomPreference),
+          AssignedRoom: r.assignedRoom || "Unassigned",
+          "Thursday 15th": checkDate("Thursday 15th"),
+          "Friday 16th": checkDate("Friday 16th"),
+          "Saturday 17th": checkDate("Saturday 17th"),
+          "Sunday 18th": checkDate("Sunday 18th"),
+          "Monday 20th": checkDate("Monday 20th"),
+          ExtraNightDetails: r.manualStayDates,
+          PartySize: r.guests
+        };
+      });
       const csv = convertToCSV(exportData);
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
@@ -93,16 +105,28 @@ export const AdminAccommodationList = () => {
 
   const handleExportExcel = () => {
     try {
-      const exportData = filteredRsvps.map(r => ({
-        "Date & Time": r.submittedAt instanceof Timestamp ? r.submittedAt.toDate().toLocaleString() : new Date(r.submittedAt).toLocaleString(),
-        Guest: `${r.firstName} ${r.lastName}`,
-        Email: r.email,
-        RoomPreference: formatRoom(r.roomPreference),
-        AssignedRoom: r.assignedRoom || "Unassigned",
-        StayDuration: r.stayDuration,
-        ManualDates: r.manualStayDates,
-        PartySize: r.guests
-      }));
+      const exportData = filteredRsvps.map(r => {
+        const checkDate = (date: string) => {
+          const inDuration = r.stayDuration?.includes(date);
+          const inManual = r.manualStayDates?.toLowerCase().includes(date.toLowerCase());
+          return (inDuration || inManual) ? "X" : "";
+        };
+
+        return {
+          "Date & Time": r.submittedAt instanceof Timestamp ? r.submittedAt.toDate().toLocaleString() : new Date(r.submittedAt).toLocaleString(),
+          Guest: `${r.firstName} ${r.lastName}`,
+          Email: r.email,
+          RoomPreference: formatRoom(r.roomPreference),
+          AssignedRoom: r.assignedRoom || "Unassigned",
+          "Thursday 15th": checkDate("Thursday 15th"),
+          "Friday 16th": checkDate("Friday 16th"),
+          "Saturday 17th": checkDate("Saturday 17th"),
+          "Sunday 18th": checkDate("Sunday 18th"),
+          "Monday 20th": checkDate("Monday 20th"),
+          ExtraNightDetails: r.manualStayDates,
+          PartySize: r.guests
+        };
+      });
       downloadExcel(exportData, `accommodation_registry_${new Date().toISOString().split('T')[0]}`);
       toast.success("Accommodation list exported to Excel");
     } catch (err) {
@@ -189,9 +213,18 @@ export const AdminAccommodationList = () => {
                       </p>
                     </td>
                     <td className="p-6">
-                     <p className="font-serif italic text-lg text-primary-text">{rsvp.firstName} {rsvp.lastName}</p>
-                     <p className="text-xs text-secondary-text opacity-60 uppercase tracking-tighter">{rsvp.email}</p>
-                   </td>
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-2">
+                          <p className="font-serif italic text-lg text-primary-text">{rsvp.firstName} {rsvp.lastName}</p>
+                          {rsvp.isPlaceholder && (
+                            <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-sm uppercase tracking-widest font-bold border border-yellow-200">
+                              Placeholder
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-secondary-text opacity-60 uppercase tracking-tighter">{rsvp.email}</p>
+                      </div>
+                    </td>
                    <td className="p-6">
                      <span className="bg-[#FBF9F4] px-4 py-2 border border-accent-terracotta/20 rounded-xl font-serif italic text-primary-text">
                        {formatRoom(rsvp.roomPreference)}

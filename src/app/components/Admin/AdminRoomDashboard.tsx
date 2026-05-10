@@ -125,7 +125,8 @@ export const AdminRoomDashboard = () => {
         visaSupport: "",
         dietary: "",
         musicSuggestion: "",
-        notes: "Placeholder created by admin."
+        notes: "Placeholder created by admin.",
+        isPlaceholder: true
       };
       await saveRsvp(newGuest);
       toast.success(`${customFirstName} created and assigned!`);
@@ -248,15 +249,15 @@ export const AdminRoomDashboard = () => {
                       }`}
                       onClick={() => setSelectedRoomForAssignment(room.id)}
                     >
-                      <div className="flex justify-between items-center mb-1">
+                    <div className="flex justify-between items-center mb-1">
                         <span className="font-serif italic font-bold text-xl">{room.number}</span>
                         {occupants.length > 0 && (
                           <span className={`text-[9px] px-2 py-1 rounded-full font-bold uppercase tracking-widest ${
-                            occupants.some(o => !o.attendance || o.attendance === "Pending") 
+                            occupants.some(o => o.isPlaceholder) 
                               ? 'bg-yellow-100 text-yellow-700' 
                               : 'bg-red-100 text-red-600'
                           }`}>
-                            {occupants.some(o => !o.attendance || o.attendance === "Pending") ? 'Placeholder' : 'Occupied'}
+                            {occupants.some(o => o.isPlaceholder) ? 'Placeholder' : 'Occupied'}
                           </span>
                         )}
                       </div>
@@ -301,7 +302,7 @@ export const AdminRoomDashboard = () => {
             if (!room) return null;
             const occupants = getOccupants(room.id);
             const isOccupied = occupants.length > 0;
-            const isPlaceholder = occupants.some(o => !o.attendance || o.attendance === "Pending");
+            const isPlaceholder = occupants.some(o => o.isPlaceholder);
             const isSelected = selectedRoomForAssignment === room.id;
 
             return (
@@ -503,7 +504,9 @@ export const AdminRoomDashboard = () => {
                                 <div>
                                   <div className="flex items-center gap-2 flex-wrap">
                                     <p className="font-serif italic font-bold text-base text-primary-text">{guest.firstName} {guest.lastName}</p>
-                                    {guest.attendance !== "Joyfully accept" ? (
+                                    {guest.isPlaceholder ? (
+                                      <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-sm uppercase tracking-widest font-bold">Placeholder</span>
+                                    ) : guest.attendance !== "Joyfully accept" ? (
                                       <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-sm uppercase tracking-widest font-bold">No RSVP</span>
                                     ) : guest.accommodation !== "Yes, please" ? (
                                       <span className="text-[8px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-sm uppercase tracking-widest font-bold">Did Not Req</span>

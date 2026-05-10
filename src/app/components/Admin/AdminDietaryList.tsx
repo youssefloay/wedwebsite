@@ -20,8 +20,8 @@ export const AdminDietaryList = () => {
     setIsLoading(true);
     try {
       const data = await getAllRsvps();
-      // Only keep people who accepted and have dietary requirements
-      const dietaryData = data.filter(r => r.attendance === "Joyfully accept" && r.dietary && r.dietary.trim() !== "");
+      // Only keep real guests (non-placeholders) who accepted and have dietary requirements
+      const dietaryData = data.filter(r => !r.isPlaceholder && r.attendance === "Joyfully accept" && r.dietary && r.dietary.trim() !== "");
       setRsvps(dietaryData);
     } catch (err) {
       console.error(err);

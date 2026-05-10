@@ -20,8 +20,8 @@ export const AdminMusicList = () => {
     setIsLoading(true);
     try {
       const data = await getAllRsvps();
-      // Only keep people who accepted and provided music suggestions
-      const musicData = data.filter(r => r.attendance === "Joyfully accept" && r.musicSuggestion && r.musicSuggestion.trim() !== "");
+      // Only keep real guests (non-placeholders) who accepted and provided music suggestions
+      const musicData = data.filter(r => !r.isPlaceholder && r.attendance === "Joyfully accept" && r.musicSuggestion && r.musicSuggestion.trim() !== "");
       setRsvps(musicData);
     } catch (err) {
       console.error(err);
