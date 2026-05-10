@@ -11,7 +11,8 @@ export function AccommodationPage() {
       maxGuests: 2,
       pricePerNight: 154,
       image: "/room-comfy.png",
-      description: 'Our "Comfy" rooms offer the perfect retreat, whether for a short stay or an extended escape.'
+      description: 'Our "Comfy" rooms offer the perfect retreat, whether for a short stay or an extended escape.',
+      isBooked: true
     },
     {
       name: 'Superior Comfy',
@@ -19,7 +20,8 @@ export function AccommodationPage() {
       maxGuests: 3,
       pricePerNight: 184,
       image: "/room-superior.png",
-      description: 'Spacious retreat with a large double bed or two twins, offering a perfect blend of luxury and character.'
+      description: 'Spacious retreat with a large double bed or two twins, offering a perfect blend of luxury and character.',
+      isBooked: false
     },
     {
       name: 'Castillo Junior',
@@ -27,7 +29,8 @@ export function AccommodationPage() {
       maxGuests: 2,
       pricePerNight: 209,
       image: "/room-junior.png",
-      description: 'Top of the range rooms featuring both a balcony and a private seating area.'
+      description: 'Top of the range rooms featuring both a balcony and a private seating area.',
+      isBooked: false
     },
     {
       name: 'Family Room',
@@ -35,7 +38,8 @@ export function AccommodationPage() {
       maxGuests: 4,
       pricePerNight: 219,
       image: "/room-family.png",
-      description: 'Consists of two bedrooms sharing one bathroom, perfect for family groups.'
+      description: 'Consists of two bedrooms sharing one bathroom, perfect for family groups.',
+      isBooked: true
     }
   ];
 
@@ -86,18 +90,24 @@ export function AccommodationPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {roomTypes.map((room) => (
-              <div key={room.name} className="wedding-card group flex flex-col h-full !p-0 overflow-hidden">
+              <div key={room.name} className={`wedding-card group flex flex-col h-full !p-0 overflow-hidden ${room.isBooked ? 'grayscale-[0.5] opacity-90' : ''}`}>
                 <div className="aspect-[16/10] overflow-hidden depth-overlay relative">
                   <img
                     src={room.image}
                     alt={room.name}
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 img-grain"
                   />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[9px] uppercase tracking-widest font-extrabold text-[#515C4C] shadow-sm">
-                    {room.rooms === 1 ? '1 Room' : `${room.rooms} Rooms`}
-                  </div>
+                  {room.isBooked ? (
+                    <div className="absolute top-4 right-4 bg-red-600 text-white px-4 py-1 rounded-full text-[10px] uppercase tracking-widest font-extrabold shadow-lg z-20">
+                      Fully Booked
+                    </div>
+                  ) : (
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[9px] uppercase tracking-widest font-extrabold text-[#515C4C] shadow-sm">
+                      {room.rooms === 1 ? '1 Room' : `${room.rooms} Rooms`}
+                    </div>
+                  )}
                 </div>
-                <div className="w-full md:w-[55%] p-10 md:p-14 flex flex-col justify-center">
+                <div className="w-full p-10 flex flex-col justify-center">
                   <div className="flex flex-col mb-8">
                     <h3 className="text-3xl md:text-4xl font-serif text-primary-text italic leading-tight mb-3 transition-colors duration-500 group-hover:text-accent-terracotta">{room.name}</h3>
                     <div className="flex items-center gap-2 text-secondary-text/60">
@@ -129,12 +139,18 @@ export function AccommodationPage() {
                       €{room.pricePerNight}
                       <span className="text-[10px] font-sans text-secondary-text/60 ml-3 uppercase tracking-widest font-bold">per night</span>
                     </div>
-                    <button
-                      onClick={() => navigate('/rsvp')}
-                      className="btn-primary"
-                    >
-                      Reserve in RSVP
-                    </button>
+                    {room.isBooked ? (
+                      <button disabled className="btn-primary !bg-gray-400 !border-gray-400 opacity-50 cursor-not-allowed">
+                        Sold Out
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => navigate('/rsvp')}
+                        className="btn-primary"
+                      >
+                        Reserve in RSVP
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

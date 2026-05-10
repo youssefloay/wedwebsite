@@ -85,10 +85,10 @@ export function RsvpPage() {
   });
 
   const roomTypes = [
-    { name: 'Comfy', maxGuests: 2, price: 154 },
-    { name: 'Superior Comfy', maxGuests: 3, price: 184 },
-    { name: 'Castillo Junior', maxGuests: 2, price: 209 },
-    { name: 'Family Room', maxGuests: 4, price: 219 }
+    { name: 'Comfy', maxGuests: 2, price: 154, isBooked: true },
+    { name: 'Superior Comfy', maxGuests: 3, price: 184, isBooked: false },
+    { name: 'Castillo Junior', maxGuests: 2, price: 209, isBooked: false },
+    { name: 'Family Room', maxGuests: 4, price: 219, isBooked: true }
   ];
 
   const steps = useMemo<RsvpStep[]>(() => {
@@ -421,14 +421,28 @@ export function RsvpPage() {
                                       <button
                                         key={r.name}
                                         type="button"
+                                        disabled={r.isBooked}
                                         onClick={() => updateFormData('roomPreference', r.name)}
-                                        className={`group relative p-8 md:p-10 border rounded-3xl transition-all duration-700 overflow-hidden flex flex-col items-start gap-4 ${formData.roomPreference === r.name ? 'bg-[#FBF9F4] border-[#515C4C] shadow-[0_20px_40px_rgba(92,50,16,0.06)] scale-[1.03] z-10' : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100 hover:border-accent-terracotta/30'}`}
+                                        className={`group relative p-8 md:p-10 border rounded-3xl transition-all duration-700 overflow-hidden flex flex-col items-start gap-4 ${
+                                          r.isBooked 
+                                            ? 'bg-gray-50 border-gray-200 opacity-60 cursor-not-allowed grayscale' 
+                                            : formData.roomPreference === r.name 
+                                              ? 'bg-[#FBF9F4] border-[#515C4C] shadow-[0_20px_40px_rgba(92,50,16,0.06)] scale-[1.03] z-10' 
+                                              : 'bg-white border-accent-terracotta/10 opacity-70 hover:opacity-100 hover:border-accent-terracotta/30'
+                                        }`}
                                       >
                                         <div className="w-full flex justify-between items-start">
-                                          <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${formData.roomPreference === r.name ? 'text-[#515C4C]' : 'text-accent-terracotta'}`}>Room Type</span>
+                                          <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${r.isBooked ? 'text-gray-400' : formData.roomPreference === r.name ? 'text-[#515C4C]' : 'text-accent-terracotta'}`}>
+                                            {r.isBooked ? 'Unavailable' : 'Room Type'}
+                                          </span>
                                           {formData.roomPreference === r.name && (
                                             <div className="w-6 h-6 rounded-full bg-[#515C4C] flex items-center justify-center shadow-sm">
                                               <Check size={12} className="text-white" />
+                                            </div>
+                                          )}
+                                          {r.isBooked && (
+                                            <div className="px-3 py-1 bg-red-600 text-white rounded-full text-[9px] font-bold uppercase tracking-widest">
+                                              Fully Booked
                                             </div>
                                           )}
                                         </div>
