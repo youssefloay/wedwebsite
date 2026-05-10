@@ -387,6 +387,7 @@ export const AdminGuestList = () => {
       {editingGuest && (
         <EditRsvpModal 
           rsvp={editingGuest} 
+          allRsvps={rsvps}
           onClose={() => setEditingGuest(null)} 
           onSuccess={handleEditSuccess} 
         />

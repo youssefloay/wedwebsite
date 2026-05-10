@@ -32,8 +32,14 @@ export const AdminAccommodationList = () => {
     setIsLoading(true);
     try {
       const data = await getAllRsvps();
-      // Only keep people who accepted and requested Castillo de Monda, or admin placeholders
-      const accomData = data.filter(r => (r.attendance === "Joyfully accept" || r.isPlaceholder) && r.accommodation === "Yes, please");
+      // Keep people who accepted, admin placeholders, and those who haven't RSVPed yet
+      const accomData = data.filter(r => 
+        r.isPlaceholder || 
+        r.attendance === "Joyfully accept" || 
+        !r.attendance || 
+        r.attendance === "Pending" ||
+        r.email?.includes('placeholder-')
+      );
       setRsvps(accomData);
     } catch (err) {
       console.error(err);
@@ -216,11 +222,15 @@ export const AdminAccommodationList = () => {
                       <div className="flex flex-col">
                         <div className="flex items-center gap-2">
                           <p className="font-serif italic text-lg text-primary-text">{rsvp.firstName} {rsvp.lastName}</p>
-                          {rsvp.isPlaceholder && (
+                          { (rsvp.isPlaceholder || rsvp.email?.includes('placeholder-') || rsvp.notes === "Placeholder created by admin.") ? (
                             <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-sm uppercase tracking-widest font-bold border border-yellow-200">
                               Placeholder
                             </span>
-                          )}
+                          ) : (rsvp.attendance !== "Joyfully accept") ? (
+                            <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-sm uppercase tracking-widest font-bold border border-yellow-200">
+                              No RSVP
+                            </span>
+                          ) : null}
                         </div>
                         <p className="text-xs text-secondary-text opacity-60 uppercase tracking-tighter">{rsvp.email}</p>
                       </div>
@@ -272,6 +282,7 @@ export const AdminAccommodationList = () => {
       {editingGuest && (
         <EditRsvpModal 
           rsvp={editingGuest} 
+          allRsvps={rsvps}
           onClose={() => setEditingGuest(null)} 
           onSuccess={handleEditSuccess} 
         />
