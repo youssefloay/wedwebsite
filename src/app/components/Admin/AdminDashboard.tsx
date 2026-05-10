@@ -30,14 +30,14 @@ export const AdminDashboard = () => {
   }, []);
 
   const stats = {
-    totalSubmissions: rsvps.filter(r => !r.isPlaceholder).length,
-    attendingCount: rsvps.filter(r => !r.isPlaceholder && r.attendance === "Joyfully accept").length,
-    declinedCount: rsvps.filter(r => !r.isPlaceholder && r.attendance === "Regretfully decline").length,
+    totalSubmissions: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-')).length,
+    attendingCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.attendance === "Joyfully accept").length,
+    declinedCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.attendance === "Regretfully decline").length,
     totalGuests: rsvps
-      .filter(r => !r.isPlaceholder && r.attendance === "Joyfully accept")
+      .filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.attendance === "Joyfully accept")
       .reduce((acc, curr) => acc + curr.guests, 0),
-    accommodationInterest: rsvps.filter(r => !r.isPlaceholder && r.accommodation === "Yes, please").length,
-    dietaryCount: rsvps.filter(r => !r.isPlaceholder && r.dietary && r.dietary.trim() !== "").length,
+    accommodationInterest: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.accommodation === "Yes, please").length,
+    dietaryCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.dietary && r.dietary.trim() !== "").length,
   };
 
   if (isLoading) {
@@ -97,17 +97,32 @@ export const AdminDashboard = () => {
             <button className="text-xs label-uppercase tracking-widest text-accent-terracotta hover:opacity-100 font-bold opacity-70 transition-opacity">View All</button>
           </div>
           <div className="space-y-6">
-            {rsvps.filter(r => !r.isPlaceholder).slice(0, 5).map((rsvp) => (
+            {rsvps
+              .filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-'))
+              .slice(0, 5)
+              .map((rsvp) => (
               <div key={rsvp.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-black/5 transition-colors group">
                 <div className="flex items-center gap-4">
-                  <div className={`w-2 h-2 rounded-full ${rsvp.attendance === 'Joyfully accept' ? 'bg-green-500' : 'bg-red-400'}`} />
+                  <div className={`w-2 h-2 rounded-full ${
+                    rsvp.attendance === 'Joyfully accept' 
+                      ? 'bg-green-500' 
+                      : rsvp.attendance === 'Regretfully decline' 
+                        ? 'bg-red-400' 
+                        : 'bg-yellow-400'
+                  }`} />
                   <div>
                     <p className="font-serif italic text-lg text-primary-text">{rsvp.firstName} {rsvp.lastName}</p>
                     <p className="text-xs text-secondary-text opacity-60 uppercase tracking-tighter">{rsvp.email}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs font-serif italic text-accent-terracotta">{rsvp.attendance === 'Joyfully accept' ? `+${rsvp.guests - 1} guests` : 'Declined'}</p>
+                  <p className="text-xs font-serif italic text-accent-terracotta">
+                    {rsvp.attendance === 'Joyfully accept' 
+                      ? `+${rsvp.guests - 1} guests` 
+                      : rsvp.attendance === 'Regretfully decline' 
+                        ? 'Declined' 
+                        : 'No RSVP'}
+                  </p>
                   <p className="text-[9px] uppercase tracking-tighter opacity-30 mt-1">
                     {rsvp.submittedAt instanceof Date ? rsvp.submittedAt.toLocaleDateString() : (rsvp.submittedAt as any).toDate().toLocaleDateString()}
                   </p>
