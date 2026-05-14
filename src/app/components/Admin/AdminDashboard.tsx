@@ -30,14 +30,20 @@ export const AdminDashboard = () => {
   }, []);
 
   const stats = {
-    totalSubmissions: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-')).length,
-    attendingCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.attendance === "Joyfully accept").length,
-    declinedCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.attendance === "Regretfully decline").length,
-    totalGuests: rsvps
-      .filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.attendance === "Joyfully accept")
-      .reduce((acc, curr) => acc + curr.guests, 0),
-    accommodationInterest: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.accommodation === "Yes, please").length,
-    dietaryCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.dietary && r.dietary.trim() !== "").length,
+    totalSubmissions: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin.").length,
+    attendingCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.attendance === "Joyfully accept").length,
+    declinedCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.attendance === "Regretfully decline").length,
+    confirmedGuests: rsvps
+      .filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.attendance === "Joyfully accept")
+      .reduce((acc, curr) => acc + (Number(curr.guests) || 0), 0),
+    totalIncludingPlaceholders: rsvps
+      .filter(r => {
+        const isPlaceholder = r.isPlaceholder || r.email?.includes('placeholder-') || r.notes === "Placeholder created by admin.";
+        return isPlaceholder || r.attendance === "Joyfully accept";
+      })
+      .reduce((acc, curr) => acc + (Number(curr.guests) || 0), 0),
+    accommodationInterest: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.accommodation === "Yes, please").length,
+    dietaryCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.dietary && r.dietary.trim() !== "").length,
   };
 
   if (isLoading) {
@@ -52,9 +58,10 @@ export const AdminDashboard = () => {
   }
 
   const cards = [
-    { label: "Total Headcount", value: stats.totalGuests, sub: "Guests attending", icon: <Users size={24} />, color: "bg-blue-50 text-blue-600" },
+    { label: "Total Headcount", value: stats.totalIncludingPlaceholders, sub: "Including placeholders", icon: <Users size={24} />, color: "bg-blue-50 text-blue-600" },
+    { label: "Confirmed Guests", value: stats.confirmedGuests, sub: "RSVPs accepted", icon: <CheckCircle2 size={24} />, color: "bg-green-50 text-green-600" },
     { label: "RSVP Responses", value: stats.totalSubmissions, sub: `${stats.attendingCount} Accept / ${stats.declinedCount} Decline`, icon: <Heart size={24} />, color: "bg-red-50 text-red-600" },
-    { label: "Hotel Requests", value: stats.accommodationInterest, sub: "Castillo de Monda", icon: <Bed size={24} />, color: "bg-green-50 text-green-600" },
+    { label: "Hotel Requests", value: stats.accommodationInterest, sub: "Castillo de Monda", icon: <Bed size={24} />, color: "bg-indigo-50 text-indigo-600" },
     { label: "Dietary Needs", value: stats.dietaryCount, sub: "Allergies & Restrictions", icon: <Utensils size={24} />, color: "bg-orange-50 text-orange-600" },
   ];
 
@@ -71,7 +78,7 @@ export const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {cards.map((card, i) => (
           <div key={i} className="bg-white p-8 rounded-[30px] border border-accent-terracotta/10 shadow-sm hover:shadow-md transition-all duration-500 group">
             <div className="flex justify-between items-start mb-6">
