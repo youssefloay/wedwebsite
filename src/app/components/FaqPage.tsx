@@ -9,7 +9,7 @@ export function FaqPage() {
     },
     { 
       q: "What does 'Elegant Attire in Color' mean?", 
-      a: "We invite our guests to dress in an elegant and festive style, inspired by the vibrant spirit of Spain and a palette of warm, earthy tones. Think formal or cocktail attire - refined, polished, and comfortable (Men: suits or dressy shirts with trousers; Women: elegant dresses or chic jumpsuits). We kindly ask you to avoid wearing all-black or dark navy." 
+      a: "We invite all guests to dress in an elegant and festive style, inspired by our warm, earthy palette. For men, this means suits or dressy shirts with trousers in the wedding colors—please avoid black or dark navy suits and tuxedos. For women, elegant dresses or chic jumpsuits in the same vibrant palette. This ensures a beautifully cohesive and festive atmosphere for everyone!" 
     },
     { 
       q: "How do I reach Monda from Málaga?", 

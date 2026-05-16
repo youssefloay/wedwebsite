@@ -259,22 +259,22 @@ export function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
               <div className="space-y-3">
                 <span className="label-uppercase text-[10px] tracking-[0.3em] font-bold text-accent-terracotta">For Men</span>
-                <p className="font-serif italic text-lg opacity-80 leading-relaxed">Suits or dressy shirts with trousers<br/>(tie optional)</p>
+                <p className="font-serif italic text-lg opacity-80 leading-relaxed">Suits or dressy shirts with trousers in the wedding palette<br/>(tie optional)</p>
               </div>
               <div className="space-y-3">
                 <span className="label-uppercase text-[10px] tracking-[0.3em] font-bold text-accent-terracotta">For Women</span>
-                <p className="font-serif italic text-lg opacity-80 leading-relaxed">Elegant dresses, midi/long dresses,<br/>or chic jumpsuits</p>
+                <p className="font-serif italic text-lg opacity-80 leading-relaxed">Elegant dresses, midi/long dresses,<br/>or chic jumpsuits in the wedding palette</p>
               </div>
             </div>
 
             <div className="pt-8 border-t border-accent-terracotta/10">
               <p className="text-sm uppercase tracking-[0.3em] text-accent-terracotta font-extrabold flex items-center justify-center gap-3">
                 <span className="w-1 h-1 rounded-full bg-accent-terracotta animate-pulse" />
-                Gentle request
+                Important Note
                 <span className="w-1 h-1 rounded-full bg-accent-terracotta animate-pulse" />
               </p>
-              <p className="mt-4 font-serif italic text-xl text-primary-text opacity-90">
-                Please avoid wearing all-black or dark navy.
+              <p className="mt-4 font-serif italic text-xl text-primary-text opacity-90 max-w-lg mx-auto">
+                To keep the celebration vibrant, we kindly ask all guests—including men—to avoid wearing black or dark navy suits and tuxedos.
               </p>
             </div>
           </div>
