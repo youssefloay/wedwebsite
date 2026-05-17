@@ -234,7 +234,7 @@ export function AccommodationPage() {
       {/* FINAL RSVP CTA */}
       <section className="section-layer-1 py-32 px-6 border-t border-border/10">
         <div className="max-w-2xl mx-auto text-center reveal">
-          <span className="label-uppercase mb-6 block font-bold">Secure your Sanctuary</span>
+          <span className="label-uppercase mb-6 block font-bold">Secure your Nest</span>
           <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-8 italic">Rest at the Castle</h2>
           <p className="text-xl text-secondary-text font-serif italic mb-8 opacity-80 leading-relaxed">
             "Room reservations are handled exclusively through our RSVP process to ensure every guest is perfectly accommodated."

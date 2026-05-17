@@ -715,7 +715,7 @@ export function RsvpPage() {
                               )}
                               {formData.attendance === 'Joyfully accept' && (
                                 <div className="space-y-2">
-                                  <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Sanctuary</span>
+                                  <span className="label-uppercase text-[9px] text-accent-terracotta font-bold tracking-[0.2em]">Nest</span>
                                   <p className="text-2xl font-serif italic text-primary-text">{formData.accommodation === 'Yes, please' ? formData.roomPreference : 'Independent Resting'}</p>
                                 </div>
                               )}

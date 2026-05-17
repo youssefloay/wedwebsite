@@ -8,7 +8,7 @@ export function FaqPage() {
       a: "Our celebration takes place at the Castillo de Monda, a historic fortress nestled in the Andalusian hills. The address is Calle de la Villeta 6, 29110 Monda, Spain. It is approximately 45 minutes by car from Málaga." 
     },
     { 
-      q: "What does 'Elegant Attire in Color' mean?", 
+      q: "What does 'Elegant Outfit in Color' mean?", 
       a: "We invite all guests to dress in an elegant and festive style, inspired by our warm, earthy palette. For men, this means suits or dressy shirts with trousers in the wedding colors—please avoid black or dark navy suits and tuxedos. For women, elegant dresses or chic jumpsuits in the same vibrant palette. This ensures a beautifully cohesive and festive atmosphere for everyone!" 
     },
     { 

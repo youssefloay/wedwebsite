@@ -244,7 +244,7 @@ export function Home() {
       <section id="dress-code" className="section-layer-1 px-6 pt-12 pb-32 relative border-t border-border/10">
         <div className="text-center mb-16 flex flex-col items-center">
           <span className="label-uppercase">Dress Code</span>
-          <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Elegant Attire in Color</h2>
+          <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Elegant Outfit in Color</h2>
           <div className="w-16 h-px bg-accent-terracotta mb-10" />
           
           <div className="max-w-2xl mx-auto space-y-10 text-center">
@@ -253,7 +253,7 @@ export function Home() {
             </p>
 
             <p className="text-lg text-primary-text font-serif italic opacity-90">
-              Think formal or cocktail attire - refined, polished, and comfortable.
+              Think formal or cocktail outfit - refined, polished, and comfortable.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
@@ -315,7 +315,7 @@ export function Home() {
         </div>
 
         <div className="mt-24 text-center reveal">
-          <p className="text-secondary-text font-serif italic mb-10 text-xl max-w-lg mx-auto leading-relaxed">Planning your attire? <br /> Tell us you're coming first.</p>
+          <p className="text-secondary-text font-serif italic mb-10 text-xl max-w-lg mx-auto leading-relaxed">Planning your outfit? <br /> Tell us you're coming first.</p>
           <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
              RSVP to the Wedding
           </Link>

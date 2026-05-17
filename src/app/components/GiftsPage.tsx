@@ -140,7 +140,7 @@ export function GiftsPage() {
                 We are incredibly fortunate to already have a home filled with <span className="text-primary-text font-bold">everything we could possibly need</span>. 
               </p>
               <p className="text-[10px] md:text-xs text-secondary-text tracking-[0.3em] uppercase leading-relaxed font-cinzel py-2 md:py-4 border-y border-accent-terracotta/10">
-                Should you wish to honor us with a gesture, a contribution towards our future sanctuary would be most appreciated.
+                Should you wish to honor us with a gesture, a contribution towards our future nest would be most appreciated.
               </p>
             </div>
           </div>
@@ -169,7 +169,7 @@ export function GiftsPage() {
 
           <div className="space-y-8 flex flex-col items-center">
             <span className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-accent-beige font-bold font-cinzel">Home Fund</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic tracking-tight">Our Future Sanctuary</h2>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic tracking-tight">Our Future Nest</h2>
             <div className="w-16 h-px bg-accent-terracotta/40" />
             <p className="text-sm md:text-base text-secondary-text leading-[2.2] uppercase tracking-[0.15em] opacity-80 font-serif italic max-w-lg mx-auto">
               "Contributions will help us create a space filled with love, laughter, and lifelong memories to share with our friends and family."
@@ -178,7 +178,7 @@ export function GiftsPage() {
 
           <div className="relative mx-auto w-64 h-64 md:w-80 md:h-80 bg-white p-3 md:p-4 shadow-xl shadow-black/5 rotate-[1deg] transition-transform duration-700 hover:rotate-[-1deg]">
             <div className="w-full h-full border border-border/10 overflow-hidden relative group">
-              <img src="/gift-home.png" alt="Our Future Sanctuary" className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" />
+              <img src="/gift-home.png" alt="Our Future Nest" className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" />
               <div className="absolute inset-0 ring-1 ring-inset ring-black/5 pointer-events-none" />
             </div>
           </div>
