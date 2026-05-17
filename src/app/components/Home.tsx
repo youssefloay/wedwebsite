@@ -274,7 +274,7 @@ export function Home() {
                 <span className="w-1 h-1 rounded-full bg-accent-terracotta animate-pulse" />
               </p>
               <p className="mt-4 font-serif italic text-xl text-primary-text opacity-90 max-w-lg mx-auto">
-                To keep the celebration vibrant, we kindly ask all guests—including men—to avoid wearing black or dark navy suits and tuxedos.
+                To keep the celebration vibrant, we kindly ask all guests including men to avoid wearing black or dark navy suits and tuxedos.
               </p>
             </div>
           </div>
@@ -315,7 +315,7 @@ export function Home() {
         </div>
 
         <div className="mt-24 text-center reveal">
-          <p className="text-secondary-text font-serif italic mb-10 text-xl max-w-lg mx-auto leading-relaxed">Planning your outfit? <br /> Tell us you're coming first.</p>
+
           <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
              RSVP to the Wedding
           </Link>
