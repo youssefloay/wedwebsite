@@ -10,6 +10,9 @@ import {
   CheckCircle2,
   XCircle
 } from "lucide-react";
+import { HOTEL_ROOMS } from "./RoomSelectorGrid";
+
+const ALL_ROOMS = HOTEL_ROOMS.flatMap(group => group.rooms);
 
 export const AdminDashboard = () => {
   const [rsvps, setRsvps] = useState<RsvpData[]>([]);
@@ -163,6 +166,42 @@ export const AdminDashboard = () => {
                );
              })}
           </div>
+        </div>
+      </div>
+
+      {/* Room Inventory */}
+      <div className="bg-white rounded-[40px] border border-accent-terracotta/10 p-8 shadow-sm">
+        <div className="flex items-center justify-between mb-8">
+          <h3 className="text-3xl font-serif italic text-primary-text">Room Availability</h3>
+          <p className="text-xs text-secondary-text font-serif italic hidden sm:block">Real-time inventory based on actual room assignments</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {['Comfy', 'Superior Comfy', 'Castillo Junior', 'Family Room'].map(roomType => {
+            const total = ALL_ROOMS.filter(r => r.type === roomType).length;
+            const assigned = ALL_ROOMS.filter(r => r.type === roomType && rsvps.some(rsvp => rsvp.assignedRoom === r.id)).length;
+            const available = total - assigned;
+            
+            return (
+              <div key={roomType} className="bg-[#FBF9F4] rounded-3xl p-6 border border-accent-terracotta/10 hover:shadow-md transition-shadow">
+                <p className="text-xs uppercase tracking-widest text-accent-terracotta font-bold mb-2">{roomType}</p>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-serif italic text-primary-text">{available}</span>
+                  <span className="text-sm text-secondary-text font-serif italic">left of {total}</span>
+                </div>
+                <div className="mt-4 h-1.5 w-full bg-black/5 rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full transition-all duration-1000 ${available === 0 ? 'bg-red-400' : available <= 2 ? 'bg-yellow-400' : 'bg-green-400'}`}
+                    style={{ width: `${total > 0 ? (assigned / total) * 100 : 0}%` }}
+                  />
+                </div>
+                <div className="flex justify-between items-center mt-3">
+                  <p className="text-[10px] uppercase tracking-widest text-secondary-text font-bold">
+                    {assigned} Assigned
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
