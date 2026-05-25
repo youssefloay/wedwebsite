@@ -16,7 +16,7 @@ export function AccommodationPage() {
     },
     {
       name: 'Superior Comfy',
-      rooms: 15,
+      rooms: 8,
       maxGuests: 3,
       pricePerNight: 184,
       image: "/room-superior.png",
@@ -25,7 +25,7 @@ export function AccommodationPage() {
     },
     {
       name: 'Castillo Junior',
-      rooms: 6,
+      rooms: 1,
       maxGuests: 2,
       pricePerNight: 209,
       image: "/room-junior.png",
@@ -102,8 +102,8 @@ export function AccommodationPage() {
                       Fully Booked
                     </div>
                   ) : (
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[9px] uppercase tracking-widest font-extrabold text-[#515C4C] shadow-sm">
-                      {room.rooms === 1 ? '1 Room' : `${room.rooms} Rooms`}
+                    <div className={`absolute top-4 right-4 backdrop-blur-md px-3 py-1 rounded-full text-[9px] uppercase tracking-widest font-extrabold shadow-sm ${room.rooms === 1 ? 'bg-amber-100/90 text-amber-800 border border-amber-200/50' : 'bg-white/90 text-[#515C4C]'}`}>
+                      {room.rooms === 1 ? 'Only 1 Room Left!' : `${room.rooms} Rooms Left`}
                     </div>
                   )}
                 </div>

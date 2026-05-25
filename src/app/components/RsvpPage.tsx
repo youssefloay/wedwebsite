@@ -85,10 +85,10 @@ export function RsvpPage() {
   });
 
   const roomTypes = [
-    { name: 'Comfy', maxGuests: 2, price: 154, isBooked: true },
-    { name: 'Superior Comfy', maxGuests: 3, price: 184, isBooked: false },
-    { name: 'Castillo Junior', maxGuests: 2, price: 209, isBooked: false },
-    { name: 'Family Room', maxGuests: 4, price: 219, isBooked: true }
+    { name: 'Comfy', maxGuests: 2, price: 154, isBooked: true, rooms: 0 },
+    { name: 'Superior Comfy', maxGuests: 3, price: 184, isBooked: false, rooms: 8 },
+    { name: 'Castillo Junior', maxGuests: 2, price: 209, isBooked: false, rooms: 1 },
+    { name: 'Family Room', maxGuests: 4, price: 219, isBooked: true, rooms: 0 }
   ];
 
   const steps = useMemo<RsvpStep[]>(() => {
@@ -432,9 +432,16 @@ export function RsvpPage() {
                                         }`}
                                       >
                                         <div className="w-full flex justify-between items-start">
-                                          <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${r.isBooked ? 'text-gray-400' : formData.roomPreference === r.name ? 'text-[#515C4C]' : 'text-accent-terracotta'}`}>
-                                            {r.isBooked ? 'Unavailable' : 'Room Type'}
-                                          </span>
+                                          <div className="flex flex-col items-start gap-1">
+                                            <span className={`label-uppercase text-[12px] font-bold tracking-[0.3em] ${r.isBooked ? 'text-gray-400' : formData.roomPreference === r.name ? 'text-[#515C4C]' : 'text-accent-terracotta'}`}>
+                                              {r.isBooked ? 'Unavailable' : 'Room Type'}
+                                            </span>
+                                            {!r.isBooked && r.rooms !== undefined && (
+                                              <span className={`text-[10px] font-sans uppercase font-bold tracking-wider ${r.rooms === 1 ? 'text-amber-600 animate-pulse' : 'text-secondary-text/50'}`}>
+                                                {r.rooms === 1 ? 'Only 1 room left!' : `${r.rooms} rooms left`}
+                                              </span>
+                                            )}
+                                          </div>
                                           {formData.roomPreference === r.name && (
                                             <div className="w-6 h-6 rounded-full bg-[#515C4C] flex items-center justify-center shadow-sm">
                                               <Check size={12} className="text-white" />
