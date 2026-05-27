@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { getAllRsvps, RsvpData } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
 import { Bed, Search, CheckCircle2, FileSpreadsheet, Download, Pencil, Trash2 } from "lucide-react";
-import { convertToCSV, downloadExcel, deleteRsvp } from "../../../lib/rsvpService";
+import { convertToCSV, deleteRsvp } from "../../../lib/rsvpService";
 import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
+import { HOTEL_ROOMS } from "./RoomSelectorGrid";
+import * as XLSX from 'xlsx';
 
 const ROOM_PRICES: Record<string, string> = {
   'Comfy': '€154',
@@ -70,30 +72,151 @@ export const AdminAccommodationList = () => {
     r.roomPreference.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const getExportData = () => {
+    const ALL_ROOMS = HOTEL_ROOMS.flatMap(group => 
+      group.rooms.map(room => ({
+        ...room,
+        levelName: group.level
+      }))
+    );
+
+    const TYPE_MAPPINGS: Record<string, string> = {
+      'Comfy': 'Standard Double',
+      'Superior Comfy': 'Superior',
+      'Castillo Junior': 'Castillo Junior',
+      'Family Room': 'Family Room'
+    };
+
+    const PRICE_MAPPINGS: Record<string, number> = {
+      'Comfy': 154,
+      'Superior Comfy': 184,
+      'Castillo Junior': 209,
+      'Family Room': 219
+    };
+
+    let roomsToExport = ALL_ROOMS;
+    if (searchTerm.trim()) {
+      roomsToExport = ALL_ROOMS.filter(room => {
+        const occupants = rsvps.filter(r => r.assignedRoom === room.id);
+        const guestNames = occupants.map(o => `${o.firstName} ${o.lastName}`).join(" ").toLowerCase();
+        const matchesGuest = guestNames.includes(searchTerm.toLowerCase());
+        const matchesRoomType = room.type.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                                TYPE_MAPPINGS[room.type]?.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesGuest || matchesRoomType;
+      });
+    }
+
+    return roomsToExport.map(room => {
+      const occupants = rsvps.filter(r => r.assignedRoom === room.id);
+      
+      const guestNames = occupants.map(o => {
+        const names = [`${o.firstName} ${o.lastName}`];
+        if (o.guestNames && o.guestNames.length > 0) {
+          names.push(...o.guestNames.map(g => `${g.firstName} ${g.lastName}`));
+        }
+        return names.join(", ");
+      }).join(" | ");
+
+      const emailAddress = occupants.map(o => o.email).join(" | ");
+      const adultsCount = occupants.reduce((sum, o) => sum + o.guests, 0);
+
+      const mappedType = TYPE_MAPPINGS[room.type] || room.type;
+      const nightlyPrice = PRICE_MAPPINGS[room.type] || 0;
+
+      let location = "";
+      if (room.number === "101") {
+        location = "It is on the 4th floor. Access is via stairs.";
+      } else if (room.levelName.includes("Level 1 & 2")) {
+        location = `It is on a stairs behind the reception${room.features ? '. ' + room.features : ''}`;
+      } else if (room.levelName.includes("Level 3")) {
+        location = "It is on 3rd floor";
+      } else if (room.levelName.includes("Level 4")) {
+        location = `It is on the 4th floor${room.number.startsWith("400") ? " at the end of the corridor" : ""}`;
+      } else if (room.levelName.includes("Level 5")) {
+        location = "It is on 5th floor";
+      } else if (room.levelName.includes("Level 6")) {
+        location = "It is on 6th floor";
+      } else if (room.levelName.includes("Level 7")) {
+        location = "It is on 7th floor. Access is via stairs.";
+      } else {
+        location = room.levelName.replace(/ \(.+\)/g, "");
+      }
+
+      let additionals = "";
+      if (room.number === "101") {
+        additionals = "Terrace on the roof TWIN";
+      } else {
+        const parts = [];
+        if (room.bed) parts.push(room.bed);
+        if (room.features) parts.push(room.features);
+        additionals = parts.join(" ");
+      }
+
+      const hasStayDate = (dateStr: string, dateLabel: string) => {
+        return occupants.some(o => {
+          const inDuration = o.stayDuration?.includes(dateLabel);
+          const inManual = o.manualStayDates?.toLowerCase().includes(dateStr.toLowerCase()) || o.manualStayDates?.toLowerCase().includes(dateLabel.toLowerCase());
+          return !!(inDuration || inManual);
+        }) ? "X" : "";
+      };
+
+      const stay16 = occupants.length > 0 ? hasStayDate("16th", "Friday 16th") : "";
+      const stay17 = occupants.length > 0 ? hasStayDate("17th", "Saturday 17th") : "";
+      const stay18 = occupants.length > 0 ? hasStayDate("18th", "Sunday 18th") : "";
+      const stay19 = occupants.length > 0 ? hasStayDate("19th", "Monday 19th") : "";
+
+      let nightsCount = 0;
+      if (stay16 === "X") nightsCount++;
+      if (stay17 === "X") nightsCount++;
+      if (stay18 === "X") nightsCount++;
+      if (stay19 === "X") nightsCount++;
+
+      if (nightsCount === 0 && occupants.length > 0) {
+        nightsCount = Math.max(...occupants.map(o => {
+          const parts = o.stayDuration?.split(",").map(p => p.trim()).filter(Boolean) || [];
+          return parts.length > 0 ? parts.length : 2;
+        }));
+      }
+
+      const totalAmount = nightlyPrice * nightsCount;
+
+      const notes = occupants.map(o => {
+        const parts = [];
+        if (o.dietary) parts.push(`Dietary: ${o.dietary}`);
+        if (o.notes) parts.push(`Notes: ${o.notes}`);
+        if (o.isPlaceholder) parts.push("[Placeholder]");
+        return parts.join("; ");
+      }).filter(Boolean).join(" | ");
+
+      return {
+        "User name": "",
+        "Room Number": room.number + (room.number === "101" ? "*" : ""),
+        "Room Type": mappedType,
+        "Room Location": location,
+        "Booking reference": "",
+        "Room additionals": additionals,
+        "Guest Name(s) and Surname(s)": guestNames,
+        "Email address": emailAddress,
+        "First guest phone number": "",
+        "Adults": occupants.length > 0 ? adultsCount : "",
+        "Kids (include the age)": "",
+        "DATES": "",
+        "16th APRIL": stay16,
+        "17th APRIL": stay17,
+        "18th APRIL": stay18,
+        "19th APRIL": stay19,
+        "Rate Euros No-exclus. days Breakfast incl.": "",
+        "Rate Euros Exclu. days Breakfast incl.": occupants.length > 0 ? nightlyPrice : "",
+        "Prices per day": occupants.length > 0 ? nightlyPrice : "",
+        "amount guests to pay": occupants.length > 0 ? totalAmount : "",
+        "Notes": notes
+      };
+    });
+  };
+
   const handleExportCSV = () => {
     try {
-      const exportData = filteredRsvps.map(r => {
-        const checkDate = (date: string) => {
-          const inDuration = r.stayDuration?.includes(date);
-          const inManual = r.manualStayDates?.toLowerCase().includes(date.toLowerCase());
-          return (inDuration || inManual) ? "X" : "";
-        };
-
-        return {
-          "Date & Time": r.submittedAt instanceof Timestamp ? r.submittedAt.toDate().toLocaleString() : new Date(r.submittedAt).toLocaleString(),
-          Guest: `${r.firstName} ${r.lastName}`,
-          Email: r.email,
-          RoomPreference: formatRoom(r.roomPreference),
-          AssignedRoom: r.assignedRoom || "Unassigned",
-          "Thursday 15th": checkDate("Thursday 15th"),
-          "Friday 16th": checkDate("Friday 16th"),
-          "Saturday 17th": checkDate("Saturday 17th"),
-          "Sunday 18th": checkDate("Sunday 18th"),
-          "Monday 20th": checkDate("Monday 20th"),
-          ExtraNightDetails: r.manualStayDates,
-          PartySize: r.guests
-        };
-      });
+      const exportData = getExportData();
       const csv = convertToCSV(exportData);
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
@@ -111,31 +234,39 @@ export const AdminAccommodationList = () => {
 
   const handleExportExcel = () => {
     try {
-      const exportData = filteredRsvps.map(r => {
-        const checkDate = (date: string) => {
-          const inDuration = r.stayDuration?.includes(date);
-          const inManual = r.manualStayDates?.toLowerCase().includes(date.toLowerCase());
-          return (inDuration || inManual) ? "X" : "";
-        };
+      const exportData = getExportData();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+      
+      worksheet['!cols'] = [
+        { wch: 12 }, // User name
+        { wch: 14 }, // Room Number
+        { wch: 18 }, // Room Type
+        { wch: 45 }, // Room Location
+        { wch: 18 }, // Booking reference
+        { wch: 25 }, // Room additionals
+        { wch: 30 }, // Guest Name(s) and Surname(s)
+        { wch: 28 }, // Email address
+        { wch: 22 }, // First guest phone number
+        { wch: 8 },  // Adults
+        { wch: 20 }, // Kids (include the age)
+        { wch: 8 },  // DATES
+        { wch: 12 }, // 16th APRIL
+        { wch: 12 }, // 17th APRIL
+        { wch: 12 }, // 18th APRIL
+        { wch: 12 }, // 19th APRIL
+        { wch: 32 }, // Rate Euros No-exclus. days Breakfast incl.
+        { wch: 32 }, // Rate Euros Exclu. days Breakfast incl.
+        { wch: 15 }, // Prices per day
+        { wch: 20 }, // amount guests to pay
+        { wch: 40 }  // Notes
+      ];
 
-        return {
-          "Date & Time": r.submittedAt instanceof Timestamp ? r.submittedAt.toDate().toLocaleString() : new Date(r.submittedAt).toLocaleString(),
-          Guest: `${r.firstName} ${r.lastName}`,
-          Email: r.email,
-          RoomPreference: formatRoom(r.roomPreference),
-          AssignedRoom: r.assignedRoom || "Unassigned",
-          "Thursday 15th": checkDate("Thursday 15th"),
-          "Friday 16th": checkDate("Friday 16th"),
-          "Saturday 17th": checkDate("Saturday 17th"),
-          "Sunday 18th": checkDate("Sunday 18th"),
-          "Monday 20th": checkDate("Monday 20th"),
-          ExtraNightDetails: r.manualStayDates,
-          PartySize: r.guests
-        };
-      });
-      downloadExcel(exportData, `accommodation_registry_${new Date().toISOString().split('T')[0]}`);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Accommodation");
+      XLSX.writeFile(workbook, `accommodation_registry_${new Date().toISOString().split('T')[0]}.xlsx`);
       toast.success("Accommodation list exported to Excel");
     } catch (err) {
+      console.error(err);
       toast.error("Failed to export Excel");
     }
   };
