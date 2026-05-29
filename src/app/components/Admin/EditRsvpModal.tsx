@@ -201,25 +201,30 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
           )}
 
           <div className="space-y-8 border-t border-black/5 pt-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Stay Dates</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Friday 16th, Saturday 17th"
-                  className="w-full bg-black/5 border-none p-4 rounded-2xl outline-none focus:ring-1 ring-accent-terracotta/20 font-serif italic text-lg"
-                  value={editingGuest.stayDuration}
-                  onChange={(e) => handleEditChange('stayDuration', e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Manual Dates (Extra Night)</label>
-                <input
-                  type="text"
-                  className="w-full bg-black/5 border-none p-4 rounded-2xl outline-none focus:ring-1 ring-accent-terracotta/20 font-serif italic text-lg"
-                  value={editingGuest.manualStayDates}
-                  onChange={(e) => handleEditChange('manualStayDates', e.target.value)}
-                />
+            <div className="space-y-2 col-span-full">
+              <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Stay Dates</label>
+              <div className="flex flex-wrap gap-4">
+                {['Thursday 15th', 'Friday 16th', 'Saturday 17th', 'Sunday 18th'].map(date => (
+                  <label key={date} className="flex items-center gap-2 bg-black/5 p-3 rounded-xl cursor-pointer hover:bg-black/10 transition-all">
+                    <input 
+                      type="checkbox" 
+                      className="w-4 h-4 accent-accent-terracotta"
+                      checked={editingGuest.stayDuration?.includes(date) || editingGuest.manualStayDates?.includes(date.split(' ')[0])}
+                      onChange={(e) => {
+                        const current = editingGuest.stayDuration?.split(', ').filter(Boolean) || [];
+                        let updated;
+                        if (e.target.checked) {
+                          if (!current.includes(date)) updated = [...current, date];
+                          else updated = current;
+                        } else {
+                          updated = current.filter(d => d !== date && d !== 'Extra Night');
+                        }
+                        handleEditChange('stayDuration', updated.join(', '));
+                      }}
+                    />
+                    <span className="font-serif italic text-sm">{date}</span>
+                  </label>
+                ))}
               </div>
             </div>
 

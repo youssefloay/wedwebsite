@@ -121,7 +121,7 @@ export const AdminAccommodationList = () => {
       const adultsCount = occupants.reduce((sum, o) => sum + o.guests, 0);
 
       const mappedType = TYPE_MAPPINGS[room.type] || room.type;
-      const nightlyPrice = PRICE_MAPPINGS[room.type] || 0;
+      const basePrice = PRICE_MAPPINGS[room.type] || 0;
 
       let location = "";
       if (room.number === "101") {
@@ -178,7 +178,11 @@ export const AdminAccommodationList = () => {
         }));
       }
 
-      const totalAmount = nightlyPrice * nightsCount;
+      const extraGuests = occupants.length > 0 ? Math.max(0, adultsCount - 1) : 0;
+      const extraBreakfastCostPerNight = extraGuests * 18.5;
+      const nonExclusiveRate = basePrice > 0 ? (basePrice - 0.5 + extraBreakfastCostPerNight) : 0;
+      const exclusiveRate = basePrice > 0 ? (basePrice - 0.5 + (nightsCount * 0.5) + extraBreakfastCostPerNight) : 0;
+      const totalAmount = basePrice > 0 ? (basePrice + extraBreakfastCostPerNight) * nightsCount : 0;
 
       const notes = occupants.map(o => {
         const parts = [];
@@ -205,9 +209,9 @@ export const AdminAccommodationList = () => {
         "16th APRIL": stay16,
         "17th APRIL (exclusive night)": stay17,
         "18th APRIL": stay18,
-        "Rate Euros No-exclus. days Breakfast incl.": "",
-        "Rate Euros Exclu. days Breakfast incl.": occupants.length > 0 ? nightlyPrice : "",
-        "Prices per day": occupants.length > 0 ? nightlyPrice : "",
+        "Rate Euros No-exclus. days Breakfast incl.": occupants.length > 0 && nightsCount > 1 ? nonExclusiveRate : "",
+        "Rate Euros Exclu. days Breakfast incl.": occupants.length > 0 ? exclusiveRate : "",
+        "Prices per day": occupants.length > 0 ? (nightsCount > 1 ? `${nonExclusiveRate} / ${exclusiveRate}` : exclusiveRate) : "",
         "amount guests to pay": occupants.length > 0 ? totalAmount : "",
         "Notes": notes
       };

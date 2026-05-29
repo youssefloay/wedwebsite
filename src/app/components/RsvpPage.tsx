@@ -458,7 +458,10 @@ export function RsvpPage() {
                                         
                                         <div className="mt-4 pt-4 border-t border-accent-terracotta/10 w-full flex justify-between items-center">
                                           <span className="text-[12px] label-uppercase tracking-widest text-accent-terracotta opacity-60">Nightly Rate</span>
-                                          <span className="font-serif italic text-xl text-primary-text">€{r.price}</span>
+                                          <div className="flex flex-col text-right">
+                                            <span className="font-serif italic text-xl text-primary-text">€{r.price}</span>
+                                            <span className="text-[9px] text-secondary-text/70 mt-1 italic font-serif">* Includes breakfast for 1. Extra person: €18.50</span>
+                                          </div>
                                         </div>
                                       </button>
                                     ))}

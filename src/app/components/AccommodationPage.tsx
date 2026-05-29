@@ -135,9 +135,12 @@ export function AccommodationPage() {
                     )}
                   </div>
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-8 pt-10 border-t border-border/20">
-                    <div className="text-3xl font-serif text-primary-text">
-                      €{room.pricePerNight}
-                      <span className="text-[10px] font-sans text-secondary-text/60 ml-3 uppercase tracking-widest font-bold">per night</span>
+                    <div className="flex flex-col">
+                      <div className="text-3xl font-serif text-primary-text">
+                        €{room.pricePerNight}
+                        <span className="text-[10px] font-sans text-secondary-text/60 ml-3 uppercase tracking-widest font-bold">per night</span>
+                      </div>
+                      <span className="text-[10px] text-secondary-text/70 mt-1 italic font-serif">* Includes breakfast for 1. Extra person breakfast: €18.50</span>
                     </div>
                     {room.isBooked ? (
                       <button disabled className="btn-primary !bg-gray-400 !border-gray-400 opacity-50 cursor-not-allowed">

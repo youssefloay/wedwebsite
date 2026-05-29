@@ -51,15 +51,32 @@ export const getAllRsvps = async (): Promise<RsvpData[]> => {
     ...doc.data()
   } as RsvpData));
 
-  // Patch for Nadine Seleem as requested by admin
+  // Patch for Nadine Seleem and Bride/Groom as requested by admin
   return data.map(rsvp => {
-    if (rsvp.firstName?.trim().toLowerCase() === "nadine" && rsvp.lastName?.trim().toLowerCase() === "seleem") {
+    const fn = rsvp.firstName?.trim().toLowerCase() || "";
+    const ln = rsvp.lastName?.trim().toLowerCase() || "";
+
+    if (fn === "nadine" && ln === "seleem") {
       if (!rsvp.stayDuration?.includes("Saturday 17th")) {
         rsvp.stayDuration = rsvp.stayDuration 
           ? (rsvp.stayDuration.includes("Saturday 17th") ? rsvp.stayDuration : `${rsvp.stayDuration}, Saturday 17th`)
           : "Saturday 17th";
       }
     }
+
+    if ((fn === "lama" && ln === "loay") || ((fn === "alvaro" || fn === "álvaro") && ln === "recas")) {
+      rsvp.isPlaceholder = false;
+      rsvp.stayDuration = "Thursday 15th, Friday 16th, Saturday 17th, Sunday 18th";
+      rsvp.attendance = "Joyfully accept";
+      rsvp.accommodation = "Yes, please";
+      if (rsvp.email?.includes('placeholder-')) {
+        rsvp.email = `${fn}@wedding.com`;
+      }
+      if (rsvp.notes === "Placeholder created by admin.") {
+        rsvp.notes = "Bride & Groom";
+      }
+    }
+    
     return rsvp;
   });
 };
