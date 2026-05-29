@@ -160,16 +160,16 @@ export const AdminAccommodationList = () => {
         }) ? "X" : "";
       };
 
+      const stay15 = occupants.length > 0 ? hasStayDate("15th", "Thursday 15th") : "";
       const stay16 = occupants.length > 0 ? hasStayDate("16th", "Friday 16th") : "";
       const stay17 = occupants.length > 0 ? hasStayDate("17th", "Saturday 17th") : "";
       const stay18 = occupants.length > 0 ? hasStayDate("18th", "Sunday 18th") : "";
-      const stay19 = occupants.length > 0 ? hasStayDate("19th", "Monday 19th") : "";
 
       let nightsCount = 0;
+      if (stay15 === "X") nightsCount++;
       if (stay16 === "X") nightsCount++;
       if (stay17 === "X") nightsCount++;
       if (stay18 === "X") nightsCount++;
-      if (stay19 === "X") nightsCount++;
 
       if (nightsCount === 0 && occupants.length > 0) {
         nightsCount = Math.max(...occupants.map(o => {
@@ -201,10 +201,10 @@ export const AdminAccommodationList = () => {
         "Adults": occupants.length > 0 ? adultsCount : "",
         "Kids (include the age)": "",
         "DATES": "",
+        "15th APRIL": stay15,
         "16th APRIL": stay16,
-        "17th APRIL": stay17,
+        "17th APRIL (exclusive night)": stay17,
         "18th APRIL": stay18,
-        "19th APRIL": stay19,
         "Rate Euros No-exclus. days Breakfast incl.": "",
         "Rate Euros Exclu. days Breakfast incl.": occupants.length > 0 ? nightlyPrice : "",
         "Prices per day": occupants.length > 0 ? nightlyPrice : "",
@@ -250,10 +250,10 @@ export const AdminAccommodationList = () => {
         { wch: 8 },  // Adults
         { wch: 20 }, // Kids (include the age)
         { wch: 8 },  // DATES
+        { wch: 12 }, // 15th APRIL
         { wch: 12 }, // 16th APRIL
-        { wch: 12 }, // 17th APRIL
+        { wch: 30 }, // 17th APRIL (exclusive night)
         { wch: 12 }, // 18th APRIL
-        { wch: 12 }, // 19th APRIL
         { wch: 32 }, // Rate Euros No-exclus. days Breakfast incl.
         { wch: 32 }, // Rate Euros Exclu. days Breakfast incl.
         { wch: 15 }, // Prices per day
