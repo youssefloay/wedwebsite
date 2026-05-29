@@ -64,7 +64,11 @@ export const getAllRsvps = async (): Promise<RsvpData[]> => {
       }
     }
 
-    if ((fn === "lama" && ln === "loay") || ((fn === "alvaro" || fn === "álvaro") && ln === "recas")) {
+    if (
+      (fn === "lama" && ln === "loay") || 
+      ((fn === "alvaro" || fn === "álvaro") && ln === "recas") ||
+      ((fn === "josé-alberto" || fn === "jose-alberto" || fn === "josé alberto" || fn === "jose alberto") && ln === "recas")
+    ) {
       rsvp.isPlaceholder = false;
       rsvp.stayDuration = "Thursday 15th, Friday 16th, Saturday 17th, Sunday 18th";
       rsvp.attendance = "Joyfully accept";
