@@ -25,12 +25,12 @@ export function AccommodationPage() {
     },
     {
       name: 'Castillo Junior',
-      rooms: 1,
+      rooms: 0,
       maxGuests: 2,
       pricePerNight: 209,
       image: "/room-junior.png",
       description: 'Top of the range rooms featuring both a balcony and a private seating area.',
-      isBooked: false
+      isBooked: true
     },
     {
       name: 'Family Room',
