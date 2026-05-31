@@ -344,7 +344,10 @@ export const AdminRoomDashboard = () => {
                 {!editMode && !isSelected && (
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-white rounded-2xl shadow-2xl p-5 w-56 opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-50 border border-accent-terracotta/10">
                     <p className="font-serif italic font-bold text-2xl mb-1 text-primary-text">{room.number}</p>
-                    <p className="text-[10px] text-secondary-text uppercase tracking-widest font-bold mb-3 pb-3 border-b border-black/5">{room.type} • {room.pax} pax</p>
+                    <p className="text-[10px] text-secondary-text uppercase tracking-widest font-bold mb-3 pb-3 border-b border-black/5">
+                      {room.type} • {room.pax} pax
+                      {room.bed && <span className="block mt-1 text-accent-terracotta">Bed: {room.bed}</span>}
+                    </p>
                     {isPlaceholder ? (
                       <div className="bg-yellow-50 p-3 rounded-xl border border-yellow-200">
                         <p className="text-[9px] text-yellow-700 uppercase tracking-widest font-bold mb-1">Placeholder For</p>
