@@ -107,6 +107,38 @@ export const AdminGuestList = () => {
     }
   };
 
+  const handleAddPlaceholder = async () => {
+    setIsLoading(true);
+    try {
+      const { saveRsvp } = await import('../../../lib/rsvpService');
+      await saveRsvp({
+        firstName: "New",
+        lastName: "Placeholder",
+        email: `placeholder-${Date.now()}@wedding.com`,
+        guests: 1,
+        guestNames: [],
+        attendance: "Joyfully accept",
+        accommodation: "",
+        roomPreference: "",
+        stayDuration: "",
+        manualStayDates: "",
+        transfer: "No",
+        carRental: "No",
+        visaSupport: "No",
+        dietary: "",
+        musicSuggestion: "",
+        notes: "Placeholder created by admin.",
+        isPlaceholder: true,
+      });
+      toast.success("Placeholder created! You can now edit it.");
+      fetchData();
+    } catch (err) {
+      toast.error("Failed to create placeholder");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -115,6 +147,12 @@ export const AdminGuestList = () => {
           <p className="text-secondary-text font-serif italic mt-1 opacity-70">Manage responses and export data for vendors.</p>
         </div>
         <div className="flex items-center gap-4">
+          <button 
+            onClick={handleAddPlaceholder}
+            className="flex items-center gap-2 bg-white text-accent-terracotta border border-accent-terracotta/20 px-6 py-4 rounded-2xl hover:bg-black/5 transition-all shadow-sm active:scale-95"
+          >
+            <span className="font-serif uppercase tracking-widest text-xs font-bold">+ Add Placeholder</span>
+          </button>
           <button 
             onClick={handleExportCSV}
             className="flex items-center gap-3 bg-white text-accent-terracotta border border-accent-terracotta/20 px-6 py-4 rounded-2xl hover:bg-black/5 transition-all shadow-sm active:scale-95"
