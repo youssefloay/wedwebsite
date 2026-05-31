@@ -212,14 +212,28 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
                       checked={editingGuest.stayDuration?.includes(date) || editingGuest.manualStayDates?.includes(date.split(' ')[0])}
                       onChange={(e) => {
                         const current = editingGuest.stayDuration?.split(', ').filter(Boolean) || [];
-                        let updated;
+                        // Also parse any dates from manualStayDates so we don't lose them when converting
+                        const manual = editingGuest.manualStayDates || "";
+                        let allDates = new Set(current);
+                        
+                        if (manual.includes("15")) allDates.add("Thursday 15th");
+                        if (manual.includes("16")) allDates.add("Friday 16th");
+                        if (manual.includes("17")) allDates.add("Saturday 17th");
+                        if (manual.includes("18")) allDates.add("Sunday 18th");
+
+                        allDates.delete('Extra Night');
+
                         if (e.target.checked) {
-                          if (!current.includes(date)) updated = [...current, date];
-                          else updated = current;
+                          allDates.add(date);
                         } else {
-                          updated = current.filter(d => d !== date && d !== 'Extra Night');
+                          allDates.delete(date);
                         }
-                        handleEditChange('stayDuration', updated.join(', '));
+
+                        setEditingGuest(prev => ({
+                          ...prev,
+                          stayDuration: Array.from(allDates).join(', '),
+                          manualStayDates: "" // Clear legacy field
+                        }));
                       }}
                     />
                     <span className="font-serif italic text-sm">{date}</span>
