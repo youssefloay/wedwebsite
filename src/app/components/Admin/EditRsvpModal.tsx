@@ -204,41 +204,50 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
             <div className="space-y-2 col-span-full">
               <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Stay Dates</label>
               <div className="flex flex-wrap gap-4">
-                {['Thursday 15th', 'Friday 16th', 'Saturday 17th', 'Sunday 18th'].map(date => (
-                  <label key={date} className="flex items-center gap-2 bg-black/5 p-3 rounded-xl cursor-pointer hover:bg-black/10 transition-all">
-                    <input 
-                      type="checkbox" 
-                      className="w-4 h-4 accent-accent-terracotta"
-                      checked={editingGuest.stayDuration?.includes(date) || editingGuest.manualStayDates?.includes(date.split(' ')[0])}
-                      onChange={(e) => {
-                        const current = editingGuest.stayDuration?.split(', ').filter(Boolean) || [];
-                        // Also parse any dates from manualStayDates so we don't lose them when converting
-                        const manual = editingGuest.manualStayDates || "";
-                        let allDates = new Set(current);
-                        
-                        if (manual.includes("15")) allDates.add("Thursday 15th");
-                        if (manual.includes("16")) allDates.add("Friday 16th");
-                        if (manual.includes("17")) allDates.add("Saturday 17th");
-                        if (manual.includes("18")) allDates.add("Sunday 18th");
+                {['Thursday 15th', 'Friday 16th', 'Saturday 17th', 'Sunday 18th'].map(date => {
+                  const dateNumber = date.split(' ')[1].replace('th', '');
+                  const isChecked = !!(
+                    editingGuest.stayDuration?.includes(date) || 
+                    editingGuest.manualStayDates?.includes(dateNumber) || 
+                    editingGuest.manualStayDates?.includes(date.split(' ')[0])
+                  );
 
-                        allDates.delete('Extra Night');
+                  return (
+                    <label key={date} className="flex items-center gap-2 bg-black/5 p-3 rounded-xl cursor-pointer hover:bg-black/10 transition-all">
+                      <input 
+                        type="checkbox" 
+                        className="w-4 h-4 accent-accent-terracotta"
+                        checked={isChecked}
+                        onChange={(e) => {
+                          const current = editingGuest.stayDuration?.split(',').map(s => s.trim()).filter(Boolean) || [];
+                          // Also parse any dates from manualStayDates so we don't lose them when converting
+                          const manual = editingGuest.manualStayDates || "";
+                          let allDates = new Set(current);
+                          
+                          if (manual.includes("15")) allDates.add("Thursday 15th");
+                          if (manual.includes("16")) allDates.add("Friday 16th");
+                          if (manual.includes("17")) allDates.add("Saturday 17th");
+                          if (manual.includes("18")) allDates.add("Sunday 18th");
 
-                        if (e.target.checked) {
-                          allDates.add(date);
-                        } else {
-                          allDates.delete(date);
-                        }
+                          allDates.delete('Extra Night');
 
-                        setEditingGuest(prev => ({
-                          ...prev,
-                          stayDuration: Array.from(allDates).join(', '),
-                          manualStayDates: "" // Clear legacy field
-                        }));
-                      }}
-                    />
-                    <span className="font-serif italic text-sm">{date}</span>
-                  </label>
-                ))}
+                          if (e.target.checked) {
+                            allDates.add(date);
+                          } else {
+                            allDates.delete(date);
+                          }
+
+                          setEditingGuest(prev => ({
+                            ...prev,
+                            stayDuration: Array.from(allDates).join(', '),
+                            manualStayDates: "" // Clear legacy field
+                          }));
+                        }}
+                      />
+                      <span className="font-serif italic text-sm">{date}</span>
+                    </label>
+                  );
+                })}
               </div>
             </div>
 
