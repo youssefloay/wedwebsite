@@ -301,7 +301,9 @@ export const AdminRoomDashboard = () => {
             const room = ALL_ROOMS.find(r => r.id === roomId);
             if (!room) return null;
             const occupants = getOccupants(room.id);
+            const remainingCapacity = room.pax - occupants.reduce((sum, o) => sum + o.guests, 0);
             const isOccupied = occupants.length > 0;
+            const isFull = remainingCapacity <= 0;
             const isPlaceholder = occupants.some(o => o.isPlaceholder);
             const isSelected = selectedRoomForAssignment === room.id;
 
@@ -321,7 +323,8 @@ export const AdminRoomDashboard = () => {
                     editMode ? 'bg-yellow-400 border-white text-yellow-900 animate-pulse' :
                     isSelected ? 'bg-accent-terracotta text-white border-white scale-125 z-40 shadow-accent-terracotta/50 shadow-xl' :
                     isPlaceholder ? 'bg-yellow-500 text-white border-white opacity-90' :
-                    isOccupied ? 'bg-red-500 text-white border-white opacity-90' :
+                    isFull ? 'bg-red-500 text-white border-white opacity-90' :
+                    isOccupied ? 'bg-orange-400 text-white border-white hover:bg-orange-300' :
                     'bg-green-500 text-white border-white hover:bg-green-400'
                   }`}
                 >
