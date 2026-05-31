@@ -123,6 +123,7 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
                 value={editingGuest.attendance}
                 onChange={(e) => handleEditChange('attendance', e.target.value)}
               >
+                <option value="">-- Select --</option>
                 <option value="Joyfully accept">Joyfully accept</option>
                 <option value="Regretfully decline">Regretfully decline</option>
               </select>
@@ -134,10 +135,12 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
                 min="1"
                 max="10"
                 className="w-full bg-black/5 border-none p-4 rounded-2xl outline-none focus:ring-1 ring-accent-terracotta/20 font-serif italic text-lg"
-                value={editingGuest.guests}
+                value={editingGuest.guests || ""}
                 onChange={(e) => {
-                  const numGuests = parseInt(e.target.value) || 1;
-                  const newGuestNames = Array(Math.max(0, numGuests - 1)).fill(null).map((_, i) =>
+                  const val = e.target.value;
+                  const numGuests = val === "" ? ("" as any) : parseInt(val);
+                  const validGuests = val === "" ? 1 : (parseInt(val) || 1);
+                  const newGuestNames = Array(Math.max(0, validGuests - 1)).fill(null).map((_, i) =>
                     (editingGuest.guestNames && editingGuest.guestNames[i]) || { firstName: '', lastName: '' }
                   );
                   setEditingGuest(prev => ({
@@ -261,6 +264,7 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
                   value={editingGuest.accommodation}
                   onChange={(e) => handleEditChange('accommodation', e.target.value)}
                 >
+                  <option value="">-- Select --</option>
                   <option value="Yes, please">Castillo de Monda</option>
                   <option value="No, thank you">Independent</option>
                 </select>
