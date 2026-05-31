@@ -260,7 +260,9 @@ export const InteractiveMapModal = ({
               const room = ALL_ROOMS.find(r => r.id === roomId);
               if (!room) return null;
               const occupants = getOccupants(room.id);
+              const remainingCapacity = room.pax - occupants.reduce((sum, o) => sum + o.guests, 0);
               const isOccupied = occupants.length > 0;
+              const isFull = remainingCapacity <= 0;
               const isSelected = currentAssignedRoom === room.id;
 
               return (
@@ -273,15 +275,15 @@ export const InteractiveMapModal = ({
                     onClick={(e) => {
                       e.stopPropagation();
                       if (editMode) return;
-                      if (!isOccupied) {
-                        onSelect(room.id);
-                        onClose();
-                      }
+                      // Allow selecting if there is still capacity OR if it's the admin overriding
+                      onSelect(room.id);
+                      onClose();
                     }}
                     className={`relative flex flex-col items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-[3px] shadow-lg backdrop-blur-md transition-all hover:scale-125 hover:z-50 ${
                       editMode ? 'bg-yellow-400 border-white text-yellow-900 animate-pulse' :
                       isSelected ? 'bg-accent-terracotta text-white border-white scale-125 z-40 shadow-accent-terracotta/50 shadow-xl' :
-                      isOccupied ? 'bg-red-500 text-white border-white cursor-not-allowed opacity-90' :
+                      isFull ? 'bg-red-500 text-white border-white cursor-not-allowed opacity-90' :
+                      isOccupied ? 'bg-orange-400 text-white border-white hover:bg-orange-300' :
                       'bg-green-500 text-white border-white hover:bg-green-400'
                     }`}
                   >
