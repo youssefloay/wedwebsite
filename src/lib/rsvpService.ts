@@ -93,6 +93,14 @@ export const updateRsvp = async (id: string, data: Partial<RsvpData>) => {
   const rsvpRef = doc(db, RSVP_COLLECTION, id);
   // Remove id from data to avoid updating the id field itself if present
   const { id: _, ...updateData } = data as any;
+  
+  // Firestore throws an error if we try to update a document with undefined values
+  Object.keys(updateData).forEach(key => {
+    if (updateData[key] === undefined) {
+      delete updateData[key];
+    }
+  });
+
   await updateDoc(rsvpRef, updateData);
 };
 
