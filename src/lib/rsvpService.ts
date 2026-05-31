@@ -56,38 +56,9 @@ export const getAllRsvps = async (): Promise<RsvpData[]> => {
     r.firstName?.toLowerCase().includes("daniela")
   ));
 
-  // Patch for Nadine Seleem and Bride/Groom as requested by admin
-  return data.map(rsvp => {
-    const fn = rsvp.firstName?.trim().toLowerCase() || "";
-    const ln = rsvp.lastName?.trim().toLowerCase() || "";
-
-    if (fn === "nadine" && ln === "seleem") {
-      if (!rsvp.stayDuration?.includes("Saturday 17th")) {
-        rsvp.stayDuration = rsvp.stayDuration 
-          ? (rsvp.stayDuration.includes("Saturday 17th") ? rsvp.stayDuration : `${rsvp.stayDuration}, Saturday 17th`)
-          : "Saturday 17th";
-      }
-    }
-
-    if (
-      (fn === "lama" && ln === "loay") || 
-      ((fn === "alvaro" || fn === "álvaro") && ln === "recas") ||
-      ((fn === "josé-alberto" || fn === "jose-alberto" || fn === "josé alberto" || fn === "jose alberto") && ln === "recas")
-    ) {
-      rsvp.isPlaceholder = false;
-      rsvp.stayDuration = "Thursday 15th, Friday 16th, Saturday 17th, Sunday 18th";
-      rsvp.attendance = "Joyfully accept";
-      rsvp.accommodation = "Yes, please";
-      if (rsvp.email?.includes('placeholder-')) {
-        rsvp.email = `${fn}@wedding.com`;
-      }
-      if (rsvp.notes === "Placeholder created by admin.") {
-        rsvp.notes = "Bride & Groom";
-      }
-    }
-    
-    return rsvp;
-  });
+  // Removed hardcoded patches because they overwrite real RSVPs and prevent admin edits.
+  // The admin can manually update these guests via the Edit RSVP modal.
+  return data;
 };
 
 export const deleteRsvp = async (id: string) => {
