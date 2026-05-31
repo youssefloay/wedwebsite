@@ -415,6 +415,11 @@ export function RsvpPage() {
                                     <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                       Rooms are allocated on first-come, first-served basis. Payment is required to confirm your stay; the hotel concierge will contact you.
                                     </p>
+                                    <div className="bg-orange-50/50 border border-orange-200/50 p-4 rounded-xl max-w-2xl">
+                                      <p className="text-sm md:text-base text-orange-900/80 font-serif italic leading-relaxed">
+                                        Please note that room availability displayed on this website is provided for guidance only and is not updated in real time. Availability can change quickly, and some room categories, or even all rooms, may already be sold out by the time you make your reservation. The rooms shown here reflect the options that were available when the information was last updated and do not guarantee current availability.
+                                      </p>
+                                    </div>
                                   </div>
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in duration-700">
                                     {roomTypes.map(r => (

@@ -85,7 +85,13 @@ export function AccommodationPage() {
           <div className="text-center mb-16 flex flex-col items-center reveal">
             <span className="label-uppercase">The Sanctuaries</span>
             <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Private Rooms</h2>
-            <div className="w-16 h-px bg-accent-terracotta" />
+            <div className="w-16 h-px bg-accent-terracotta mb-8" />
+            
+            <div className="bg-orange-50/50 border border-orange-200/50 p-6 rounded-2xl max-w-4xl text-left shadow-sm">
+              <p className="text-sm md:text-base text-orange-900/80 font-serif italic leading-relaxed text-center">
+                Please note that room availability displayed on this website is provided for guidance only and is not updated in real time. Availability can change quickly, and some room categories, or even all rooms, may already be sold out by the time you make your reservation. The rooms shown here reflect the options that were available when the information was last updated and do not guarantee current availability.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
