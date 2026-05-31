@@ -52,6 +52,8 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
 
     setIsUpdating(true);
     try {
+      console.log("DEBUG SAVING:", editingGuest);
+      toast.info(`Saving dates: "${editingGuest.stayDuration}"`);
       await updateRsvp(editingGuest.id, editingGuest);
       toast.success("RSVP updated successfully");
       onSuccess();

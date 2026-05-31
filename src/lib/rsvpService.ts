@@ -51,6 +51,11 @@ export const getAllRsvps = async (): Promise<RsvpData[]> => {
     ...doc.data()
   } as RsvpData));
 
+  console.log("DEBUG_RSVP:", data.filter(r => 
+    r.firstName?.toLowerCase().includes("antony") || 
+    r.firstName?.toLowerCase().includes("daniela")
+  ));
+
   // Patch for Nadine Seleem and Bride/Groom as requested by admin
   return data.map(rsvp => {
     const fn = rsvp.firstName?.trim().toLowerCase() || "";
