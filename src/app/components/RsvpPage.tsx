@@ -86,7 +86,7 @@ export function RsvpPage() {
 
   const roomTypes = [
     { name: 'Comfy', maxGuests: 2, price: 154, isBooked: true, rooms: 0 },
-    { name: 'Superior Comfy', maxGuests: 3, price: 184, isBooked: false, rooms: 8 },
+    { name: 'Superior Comfy', maxGuests: 3, price: 184, isBooked: false, rooms: 6 },
     { name: 'Castillo Junior', maxGuests: 2, price: 209, isBooked: true, rooms: 0 },
     { name: 'Family Room', maxGuests: 4, price: 219, isBooked: true, rooms: 0 }
   ];

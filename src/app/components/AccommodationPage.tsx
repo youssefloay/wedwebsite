@@ -16,7 +16,7 @@ export function AccommodationPage() {
     },
     {
       name: 'Superior Comfy',
-      rooms: 8,
+      rooms: 6,
       maxGuests: 3,
       pricePerNight: 184,
       image: "/room-superior.png",
