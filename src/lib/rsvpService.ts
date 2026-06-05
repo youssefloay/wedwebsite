@@ -150,10 +150,98 @@ export const convertToCSV = (data: any[]) => {
 };
 
 import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 
 export const downloadExcel = (data: any[], filename: string) => {
   const worksheet = XLSX.utils.json_to_sheet(data);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "RSVPs");
   XLSX.writeFile(workbook, `${filename}.xlsx`);
+};
+
+export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: string) => {
+  try {
+    const response = await fetch('/template.xlsx');
+    const arrayBuffer = await response.arrayBuffer();
+    
+    const workbook = new ExcelJS.Workbook();
+    await workbook.xlsx.load(arrayBuffer);
+    const worksheet = workbook.worksheets[0];
+    
+    const groupedRsvps: Record<string, RsvpData[]> = {};
+    for (const rsvp of rsvps) {
+      if (rsvp.assignedRoom) {
+        if (!groupedRsvps[rsvp.assignedRoom]) {
+          groupedRsvps[rsvp.assignedRoom] = [];
+        }
+        groupedRsvps[rsvp.assignedRoom].push(rsvp);
+      }
+    }
+    
+    worksheet.eachRow((row, rowNumber) => {
+      // Stop checking if we passed row 200 to be safe
+      if (rowNumber > 200) return;
+      
+      const cellValue = row.getCell(2).value; // Room Number column
+      if (cellValue) {
+        const roomNumberStr = cellValue.toString().trim();
+        if (roomNumberStr === "Room Number") return; // Header row
+        
+        const matchingRoomId = Object.keys(groupedRsvps).find(roomId => {
+           const roomIdNumber = roomId.split(" ")[0];
+           // Exact match or match with asterisk (like 101*)
+           return roomNumberStr === roomIdNumber || roomNumberStr === `${roomIdNumber}*`;
+        });
+        
+        if (matchingRoomId) {
+           const occupants = groupedRsvps[matchingRoomId];
+           
+           const names = occupants.map(o => {
+             const allNames = [`${o.firstName} ${o.lastName}`];
+             if (o.guestNames && o.guestNames.length > 0) {
+                o.guestNames.forEach(g => allNames.push(`${g.firstName} ${g.lastName}`));
+             }
+             return allNames.join(", ");
+           }).join(" & ");
+           
+           const emails = occupants.map(o => o.email).filter(Boolean).join(", ");
+           const totalGuests = occupants.reduce((acc, o) => acc + (o.attendance === "Joyfully accept" ? o.guests : 0), 0);
+           
+           const allNotes = occupants.map(o => {
+              const parts = [];
+              if (o.notes) parts.push(o.notes);
+              if (o.dietary) parts.push(`Dietary: ${o.dietary}`);
+              if (o.carRental === "Yes") parts.push("Travel: Car Rental");
+              else if (o.transfer === "Yes") parts.push("Travel: Transfer");
+              return parts.join(" | ");
+           }).filter(Boolean).join("\n");
+           
+           const checkDate = (dateStr: string) => {
+             return occupants.some(o => 
+               o.stayDuration?.toLowerCase().includes(dateStr.toLowerCase()) || 
+               o.manualStayDates?.toLowerCase().includes(dateStr.toLowerCase())
+             );
+           };
+           
+           row.getCell(7).value = names;
+           row.getCell(8).value = emails;
+           row.getCell(10).value = totalGuests;
+           row.getCell(22).value = allNotes;
+           
+           if (checkDate("16th")) row.getCell(13).value = "X";
+           if (checkDate("17th")) row.getCell(14).value = "X";
+           if (checkDate("18th")) row.getCell(15).value = "X";
+           if (checkDate("19th") || checkDate("20th") || checkDate("15th")) row.getCell(16).value = "X"; 
+           // grouped extra days into the 4th column just in case
+        }
+      }
+    });
+    
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(new Blob([buffer]), `${filename}.xlsx`);
+  } catch (error) {
+    console.error("Error generating excel from template:", error);
+    alert("Failed to generate Excel from template. Please check console for details.");
+  }
 };

@@ -45,6 +45,9 @@ export const AdminDashboard = () => {
         return isPlaceholder || r.attendance === "Joyfully accept";
       })
       .reduce((acc, curr) => acc + (Number(curr.guests) || 0), 0),
+    placeholderGuests: rsvps
+      .filter(r => r.isPlaceholder || r.email?.includes('placeholder-') || r.notes === "Placeholder created by admin.")
+      .reduce((acc, curr) => acc + (Number(curr.guests) || 0), 0),
     accommodationInterest: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.accommodation === "Yes, please").length,
     dietaryCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.dietary && r.dietary.trim() !== "").length,
   };
@@ -63,6 +66,7 @@ export const AdminDashboard = () => {
   const cards = [
     { label: "Total Headcount", value: stats.totalIncludingPlaceholders, sub: "Including placeholders", icon: <Users size={24} />, color: "bg-blue-50 text-blue-600" },
     { label: "Confirmed Guests", value: stats.confirmedGuests, sub: "RSVPs accepted", icon: <CheckCircle2 size={24} />, color: "bg-green-50 text-green-600" },
+    { label: "Placeholder Guests", value: stats.placeholderGuests, sub: "Pending invitations", icon: <Users size={24} />, color: "bg-purple-50 text-purple-600" },
     { label: "RSVP Responses", value: stats.totalSubmissions, sub: `${stats.attendingCount} Accept / ${stats.declinedCount} Decline`, icon: <Heart size={24} />, color: "bg-red-50 text-red-600" },
     { label: "Hotel Requests", value: stats.accommodationInterest, sub: "Castillo de Monda", icon: <Bed size={24} />, color: "bg-indigo-50 text-indigo-600" },
     { label: "Dietary Needs", value: stats.dietaryCount, sub: "Allergies & Restrictions", icon: <Utensils size={24} />, color: "bg-orange-50 text-orange-600" },
@@ -81,7 +85,7 @@ export const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cards.map((card, i) => (
           <div key={i} className="bg-white p-8 rounded-[30px] border border-accent-terracotta/10 shadow-sm hover:shadow-md transition-all duration-500 group">
             <div className="flex justify-between items-start mb-6">
@@ -171,9 +175,19 @@ export const AdminDashboard = () => {
 
       {/* Room Inventory */}
       <div className="bg-white rounded-[40px] border border-accent-terracotta/10 p-8 shadow-sm">
-        <div className="flex items-center justify-between mb-8">
-          <h3 className="text-3xl font-serif italic text-primary-text">Room Availability</h3>
-          <p className="text-xs text-secondary-text font-serif italic hidden sm:block">Real-time inventory based on actual room assignments</p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+          <div>
+            <h3 className="text-3xl font-serif italic text-primary-text">Room Availability</h3>
+            <p className="text-xs text-secondary-text font-serif italic hidden sm:block mt-1">Real-time inventory based on actual room assignments</p>
+          </div>
+          <div className="bg-[#FBF9F4] px-6 py-3 rounded-2xl border border-accent-terracotta/10 flex items-center gap-4 shadow-sm">
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-secondary-text font-bold">Total Assigned</p>
+              <p className="text-2xl font-serif italic text-accent-terracotta font-bold leading-none mt-1">
+                {ALL_ROOMS.filter(r => rsvps.some(rsvp => rsvp.assignedRoom === r.id)).length} <span className="text-sm text-secondary-text font-normal">/ {ALL_ROOMS.length}</span>
+              </p>
+            </div>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {['Comfy', 'Superior Comfy', 'Castillo Junior', 'Family Room'].map(roomType => {

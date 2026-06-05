@@ -236,42 +236,17 @@ export const AdminAccommodationList = () => {
     }
   };
 
-  const handleExportExcel = () => {
+  const handleExportExcel = async () => {
+    setIsLoading(true);
     try {
-      const exportData = getExportData();
-      const worksheet = XLSX.utils.json_to_sheet(exportData);
-      
-      worksheet['!cols'] = [
-        { wch: 12 }, // User name
-        { wch: 14 }, // Room Number
-        { wch: 18 }, // Room Type
-        { wch: 45 }, // Room Location
-        { wch: 18 }, // Booking reference
-        { wch: 25 }, // Room additionals
-        { wch: 30 }, // Guest Name(s) and Surname(s)
-        { wch: 28 }, // Email address
-        { wch: 22 }, // First guest phone number
-        { wch: 8 },  // Adults
-        { wch: 20 }, // Kids (include the age)
-        { wch: 8 },  // DATES
-        { wch: 12 }, // 15th APRIL
-        { wch: 12 }, // 16th APRIL
-        { wch: 30 }, // 17th APRIL (exclusive night)
-        { wch: 12 }, // 18th APRIL
-        { wch: 32 }, // Rate Euros No-exclus. days Breakfast incl.
-        { wch: 32 }, // Rate Euros Exclu. days Breakfast incl.
-        { wch: 15 }, // Prices per day
-        { wch: 20 }, // amount guests to pay
-        { wch: 40 }  // Notes
-      ];
-
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Accommodation");
-      XLSX.writeFile(workbook, `accommodation_registry_${new Date().toISOString().split('T')[0]}.xlsx`);
-      toast.success("Accommodation list exported to Excel");
+      const { downloadExcelFromTemplate } = await import('../../../lib/rsvpService');
+      await downloadExcelFromTemplate(rsvps, `accommodation_registry_${new Date().toISOString().split('T')[0]}`);
+      toast.success("Accommodation list exported to Excel perfectly formatted!");
     } catch (err) {
       console.error(err);
       toast.error("Failed to export Excel");
+    } finally {
+      setIsLoading(false);
     }
   };
 
