@@ -84,6 +84,12 @@ export const AdminTravelList = () => {
          bValue = b.submittedAt instanceof Timestamp ? b.submittedAt.toMillis() : new Date(b.submittedAt).getTime();
       }
       
+      if (aValue === undefined || aValue === null) aValue = "";
+      if (bValue === undefined || bValue === null) bValue = "";
+      
+      if (typeof aValue === 'string') aValue = aValue.toLowerCase();
+      if (typeof bValue === 'string') bValue = bValue.toLowerCase();
+      
       if (aValue < bValue) {
         return sortConfig.direction === 'asc' ? -1 : 1;
       }

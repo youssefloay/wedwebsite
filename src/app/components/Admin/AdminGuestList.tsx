@@ -48,7 +48,13 @@ export const AdminGuestList = () => {
     }
 
     if (filter !== "all") {
-      result = result.filter(r => r.attendance === filter);
+      result = result.filter(r => {
+        const isPlaceholder = r.isPlaceholder || r.email?.includes('placeholder-') || r.notes === "Placeholder created by admin.";
+        if (filter === "Placeholder") return isPlaceholder;
+        if (filter === "Attending") return !isPlaceholder && r.attendance === "Joyfully accept";
+        if (filter === "Declined") return !isPlaceholder && r.attendance === "Regretfully decline";
+        return false;
+      });
     }
 
     if (sortConfig) {
@@ -62,7 +68,22 @@ export const AdminGuestList = () => {
         } else if (sortConfig.key === 'submittedAt') {
            aValue = a.submittedAt instanceof Timestamp ? a.submittedAt.toMillis() : new Date(a.submittedAt).getTime();
            bValue = b.submittedAt instanceof Timestamp ? b.submittedAt.toMillis() : new Date(b.submittedAt).getTime();
+        } else if (sortConfig.key === 'attendance') {
+           const getStatus = (r: RsvpData) => {
+             if (r.isPlaceholder || r.email?.includes('placeholder-') || r.notes === "Placeholder created by admin.") return "Placeholder";
+             if (r.attendance === 'Joyfully accept') return "Attending";
+             if (r.attendance === 'Regretfully decline') return "Declined";
+             return "No RSVP";
+           };
+           aValue = getStatus(a);
+           bValue = getStatus(b);
         }
+        
+        if (aValue === undefined || aValue === null) aValue = "";
+        if (bValue === undefined || bValue === null) bValue = "";
+        
+        if (typeof aValue === 'string') aValue = aValue.toLowerCase();
+        if (typeof bValue === 'string') bValue = bValue.toLowerCase();
         
         if (aValue < bValue) {
           return sortConfig.direction === 'asc' ? -1 : 1;
@@ -229,8 +250,9 @@ export const AdminGuestList = () => {
             onChange={(e) => setFilter(e.target.value)}
           >
             <option value="all">All Responses</option>
-            <option value="Joyfully accept">Attending</option>
-            <option value="Regretfully decline">Declined</option>
+            <option value="Attending">Attending</option>
+            <option value="Declined">Declined</option>
+            <option value="Placeholder">Placeholders</option>
           </select>
         </div>
       </div>
