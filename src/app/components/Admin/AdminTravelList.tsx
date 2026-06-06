@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAllRsvps, RsvpData } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
-import { PlaneTakeoff, Search, HelpCircle, FileSpreadsheet, Download, Pencil, Trash2 } from "lucide-react";
+import { PlaneTakeoff, Search, HelpCircle, FileSpreadsheet, Download, Pencil, Trash2, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { convertToCSV, downloadExcel, deleteRsvp } from "../../../lib/rsvpService";
 import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
@@ -11,6 +11,7 @@ export const AdminTravelList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -52,14 +53,50 @@ export const AdminTravelList = () => {
     fetchData();
   };
 
-  const filteredRsvps = rsvps.filter(r => 
+  let sortedRsvps = rsvps.filter(r => 
     `${r.firstName} ${r.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
     r.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getSortIcon = (key: string) => {
+    if (!sortConfig || sortConfig.key !== key) return <ArrowUpDown size={14} className="opacity-30" />;
+    return sortConfig.direction === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />;
+  };
+
+  if (sortConfig) {
+    sortedRsvps.sort((a, b) => {
+      let aValue: any = a[sortConfig.key as keyof RsvpData];
+      let bValue: any = b[sortConfig.key as keyof RsvpData];
+      
+      if (sortConfig.key === 'name') {
+         aValue = `${a.firstName} ${a.lastName}`.toLowerCase();
+         bValue = `${b.firstName} ${b.lastName}`.toLowerCase();
+      } else if (sortConfig.key === 'submittedAt') {
+         aValue = a.submittedAt instanceof Timestamp ? a.submittedAt.toMillis() : new Date(a.submittedAt).getTime();
+         bValue = b.submittedAt instanceof Timestamp ? b.submittedAt.toMillis() : new Date(b.submittedAt).getTime();
+      }
+      
+      if (aValue < bValue) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }
+
   const handleExportCSV = () => {
     try {
-      const exportData = filteredRsvps.map(r => {
+      const exportData = sortedRsvps.map(r => {
         const checkDate = (date: string) => {
           const inDuration = r.stayDuration?.includes(date);
           const inManual = r.manualStayDates?.toLowerCase().includes(date.toLowerCase());
@@ -98,7 +135,7 @@ export const AdminTravelList = () => {
 
   const handleExportExcel = () => {
     try {
-      const exportData = filteredRsvps.map(r => {
+      const exportData = sortedRsvps.map(r => {
         const checkDate = (date: string) => {
           const inDuration = r.stayDuration?.includes(date);
           const inManual = r.manualStayDates?.toLowerCase().includes(date.toLowerCase());
@@ -180,21 +217,31 @@ export const AdminTravelList = () => {
           <table className="w-full text-left border-collapse">
             <thead>
                <tr className="bg-black/5 border-b border-accent-terracotta/10">
-                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Submitted</th>
-                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Guest</th>
-                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Transfer Needed</th>
-                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Renting Car</th>
-                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Visa Assistance</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('submittedAt')}>
+                  <div className="flex items-center gap-2">Submitted {getSortIcon('submittedAt')}</div>
+                </th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('name')}>
+                  <div className="flex items-center gap-2">Guest {getSortIcon('name')}</div>
+                </th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('transfer')}>
+                  <div className="flex items-center gap-2">Transfer Needed {getSortIcon('transfer')}</div>
+                </th>
+                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('carRental')}>
+                  <div className="flex items-center gap-2">Renting Car {getSortIcon('carRental')}</div>
+                 </th>
+                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('visaSupport')}>
+                  <div className="flex items-center gap-2">Visa Assistance {getSortIcon('visaSupport')}</div>
+                 </th>
                  <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Actions</th>
                </tr>
              </thead>
           <tbody>
             {isLoading ? (
                <tr><td colSpan={6} className="p-20 text-center animate-pulse">Loading travel data...</td></tr>
-            ) : filteredRsvps.length === 0 ? (
+            ) : sortedRsvps.length === 0 ? (
                <tr><td colSpan={6} className="p-20 text-center font-serif italic text-xl opacity-50">No travel requirements found.</td></tr>
             ) : (
-                filteredRsvps.map(rsvp => (
+                sortedRsvps.map(rsvp => (
                   <tr key={rsvp.id} className="border-b border-accent-terracotta/5 hover:bg-black/[0.02]">
                     <td className="p-6">
                       <p className="text-[10px] font-bold text-accent-terracotta uppercase tracking-tighter opacity-60">

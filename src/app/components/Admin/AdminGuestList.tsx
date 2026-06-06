@@ -13,7 +13,10 @@ import {
   FileSpreadsheet,
   Filter,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown
 } from "lucide-react";
 import { updateRsvp } from "../../../lib/rsvpService";
 import { EditRsvpModal } from "./EditRsvpModal";
@@ -28,13 +31,14 @@ export const AdminGuestList = () => {
   const [selectedGuest, setSelectedGuest] = useState<RsvpData | null>(null);
   const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    let result = rsvps;
+    let result = [...rsvps];
     
     if (searchTerm) {
       result = result.filter(r => 
@@ -47,8 +51,44 @@ export const AdminGuestList = () => {
       result = result.filter(r => r.attendance === filter);
     }
 
+    if (sortConfig) {
+      result.sort((a, b) => {
+        let aValue: any = a[sortConfig.key as keyof RsvpData];
+        let bValue: any = b[sortConfig.key as keyof RsvpData];
+        
+        if (sortConfig.key === 'name') {
+           aValue = `${a.firstName} ${a.lastName}`.toLowerCase();
+           bValue = `${b.firstName} ${b.lastName}`.toLowerCase();
+        } else if (sortConfig.key === 'submittedAt') {
+           aValue = a.submittedAt instanceof Timestamp ? a.submittedAt.toMillis() : new Date(a.submittedAt).getTime();
+           bValue = b.submittedAt instanceof Timestamp ? b.submittedAt.toMillis() : new Date(b.submittedAt).getTime();
+        }
+        
+        if (aValue < bValue) {
+          return sortConfig.direction === 'asc' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortConfig.direction === 'asc' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
     setFilteredRsvps(result);
-  }, [searchTerm, filter, rsvps]);
+  }, [searchTerm, filter, rsvps, sortConfig]);
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getSortIcon = (key: string) => {
+    if (!sortConfig || sortConfig.key !== key) return <ArrowUpDown size={14} className="opacity-30" />;
+    return sortConfig.direction === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />;
+  };
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -201,11 +241,21 @@ export const AdminGuestList = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-accent-terracotta/5 bg-black/5">
-                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Submitted</th>
-                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Guest</th>
-                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Status</th>
-                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Party</th>
-                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Accom.</th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('submittedAt')}>
+                  <div className="flex items-center gap-2">Submitted {getSortIcon('submittedAt')}</div>
+                </th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('name')}>
+                  <div className="flex items-center gap-2">Guest {getSortIcon('name')}</div>
+                </th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('attendance')}>
+                  <div className="flex items-center gap-2">Status {getSortIcon('attendance')}</div>
+                </th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('guests')}>
+                  <div className="flex items-center gap-2">Party {getSortIcon('guests')}</div>
+                </th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('accommodation')}>
+                  <div className="flex items-center gap-2">Accom. {getSortIcon('accommodation')}</div>
+                </th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Dietary</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Actions</th>
               </tr>
