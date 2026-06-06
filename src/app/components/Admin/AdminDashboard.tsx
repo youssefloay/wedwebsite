@@ -187,6 +187,17 @@ export const AdminDashboard = () => {
                 {ALL_ROOMS.filter(r => rsvps.some(rsvp => rsvp.assignedRoom === r.id)).length} <span className="text-sm text-secondary-text font-normal">/ {ALL_ROOMS.length}</span>
               </p>
             </div>
+            <div className="h-8 w-px bg-accent-terracotta/10 mx-2" />
+            <div className="flex flex-col gap-1">
+              <span className="text-[9px] uppercase font-bold text-pink-600 bg-pink-50 px-2 py-0.5 rounded border border-pink-100 flex justify-between gap-3 min-w-[70px]">
+                <span>Bride</span>
+                <span>{ALL_ROOMS.filter(r => { const o = rsvps.find(x => x.assignedRoom === r.id); return o?.side === 'Bride'; }).length}</span>
+              </span>
+              <span className="text-[9px] uppercase font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100 flex justify-between gap-3 min-w-[70px]">
+                <span>Groom</span>
+                <span>{ALL_ROOMS.filter(r => { const o = rsvps.find(x => x.assignedRoom === r.id); return o?.side === 'Groom'; }).length}</span>
+              </span>
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -208,10 +219,22 @@ export const AdminDashboard = () => {
                     style={{ width: `${total > 0 ? (assigned / total) * 100 : 0}%` }}
                   />
                 </div>
-                <div className="flex justify-between items-center mt-3">
-                  <p className="text-[10px] uppercase tracking-widest text-secondary-text font-bold">
-                    {assigned} Assigned
-                  </p>
+                <div className="flex flex-col mt-3 gap-2">
+                  <div className="flex justify-between items-center">
+                    <p className="text-[10px] uppercase tracking-widest text-secondary-text font-bold">
+                      {assigned} Assigned
+                    </p>
+                  </div>
+                  {assigned > 0 && (
+                    <div className="flex gap-2">
+                      <span className="text-[9px] uppercase font-bold text-pink-600 bg-pink-50 px-1.5 py-0.5 rounded border border-pink-100">
+                        {ALL_ROOMS.filter(r => r.type === roomType && rsvps.find(x => x.assignedRoom === r.id)?.side === 'Bride').length} B
+                      </span>
+                      <span className="text-[9px] uppercase font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">
+                        {ALL_ROOMS.filter(r => r.type === roomType && rsvps.find(x => x.assignedRoom === r.id)?.side === 'Groom').length} G
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             );

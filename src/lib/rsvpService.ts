@@ -32,6 +32,7 @@ export interface RsvpData {
   notes: string;
   submittedAt: Timestamp | Date;
   isPlaceholder?: boolean;
+  side?: string;
 }
 
 const RSVP_COLLECTION = "rsvps";
@@ -114,6 +115,7 @@ export const mapToExportFormat = (rsvp: RsvpData) => {
     first_name: rsvp.firstName,
     last_name: rsvp.lastName,
     email: rsvp.email,
+    side: rsvp.side || "",
     total_guests: isAttending ? rsvp.guests : 1,
     guest_2_first_name: isAttending && rsvp.guests >= 2 ? (guest_2.firstName || "") : "",
     guest_2_last_name: isAttending && rsvp.guests >= 2 ? (guest_2.lastName || "") : "",

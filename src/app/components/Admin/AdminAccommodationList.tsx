@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAllRsvps, RsvpData } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
 import { Bed, Search, CheckCircle2, FileSpreadsheet, Download, Pencil, Trash2 } from "lucide-react";
-import { convertToCSV, deleteRsvp } from "../../../lib/rsvpService";
+import { convertToCSV, deleteRsvp, updateRsvp } from "../../../lib/rsvpService";
 import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
 import { HOTEL_ROOMS } from "./RoomSelectorGrid";
@@ -367,7 +367,7 @@ export const AdminAccommodationList = () => {
                       </p>
                     </td>
                     <td className="p-6">
-                      <div className="flex flex-col">
+                      <div className="flex flex-col items-start">
                         <div className="flex items-center gap-2">
                           <p className="font-serif italic text-lg text-primary-text">{rsvp.firstName} {rsvp.lastName}</p>
                           { (rsvp.isPlaceholder || rsvp.email?.includes('placeholder-') || rsvp.notes === "Placeholder created by admin.") ? (
@@ -380,7 +380,26 @@ export const AdminAccommodationList = () => {
                             </span>
                           ) : null}
                         </div>
-                        <p className="text-xs text-secondary-text opacity-60 uppercase tracking-tighter">{rsvp.email}</p>
+                        <p className="text-xs text-secondary-text opacity-60 uppercase tracking-tighter mt-1 mb-2">{rsvp.email}</p>
+                        <select
+                          value={rsvp.side || ""}
+                          onChange={async (e) => {
+                            const newSide = e.target.value;
+                            try {
+                              await updateRsvp(rsvp.id!, { side: newSide });
+                              setRsvps(prev => prev.map(r => r.id === rsvp.id ? { ...r, side: newSide } : r));
+                              toast.success("Guest side updated");
+                            } catch (err) {
+                              toast.error("Failed to update guest side");
+                            }
+                          }}
+                          className="text-[10px] bg-black/5 border border-accent-terracotta/10 rounded-md px-2 py-1 outline-none font-serif italic text-secondary-text cursor-pointer hover:bg-black/10 transition-colors"
+                        >
+                          <option value="">Assign Side</option>
+                          <option value="Bride">Bride</option>
+                          <option value="Groom">Groom</option>
+                          <option value="Both">Both</option>
+                        </select>
                       </div>
                     </td>
                    <td className="p-6">

@@ -238,9 +238,28 @@ export const AdminGuestList = () => {
                       </p>
                     </td>
                     <td className="p-6">
-                      <div>
+                      <div className="flex flex-col items-start">
                         <p className="font-serif italic text-xl text-primary-text">{rsvp.firstName} {rsvp.lastName}</p>
-                        <p className="text-sm text-secondary-text opacity-70 uppercase tracking-tighter mt-1">{rsvp.email}</p>
+                        <p className="text-sm text-secondary-text opacity-70 uppercase tracking-tighter mt-1 mb-2">{rsvp.email}</p>
+                        <select
+                          value={rsvp.side || ""}
+                          onChange={async (e) => {
+                            const newSide = e.target.value;
+                            try {
+                              await updateRsvp(rsvp.id!, { side: newSide });
+                              setRsvps(prev => prev.map(r => r.id === rsvp.id ? { ...r, side: newSide } : r));
+                              toast.success("Guest side updated");
+                            } catch (err) {
+                              toast.error("Failed to update guest side");
+                            }
+                          }}
+                          className="text-[10px] bg-black/5 border border-accent-terracotta/10 rounded-md px-2 py-1 outline-none font-serif italic text-secondary-text cursor-pointer hover:bg-black/10 transition-colors"
+                        >
+                          <option value="">Assign Side</option>
+                          <option value="Bride">Bride</option>
+                          <option value="Groom">Groom</option>
+                          <option value="Both">Both</option>
+                        </select>
                       </div>
                     </td>
                     <td className="p-6">
