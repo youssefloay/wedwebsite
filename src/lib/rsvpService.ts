@@ -212,13 +212,12 @@ export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: str
            
            const roomTypeStr = row.getCell(3).value?.toString().trim().toLowerCase() || "";
            let basePrice = 0;
-           if (roomTypeStr.includes("standard double")) basePrice = 154; // Comfy
-           else if (roomTypeStr.includes("standard double") || roomTypeStr.includes("comfy")) basePrice = 154; // Fallbacks
-           else if (roomTypeStr.includes("superior")) basePrice = 184; // Superior Comfy
-           else if (roomTypeStr.includes("castillo")) basePrice = 209; // Castillo Junior
-           else if (roomTypeStr.includes("family")) basePrice = 219; // Family Room
+           if (roomTypeStr.includes("standard double") || roomTypeStr.includes("comfy")) basePrice = 200; // Comfy
+           else if (roomTypeStr.includes("superior")) basePrice = 190; // Superior Comfy
+           else if (roomTypeStr.includes("castillo") || roomTypeStr.includes("junior")) basePrice = 135; // Castillo Junior
+           else if (roomTypeStr.includes("family")) basePrice = 165; // Family Room
            // Default if not caught
-           else if (roomTypeStr.includes("standard")) basePrice = 154; 
+           else if (roomTypeStr.includes("standard")) basePrice = 200; 
 
            const checkDate = (dateStr: string) => {
              return occupants.some(o => 
@@ -239,12 +238,9 @@ export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: str
              }));
            }
 
-           const extraGuests = occupants.length > 0 ? Math.max(0, totalGuests - 1) : 0;
-           const extraBreakfastCostPerNight = extraGuests * 18.5;
-           const nonExclusiveRate = basePrice > 0 ? (basePrice - 0.5 + extraBreakfastCostPerNight) : 0;
-           const exclusiveRate = basePrice > 0 ? (basePrice - 0.5 + (nightsCount * 0.5) + extraBreakfastCostPerNight) : 0;
-           const totalAmount = basePrice > 0 ? (basePrice + extraBreakfastCostPerNight) * nightsCount : 0;
-           const pricePerDay = occupants.length > 0 ? (nightsCount > 1 ? `${nonExclusiveRate} / ${exclusiveRate}` : exclusiveRate) : "";
+           const breakfastCostPerNight = totalGuests > 0 ? totalGuests * 18.5 : 0;
+           const nightlyRate = basePrice > 0 ? (basePrice + breakfastCostPerNight) : 0;
+           const totalAmount = nightlyRate * nightsCount;
            
            row.getCell(7).value = names;
            row.getCell(8).value = emails;
@@ -257,9 +253,9 @@ export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: str
            if (checkDate("19th") || checkDate("20th")) row.getCell(17).value = "X"; 
            
            if (occupants.length > 0) {
-             if (nightsCount > 1) row.getCell(19).value = nonExclusiveRate;
-             row.getCell(20).value = exclusiveRate;
-             row.getCell(21).value = pricePerDay;
+             if (nightsCount > 1) row.getCell(19).value = nightlyRate;
+             row.getCell(20).value = nightlyRate;
+             row.getCell(21).value = nightlyRate;
              row.getCell(22).value = totalAmount;
            }
         }

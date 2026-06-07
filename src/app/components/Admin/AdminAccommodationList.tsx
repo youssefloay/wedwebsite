@@ -9,10 +9,10 @@ import { HOTEL_ROOMS } from "./RoomSelectorGrid";
 import * as XLSX from 'xlsx';
 
 const ROOM_PRICES: Record<string, string> = {
-  'Comfy': '€154',
-  'Superior Comfy': '€184',
-  'Castillo Junior': '€209',
-  'Family Room': '€219'
+  'Comfy': '€200',
+  'Superior Comfy': '€190',
+  'Castillo Junior': '€135',
+  'Family Room': '€165'
 };
 
 const formatRoom = (type: string) => {

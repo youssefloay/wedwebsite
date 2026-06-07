@@ -85,10 +85,10 @@ export function RsvpPage() {
   });
 
   const roomTypes = [
-    { name: 'Comfy', maxGuests: 2, price: 154, isBooked: true, rooms: 0 },
-    { name: 'Superior Comfy', maxGuests: 3, price: 184, isBooked: false, rooms: 6 },
-    { name: 'Castillo Junior', maxGuests: 2, price: 209, isBooked: true, rooms: 0 },
-    { name: 'Family Room', maxGuests: 4, price: 219, isBooked: true, rooms: 0 }
+    { name: 'Comfy', maxGuests: 2, price: 200, isBooked: true, rooms: 0 },
+    { name: 'Superior Comfy', maxGuests: 3, price: 190, isBooked: false, rooms: 4 },
+    { name: 'Castillo Junior', maxGuests: 2, price: 135, isBooked: true, rooms: 0 },
+    { name: 'Family Room', maxGuests: 4, price: 165, isBooked: true, rooms: 0 }
   ];
 
   const steps = useMemo<RsvpStep[]>(() => {
