@@ -210,15 +210,16 @@ export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: str
            const emails = occupants.map(o => o.email).filter(Boolean).join(", ");
            const totalGuests = occupants.reduce((acc, o) => acc + (o.attendance === "Joyfully accept" ? o.guests : 0), 0);
            
-           const allNotes = occupants.map(o => {
-              const parts = [];
-              if (o.notes) parts.push(o.notes);
-              if (o.dietary) parts.push(`Dietary: ${o.dietary}`);
-              if (o.carRental === "Yes") parts.push("Travel: Car Rental");
-              else if (o.transfer === "Yes") parts.push("Travel: Transfer");
-              return parts.join(" | ");
-           }).filter(Boolean).join("\n");
-           
+           const roomTypeStr = row.getCell(3).value?.toString().trim().toLowerCase() || "";
+           let basePrice = 0;
+           if (roomTypeStr.includes("standard double")) basePrice = 154; // Comfy
+           else if (roomTypeStr.includes("standard double") || roomTypeStr.includes("comfy")) basePrice = 154; // Fallbacks
+           else if (roomTypeStr.includes("superior")) basePrice = 184; // Superior Comfy
+           else if (roomTypeStr.includes("castillo")) basePrice = 209; // Castillo Junior
+           else if (roomTypeStr.includes("family")) basePrice = 219; // Family Room
+           // Default if not caught
+           else if (roomTypeStr.includes("standard")) basePrice = 154; 
+
            const checkDate = (dateStr: string) => {
              return occupants.some(o => 
                o.stayDuration?.toLowerCase().includes(dateStr.toLowerCase()) || 
@@ -226,16 +227,41 @@ export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: str
              );
            };
            
+           let nightsCount = 0;
+           if (checkDate("15th")) nightsCount++;
+           if (checkDate("16th")) nightsCount++;
+           if (checkDate("17th")) nightsCount++;
+           if (checkDate("18th")) nightsCount++;
+           if (nightsCount === 0 && occupants.length > 0) {
+             nightsCount = Math.max(...occupants.map(o => {
+               const parts = o.stayDuration?.split(",").map(p => p.trim()).filter(Boolean) || [];
+               return parts.length > 0 ? parts.length : 2;
+             }));
+           }
+
+           const extraGuests = occupants.length > 0 ? Math.max(0, totalGuests - 1) : 0;
+           const extraBreakfastCostPerNight = extraGuests * 18.5;
+           const nonExclusiveRate = basePrice > 0 ? (basePrice - 0.5 + extraBreakfastCostPerNight) : 0;
+           const exclusiveRate = basePrice > 0 ? (basePrice - 0.5 + (nightsCount * 0.5) + extraBreakfastCostPerNight) : 0;
+           const totalAmount = basePrice > 0 ? (basePrice + extraBreakfastCostPerNight) * nightsCount : 0;
+           const pricePerDay = occupants.length > 0 ? (nightsCount > 1 ? `${nonExclusiveRate} / ${exclusiveRate}` : exclusiveRate) : "";
+           
            row.getCell(7).value = names;
            row.getCell(8).value = emails;
            row.getCell(10).value = totalGuests;
-           row.getCell(22).value = allNotes;
            
-           if (checkDate("16th")) row.getCell(13).value = "X";
-           if (checkDate("17th")) row.getCell(14).value = "X";
-           if (checkDate("18th")) row.getCell(15).value = "X";
-           if (checkDate("19th") || checkDate("20th") || checkDate("15th")) row.getCell(16).value = "X"; 
-           // grouped extra days into the 4th column just in case
+           if (checkDate("15th")) row.getCell(13).value = "X";
+           if (checkDate("16th")) row.getCell(14).value = "X";
+           if (checkDate("17th")) row.getCell(15).value = "X";
+           if (checkDate("18th")) row.getCell(16).value = "X";
+           if (checkDate("19th") || checkDate("20th")) row.getCell(17).value = "X"; 
+           
+           if (occupants.length > 0) {
+             if (nightsCount > 1) row.getCell(19).value = nonExclusiveRate;
+             row.getCell(20).value = exclusiveRate;
+             row.getCell(21).value = pricePerDay;
+             row.getCell(22).value = totalAmount;
+           }
         }
       }
     });
