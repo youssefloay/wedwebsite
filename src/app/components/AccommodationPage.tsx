@@ -16,12 +16,12 @@ export function AccommodationPage() {
     },
     {
       name: 'Superior Comfy',
-      rooms: 2,
+      rooms: 0,
       maxGuests: 3,
       pricePerNight: 184,
       image: "/room-superior.png",
       description: 'Spacious retreat with a large double bed or two twins, offering a perfect blend of luxury and character.',
-      isBooked: false
+      isBooked: true
     },
     {
       name: 'Castillo Junior',
@@ -87,9 +87,12 @@ export function AccommodationPage() {
             <h2 className="text-4xl md:text-5xl font-serif text-primary-text mb-6 italic">Private Rooms</h2>
             <div className="w-16 h-px bg-accent-terracotta mb-8" />
             
-            <div className="bg-orange-50/50 border border-orange-200/50 p-6 rounded-2xl max-w-4xl text-left shadow-sm">
+            <div className="bg-orange-50/50 border border-orange-200/50 p-6 rounded-2xl max-w-4xl text-left shadow-sm flex flex-col gap-4">
               <p className="text-sm md:text-base text-orange-900/80 font-serif italic leading-relaxed text-center">
-                Please note that room availability displayed on this website is provided for guidance only and is not updated in real time. Availability can change quickly, and some room categories, or even all rooms, may already be sold out by the time you make your reservation. The rooms shown here reflect the options that were available when the information was last updated and do not guarantee current availability.
+                Dear Friends and Family, Please note that all rooms at Castillo de Monda have now been reserved. If you wish to stay at the castle, please indicate your preference to join our waiting list in the notes, and we will notify you immediately should a room become available.
+              </p>
+              <p className="text-sm md:text-base text-orange-900/80 font-serif italic leading-relaxed text-center">
+                For your convenience, we recommend making a reservation at <a href="https://hotelalbaicincoin.com/" target="_blank" rel="noopener noreferrer" className="underline font-bold hover:text-orange-900">Hotel Albaicín in Coín</a>, which offers wonderful accommodations just a short distance away.
               </p>
             </div>
           </div>

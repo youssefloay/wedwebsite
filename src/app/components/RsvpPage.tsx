@@ -86,7 +86,7 @@ export function RsvpPage() {
 
   const roomTypes = [
     { name: 'Comfy', maxGuests: 2, price: 200, isBooked: true, rooms: 0 },
-    { name: 'Superior Comfy', maxGuests: 3, price: 190, isBooked: false, rooms: 2 },
+    { name: 'Superior Comfy', maxGuests: 3, price: 190, isBooked: true, rooms: 0 },
     { name: 'Castillo Junior', maxGuests: 2, price: 135, isBooked: true, rooms: 0 },
     { name: 'Family Room', maxGuests: 4, price: 165, isBooked: true, rooms: 0 }
   ];
@@ -381,9 +381,10 @@ export function RsvpPage() {
                                 <p className="font-serif italic text-3xl md:text-4xl text-primary-text leading-tight mb-6">Would you like to reserve a room at Castillo de Monda or are you staying elsewhere?</p>
                                 <div className="w-12 h-px bg-accent-terracotta mt-6" />
                               </div>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
                                 {[
                                   { id: 'Yes, please', label: 'Reservation', detail: 'At the Castle', sub: 'For our stay', image: '/accom-castle.png', rotate: 'rotate-1' },
+                                  { id: 'Waiting List', label: 'Waitlist', detail: 'Join Waitlist', sub: 'For cancellations', image: '/accom-castle.png', rotate: 'rotate-0' },
                                   { id: 'No, thank you', label: 'Independent', detail: 'Staying Elsewhere', sub: 'Private Resting', image: '/accom-outside.png', rotate: '-rotate-1' }
                                 ].map(opt => (
                                   <button
@@ -415,9 +416,12 @@ export function RsvpPage() {
                                     <p className="text-xl md:text-2xl text-secondary-text font-serif italic leading-relaxed max-w-xl">
                                       Rooms are allocated on first-come, first-served basis. Payment is required to confirm your stay; the hotel concierge will contact you.
                                     </p>
-                                    <div className="bg-orange-50/50 border border-orange-200/50 p-4 rounded-xl max-w-2xl">
+                                    <div className="bg-orange-50/50 border border-orange-200/50 p-4 rounded-xl max-w-2xl flex flex-col gap-4">
                                       <p className="text-sm md:text-base text-orange-900/80 font-serif italic leading-relaxed">
-                                        Please note that room availability displayed on this website is provided for guidance only and is not updated in real time. Availability can change quickly, and some room categories, or even all rooms, may already be sold out by the time you make your reservation. The rooms shown here reflect the options that were available when the information was last updated and do not guarantee current availability.
+                                        Dear Friends and Family, Please note that all rooms at Castillo de Monda have now been reserved. If you wish to stay at the castle, please indicate your preference to join our waiting list in the notes, and we will notify you immediately should a room become available.
+                                      </p>
+                                      <p className="text-sm md:text-base text-orange-900/80 font-serif italic leading-relaxed">
+                                        For your convenience, we recommend making a reservation at <a href="https://hotelalbaicincoin.com/" target="_blank" rel="noopener noreferrer" className="underline font-bold hover:text-orange-900">Hotel Albaicín in Coín</a>, which offers wonderful accommodations just a short distance away.
                                       </p>
                                     </div>
                                   </div>
