@@ -252,7 +252,8 @@ export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: str
              });
            }
 
-           const defaultNightlyRate = basePrice > 0 ? (basePrice + (totalGuests > 0 ? totalGuests * 18.5 : 0)) : 0;
+           const standardNightlyRate = basePrice > 0 ? (basePrice + (totalGuests > 0 ? totalGuests * 18.5 : 0)) : 0;
+           const exclusiveNightlyRate = basePrice > 0 ? (basePrice + (totalGuests > 0 ? totalGuests * 19.0 : 0)) : 0;
            
            row.getCell(7).value = names;
            row.getCell(8).value = emails;
@@ -265,9 +266,9 @@ export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: str
            if (checkDate("19th") || checkDate("20th")) row.getCell(17).value = "X"; 
            
            if (occupants.length > 0) {
-             if (nightsCount > 1) row.getCell(19).value = defaultNightlyRate;
-             row.getCell(20).value = defaultNightlyRate;
-             row.getCell(21).value = defaultNightlyRate;
+             row.getCell(19).value = standardNightlyRate; // Rate Euros No exclu. days Breakfast Incl.
+             row.getCell(20).value = exclusiveNightlyRate; // Rate Euros Exclu. days Breakfast Incl. (17th)
+             row.getCell(21).value = standardNightlyRate; // Prices per day
              row.getCell(22).value = totalAmount;
            }
         }
