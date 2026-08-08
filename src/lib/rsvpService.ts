@@ -212,12 +212,12 @@ export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: str
            
            const roomTypeStr = row.getCell(3).value?.toString().trim().toLowerCase() || "";
            let basePrice = 0;
-           if (roomTypeStr.includes("standard double") || roomTypeStr.includes("comfy")) basePrice = 200; // Comfy
-           else if (roomTypeStr.includes("superior")) basePrice = 190; // Superior Comfy
-           else if (roomTypeStr.includes("castillo") || roomTypeStr.includes("junior")) basePrice = 135; // Castillo Junior
-           else if (roomTypeStr.includes("family")) basePrice = 165; // Family Room
-           // Default if not caught
-           else if (roomTypeStr.includes("standard")) basePrice = 200; 
+           
+           if (roomTypeStr.includes("superior")) basePrice = 165;
+           else if (roomTypeStr.includes("junior") || roomTypeStr.includes("castillo")) basePrice = 190;
+           else if (roomTypeStr.includes("standard") || roomTypeStr.includes("comfy")) basePrice = 135;
+           else if (roomTypeStr.includes("family") || roomTypeStr.includes("familiar") || roomTypeStr.includes("you and yours")) basePrice = 200;
+           else basePrice = 135; // Default to Standard/Comfy if no match
 
            const checkDate = (dateStr: string) => {
              return occupants.some(o => 
@@ -227,20 +227,32 @@ export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: str
            };
            
            let nightsCount = 0;
-           if (checkDate("15th")) nightsCount++;
-           if (checkDate("16th")) nightsCount++;
-           if (checkDate("17th")) nightsCount++;
-           if (checkDate("18th")) nightsCount++;
-           if (nightsCount === 0 && occupants.length > 0) {
+           let totalAmount = 0;
+           const dates = ["15th", "16th", "17th", "18th", "19th", "20th"];
+           const hasSpecificDates = dates.some(d => checkDate(d));
+
+           if (!hasSpecificDates && occupants.length > 0) {
              nightsCount = Math.max(...occupants.map(o => {
                const parts = o.stayDuration?.split(",").map(p => p.trim()).filter(Boolean) || [];
                return parts.length > 0 ? parts.length : 2;
              }));
+             const breakfastCostPerNight = totalGuests > 0 ? totalGuests * 18.5 : 0;
+             const nightlyRate = basePrice > 0 ? (basePrice + breakfastCostPerNight) : 0;
+             totalAmount = nightlyRate * nightsCount;
+           } else {
+             dates.forEach(date => {
+               if (checkDate(date)) {
+                 nightsCount++;
+                 const breakfastRate = date === "17th" ? 19.0 : 18.5;
+                 const breakfastCost = totalGuests > 0 ? totalGuests * breakfastRate : 0;
+                 if (basePrice > 0) {
+                   totalAmount += (basePrice + breakfastCost);
+                 }
+               }
+             });
            }
 
-           const breakfastCostPerNight = totalGuests > 0 ? totalGuests * 18.5 : 0;
-           const nightlyRate = basePrice > 0 ? (basePrice + breakfastCostPerNight) : 0;
-           const totalAmount = nightlyRate * nightsCount;
+           const defaultNightlyRate = basePrice > 0 ? (basePrice + (totalGuests > 0 ? totalGuests * 18.5 : 0)) : 0;
            
            row.getCell(7).value = names;
            row.getCell(8).value = emails;
@@ -253,9 +265,9 @@ export const downloadExcelFromTemplate = async (rsvps: RsvpData[], filename: str
            if (checkDate("19th") || checkDate("20th")) row.getCell(17).value = "X"; 
            
            if (occupants.length > 0) {
-             if (nightsCount > 1) row.getCell(19).value = nightlyRate;
-             row.getCell(20).value = nightlyRate;
-             row.getCell(21).value = nightlyRate;
+             if (nightsCount > 1) row.getCell(19).value = defaultNightlyRate;
+             row.getCell(20).value = defaultNightlyRate;
+             row.getCell(21).value = defaultNightlyRate;
              row.getCell(22).value = totalAmount;
            }
         }
