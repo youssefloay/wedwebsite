@@ -60,38 +60,33 @@ export const sendConfirmationEmail = async (rsvpData: Partial<RsvpData>) => {
     if (match19) stayedDates.push(19);
     if (match20) stayedDates.push(20);
 
-    if (stayedDates.length >= 2) {
-      const minDate = Math.min(...stayedDates);
-      const maxDate = Math.max(...stayedDates);
-      // Max date is the last NIGHT they stay, so they check out the day after
-      nightsCount = (maxDate - minDate) + 1;
-      checkInStr = `${minDate} April 2027`;
-      checkOutStr = `${maxDate + 1} April 2027`;
-    } else if (stayedDates.length === 1) {
-      checkInStr = `${stayedDates[0]} April 2027`;
-      checkOutStr = `${stayedDates[0] + 1} April 2027`;
-      nightsCount = 1;
-    }
-
-    // Force calculations for the exact nights
-    const breakfastCostPerNight = numGuests > 0 ? numGuests * 18.5 : 0;
-    const nightlyRate = basePrice > 0 ? (basePrice + breakfastCostPerNight) : 0;
+    let minDate = 16;
+    let maxDate = 17;
     
-    // Add extra 0.5 for the 17th which is 19.0 instead of 18.5
-    // If they stay the night of the 17th (which means min <= 17 and max > 17)
-    let extraBreakfastCost = 0;
     if (stayedDates.length >= 2) {
-      const minDate = Math.min(...stayedDates);
-      const maxDate = Math.max(...stayedDates);
-      if (minDate <= 17 && maxDate > 17) {
-        extraBreakfastCost = numGuests > 0 ? numGuests * 0.5 : 0;
-      }
-    } else if (!match15 && !match18 && !match19 && !match20) {
-      // standard weekend 16th-18th includes the 17th
-      extraBreakfastCost = numGuests > 0 ? numGuests * 0.5 : 0;
+      minDate = Math.min(...stayedDates);
+      maxDate = Math.max(...stayedDates);
+    } else if (stayedDates.length === 1) {
+      minDate = stayedDates[0];
+      maxDate = stayedDates[0];
     }
+    
+    nightsCount = (maxDate - minDate) + 1;
+    checkInStr = `${minDate} April 2027`;
+    checkOutStr = `${maxDate + 1} April 2027`;
 
-    totalPrice = (nightlyRate * nightsCount) + extraBreakfastCost;
+    let breakdownListHtml = '';
+    totalPrice = 0;
+
+    for (let d = minDate; d <= maxDate; d++) {
+       const isWeekend = (d === 17);
+       const bRate = isWeekend ? 19.0 : 18.5;
+       const dayBreakfast = numGuests > 0 ? numGuests * bRate : 0;
+       const dayTotal = basePrice > 0 ? (basePrice + dayBreakfast) : 0;
+       totalPrice += dayTotal;
+       
+       breakdownListHtml += `<li>Night of ${d} April: €${dayTotal.toFixed(2)}</li>`;
+    }
 
     roomDetailsHtml = `
     <div class="details-box" style="background-color: #FAF8F5; border: 1px solid rgba(179, 114, 76, 0.1); padding: 20px; border-radius: 12px; margin-top: 20px; margin-bottom: 20px;">
@@ -101,12 +96,9 @@ export const sendConfirmationEmail = async (rsvpData: Partial<RsvpData>) => {
       <p><strong>Check-out:</strong> <span style="color: #B3724C;">${checkOutStr}</span></p>
       
       <div style="margin-top: 15px; padding: 12px; background-color: rgba(255,255,255,0.6); border-radius: 8px;">
-        <p style="margin: 0 0 8px 0; font-size: 15px;"><strong>Price Breakdown:</strong></p>
+        <p style="margin: 0 0 8px 0; font-size: 15px;"><strong>Price Breakdown (Room + Breakfast):</strong></p>
         <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #515C4C;">
-          <li>Room rate: €${basePrice.toFixed(2)} per night</li>
-          <li>Breakfast (${numGuests} guests): €${breakfastCostPerNight.toFixed(2)} per night</li>
-          <li>Total nights: ${nightsCount}</li>
-          ${extraBreakfastCost > 0 ? `<li><em>(Includes +€${extraBreakfastCost.toFixed(2)} adjustment for weekend breakfast rates)</em></li>` : ''}
+          ${breakdownListHtml}
         </ul>
       </div>
 

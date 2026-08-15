@@ -32,24 +32,37 @@ export const AdminDashboard = () => {
     fetchData();
   }, []);
 
+  const isPlaceholderItem = (r: RsvpData) => r.isPlaceholder || r.email?.includes('placeholder-') || r.notes === "Placeholder created by admin.";
+
   const stats = {
-    totalSubmissions: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin.").length,
-    attendingCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.attendance === "Joyfully accept").length,
-    declinedCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.attendance === "Regretfully decline").length,
-    confirmedGuests: rsvps
-      .filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.attendance === "Joyfully accept")
+    // 1. Confirmed Headcount
+    confirmedHeadcount: rsvps
+      .filter(r => !isPlaceholderItem(r) && r.attendance === "Joyfully accept")
       .reduce((acc, curr) => acc + (Number(curr.guests) || 0), 0),
-    totalIncludingPlaceholders: rsvps
-      .filter(r => {
-        const isPlaceholder = r.isPlaceholder || r.email?.includes('placeholder-') || r.notes === "Placeholder created by admin.";
-        return isPlaceholder || r.attendance === "Joyfully accept";
-      })
+    confirmedRsvps: rsvps.filter(r => !isPlaceholderItem(r) && r.attendance === "Joyfully accept").length,
+
+    // 2. Pending/Placeholder Headcount
+    pendingHeadcount: rsvps
+      .filter(r => isPlaceholderItem(r))
       .reduce((acc, curr) => acc + (Number(curr.guests) || 0), 0),
-    placeholderGuests: rsvps
-      .filter(r => r.isPlaceholder || r.email?.includes('placeholder-') || r.notes === "Placeholder created by admin.")
+    pendingRsvps: rsvps.filter(r => isPlaceholderItem(r)).length,
+
+    // 3. Declined Headcount (Usually just count the RSVPs)
+    declinedRsvps: rsvps.filter(r => !isPlaceholderItem(r) && r.attendance === "Regretfully decline").length,
+
+    // 4. Accommodation
+    hotelGuests: rsvps
+      .filter(r => !isPlaceholderItem(r) && r.attendance === "Joyfully accept" && r.accommodation === "Yes, please")
       .reduce((acc, curr) => acc + (Number(curr.guests) || 0), 0),
-    accommodationInterest: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.accommodation === "Yes, please").length,
-    dietaryCount: rsvps.filter(r => !r.isPlaceholder && !r.email?.includes('placeholder-') && r.notes !== "Placeholder created by admin." && r.dietary && r.dietary.trim() !== "").length,
+    hotelRsvps: rsvps.filter(r => !isPlaceholderItem(r) && r.attendance === "Joyfully accept" && r.accommodation === "Yes, please").length,
+    
+    independentGuests: rsvps
+      .filter(r => !isPlaceholderItem(r) && r.attendance === "Joyfully accept" && r.accommodation !== "Yes, please")
+      .reduce((acc, curr) => acc + (Number(curr.guests) || 0), 0),
+    independentRsvps: rsvps.filter(r => !isPlaceholderItem(r) && r.attendance === "Joyfully accept" && r.accommodation !== "Yes, please").length,
+
+    // 5. Dietary
+    dietaryCount: rsvps.filter(r => !isPlaceholderItem(r) && r.attendance === "Joyfully accept" && r.dietary && r.dietary.trim() !== "").length,
   };
 
   if (isLoading) {
@@ -64,12 +77,12 @@ export const AdminDashboard = () => {
   }
 
   const cards = [
-    { label: "Total Headcount", value: stats.totalIncludingPlaceholders, sub: "Including placeholders", icon: <Users size={24} />, color: "bg-blue-50 text-blue-600" },
-    { label: "Confirmed Guests", value: stats.confirmedGuests, sub: "RSVPs accepted", icon: <CheckCircle2 size={24} />, color: "bg-green-50 text-green-600" },
-    { label: "Placeholder Guests", value: stats.placeholderGuests, sub: "Pending invitations", icon: <Users size={24} />, color: "bg-purple-50 text-purple-600" },
-    { label: "RSVP Responses", value: stats.totalSubmissions, sub: `${stats.attendingCount} Accept / ${stats.declinedCount} Decline`, icon: <Heart size={24} />, color: "bg-red-50 text-red-600" },
-    { label: "Hotel Requests", value: stats.accommodationInterest, sub: "Castillo de Monda", icon: <Bed size={24} />, color: "bg-indigo-50 text-indigo-600" },
-    { label: "Dietary Needs", value: stats.dietaryCount, sub: "Allergies & Restrictions", icon: <Utensils size={24} />, color: "bg-orange-50 text-orange-600" },
+    { label: "Confirmed Headcount", value: stats.confirmedHeadcount, sub: `From ${stats.confirmedRsvps} accepted RSVPs`, icon: <CheckCircle2 size={24} />, color: "bg-green-50 text-green-600" },
+    { label: "Pending (Placeholders)", value: stats.pendingHeadcount, sub: `From ${stats.pendingRsvps} pending invites`, icon: <Clock size={24} />, color: "bg-purple-50 text-purple-600" },
+    { label: "Declined", value: stats.declinedRsvps, sub: `Total RSVPs declined`, icon: <XCircle size={24} />, color: "bg-red-50 text-red-600" },
+    { label: "Staying at Hotel", value: stats.hotelGuests, sub: `From ${stats.hotelRsvps} RSVPs`, icon: <Bed size={24} />, color: "bg-indigo-50 text-indigo-600" },
+    { label: "Staying Independent", value: stats.independentGuests, sub: `From ${stats.independentRsvps} RSVPs`, icon: <Users size={24} />, color: "bg-blue-50 text-blue-600" },
+    { label: "Dietary Needs", value: stats.dietaryCount, sub: "Guests with food restrictions", icon: <Utensils size={24} />, color: "bg-orange-50 text-orange-600" },
   ];
 
   return (
