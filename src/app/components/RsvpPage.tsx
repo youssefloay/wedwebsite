@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { saveRsvp } from "../../lib/rsvpService";
+import { sendConfirmationEmail } from "../../lib/emailService";
 import {
   Check,
   ArrowRight,
@@ -169,6 +170,12 @@ export function RsvpPage() {
           ...formData,
           guests: parseInt(formData.guests)
         });
+        
+        // Send automatic confirmation email if attending
+        if (formData.attendance === 'Joyfully accept') {
+          await sendConfirmationEmail(formData);
+        }
+
         setIsSubmitted(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {

@@ -16,9 +16,11 @@ import {
   ChevronRight,
   ArrowUpDown,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  Mail
 } from "lucide-react";
 import { updateRsvp } from "../../../lib/rsvpService";
+import { sendConfirmationEmail } from "../../../lib/emailService";
 import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
 
@@ -138,6 +140,31 @@ export const AdminGuestList = () => {
   const handleEditSuccess = () => {
     setEditingGuest(null);
     fetchData();
+  };
+
+  const handleSendEmail = async (rsvp: RsvpData) => {
+    if (rsvp.attendance !== 'Joyfully accept') {
+      toast.error("Can only send emails to attending guests");
+      return;
+    }
+    
+    if (!window.confirm(`Are you sure you want to send the confirmation email to ${rsvp.firstName} ${rsvp.lastName}?`)) {
+      return;
+    }
+
+    const loadingToast = toast.loading('Sending email...');
+    try {
+      const success = await sendConfirmationEmail(rsvp);
+      toast.dismiss(loadingToast);
+      if (success) {
+        toast.success('Confirmation email sent to ' + rsvp.email);
+      } else {
+        toast.error('Failed to send email to ' + rsvp.email);
+      }
+    } catch (err) {
+      toast.dismiss(loadingToast);
+      toast.error('Error sending email');
+    }
   };
 
   const handleExportCSV = () => {
@@ -379,6 +406,13 @@ export const AdminGuestList = () => {
                           title="View Details"
                         >
                           <Eye size={18} />
+                        </button>
+                        <button 
+                          onClick={() => handleSendEmail(rsvp)}
+                          className="p-2 text-secondary-text hover:text-green-600 hover:bg-green-50 rounded-xl transition-all"
+                          title="Send Confirmation Email"
+                        >
+                          <Mail size={18} />
                         </button>
                         <button 
                           onClick={() => setEditingGuest(rsvp)}
