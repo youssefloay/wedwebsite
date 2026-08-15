@@ -33,6 +33,7 @@ export interface RsvpData {
   submittedAt: Timestamp | Date;
   isPlaceholder?: boolean;
   side?: string;
+  confirmationEmailSent?: boolean;
 }
 
 const RSVP_COLLECTION = "rsvps";

@@ -34,6 +34,7 @@ export const AdminGuestList = () => {
   const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [guestToEmail, setGuestToEmail] = useState<RsvpData | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -142,29 +143,32 @@ export const AdminGuestList = () => {
     fetchData();
   };
 
-  const handleSendEmail = async (rsvp: RsvpData) => {
+  const handleSendEmail = (rsvp: RsvpData) => {
     if (rsvp.attendance !== 'Joyfully accept') {
       toast.error("Can only send emails to attending guests");
       return;
     }
-    
-    if (!window.confirm(`Are you sure you want to send the confirmation email to ${rsvp.firstName} ${rsvp.lastName}?`)) {
-      return;
-    }
+    setGuestToEmail(rsvp);
+  };
 
+  const executeSendEmail = async () => {
+    if (!guestToEmail) return;
     const loadingToast = toast.loading('Sending email...');
     try {
-      const success = await sendConfirmationEmail(rsvp);
+      const success = await sendConfirmationEmail(guestToEmail);
       toast.dismiss(loadingToast);
       if (success) {
-        toast.success('Confirmation email sent to ' + rsvp.email);
+        await updateRsvp(guestToEmail.id!, { confirmationEmailSent: true });
+        setRsvps(prev => prev.map(r => r.id === guestToEmail.id ? { ...r, confirmationEmailSent: true } : r));
+        toast.success('Confirmation email sent to ' + guestToEmail.email);
       } else {
-        toast.error('Failed to send email to ' + rsvp.email);
+        toast.error('Failed to send email to ' + guestToEmail.email);
       }
     } catch (err) {
       toast.dismiss(loadingToast);
       toast.error('Error sending email');
     }
+    setGuestToEmail(null);
   };
 
   const handleExportCSV = () => {
@@ -409,10 +413,15 @@ export const AdminGuestList = () => {
                         </button>
                         <button 
                           onClick={() => handleSendEmail(rsvp)}
-                          className="p-2 text-secondary-text hover:text-green-600 hover:bg-green-50 rounded-xl transition-all"
-                          title="Send Confirmation Email"
+                          className={`p-2 rounded-xl transition-all relative ${rsvp.confirmationEmailSent ? 'text-green-600 bg-green-50 hover:bg-green-100' : 'text-secondary-text hover:text-green-600 hover:bg-green-50'}`}
+                          title={rsvp.confirmationEmailSent ? "Email Sent (Click to resend)" : "Send Confirmation Email"}
                         >
                           <Mail size={18} />
+                          {rsvp.confirmationEmailSent && (
+                            <div className="absolute -top-1 -right-1 bg-green-500 text-white rounded-full p-[2px]">
+                              <Check size={10} strokeWidth={4} />
+                            </div>
+                          )}
                         </button>
                         <button 
                           onClick={() => setEditingGuest(rsvp)}
@@ -555,6 +564,35 @@ export const AdminGuestList = () => {
           onSuccess={handleEditSuccess} 
         />
       )}
+      {/* EMAIL CONFIRMATION MODAL */}
+      {guestToEmail && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 backdrop-blur-sm" onClick={() => setGuestToEmail(null)}>
+          <div className="bg-[#FBF9F4] rounded-[30px] max-w-md w-full p-8 border border-accent-terracotta/20 shadow-2xl relative text-center" onClick={e => e.stopPropagation()}>
+            <div className="w-16 h-16 bg-accent-terracotta/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Mail className="text-accent-terracotta" size={32} />
+            </div>
+            <h3 className="text-3xl font-serif italic text-primary-text mb-2">Send Confirmation?</h3>
+            <p className="text-secondary-text mb-8">
+              This will instantly send the customized EmailJS confirmation to <strong className="text-primary-text">{guestToEmail.firstName} {guestToEmail.lastName}</strong> at {guestToEmail.email}.
+            </p>
+            <div className="flex gap-4 w-full">
+              <button 
+                onClick={() => setGuestToEmail(null)}
+                className="flex-1 py-4 rounded-2xl bg-black/5 hover:bg-black/10 text-secondary-text font-bold transition-colors"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={executeSendEmail}
+                className="flex-1 py-4 rounded-2xl bg-accent-terracotta hover:bg-accent-terracotta/90 text-white font-bold transition-colors shadow-lg shadow-accent-terracotta/20"
+              >
+                Yes, Send It
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

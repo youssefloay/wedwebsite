@@ -5,12 +5,14 @@ const EMAILJS_SERVICE_ID = 'service_am48iun';
 const EMAILJS_TEMPLATE_ID = 'template_hvorhqr';
 const EMAILJS_PUBLIC_KEY = '4S6Kn_MhXiaMiCtJV';
 
-// Room prices from RsvpPage.tsx
-const ROOM_PRICES: Record<string, number> = {
-  'Comfy': 200,
-  'Superior Comfy': 190,
-  'Castillo Junior': 135,
-  'Family Room': 165,
+// Room prices logic matches Excel exactly
+const getBasePrice = (roomTypeStr: string) => {
+  const lower = roomTypeStr.toLowerCase();
+  if (lower.includes("superior")) return 165;
+  if (lower.includes("junior") || lower.includes("castillo")) return 190;
+  if (lower.includes("standard") || lower.includes("comfy")) return 135;
+  if (lower.includes("family") || lower.includes("familiar") || lower.includes("you and yours")) return 200;
+  return 135; // Default
 };
 const EXTRA_PERSON_BREAKFAST = 18.50;
 
@@ -24,46 +26,92 @@ export const sendConfirmationEmail = async (rsvpData: Partial<RsvpData>) => {
   const hasRoom = rsvpData.accommodation === 'Yes, please' && !!rsvpData.roomPreference;
   const roomType = rsvpData.roomPreference || '';
   
-  // Format stay dates
-  let stayDatesStr = '';
-  const dates = [];
-  if (rsvpData.stayDuration?.includes('Friday 16th')) dates.push('Friday 16th');
-  if (rsvpData.stayDuration?.includes('Saturday 17th')) dates.push('Saturday 17th');
-  if (rsvpData.stayDuration?.includes('Extra Night') && rsvpData.manualStayDates) {
-    dates.push(rsvpData.manualStayDates);
-  }
-  stayDatesStr = dates.join(', ');
+  // We will pass the raw strings instead of formatting them into 'Dates: X'
+  const stayDurationRaw = rsvpData.stayDuration || '';
+  const manualDatesRaw = rsvpData.manualStayDates || '';
 
-  // Calculate estimated price
+  // Calculate exact price mirroring Excel logic
   let totalPrice = 0;
-  if (hasRoom && ROOM_PRICES[roomType]) {
-    const basePrice = ROOM_PRICES[roomType];
-    const numGuests = rsvpData.guests || 1;
-    const nightlyRate = basePrice + (numGuests > 1 ? (numGuests - 1) * EXTRA_PERSON_BREAKFAST : 0);
-    // Estimate number of nights
-    let nights = 0;
-    if (dates.length > 0) {
-       // Just counting checked days if no extra manual dates, otherwise default to 2+ for extra
-       if (rsvpData.stayDuration?.includes('Extra Night')) {
-         nights = 3; // rough estimate if extra night
-       } else {
-         nights = dates.length;
-       }
-    } else {
-       nights = 2; // Default to 2 nights
-    }
-    totalPrice = nightlyRate * nights;
-  }
-
   let roomDetailsHtml = '';
   if (hasRoom) {
+    const basePrice = getBasePrice(roomType);
+    const numGuests = rsvpData.guests || 1;
+    
+    let nightsCount = 2; // Default to 2 nights for standard weekend
+    let checkInStr = "16 April 2027";
+    let checkOutStr = "18 April 2027";
+
+    const allDatesText = (stayDurationRaw + ' ' + manualDatesRaw).toLowerCase();
+
+    // Advanced parsing for manual dates (e.g., "15th to 19th", "April 15 - 19")
+    const match15 = allDatesText.includes('15');
+    const match16 = allDatesText.includes('16');
+    const match17 = allDatesText.includes('17');
+    const match18 = allDatesText.includes('18');
+    const match19 = allDatesText.includes('19');
+    const match20 = allDatesText.includes('20');
+
+    // Determine actual stayed dates if explicit
+    const stayedDates = [];
+    if (match15) stayedDates.push(15);
+    if (match16) stayedDates.push(16);
+    if (match17) stayedDates.push(17);
+    if (match18) stayedDates.push(18);
+    if (match19) stayedDates.push(19);
+    if (match20) stayedDates.push(20);
+
+    if (stayedDates.length >= 2) {
+      const minDate = Math.min(...stayedDates);
+      const maxDate = Math.max(...stayedDates);
+      // Max date is the last NIGHT they stay, so they check out the day after
+      nightsCount = (maxDate - minDate) + 1;
+      checkInStr = `${minDate} April 2027`;
+      checkOutStr = `${maxDate + 1} April 2027`;
+    } else if (stayedDates.length === 1) {
+      checkInStr = `${stayedDates[0]} April 2027`;
+      checkOutStr = `${stayedDates[0] + 1} April 2027`;
+      nightsCount = 1;
+    }
+
+    // Force calculations for the exact nights
+    const breakfastCostPerNight = numGuests > 0 ? numGuests * 18.5 : 0;
+    const nightlyRate = basePrice > 0 ? (basePrice + breakfastCostPerNight) : 0;
+    
+    // Add extra 0.5 for the 17th which is 19.0 instead of 18.5
+    // If they stay the night of the 17th (which means min <= 17 and max > 17)
+    let extraBreakfastCost = 0;
+    if (stayedDates.length >= 2) {
+      const minDate = Math.min(...stayedDates);
+      const maxDate = Math.max(...stayedDates);
+      if (minDate <= 17 && maxDate > 17) {
+        extraBreakfastCost = numGuests > 0 ? numGuests * 0.5 : 0;
+      }
+    } else if (!match15 && !match18 && !match19 && !match20) {
+      // standard weekend 16th-18th includes the 17th
+      extraBreakfastCost = numGuests > 0 ? numGuests * 0.5 : 0;
+    }
+
+    totalPrice = (nightlyRate * nightsCount) + extraBreakfastCost;
+
     roomDetailsHtml = `
     <div class="details-box" style="background-color: #FAF8F5; border: 1px solid rgba(179, 114, 76, 0.1); padding: 20px; border-radius: 12px; margin-top: 20px; margin-bottom: 20px;">
       <p style="margin-top: 0; color: #515C4C; font-size: 20px; font-style: italic;">Your Accommodation Details</p>
       <p><strong>Room Type:</strong> <span style="color: #B3724C;">${roomType}</span></p>
-      <p><strong>Dates:</strong> <span style="color: #B3724C;">${stayDatesStr}</span></p>
-      <p><strong>Estimated Total:</strong> <span style="color: #B3724C;">€${totalPrice.toFixed(2)}</span></p>
-      <p style="font-size: 14px; margin-bottom: 0;"><em>Note: Because you booked a room at the castle, the hotel must have sent you a separate confirmation email.</em></p>
+      <p><strong>Check-in:</strong> <span style="color: #B3724C;">${checkInStr}</span></p>
+      <p><strong>Check-out:</strong> <span style="color: #B3724C;">${checkOutStr}</span></p>
+      
+      <div style="margin-top: 15px; padding: 12px; background-color: rgba(255,255,255,0.6); border-radius: 8px;">
+        <p style="margin: 0 0 8px 0; font-size: 15px;"><strong>Price Breakdown:</strong></p>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #515C4C;">
+          <li>Room rate: €${basePrice.toFixed(2)} per night</li>
+          <li>Breakfast (${numGuests} guests): €${breakfastCostPerNight.toFixed(2)} per night</li>
+          <li>Total nights: ${nightsCount}</li>
+          ${extraBreakfastCost > 0 ? `<li><em>(Includes +€${extraBreakfastCost.toFixed(2)} adjustment for weekend breakfast rates)</em></li>` : ''}
+        </ul>
+      </div>
+
+      <p style="margin-top: 15px;"><strong>Estimated Total:</strong> <span style="color: #B3724C; font-size: 18px;">€${totalPrice.toFixed(2)}</span></p>
+      <p style="font-size: 14px; margin-bottom: 0;"><em>Note: Because you booked a room at the castle, the hotel must have sent you a separate confirmation email. Please make sure to verify that the hotel email matches this confirmation email, and if you have any doubts, please contact us.</em></p>
     </div>
     `;
   }
@@ -73,6 +121,14 @@ export const sendConfirmationEmail = async (rsvpData: Partial<RsvpData>) => {
     to_email: toEmail,
     room_details_html: roomDetailsHtml,
   };
+
+  console.log("DEBUG EMAIL CALCULATION:", {
+    rsvpData,
+    basePrice: hasRoom ? getBasePrice(roomType) : 0,
+    totalPrice,
+    hasRoom,
+    templateParams
+  });
 
   try {
     const response = await emailjs.send(
