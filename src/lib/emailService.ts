@@ -75,18 +75,24 @@ export const sendConfirmationEmail = async (rsvpData: Partial<RsvpData>) => {
     checkInStr = `${minDate} April 2027`;
     checkOutStr = `${maxDate + 1} April 2027`;
 
-    let breakdownListHtml = '';
-    totalPrice = 0;
+    // Standard nightly rate (room + breakfast for all guests)
+    const standardRate = basePrice + (numGuests > 0 ? numGuests * 18.5 : 0);
+    const weekendRate = basePrice + (numGuests > 0 ? numGuests * 19.0 : 0);
+    const stays17th = minDate <= 17 && maxDate >= 17;
 
+    totalPrice = 0;
+    let standardNights = 0;
+    let weekendNights = 0;
     for (let d = minDate; d <= maxDate; d++) {
-       const isWeekend = (d === 17);
-       const bRate = isWeekend ? 19.0 : 18.5;
-       const dayBreakfast = numGuests > 0 ? numGuests * bRate : 0;
-       const dayTotal = basePrice > 0 ? (basePrice + dayBreakfast) : 0;
-       totalPrice += dayTotal;
-       
-       breakdownListHtml += `<li>Night of ${d} April: €${dayTotal.toFixed(2)}</li>`;
+      if (d === 17) { weekendNights++; totalPrice += weekendRate; }
+      else { standardNights++; totalPrice += standardRate; }
     }
+
+    const breakdownListHtml = `
+      <li style="margin-bottom: 6px; list-style: none; font-weight: bold;">Total: ${nightsCount} night${nightsCount > 1 ? 's' : ''}</li>
+      ${standardNights > 0 ? `<li style="margin-bottom: 4px;">${standardNights} night${standardNights > 1 ? 's' : ''} × Room rate incl. breakfast (${numGuests} guest${numGuests > 1 ? 's' : ''}): <strong style="color: #B3724C;">€${standardRate.toFixed(2)}</strong> = €${(standardNights * standardRate).toFixed(2)}</li>` : ''}
+      ${weekendNights > 0 ? `<li style="margin-bottom: 4px;">${weekendNights} night${weekendNights > 1 ? 's' : ''} × Room rate incl. breakfast (${numGuests} guest${numGuests > 1 ? 's' : ''}): <strong style="color: #B3724C;">€${weekendRate.toFixed(2)}</strong> (17th Apr) = €${(weekendNights * weekendRate).toFixed(2)}</li>` : ''}
+    `;
 
     roomDetailsHtml = `
     <div class="details-box" style="background-color: #FAF8F5; border: 1px solid rgba(179, 114, 76, 0.1); padding: 20px; border-radius: 12px; margin-top: 20px; margin-bottom: 20px;">
@@ -96,7 +102,7 @@ export const sendConfirmationEmail = async (rsvpData: Partial<RsvpData>) => {
       <p><strong>Check-out:</strong> <span style="color: #B3724C;">${checkOutStr}</span></p>
       
       <div style="margin-top: 15px; padding: 12px; background-color: rgba(255,255,255,0.6); border-radius: 8px;">
-        <p style="margin: 0 0 8px 0; font-size: 15px;"><strong>Price Breakdown (Room + Breakfast):</strong></p>
+        <p style="margin: 0 0 8px 0; font-size: 15px;"><strong>Price Breakdown:</strong></p>
         <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #515C4C;">
           ${breakdownListHtml}
         </ul>
