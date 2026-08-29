@@ -199,29 +199,31 @@ export const sendConfirmationLinkEmail = async (rsvpData: Partial<RsvpData>): Pr
     </div>
   `;
 
-  // Pass all common EmailJS recipient variable names to guarantee delivery
+  // Pass all common EmailJS recipient and content variable names
   const templateParams = {
     to_name: toName,
     to_email: toEmail,
     user_email: toEmail,
     email: toEmail,
     reply_to: toEmail,
+    confirmation_link: confirmationLink,
+    confirmation_html: confirmationHtml,
     room_details_html: confirmationHtml,
   };
 
-  console.log('Sending confirmation link email to:', toEmail, 'link:', confirmationLink);
+  console.log('Sending confirmation link email via template_link to:', toEmail, 'link:', confirmationLink);
 
   try {
     const response = await emailjs.send(
       EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID,   // reuses template_hvorhqr — your existing working template
+      'template_link',   // EmailJS template ID for confirmation link
       templateParams,
       EMAILJS_PUBLIC_KEY
     );
-    console.log('SUCCESS! Link email sent.', response.status, response.text);
+    console.log('SUCCESS! Link email sent via template_link.', response.status, response.text);
     return { success: true };
   } catch (err: any) {
-    console.error('FAILED to send link email:', err);
+    console.error('FAILED to send link email via template_link:', err);
     const msg = err?.text || err?.message || JSON.stringify(err);
     console.error('EmailJS error detail:', msg);
     return { success: false, error: msg };
