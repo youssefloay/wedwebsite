@@ -33,6 +33,7 @@ export const AdminLayout = () => {
     { label: "Accommodation", path: "/admin/accommodation", icon: <Bed size={20} /> },
     { label: "Room Map", path: "/admin/rooms", icon: <Map size={20} /> },
     { label: "Travel & Visas", path: "/admin/travel", icon: <ClipboardList size={20} /> },
+    { label: "Transport & Clusters", path: "/admin/transport", icon: <Car size={20} /> },
     { label: "Music", path: "/admin/music", icon: <Music size={20} /> },
     { label: "Notes", path: "/admin/notes", icon: <MessageSquare size={20} /> },
   ];

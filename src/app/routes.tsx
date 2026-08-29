@@ -6,6 +6,7 @@ import { AccommodationPage } from "./components/AccommodationPage";
 import { GiftsPage } from "./components/GiftsPage";
 import { FaqPage } from "./components/FaqPage";
 import { DiscoveryPage } from "./components/DiscoveryPage";
+import { GuestConfirmationPage } from "./components/GuestConfirmationPage";
 import { Layout } from "./components/Layout";
 
 // Admin Imports
@@ -20,6 +21,7 @@ import { ProtectedRoute } from "./components/Admin/ProtectedRoute";
 import { AdminMusicList } from "./components/Admin/AdminMusicList";
 import { AdminNotesList } from "./components/Admin/AdminNotesList";
 import { AdminRoomDashboard } from "./components/Admin/AdminRoomDashboard";
+import { AdminTransportList } from "./components/Admin/AdminTransportList";
 
 export const router = createHashRouter([
   {
@@ -52,6 +54,10 @@ export const router = createHashRouter([
       {
         path: "discovery",
         element: <DiscoveryPage />,
+      },
+      {
+        path: "guest-confirmation/:token",
+        element: <GuestConfirmationPage />,
       },
     ],
   },
@@ -90,6 +96,10 @@ export const router = createHashRouter([
       {
         path: "travel",
         element: <AdminTravelList />,
+      },
+      {
+        path: "transport",
+        element: <AdminTransportList />,
       },
       {
         path: "music",

@@ -3,6 +3,7 @@ import {
   collection, 
   addDoc, 
   getDocs, 
+  getDoc,
   query, 
   orderBy, 
   Timestamp,
@@ -34,6 +35,56 @@ export interface RsvpData {
   isPlaceholder?: boolean;
   side?: string;
   confirmationEmailSent?: boolean;
+
+  // Final Confirmation fields
+  confirmationSubmittedAt?: any; // Timestamp
+  confirmationLinkEmailSent?: boolean;
+
+  // Arrival
+  arrivalMethod?: string;         // 'Plane' | 'Car' | 'Other'
+  arrivalDate?: string;
+  arrivalTime?: string;
+  flightNumberArrival?: string;
+
+  // Departure
+  departureMethod?: string;
+  departureDate?: string;
+  departureTime?: string;
+  flightNumberDeparture?: string;
+
+  // Airport transfers (only for castle guests)
+  airportTransferIn?: string;     // 'Yes' | 'No' | 'Not sure yet'
+  airportTransferOut?: string;
+  transferInPax?: number;
+  transferOutPax?: number;
+
+  // Wedding-day transport (only for non-castle guests)
+  weddingDayTransferTo?: string;  // 'Yes' | 'No' | 'Not sure yet'
+  weddingDayTransferFrom?: string;
+  weddingDayTransferPax?: number;
+
+  // Room configuration (for castle guests)
+  bedPreference?: string;          // 'King Bed (1 large bed)' | 'Twin Beds (2 separate beds)' | 'No preference'
+
+  // External accommodation
+  externalAccommodationName?: string;
+  externalAccommodationAddress?: string;
+  externalAccommodationCity?: string;
+  travelingWithGuests?: string;   // 'Yes' | 'No' | 'Not sure'
+  travelingWithGuestNames?: string;
+
+  // Dietary
+  dietaryCategories?: string[];
+
+
+  // Accessibility
+  hasAccessibilityNeeds?: boolean;
+  accessibilityDetails?: string;
+
+  // RSVP changes
+  rsvpChangeNote?: string;
+  otherChanges?: string;
+  anythingElse?: string;
 }
 
 const RSVP_COLLECTION = "rsvps";
@@ -80,6 +131,13 @@ export const updateRsvp = async (id: string, data: Partial<RsvpData>) => {
   });
 
   await updateDoc(rsvpRef, updateData);
+};
+
+export const getRsvpById = async (id: string): Promise<RsvpData | null> => {
+  const rsvpRef = doc(db, RSVP_COLLECTION, id);
+  const snap = await getDoc(rsvpRef);
+  if (!snap.exists()) return null;
+  return { id: snap.id, ...snap.data() } as RsvpData;
 };
 
 /**

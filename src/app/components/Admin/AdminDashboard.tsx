@@ -63,6 +63,10 @@ export const AdminDashboard = () => {
 
     // 5. Dietary
     dietaryCount: rsvps.filter(r => !isPlaceholderItem(r) && r.attendance === "Joyfully accept" && r.dietary && r.dietary.trim() !== "").length,
+
+    // 6. Final Confirmations
+    confirmedConfirmations: rsvps.filter(r => !isPlaceholderItem(r) && r.attendance === "Joyfully accept" && r.confirmationSubmittedAt).length,
+    pendingConfirmations: rsvps.filter(r => !isPlaceholderItem(r) && r.attendance === "Joyfully accept" && !r.confirmationSubmittedAt).length,
   };
 
   if (isLoading) {
@@ -78,6 +82,7 @@ export const AdminDashboard = () => {
 
   const cards = [
     { label: "Confirmed Headcount", value: stats.confirmedHeadcount, sub: `From ${stats.confirmedRsvps} accepted RSVPs`, icon: <CheckCircle2 size={24} />, color: "bg-green-50 text-green-600" },
+    { label: "Final Confirmations", value: stats.confirmedConfirmations, sub: `${stats.pendingConfirmations} pending confirmations`, icon: <CheckCircle2 size={24} />, color: "bg-emerald-50 text-emerald-600" },
     { label: "Pending (Placeholders)", value: stats.pendingHeadcount, sub: `From ${stats.pendingRsvps} pending invites`, icon: <Clock size={24} />, color: "bg-purple-50 text-purple-600" },
     { label: "Declined", value: stats.declinedRsvps, sub: `Total RSVPs declined`, icon: <XCircle size={24} />, color: "bg-red-50 text-red-600" },
     { label: "Staying at Hotel", value: stats.hotelGuests, sub: `From ${stats.hotelRsvps} RSVPs`, icon: <Bed size={24} />, color: "bg-indigo-50 text-indigo-600" },

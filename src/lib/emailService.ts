@@ -142,3 +142,85 @@ export const sendConfirmationEmail = async (rsvpData: Partial<RsvpData>) => {
     return false;
   }
 };
+
+export const sendConfirmationLinkEmail = async (rsvpData: Partial<RsvpData>): Promise<{ success: boolean; error?: string }> => {
+  const toName = rsvpData.firstName || '';
+  const toEmail = rsvpData.email || '';
+  const guestNames = rsvpData.guestNames || [];
+  const partyLine = guestNames.length > 0
+    ? `yourself and ${guestNames.map(g => g.firstName).join(', ')}`
+    : 'yourself';
+
+  // Construct the personalized link using the current site's base URL
+  const baseUrl = window.location.href.split('#')[0];
+  const confirmationLink = `${baseUrl}#/guest-confirmation/${rsvpData.id}`;
+
+  // Full branded HTML — same terracotta/serif style as the RSVP confirmation email
+  // We pass this as `room_details_html` so the existing EmailJS template renders it automatically
+  const confirmationHtml = `
+    <div style="font-family: Georgia, 'Times New Roman', serif; color: #2C1810;">
+      <p style="font-size: 17px; font-style: italic; color: #515C4C; line-height: 1.8; margin-top: 0;">
+        Dear ${toName},
+      </p>
+      <p style="font-size: 16px; color: #515C4C; line-height: 1.8;">
+        The big day is getting closer and we are so excited to celebrate with ${partyLine}!
+        As we finalize all the arrangements, we need to confirm a few last details with you — including your travel plans, transportation needs, and any updates to your dietary requirements.
+      </p>
+      <p style="font-size: 16px; color: #515C4C; line-height: 1.8;">
+        This will only take a few minutes. Your information is already pre-filled, so you simply need to review and confirm.
+      </p>
+
+      <!-- CTA Button -->
+      <div style="text-align: center; margin: 36px 0;">
+        <a href="${confirmationLink}"
+           style="display: inline-block; background-color: #B3724C; color: #ffffff; text-decoration: none;
+                  padding: 16px 44px; border-radius: 50px; font-size: 15px; font-style: italic;
+                  letter-spacing: 0.05em;">
+          Confirm My Details &rarr;
+        </a>
+      </div>
+
+      <!-- Info box -->
+      <div style="background-color: #FAF8F5; border: 1px solid rgba(179, 114, 76, 0.15); border-radius: 12px; padding: 20px 24px; margin: 28px 0;">
+        <p style="margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.2em; color: #B3724C; font-weight: bold;">What we'll ask you</p>
+        <ul style="margin: 0; padding-left: 20px; color: #515C4C; font-size: 14px; line-height: 2;">
+          <li>Confirm your RSVP &amp; party details</li>
+          <li>Confirm or update your accommodation</li>
+          <li>Share your arrival &amp; departure information</li>
+          <li>Let us know if you need airport or wedding-day transportation</li>
+          <li>Confirm any dietary requirements</li>
+        </ul>
+      </div>
+
+      <p style="font-size: 13px; color: #515C4C; line-height: 1.8; opacity: 0.7;">
+        If the button above doesn't work, copy and paste this link into your browser:<br/>
+        <span style="word-break: break-all; color: #B3724C;">${confirmationLink}</span>
+      </p>
+    </div>
+  `;
+
+  // Reuse the existing working template — no need to create a new one in EmailJS
+  const templateParams = {
+    to_name: toName,
+    to_email: toEmail,
+    room_details_html: confirmationHtml,
+  };
+
+  console.log('Sending confirmation link email to:', toEmail, 'link:', confirmationLink);
+
+  try {
+    const response = await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,   // reuses template_hvorhqr — your existing working template
+      templateParams,
+      EMAILJS_PUBLIC_KEY
+    );
+    console.log('SUCCESS! Link email sent.', response.status, response.text);
+    return { success: true };
+  } catch (err: any) {
+    console.error('FAILED to send link email:', err);
+    const msg = err?.text || err?.message || JSON.stringify(err);
+    console.error('EmailJS error detail:', msg);
+    return { success: false, error: msg };
+  }
+};

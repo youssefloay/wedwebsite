@@ -17,10 +17,12 @@ import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
-  Mail
+  Mail,
+  Link2,
+  Send
 } from "lucide-react";
 import { updateRsvp } from "../../../lib/rsvpService";
-import { sendConfirmationEmail } from "../../../lib/emailService";
+import { sendConfirmationEmail, sendConfirmationLinkEmail } from "../../../lib/emailService";
 import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
 
@@ -169,6 +171,35 @@ export const AdminGuestList = () => {
       toast.error('Error sending email');
     }
     setGuestToEmail(null);
+  };
+
+  const handleCopyLink = (rsvp: RsvpData) => {
+    const confirmationLink = `${window.location.origin}${window.location.pathname}#/guest-confirmation/${rsvp.id}`;
+    navigator.clipboard.writeText(confirmationLink);
+    toast.success(`Personalized link copied for ${rsvp.firstName}!`);
+  };
+
+  const handleSendConfirmationLink = async (rsvp: RsvpData) => {
+    if (rsvp.attendance !== 'Joyfully accept') {
+      toast.error("Can only send confirmation links to attending guests");
+      return;
+    }
+    
+    const loadingToast = toast.loading(`Sending confirmation link to ${rsvp.email}...`);
+    try {
+      const res = await sendConfirmationLinkEmail(rsvp);
+      toast.dismiss(loadingToast);
+      if (res.success) {
+        await updateRsvp(rsvp.id!, { confirmationLinkEmailSent: true });
+        setRsvps(prev => prev.map(r => r.id === rsvp.id ? { ...r, confirmationLinkEmailSent: true } : r));
+        toast.success('Confirmation link email sent to ' + rsvp.email);
+      } else {
+        toast.error(`EmailJS Error: ${res.error || 'Failed to send'}`);
+      }
+    } catch (err: any) {
+      toast.dismiss(loadingToast);
+      toast.error('Error sending link email: ' + (err?.message || 'Unknown error'));
+    }
   };
 
   const handleExportCSV = () => {
@@ -371,9 +402,20 @@ export const AdminGuestList = () => {
                           Placeholder
                         </span>
                       ) : rsvp.attendance === 'Joyfully accept' ? (
-                        <span className="px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold bg-green-50 text-green-700 border border-green-200">
-                          Attending
-                        </span>
+                        <div className="flex flex-col items-start gap-1">
+                          <span className="px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold bg-green-50 text-green-700 border border-green-200">
+                            Attending
+                          </span>
+                          {rsvp.confirmationSubmittedAt ? (
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-md">
+                              Confirmed
+                            </span>
+                          ) : (
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded-md">
+                              Pending Conf.
+                            </span>
+                          )}
+                        </div>
                       ) : rsvp.attendance === 'Regretfully decline' ? (
                         <span className="px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold bg-red-50 text-red-600 border border-red-100">
                           Declined
@@ -411,6 +453,29 @@ export const AdminGuestList = () => {
                         >
                           <Eye size={18} />
                         </button>
+                        {rsvp.attendance === 'Joyfully accept' && (
+                          <>
+                            <button 
+                              onClick={() => handleCopyLink(rsvp)}
+                              className="p-2 text-secondary-text hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
+                              title="Copy Confirmation Link"
+                            >
+                              <Link2 size={18} />
+                            </button>
+                            <button 
+                              onClick={() => handleSendConfirmationLink(rsvp)}
+                              className={`p-2 rounded-xl transition-all relative ${rsvp.confirmationLinkEmailSent ? 'text-indigo-600 bg-indigo-50 hover:bg-indigo-100' : 'text-secondary-text hover:text-indigo-600 hover:bg-indigo-50'}`}
+                              title={rsvp.confirmationLinkEmailSent ? "Link Sent (Click to resend)" : "Send Confirmation Link"}
+                            >
+                              <Send size={18} />
+                              {rsvp.confirmationLinkEmailSent && (
+                                <div className="absolute -top-1 -right-1 bg-indigo-500 text-white rounded-full p-[2px]">
+                                  <Check size={10} strokeWidth={4} />
+                                </div>
+                              )}
+                            </button>
+                          </>
+                        )}
                         <button 
                           onClick={() => handleSendEmail(rsvp)}
                           className={`p-2 rounded-xl transition-all relative ${rsvp.confirmationEmailSent ? 'text-green-600 bg-green-50 hover:bg-green-100' : 'text-secondary-text hover:text-green-600 hover:bg-green-50'}`}
