@@ -216,16 +216,27 @@ export const sendConfirmationLinkEmail = async (rsvpData: Partial<RsvpData>): Pr
   try {
     const response = await emailjs.send(
       EMAILJS_SERVICE_ID,
-      'template_link',   // EmailJS template ID for confirmation link
+      'template_link',   // Try template_link first
       templateParams,
       EMAILJS_PUBLIC_KEY
     );
     console.log('SUCCESS! Link email sent via template_link.', response.status, response.text);
     return { success: true };
   } catch (err: any) {
-    console.error('FAILED to send link email via template_link:', err);
-    const msg = err?.text || err?.message || JSON.stringify(err);
-    console.error('EmailJS error detail:', msg);
-    return { success: false, error: msg };
+    console.warn('template_link failed, attempting fallback to verified EMAILJS_TEMPLATE_ID (template_hvorhqr)...', err);
+    try {
+      const fallbackResponse = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,   // Fallback to template_hvorhqr which is known to work
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+      console.log('SUCCESS! Link email sent via fallback template_hvorhqr.', fallbackResponse.status, fallbackResponse.text);
+      return { success: true };
+    } catch (fallbackErr: any) {
+      const msg = fallbackErr?.text || fallbackErr?.message || JSON.stringify(fallbackErr);
+      console.error('EmailJS error detail:', msg);
+      return { success: false, error: msg };
+    }
   }
 };
