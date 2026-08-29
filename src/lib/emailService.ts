@@ -199,10 +199,13 @@ export const sendConfirmationLinkEmail = async (rsvpData: Partial<RsvpData>): Pr
     </div>
   `;
 
-  // Reuse the existing working template — no need to create a new one in EmailJS
+  // Pass all common EmailJS recipient variable names to guarantee delivery
   const templateParams = {
     to_name: toName,
     to_email: toEmail,
+    user_email: toEmail,
+    email: toEmail,
+    reply_to: toEmail,
     room_details_html: confirmationHtml,
   };
 
