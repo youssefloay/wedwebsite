@@ -24,6 +24,7 @@ import {
 import { updateRsvp } from "../../../lib/rsvpService";
 import { sendConfirmationEmail, sendConfirmationLinkEmail } from "../../../lib/emailService";
 import { EditRsvpModal } from "./EditRsvpModal";
+import { CastilloPaymentEmailModal } from "./CastilloPaymentEmailModal";
 import { toast } from "sonner";
 
 export const AdminGuestList = () => {
@@ -34,6 +35,7 @@ export const AdminGuestList = () => {
   const [filter, setFilter] = useState("all");
   const [selectedGuest, setSelectedGuest] = useState<RsvpData | null>(null);
   const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
+  const [showPaymentEmailModal, setShowPaymentEmailModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
   const [guestToEmail, setGuestToEmail] = useState<RsvpData | null>(null);
@@ -270,6 +272,13 @@ export const AdminGuestList = () => {
           <p className="text-secondary-text font-serif italic mt-1 opacity-70">Manage responses and export data for vendors.</p>
         </div>
         <div className="flex items-center gap-4">
+          <button 
+            onClick={() => setShowPaymentEmailModal(true)}
+            className="flex items-center gap-3 bg-[#B3724C] text-white px-6 py-4 rounded-2xl hover:bg-[#B3724C]/90 transition-all shadow-lg active:scale-95"
+          >
+            <Mail size={20} />
+            <span className="font-serif uppercase tracking-widest text-xs font-bold">Room Payment Email</span>
+          </button>
           <button 
             onClick={handleAddPlaceholder}
             className="flex items-center gap-2 bg-white text-accent-terracotta border border-accent-terracotta/20 px-6 py-4 rounded-2xl hover:bg-black/5 transition-all shadow-sm active:scale-95"
@@ -656,6 +665,14 @@ export const AdminGuestList = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {showPaymentEmailModal && (
+        <CastilloPaymentEmailModal
+          allRsvps={rsvps}
+          onClose={() => setShowPaymentEmailModal(false)}
+          onRefresh={fetchData}
+        />
       )}
 
     </div>

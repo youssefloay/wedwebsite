@@ -2,7 +2,8 @@ import emailjs from '@emailjs/browser';
 import { RsvpData } from './rsvpService';
 
 const EMAILJS_SERVICE_ID = 'service_am48iun';
-const EMAILJS_TEMPLATE_ID = 'template_hvorhqr';
+const EMAILJS_TEMPLATE_ID = 'template_hvorhqr'; // Confirmation email: Thank you for confirming! / ¡Gracias por confirmar!
+export const EMAILJS_PAYMENT_TEMPLATE_ID = 'template_paymentlink'; // Dedicated template for Castillo payment link / guide
 const EMAILJS_PUBLIC_KEY = '4S6Kn_MhXiaMiCtJV';
 
 // Room prices logic matches Excel exactly
@@ -240,3 +241,146 @@ export const sendConfirmationLinkEmail = async (rsvpData: Partial<RsvpData>): Pr
     }
   }
 };
+
+export const sendCastilloRoomPaymentEmail = async (
+  rsvpData: Partial<RsvpData>,
+  templateId: string = EMAILJS_PAYMENT_TEMPLATE_ID
+): Promise<{ success: boolean; error?: string }> => {
+  const { CASTILLO_STEP1_IMAGE_URL, CASTILLO_STEP2_IMAGE_URL } = await import('../app/components/Admin/castilloEmailImages');
+  
+  const toName = (rsvpData.firstName || '').trim() || 'Guest';
+  const toEmail = (rsvpData.email || '').trim();
+
+  // Public HTTPS CDN URLs supported by all email clients (Gmail, Outlook, Apple Mail, Yahoo)
+  const step1ImgSrc = CASTILLO_STEP1_IMAGE_URL;
+  const step2ImgSrc = CASTILLO_STEP2_IMAGE_URL;
+
+  const paymentHtml = `
+    <div style="font-family: Georgia, 'Times New Roman', serif; color: #2C1810; max-width: 600px; margin: 0 auto; line-height: 1.6; background-color: #FBF8F4;">
+
+      <!-- Wedding Header -->
+      <div style="background: linear-gradient(135deg, #2C1810 0%, #4A2518 100%); padding: 36px 32px 28px; text-align: center; border-radius: 16px 16px 0 0;">
+        <p style="margin: 0 0 8px 0; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.6); font-family: Georgia, serif;">April 17, 2027 · Monda, Spain</p>
+        <h1 style="margin: 0; font-family: Georgia, serif; font-style: italic; font-weight: normal; font-size: 36px; color: #F5E6D3; letter-spacing: 0.02em;">Lama &amp; Álvaro</h1>
+        <div style="width: 48px; height: 1px; background: rgba(179,114,76,0.6); margin: 14px auto;"></div>
+        <p style="margin: 0; font-size: 12px; color: rgba(245,230,211,0.75); font-style: italic; letter-spacing: 0.1em;">A little note from us to you 💌</p>
+      </div>
+
+      <!-- Body -->
+      <div style="padding: 32px 32px 28px; background: #ffffff; border-left: 1px solid rgba(179,114,76,0.12); border-right: 1px solid rgba(179,114,76,0.12);">
+
+        <p style="font-size: 18px; font-style: italic; color: #515C4C; margin: 0 0 16px 0;">
+          Dear ${toName},
+        </p>
+
+        <p style="font-size: 15px; color: #515C4C; line-height: 1.85; margin: 0 0 16px 0;">
+          We are so excited that you'll be joining us at <strong>Castillo de Monda</strong> — we truly cannot wait to celebrate with you there! 🏰
+        </p>
+
+        <p style="font-size: 15px; color: #515C4C; line-height: 1.85; margin: 0 0 24px 0;">
+          We wanted to reach out with a quick guide on how to complete your room payment with the hotel. The Castillo uses their own online guest portal for payments, and we know it can be a little tricky to find, so we put this together just for you!
+        </p>
+
+        <!-- Deadline Callout -->
+        <div style="background: #FFF8F4; border: 1px solid rgba(179,114,76,0.25); border-left: 4px solid #B3724C; border-radius: 10px; padding: 16px 20px; margin: 0 0 28px 0;">
+          <p style="margin: 0 0 4px 0; font-size: 15px; color: #B3724C; font-weight: bold;">⏰ Friendly Reminder: Pay Before November 13th</p>
+          <p style="margin: 0; font-size: 14px; color: #515C4C; line-height: 1.65;">
+            The hotel asks that all room payments are settled directly through their portal before <strong>November 13th</strong>. Don't worry, it only takes a couple of minutes once you find the link!
+          </p>
+        </div>
+
+        <!-- Step Guide Heading -->
+        <h2 style="font-family: Georgia, serif; font-style: italic; font-weight: normal; font-size: 20px; color: #B3724C; margin: 0 0 20px 0; padding-bottom: 10px; border-bottom: 1px solid rgba(179,114,76,0.15);">
+          How to Pay: Step by Step
+        </h2>
+
+        <!-- Step 1 -->
+        <div style="margin: 0 0 28px 0;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="display: inline-block; background: #B3724C; color: white; font-size: 12px; font-weight: bold; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-family: Arial, sans-serif; flex-shrink: 0;">1</div>
+            <p style="margin: 0; font-size: 15px; color: #2C1810; font-weight: bold;">Open your Hotel Confirmation Email</p>
+          </div>
+          <p style="font-size: 14px; color: #515C4C; line-height: 1.75; margin: 0 0 12px 0;">
+            Look for a booking confirmation email from <strong>Castillo de Monda</strong>. Inside, you'll find a sentence that reads:<br/>
+            <em style="color: #B3724C;">"pre check in by visiting the hotel's services portal <u>here</u>"</em><br/>
+            Click the red <strong>here</strong> link — that's your gateway to the payment portal!
+          </p>
+          <div style="text-align: center; background: #FAF8F5; padding: 14px; border-radius: 12px; border: 1px solid rgba(179,114,76,0.12);">
+            <img src="${step1ImgSrc}" alt="Step 1: Click the here link in the Castillo email" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #E5E0D8; box-shadow: 0 4px 16px rgba(0,0,0,0.09); display: block; margin: 0 auto;" />
+            <p style="margin: 8px 0 0 0; font-size: 11px; font-style: italic; color: #515C4C; opacity: 0.75;">👆 Find and click "here" in your Castillo confirmation email</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="margin: 0 0 28px 0;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="display: inline-block; background: #B3724C; color: white; font-size: 12px; font-weight: bold; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-family: Arial, sans-serif; flex-shrink: 0;">2</div>
+            <p style="margin: 0; font-size: 15px; color: #2C1810; font-weight: bold;">Scroll down &amp; click "Check your bill"</p>
+          </div>
+          <p style="font-size: 14px; color: #515C4C; line-height: 1.75; margin: 0 0 12px 0;">
+            Once on the portal (it'll say <em>"Welcome to the Castillo!"</em>), just scroll down a little and click <strong>"Check your bill"</strong>. From there you can view and pay your balance online.
+          </p>
+          <div style="text-align: center; background: #FAF8F5; padding: 14px; border-radius: 12px; border: 1px solid rgba(179,114,76,0.12);">
+            <img src="${step2ImgSrc}" alt="Step 2: Click Check your bill on the portal" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #E5E0D8; box-shadow: 0 4px 16px rgba(0,0,0,0.09); display: block; margin: 0 auto;" />
+            <p style="margin: 8px 0 0 0; font-size: 11px; font-style: italic; color: #515C4C; opacity: 0.75;">👆 Scroll down and click "Check your bill" on the hotel portal</p>
+          </div>
+        </div>
+
+        <!-- Help note -->
+        <p style="font-size: 14px; color: #515C4C; line-height: 1.8; margin: 0 0 8px 0; background: #F9F6F2; border-radius: 10px; padding: 14px 16px; border: 1px solid rgba(179,114,76,0.1);">
+          🙋 <strong>Can't find the Castillo email?</strong> Check your spam folder first — sometimes it sneaks in there! If you still can't find it, just reach out to us and we'll sort it out together.
+        </p>
+
+      </div>
+
+      <!-- Footer -->
+      <div style="background: #FBF8F4; padding: 24px 32px; border-radius: 0 0 16px 16px; text-align: center; border: 1px solid rgba(179,114,76,0.12); border-top: none;">
+        <p style="margin: 0 0 4px 0; font-size: 17px; font-style: italic; color: #B3724C; font-family: Georgia, serif;">
+          With so much love &amp; excitement,
+        </p>
+        <p style="margin: 0; font-size: 19px; color: #2C1810; font-family: Georgia, serif; font-style: italic; font-weight: bold;">
+          Lama &amp; Álvaro 🤍
+        </p>
+        <div style="width: 48px; height: 1px; background: rgba(179,114,76,0.3); margin: 16px auto;"></div>
+        <p style="margin: 0; font-size: 11px; color: #515C4C; opacity: 0.6; letter-spacing: 0.08em; text-transform: uppercase; font-family: Arial, sans-serif;">
+          April 17, 2027 · Castillo de Monda · Spain
+        </p>
+      </div>
+
+    </div>
+  `;
+
+  // Dedicated parameters for the payment guide template (all aliases supported)
+  const templateParams = {
+    to_name: toName,
+    to_email: toEmail,
+    email: toEmail,
+    user_email: toEmail,
+    reply_to: toEmail,
+    subject: "Lama & Álvaro's Wedding — Castillo de Monda Room & Payment Guide",
+    payment_html: paymentHtml,
+    room_details_html: paymentHtml,
+    message_html: paymentHtml,
+    message: paymentHtml,
+    content: paymentHtml,
+    html: paymentHtml,
+  };
+
+  console.log(`Sending separate Castillo payment guide email to: ${toEmail} using template: ${templateId}`);
+
+  try {
+    const response = await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      templateId,
+      templateParams,
+      EMAILJS_PUBLIC_KEY
+    );
+    console.log('SUCCESS! Castillo room payment email sent to', toEmail, response.status, response.text);
+    return { success: true };
+  } catch (err: any) {
+    const msg = err?.text || err?.message || JSON.stringify(err);
+    console.error('EmailJS error in sendCastilloRoomPaymentEmail:', msg);
+    return { success: false, error: msg };
+  }
+};
+

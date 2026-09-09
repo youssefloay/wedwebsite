@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getAllRsvps, RsvpData } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
-import { Bed, Search, CheckCircle2, FileSpreadsheet, Download, Pencil, Trash2, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { Bed, Search, CheckCircle2, FileSpreadsheet, Download, Pencil, Trash2, ArrowUpDown, ArrowUp, ArrowDown, Mail } from "lucide-react";
 import { convertToCSV, deleteRsvp, updateRsvp } from "../../../lib/rsvpService";
 import { EditRsvpModal } from "./EditRsvpModal";
+import { CastilloPaymentEmailModal } from "./CastilloPaymentEmailModal";
 import { toast } from "sonner";
 import { HOTEL_ROOMS } from "./RoomSelectorGrid";
 import * as XLSX from 'xlsx';
@@ -25,6 +26,7 @@ export const AdminAccommodationList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
+  const [showPaymentEmailModal, setShowPaymentEmailModal] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
 
   useEffect(() => {
@@ -338,6 +340,13 @@ export const AdminAccommodationList = () => {
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-2">
             <button 
+              onClick={() => setShowPaymentEmailModal(true)}
+              className="flex items-center gap-2 bg-[#B3724C] text-white px-4 py-3 rounded-xl hover:bg-[#B3724C]/90 transition-all text-[10px] font-bold uppercase tracking-widest shadow-md"
+            >
+              <Mail size={14} />
+              Send Payment Email
+            </button>
+            <button 
               onClick={handleAddPlaceholder}
               className="flex items-center gap-2 bg-white text-accent-terracotta border border-accent-terracotta/20 px-4 py-3 rounded-xl hover:bg-black/5 transition-all text-[10px] font-bold uppercase tracking-widest shadow-sm"
             >
@@ -507,6 +516,14 @@ export const AdminAccommodationList = () => {
           allRsvps={rsvps}
           onClose={() => setEditingGuest(null)} 
           onSuccess={handleEditSuccess} 
+        />
+      )}
+
+      {showPaymentEmailModal && (
+        <CastilloPaymentEmailModal
+          allRsvps={rsvps}
+          onClose={() => setShowPaymentEmailModal(false)}
+          onRefresh={fetchData}
         />
       )}
     </div>
