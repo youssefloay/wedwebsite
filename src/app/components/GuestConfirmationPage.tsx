@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { getRsvpById, updateRsvp, RsvpData } from '../../lib/rsvpService';
 import { Timestamp } from 'firebase/firestore';
+import { auth } from '../../lib/firebase';
+import { signInAnonymously } from 'firebase/auth';
 import {
   Check, Heart, Plane, Car, Bed, Utensils, Users, ChevronRight,
   Accessibility, MessageCircle, CheckCircle2, Loader2, AlertTriangle
@@ -197,6 +199,10 @@ export function GuestConfirmationPage() {
       setLoadError(true);
       setIsLoading(false);
     }, 10000);
+
+    // Sign in anonymously so Firestore rules (request.auth != null) allow the read
+    // without needing to open the collection to the public
+    signInAnonymously(auth).catch(() => {/* proceed anyway, may still work */});
 
     getRsvpById(token)
       .then(data => {
