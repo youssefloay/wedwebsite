@@ -143,6 +143,7 @@ export function GuestConfirmationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const [loadError, setLoadError] = useState(false);
 
   // Form state
   const [rsvpChange, setRsvpChange] = useState('No, everything is still correct');
@@ -190,49 +191,66 @@ export function GuestConfirmationPage() {
 
   useEffect(() => {
     if (!token) { setNotFound(true); setIsLoading(false); return; }
-    getRsvpById(token).then(data => {
-      if (!data) {
-        setNotFound(true);
-      } else {
-        setGuest(data);
-        // Pre-fill existing data if present
-        if (data.bedPreference) setBedPreference(data.bedPreference);
-        if (data.externalAccommodationName) setExternalName(data.externalAccommodationName);
-        if (data.externalAccommodationAddress) setExternalAddress(data.externalAccommodationAddress);
-        if (data.externalAccommodationCity) setExternalCity(data.externalAccommodationCity);
-        if (data.travelingWithGuests) setTravelingWith(data.travelingWithGuests);
-        if (data.travelingWithGuestNames) setTravelingWithNames(data.travelingWithGuestNames);
-        if (data.arrivalMethod) setArrivalMethod(data.arrivalMethod);
-        if (data.arrivalDate) setArrivalDate(data.arrivalDate);
-        if (data.arrivalTime) setArrivalTime(data.arrivalTime);
-        if (data.flightNumberArrival) setFlightIn(data.flightNumberArrival);
-        if (data.airportTransferIn) setAirportTransferIn(data.airportTransferIn);
-        if (data.transferInPax) setTransferInPax(String(data.transferInPax));
-        if (data.weddingDayTransferTo) setWeddingDayTo(data.weddingDayTransferTo);
-        if (data.weddingDayTransferFrom) setWeddingDayFrom(data.weddingDayTransferFrom);
-        if (data.weddingDayTransferPax) setTransferOutPax(String(data.weddingDayTransferPax));
-        if (data.departureMethod) setDepartureMethod(data.departureMethod);
-        if (data.departureDate) setDepartureDate(data.departureDate);
-        if (data.departureTime) setDepartureTime(data.departureTime);
-        if (data.flightNumberDeparture) setFlightOut(data.flightNumberDeparture);
-        if (data.airportTransferOut) setAirportTransferOut(data.airportTransferOut);
-        if (data.transferOutPax) setTransferOutPax(String(data.transferOutPax));
-        
-        if (data.dietaryCategories && data.dietaryCategories.length > 0) {
-          setHasDietary('Yes, I have dietary restrictions');
-          setSelectedDietaryTags(data.dietaryCategories);
-        } else if (data.dietary && data.dietary.trim() !== '') {
-          setHasDietary('Yes, I have dietary restrictions');
-          setOtherDietaryDetails(data.dietary);
-        }
 
-        if (data.hasAccessibilityNeeds) setHasAccessibility('Yes');
-        if (data.accessibilityDetails) setAccessibilityDetails(data.accessibilityDetails);
-        if (data.otherChanges) setOtherChanges(data.otherChanges);
-        if (data.anythingElse) setAnythingElse(data.anythingElse);
-      }
+    // 10-second safety timeout — prevents infinite spinner on network issues
+    const timeout = setTimeout(() => {
+      setLoadError(true);
       setIsLoading(false);
-    });
+    }, 10000);
+
+    getRsvpById(token)
+      .then(data => {
+        clearTimeout(timeout);
+        if (!data) {
+          setNotFound(true);
+        } else {
+          setGuest(data);
+          // Pre-fill existing data if present
+          if (data.bedPreference) setBedPreference(data.bedPreference);
+          if (data.externalAccommodationName) setExternalName(data.externalAccommodationName);
+          if (data.externalAccommodationAddress) setExternalAddress(data.externalAccommodationAddress);
+          if (data.externalAccommodationCity) setExternalCity(data.externalAccommodationCity);
+          if (data.travelingWithGuests) setTravelingWith(data.travelingWithGuests);
+          if (data.travelingWithGuestNames) setTravelingWithNames(data.travelingWithGuestNames);
+          if (data.arrivalMethod) setArrivalMethod(data.arrivalMethod);
+          if (data.arrivalDate) setArrivalDate(data.arrivalDate);
+          if (data.arrivalTime) setArrivalTime(data.arrivalTime);
+          if (data.flightNumberArrival) setFlightIn(data.flightNumberArrival);
+          if (data.airportTransferIn) setAirportTransferIn(data.airportTransferIn);
+          if (data.transferInPax) setTransferInPax(String(data.transferInPax));
+          if (data.weddingDayTransferTo) setWeddingDayTo(data.weddingDayTransferTo);
+          if (data.weddingDayTransferFrom) setWeddingDayFrom(data.weddingDayTransferFrom);
+          if (data.weddingDayTransferPax) setTransferOutPax(String(data.weddingDayTransferPax));
+          if (data.departureMethod) setDepartureMethod(data.departureMethod);
+          if (data.departureDate) setDepartureDate(data.departureDate);
+          if (data.departureTime) setDepartureTime(data.departureTime);
+          if (data.flightNumberDeparture) setFlightOut(data.flightNumberDeparture);
+          if (data.airportTransferOut) setAirportTransferOut(data.airportTransferOut);
+          if (data.transferOutPax) setTransferOutPax(String(data.transferOutPax));
+          
+          if (data.dietaryCategories && data.dietaryCategories.length > 0) {
+            setHasDietary('Yes, I have dietary restrictions');
+            setSelectedDietaryTags(data.dietaryCategories);
+          } else if (data.dietary && data.dietary.trim() !== '') {
+            setHasDietary('Yes, I have dietary restrictions');
+            setOtherDietaryDetails(data.dietary);
+          }
+
+          if (data.hasAccessibilityNeeds) setHasAccessibility('Yes');
+          if (data.accessibilityDetails) setAccessibilityDetails(data.accessibilityDetails);
+          if (data.otherChanges) setOtherChanges(data.otherChanges);
+          if (data.anythingElse) setAnythingElse(data.anythingElse);
+        }
+        setIsLoading(false);
+      })
+      .catch(err => {
+        clearTimeout(timeout);
+        console.error('Failed to load guest data:', err);
+        setLoadError(true);
+        setIsLoading(false);
+      });
+
+    return () => clearTimeout(timeout);
   }, [token]);
 
   const isAtCastle = guest?.accommodation === 'Yes, please';
@@ -310,6 +328,29 @@ export function GuestConfirmationPage() {
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="animate-spin text-accent-terracotta" size={48} />
           <p className="font-serif italic text-secondary-text text-xl">Loading your details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className="min-h-screen bg-[#FBF9F4] flex items-center justify-center p-8">
+        <div className="text-center max-w-md">
+          <AlertTriangle className="text-amber-500 mx-auto mb-6" size={56} />
+          <h1 className="text-3xl font-serif italic text-primary-text mb-4">Something went wrong</h1>
+          <p className="font-serif italic text-secondary-text text-lg leading-relaxed mb-6">
+            We couldn't load your details — this is usually a temporary network issue.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-8 py-3 bg-accent-terracotta text-white rounded-full font-serif italic text-lg hover:bg-accent-terracotta/90 transition-all shadow-md"
+          >
+            Try Again
+          </button>
+          <p className="mt-6 font-serif italic text-secondary-text opacity-60 text-sm">
+            If this keeps happening, please contact Lama & Álvaro directly.
+          </p>
         </div>
       </div>
     );
