@@ -278,6 +278,20 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
                   onChange={(e) => handleEditChange('roomPreference', e.target.value)}
                 />
               </div>
+
+              {editingGuest.accommodation === 'Yes, please' && (
+                <div className="space-y-2">
+                  <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Payment Status</label>
+                  <select
+                    className="w-full bg-black/5 border-none p-4 rounded-2xl outline-none focus:ring-1 ring-accent-terracotta/20 font-serif italic text-lg"
+                    value={editingGuest.paymentStatus || "Unpaid"}
+                    onChange={(e) => handleEditChange('paymentStatus', e.target.value)}
+                  >
+                    <option value="Unpaid">Unpaid</option>
+                    <option value="Paid">Paid</option>
+                  </select>
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

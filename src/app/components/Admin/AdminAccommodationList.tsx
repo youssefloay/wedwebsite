@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAllRsvps, RsvpData } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
-import { Bed, Search, CheckCircle2, FileSpreadsheet, Download, Pencil, Trash2, ArrowUpDown, ArrowUp, ArrowDown, Mail } from "lucide-react";
+import { Bed, Search, CheckCircle2, FileSpreadsheet, Download, Pencil, Trash2, ArrowUpDown, ArrowUp, ArrowDown, Mail, Clock } from "lucide-react";
 import { convertToCSV, deleteRsvp, updateRsvp } from "../../../lib/rsvpService";
 import { EditRsvpModal } from "./EditRsvpModal";
 import { CastilloPaymentEmailModal } from "./CastilloPaymentEmailModal";
@@ -70,6 +70,22 @@ export const AdminAccommodationList = () => {
     fetchData();
   };
 
+  const handleTogglePaymentStatus = async (rsvp: RsvpData) => {
+    if (!rsvp.id) return;
+    const newStatus: 'Paid' | 'Unpaid' = rsvp.paymentStatus === 'Paid' ? 'Unpaid' : 'Paid';
+    try {
+      await updateRsvp(rsvp.id, { paymentStatus: newStatus });
+      setRsvps(prev => prev.map(r => r.id === rsvp.id ? { ...r, paymentStatus: newStatus } : r));
+      if (newStatus === 'Paid') {
+        toast.success(`Marked ${rsvp.firstName}'s room as Paid`);
+      } else {
+        toast.info(`Marked ${rsvp.firstName}'s room as Unpaid`);
+      }
+    } catch (err) {
+      toast.error("Failed to update payment status");
+    }
+  };
+
   let sortedRsvps = rsvps.filter(r => 
     `${r.firstName} ${r.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
     r.roomPreference.toLowerCase().includes(searchTerm.toLowerCase())
@@ -99,6 +115,9 @@ export const AdminAccommodationList = () => {
       } else if (sortConfig.key === 'submittedAt') {
          aValue = a.submittedAt instanceof Timestamp ? a.submittedAt.toMillis() : new Date(a.submittedAt).getTime();
          bValue = b.submittedAt instanceof Timestamp ? b.submittedAt.toMillis() : new Date(b.submittedAt).getTime();
+      } else if (sortConfig.key === 'paymentStatus') {
+         aValue = a.paymentStatus === 'Paid' ? '1_paid' : '2_unpaid';
+         bValue = b.paymentStatus === 'Paid' ? '1_paid' : '2_unpaid';
       }
 
       if (aValue === undefined || aValue === null) aValue = "";
@@ -258,6 +277,7 @@ export const AdminAccommodationList = () => {
         "Rate Euros Exclu. days Breakfast incl.": occupants.length > 0 ? exclusiveRate : "",
         "Prices per day": occupants.length > 0 ? (nightsCount > 1 ? `${nonExclusiveRate} / ${exclusiveRate}` : exclusiveRate) : "",
         "amount guests to pay": occupants.length > 0 ? totalAmount : "",
+        "Payment Status": occupants.length > 0 ? (occupants.some(o => o.paymentStatus === 'Paid') ? "Paid" : "Unpaid") : "",
         "Notes": notes
       };
     });
@@ -411,6 +431,9 @@ export const AdminAccommodationList = () => {
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('guests')}>
                   <div className="flex items-center gap-2">Party Size {getSortIcon('guests')}</div>
                 </th>
+                <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('paymentStatus')}>
+                  <div className="flex items-center gap-2">Payment {getSortIcon('paymentStatus')}</div>
+                </th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Actions</th>
               </tr>
             </thead>
@@ -483,6 +506,29 @@ export const AdminAccommodationList = () => {
                    </td>
                    <td className="p-6 font-serif italic text-primary-text text-lg">
                      {rsvp.guests}
+                   </td>
+                   <td className="p-6">
+                     <button
+                       onClick={() => handleTogglePaymentStatus(rsvp)}
+                       className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all border shadow-xs cursor-pointer ${
+                         rsvp.paymentStatus === 'Paid'
+                           ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100 hover:border-emerald-400'
+                           : 'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100 hover:border-amber-400'
+                       }`}
+                       title={`Click to mark as ${rsvp.paymentStatus === 'Paid' ? 'Unpaid' : 'Paid'}`}
+                     >
+                       {rsvp.paymentStatus === 'Paid' ? (
+                         <>
+                           <CheckCircle2 size={13} className="text-emerald-600" />
+                           <span>Paid</span>
+                         </>
+                       ) : (
+                         <>
+                           <Clock size={13} className="text-amber-600" />
+                           <span>Unpaid</span>
+                         </>
+                       )}
+                     </button>
                    </td>
                    <td className="p-6">
                       <div className="flex items-center gap-3">

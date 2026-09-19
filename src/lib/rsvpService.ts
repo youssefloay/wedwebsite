@@ -36,6 +36,9 @@ export interface RsvpData {
   side?: string;
   confirmationEmailSent?: boolean;
 
+  // Accommodation payment tracking
+  paymentStatus?: 'Paid' | 'Unpaid';
+
   // Final Confirmation fields
   confirmationSubmittedAt?: any; // Timestamp
   confirmationLinkEmailSent?: boolean;
@@ -228,6 +231,7 @@ export const mapToExportFormat = (rsvp: RsvpData) => {
     accommodation_choice: isAttending ? (isStayingAtCastle ? "Castillo de Monda" : "Independent") : "",
     room_type_preference: isAttending && isStayingAtCastle ? rsvp.roomPreference : "",
     assigned_room: isAttending && isStayingAtCastle ? (rsvp.assignedRoom || "") : "",
+    accommodation_payment_status: isAttending && isStayingAtCastle ? (rsvp.paymentStatus || "Unpaid") : "",
     "Thursday 15th": stay_thursday_15,
     "Friday 16th": stay_friday_16,
     "Saturday 17th": stay_saturday_17,

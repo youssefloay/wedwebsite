@@ -19,7 +19,10 @@ import {
   ArrowDown,
   Mail,
   Link2,
-  Send
+  Send,
+  CreditCard,
+  CheckCircle2,
+  Clock
 } from "lucide-react";
 import { updateRsvp } from "../../../lib/rsvpService";
 import { sendConfirmationEmail, sendConfirmationLinkEmail } from "../../../lib/emailService";
@@ -61,6 +64,9 @@ export const AdminGuestList = () => {
         if (filter === "Placeholder") return isPlaceholder;
         if (filter === "Attending") return !isPlaceholder && r.attendance === "Joyfully accept";
         if (filter === "Declined") return !isPlaceholder && r.attendance === "Regretfully decline";
+        if (filter === "AccomAll") return r.accommodation === "Yes, please";
+        if (filter === "AccomPaid") return r.accommodation === "Yes, please" && r.paymentStatus === "Paid";
+        if (filter === "AccomUnpaid") return r.accommodation === "Yes, please" && r.paymentStatus !== "Paid";
         return false;
       });
     }
@@ -85,6 +91,9 @@ export const AdminGuestList = () => {
            };
            aValue = getStatus(a);
            bValue = getStatus(b);
+        } else if (sortConfig.key === 'accommodation') {
+           aValue = a.accommodation === 'Yes, please' ? (a.paymentStatus === 'Paid' ? '1_paid' : '2_unpaid') : '3_independent';
+           bValue = b.accommodation === 'Yes, please' ? (b.paymentStatus === 'Paid' ? '1_paid' : '2_unpaid') : '3_independent';
         }
         
         if (aValue === undefined || aValue === null) aValue = "";
@@ -205,6 +214,22 @@ export const AdminGuestList = () => {
     }
   };
 
+  const handleTogglePaymentStatus = async (rsvp: RsvpData) => {
+    if (!rsvp.id) return;
+    const newStatus: 'Paid' | 'Unpaid' = rsvp.paymentStatus === 'Paid' ? 'Unpaid' : 'Paid';
+    try {
+      await updateRsvp(rsvp.id, { paymentStatus: newStatus });
+      setRsvps(prev => prev.map(r => r.id === rsvp.id ? { ...r, paymentStatus: newStatus } : r));
+      if (newStatus === 'Paid') {
+        toast.success(`Marked ${rsvp.firstName}'s accommodation as Paid`);
+      } else {
+        toast.info(`Marked ${rsvp.firstName}'s accommodation as Unpaid`);
+      }
+    } catch (err) {
+      toast.error("Failed to update payment status");
+    }
+  };
+
   const handleExportCSV = () => {
     try {
       const exportData = rsvps.map(r => mapToExportFormat(r));
@@ -317,7 +342,7 @@ export const AdminGuestList = () => {
         <div className="flex items-center gap-2 w-full md:w-auto">
           <Filter className="text-accent-terracotta/40 ml-2" size={18} />
           <select 
-            className="bg-black/5 border-none p-4 rounded-2xl outline-none focus:ring-1 ring-accent-terracotta/20 font-serif italic flex-1 md:w-48"
+            className="bg-black/5 border-none p-4 rounded-2xl outline-none focus:ring-1 ring-accent-terracotta/20 font-serif italic flex-1 md:w-56"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           >
@@ -325,9 +350,73 @@ export const AdminGuestList = () => {
             <option value="Attending">Attending</option>
             <option value="Declined">Declined</option>
             <option value="Placeholder">Placeholders</option>
+            <option value="AccomAll">Castle Stay: All ({rsvps.filter(r => r.accommodation === 'Yes, please').length})</option>
+            <option value="AccomPaid">Castle Stay: Paid ({rsvps.filter(r => r.accommodation === 'Yes, please' && r.paymentStatus === 'Paid').length})</option>
+            <option value="AccomUnpaid">Castle Stay: Unpaid ({rsvps.filter(r => r.accommodation === 'Yes, please' && r.paymentStatus !== 'Paid').length})</option>
           </select>
         </div>
       </div>
+
+      {/* Castle Accommodation Payment Summary Banner */}
+      {rsvps.filter(r => r.accommodation === 'Yes, please').length > 0 && (() => {
+        const castleGuests = rsvps.filter(r => r.accommodation === 'Yes, please');
+        const paidCount = castleGuests.filter(r => r.paymentStatus === 'Paid').length;
+        const unpaidCount = castleGuests.length - paidCount;
+        const pct = Math.round((paidCount / castleGuests.length) * 100);
+
+        return (
+          <div className="bg-white border border-accent-terracotta/15 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-accent-terracotta/10 flex items-center justify-center text-accent-terracotta flex-shrink-0">
+                <CreditCard size={22} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-serif italic text-xl text-primary-text font-medium">Castillo Room Payments</h4>
+                  <span className="text-xs bg-accent-terracotta/10 text-accent-terracotta font-bold px-2 py-0.5 rounded-full font-serif">
+                    {pct}% Paid
+                  </span>
+                </div>
+                <p className="text-xs text-secondary-text opacity-75 font-serif italic mt-0.5">
+                  {paidCount} of {castleGuests.length} castle guests marked as paid
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setFilter(filter === 'AccomPaid' ? 'all' : 'AccomPaid')}
+                className={`px-4 py-2 rounded-2xl text-xs font-serif italic transition-all flex items-center gap-2 border cursor-pointer ${
+                  filter === 'AccomPaid'
+                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
+                    : 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
+                }`}
+              >
+                <CheckCircle2 size={14} className={filter === 'AccomPaid' ? 'text-white' : 'text-emerald-600'} />
+                <span>Paid ({paidCount})</span>
+              </button>
+              <button
+                onClick={() => setFilter(filter === 'AccomUnpaid' ? 'all' : 'AccomUnpaid')}
+                className={`px-4 py-2 rounded-2xl text-xs font-serif italic transition-all flex items-center gap-2 border cursor-pointer ${
+                  filter === 'AccomUnpaid'
+                    ? 'bg-amber-600 text-white border-amber-600 shadow-sm'
+                    : 'bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100'
+                }`}
+              >
+                <Clock size={14} className={filter === 'AccomUnpaid' ? 'text-white' : 'text-amber-600'} />
+                <span>Unpaid ({unpaidCount})</span>
+              </button>
+              {filter.startsWith('Accom') && (
+                <button
+                  onClick={() => setFilter('all')}
+                  className="text-xs text-secondary-text underline hover:text-accent-terracotta px-2 font-serif"
+                >
+                  Clear filter
+                </button>
+              )}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Table */}
       <div className="bg-white rounded-[40px] border border-accent-terracotta/10 shadow-sm overflow-hidden">
@@ -348,7 +437,7 @@ export const AdminGuestList = () => {
                   <div className="flex items-center gap-2">Party {getSortIcon('guests')}</div>
                 </th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif cursor-pointer hover:bg-black/10 transition-colors" onClick={() => handleSort('accommodation')}>
-                  <div className="flex items-center gap-2">Accom. {getSortIcon('accommodation')}</div>
+                  <div className="flex items-center gap-2">Accom. & Payment {getSortIcon('accommodation')}</div>
                 </th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Dietary</th>
                 <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Actions</th>
@@ -440,9 +529,43 @@ export const AdminGuestList = () => {
                       <p className="font-serif italic text-primary-text">{rsvp.attendance === 'Joyfully accept' ? `${rsvp.guests} Guests` : '-'}</p>
                     </td>
                     <td className="p-6">
-                      <p className="text-base font-serif italic text-secondary-text leading-relaxed">
-                        {rsvp.accommodation === 'Yes, please' ? rsvp.roomPreference : 'Independent'}
-                      </p>
+                      {rsvp.accommodation === 'Yes, please' ? (
+                        <div className="flex flex-col items-start gap-2">
+                          <p className="text-base font-serif italic text-primary-text leading-tight">
+                            {rsvp.roomPreference || 'Room requested'}
+                          </p>
+                          {rsvp.assignedRoom && (
+                            <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-black/5 text-secondary-text font-serif">
+                              Room: {rsvp.assignedRoom}
+                            </span>
+                          )}
+                          <button
+                            onClick={() => handleTogglePaymentStatus(rsvp)}
+                            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all border shadow-xs cursor-pointer ${
+                              rsvp.paymentStatus === 'Paid'
+                                ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100 hover:border-emerald-400'
+                                : 'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100 hover:border-amber-400'
+                            }`}
+                            title={`Click to mark as ${rsvp.paymentStatus === 'Paid' ? 'Unpaid' : 'Paid'}`}
+                          >
+                            {rsvp.paymentStatus === 'Paid' ? (
+                              <>
+                                <CheckCircle2 size={13} className="text-emerald-600" />
+                                <span>Paid</span>
+                              </>
+                            ) : (
+                              <>
+                                <Clock size={13} className="text-amber-600" />
+                                <span>Unpaid</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      ) : (
+                        <p className="text-base font-serif italic text-secondary-text opacity-40 leading-relaxed">
+                          Independent
+                        </p>
+                      )}
                     </td>
                     <td className="p-6">
                       {rsvp.dietary ? (
@@ -590,10 +713,21 @@ export const AdminGuestList = () => {
               {selectedGuest.attendance === "Joyfully accept" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Accommodation</span>
-                    <p className="font-serif italic text-lg text-primary-text bg-white border border-accent-terracotta/10 p-6 rounded-3xl mt-4">
-                      {selectedGuest.accommodation === "Yes, please" ? selectedGuest.roomPreference : "Independent"}
-                    </p>
+                    <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Accommodation & Payment</span>
+                    <div className="bg-white border border-accent-terracotta/10 p-6 rounded-3xl mt-4 flex items-center justify-between gap-4">
+                      <p className="font-serif italic text-lg text-primary-text">
+                        {selectedGuest.accommodation === "Yes, please" ? selectedGuest.roomPreference : "Independent"}
+                      </p>
+                      {selectedGuest.accommodation === "Yes, please" && (
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${
+                          selectedGuest.paymentStatus === 'Paid'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                            : 'bg-amber-50 text-amber-800 border-amber-200'
+                        }`}>
+                          {selectedGuest.paymentStatus === 'Paid' ? '✓ Paid' : '✕ Unpaid'}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div>
                     <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Dietary</span>
