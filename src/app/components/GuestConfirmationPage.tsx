@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { getRsvpById, updateRsvp, RsvpData } from '../../lib/rsvpService';
-import { Timestamp } from 'firebase/firestore';
-import { auth } from '../../lib/firebase';
-import { signInAnonymously } from 'firebase/auth';
+import { getRsvpById, submitGuestConfirmation, RsvpData } from '../../lib/rsvpService';
+import { decodeGuestPayload } from '../../lib/guestCodec';
 import {
   Check, Heart, Plane, Car, Bed, Utensils, Users, ChevronRight,
   Accessibility, MessageCircle, CheckCircle2, Loader2, AlertTriangle
@@ -191,18 +189,69 @@ export function GuestConfirmationPage() {
   const [otherChanges, setOtherChanges] = useState('');
   const [anythingElse, setAnythingElse] = useState('');
 
+  const applyGuestData = (data: Partial<RsvpData>) => {
+    setGuest(data as RsvpData);
+    if (data.bedPreference) setBedPreference(data.bedPreference);
+    if (data.externalAccommodationName) setExternalName(data.externalAccommodationName);
+    if (data.externalAccommodationAddress) setExternalAddress(data.externalAccommodationAddress);
+    if (data.externalAccommodationCity) setExternalCity(data.externalAccommodationCity);
+    if (data.travelingWithGuests) setTravelingWith(data.travelingWithGuests);
+    if (data.travelingWithGuestNames) setTravelingWithNames(data.travelingWithGuestNames);
+    if (data.arrivalMethod) setArrivalMethod(data.arrivalMethod);
+    if (data.arrivalDate) setArrivalDate(data.arrivalDate);
+    if (data.arrivalTime) setArrivalTime(data.arrivalTime);
+    if (data.flightNumberArrival) setFlightIn(data.flightNumberArrival);
+    if (data.airportTransferIn) setAirportTransferIn(data.airportTransferIn);
+    if (data.transferInPax) setTransferInPax(String(data.transferInPax));
+    if (data.weddingDayTransferTo) setWeddingDayTo(data.weddingDayTransferTo);
+    if (data.weddingDayTransferFrom) setWeddingDayFrom(data.weddingDayTransferFrom);
+    if (data.weddingDayTransferPax) setTransferOutPax(String(data.weddingDayTransferPax));
+    if (data.departureMethod) setDepartureMethod(data.departureMethod);
+    if (data.departureDate) setDepartureDate(data.departureDate);
+    if (data.departureTime) setDepartureTime(data.departureTime);
+    if (data.flightNumberDeparture) setFlightOut(data.flightNumberDeparture);
+    if (data.airportTransferOut) setAirportTransferOut(data.airportTransferOut);
+    if (data.transferOutPax) setTransferOutPax(String(data.transferOutPax));
+    
+    if (data.dietaryCategories && data.dietaryCategories.length > 0) {
+      setHasDietary('Yes, I have dietary restrictions');
+      setSelectedDietaryTags(data.dietaryCategories);
+    } else if (data.dietary && data.dietary.trim() !== '') {
+      setHasDietary('Yes, I have dietary restrictions');
+      setOtherDietaryDetails(data.dietary);
+    }
+
+    if (data.hasAccessibilityNeeds) setHasAccessibility('Yes');
+    if (data.accessibilityDetails) setAccessibilityDetails(data.accessibilityDetails);
+    if (data.otherChanges) setOtherChanges(data.otherChanges);
+    if (data.anythingElse) setAnythingElse(data.anythingElse);
+  };
+
   useEffect(() => {
+    // 1. First priority: Check if pre-filled data is encoded in the URL (instant, 0 Firestore reads)
+    try {
+      const search = window.location.search || (window.location.hash.includes('?') ? '?' + window.location.hash.split('?')[1] : '');
+      const params = new URLSearchParams(search);
+      const encoded = params.get('d');
+      if (encoded) {
+        const decoded = decodeGuestPayload(encoded);
+        if (decoded) {
+          applyGuestData(decoded);
+          setIsLoading(false);
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Could not parse URL guest payload, falling back to Firestore", e);
+    }
+
+    // 2. Fallback: If no encoded data in URL, attempt Firestore read
     if (!token) { setNotFound(true); setIsLoading(false); return; }
 
-    // 10-second safety timeout — prevents infinite spinner on network issues
     const timeout = setTimeout(() => {
       setLoadError(true);
       setIsLoading(false);
     }, 10000);
-
-    // Sign in anonymously so Firestore rules (request.auth != null) allow the read
-    // without needing to open the collection to the public
-    signInAnonymously(auth).catch(() => {/* proceed anyway, may still work */});
 
     getRsvpById(token)
       .then(data => {
@@ -210,42 +259,7 @@ export function GuestConfirmationPage() {
         if (!data) {
           setNotFound(true);
         } else {
-          setGuest(data);
-          // Pre-fill existing data if present
-          if (data.bedPreference) setBedPreference(data.bedPreference);
-          if (data.externalAccommodationName) setExternalName(data.externalAccommodationName);
-          if (data.externalAccommodationAddress) setExternalAddress(data.externalAccommodationAddress);
-          if (data.externalAccommodationCity) setExternalCity(data.externalAccommodationCity);
-          if (data.travelingWithGuests) setTravelingWith(data.travelingWithGuests);
-          if (data.travelingWithGuestNames) setTravelingWithNames(data.travelingWithGuestNames);
-          if (data.arrivalMethod) setArrivalMethod(data.arrivalMethod);
-          if (data.arrivalDate) setArrivalDate(data.arrivalDate);
-          if (data.arrivalTime) setArrivalTime(data.arrivalTime);
-          if (data.flightNumberArrival) setFlightIn(data.flightNumberArrival);
-          if (data.airportTransferIn) setAirportTransferIn(data.airportTransferIn);
-          if (data.transferInPax) setTransferInPax(String(data.transferInPax));
-          if (data.weddingDayTransferTo) setWeddingDayTo(data.weddingDayTransferTo);
-          if (data.weddingDayTransferFrom) setWeddingDayFrom(data.weddingDayTransferFrom);
-          if (data.weddingDayTransferPax) setTransferOutPax(String(data.weddingDayTransferPax));
-          if (data.departureMethod) setDepartureMethod(data.departureMethod);
-          if (data.departureDate) setDepartureDate(data.departureDate);
-          if (data.departureTime) setDepartureTime(data.departureTime);
-          if (data.flightNumberDeparture) setFlightOut(data.flightNumberDeparture);
-          if (data.airportTransferOut) setAirportTransferOut(data.airportTransferOut);
-          if (data.transferOutPax) setTransferOutPax(String(data.transferOutPax));
-          
-          if (data.dietaryCategories && data.dietaryCategories.length > 0) {
-            setHasDietary('Yes, I have dietary restrictions');
-            setSelectedDietaryTags(data.dietaryCategories);
-          } else if (data.dietary && data.dietary.trim() !== '') {
-            setHasDietary('Yes, I have dietary restrictions');
-            setOtherDietaryDetails(data.dietary);
-          }
-
-          if (data.hasAccessibilityNeeds) setHasAccessibility('Yes');
-          if (data.accessibilityDetails) setAccessibilityDetails(data.accessibilityDetails);
-          if (data.otherChanges) setOtherChanges(data.otherChanges);
-          if (data.anythingElse) setAnythingElse(data.anythingElse);
+          applyGuestData(data);
         }
         setIsLoading(false);
       })
@@ -317,12 +331,12 @@ export function GuestConfirmationPage() {
         updates.accessibilityDetails = accessibilityDetails;
       }
 
-      await updateRsvp(guest.id, updates);
+      await submitGuestConfirmation(guest.id, updates);
       setIsSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
-      console.error(err);
-      alert('Something went wrong. Please try again.');
+      console.error('Submission failed:', err);
+      alert('Something went wrong submitting your details. Please try again or contact Lama & Álvaro.');
     } finally {
       setIsSubmitting(false);
     }

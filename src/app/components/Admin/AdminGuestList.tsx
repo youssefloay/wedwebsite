@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { updateRsvp } from "../../../lib/rsvpService";
 import { sendConfirmationEmail, sendConfirmationLinkEmail } from "../../../lib/emailService";
+import { createGuestConfirmationLink } from "../../../lib/guestCodec";
 import { EditRsvpModal } from "./EditRsvpModal";
 import { CastilloPaymentEmailModal } from "./CastilloPaymentEmailModal";
 import { toast } from "sonner";
@@ -176,7 +177,7 @@ export const AdminGuestList = () => {
   };
 
   const handleCopyLink = (rsvp: RsvpData) => {
-    const confirmationLink = `${window.location.origin}${window.location.pathname}#/guest-confirmation/${rsvp.id}`;
+    const confirmationLink = createGuestConfirmationLink(rsvp);
     navigator.clipboard.writeText(confirmationLink);
     toast.success(`Personalized link copied for ${rsvp.firstName}!`);
   };

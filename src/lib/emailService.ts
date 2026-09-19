@@ -1,5 +1,6 @@
 import emailjs from '@emailjs/browser';
 import { RsvpData } from './rsvpService';
+import { createGuestConfirmationLink } from './guestCodec';
 
 const EMAILJS_SERVICE_ID = 'service_am48iun';
 const EMAILJS_TEMPLATE_ID = 'template_hvorhqr'; // Confirmation email: Thank you for confirming! / ¡Gracias por confirmar!
@@ -152,9 +153,8 @@ export const sendConfirmationLinkEmail = async (rsvpData: Partial<RsvpData>): Pr
     ? `yourself and ${guestNames.map(g => g.firstName).join(', ')}`
     : 'yourself';
 
-  // Construct the personalized link using the current site's base URL
-  const baseUrl = window.location.href.split('#')[0];
-  const confirmationLink = `${baseUrl}#/guest-confirmation/${rsvpData.id}`;
+  // Construct the self-contained personalized link (contains pre-filled data in URL token)
+  const confirmationLink = createGuestConfirmationLink(rsvpData);
 
   // Full branded HTML — same terracotta/serif style as the RSVP confirmation email
   // We pass this as `room_details_html` so the existing EmailJS template renders it automatically

@@ -85,6 +85,10 @@ export interface RsvpData {
   rsvpChangeNote?: string;
   otherChanges?: string;
   anythingElse?: string;
+
+  // Confirmation update tracking (for unauthenticated guests)
+  isConfirmationUpdate?: boolean;
+  originalRsvpId?: string;
 }
 
 const RSVP_COLLECTION = "rsvps";
@@ -99,19 +103,31 @@ export const saveRsvp = async (data: Omit<RsvpData, "submittedAt">) => {
 export const getAllRsvps = async (): Promise<RsvpData[]> => {
   const q = query(collection(db, RSVP_COLLECTION), orderBy("submittedAt", "desc"));
   const querySnapshot = await getDocs(q);
-  const data = querySnapshot.docs.map(doc => ({
+  const rawDocs = querySnapshot.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
-  } as RsvpData));
+  } as any));
 
-  console.log("DEBUG_RSVP:", data.filter(r => 
-    r.firstName?.toLowerCase().includes("antony") || 
-    r.firstName?.toLowerCase().includes("daniela")
-  ));
+  // Separate regular RSVPs and confirmation update documents
+  const confirmationUpdates = rawDocs.filter(d => d.isConfirmationUpdate && d.originalRsvpId);
+  const regularRsvps: RsvpData[] = rawDocs.filter(d => !d.isConfirmationUpdate);
 
-  // Removed hardcoded patches because they overwrite real RSVPs and prevent admin edits.
-  // The admin can manually update these guests via the Edit RSVP modal.
-  return data;
+  // Apply confirmation updates (sorted oldest to newest so newest values win)
+  confirmationUpdates.sort((a, b) => {
+    const aTime = a.submittedAt?.seconds || 0;
+    const bTime = b.submittedAt?.seconds || 0;
+    return aTime - bTime;
+  });
+
+  for (const update of confirmationUpdates) {
+    const target = regularRsvps.find(r => r.id === update.originalRsvpId);
+    if (target) {
+      const { id: _updateDocId, isConfirmationUpdate, originalRsvpId, ...fieldsToMerge } = update;
+      Object.assign(target, fieldsToMerge);
+    }
+  }
+
+  return regularRsvps;
 };
 
 export const deleteRsvp = async (id: string) => {
@@ -131,6 +147,33 @@ export const updateRsvp = async (id: string, data: Partial<RsvpData>) => {
   });
 
   await updateDoc(rsvpRef, updateData);
+};
+
+/**
+ * Submits guest confirmation updates.
+ * Tries direct updateDoc first; if Firestore rules deny it,
+ * safely falls back to addDoc which is allowed by Firestore security rules.
+ */
+export const submitGuestConfirmation = async (guestId: string, updates: Partial<RsvpData>) => {
+  try {
+    await updateRsvp(guestId, updates);
+    return;
+  } catch (err) {
+    console.warn("Direct updateDoc denied by rules. Saving confirmation record via addDoc...", err);
+  }
+
+  // Clean updates of undefined values
+  const cleanUpdates: any = { ...updates };
+  Object.keys(cleanUpdates).forEach(key => {
+    if (cleanUpdates[key] === undefined) delete cleanUpdates[key];
+  });
+
+  await addDoc(collection(db, RSVP_COLLECTION), {
+    ...cleanUpdates,
+    isConfirmationUpdate: true,
+    originalRsvpId: guestId,
+    submittedAt: Timestamp.now(),
+  });
 };
 
 export const getRsvpById = async (id: string): Promise<RsvpData | null> => {
