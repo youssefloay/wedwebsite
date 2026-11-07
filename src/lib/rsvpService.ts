@@ -6,10 +6,12 @@ import {
   getDoc,
   query, 
   orderBy, 
+  where,
   Timestamp,
   deleteDoc,
   doc,
-  updateDoc
+  updateDoc,
+  onSnapshot
 } from "firebase/firestore";
 
 export interface RsvpData {
@@ -19,7 +21,7 @@ export interface RsvpData {
   lastName: string;
   email: string;
   guests: number;
-  guestNames: { firstName: string; lastName: string }[];
+  guestNames: { firstName: string; lastName: string; dietary?: string; dietaryCategories?: string[] }[];
   accommodation: string;
   roomPreference: string;
   stayDuration: string; // Comma separated: "Friday 16th, Saturday 17th, Extra Night"
@@ -104,12 +106,19 @@ export const saveRsvp = async (data: Omit<RsvpData, "submittedAt">) => {
 };
 
 export const getAllRsvps = async (): Promise<RsvpData[]> => {
-  const q = query(collection(db, RSVP_COLLECTION), orderBy("submittedAt", "desc"));
-  const querySnapshot = await getDocs(q);
+  // Query entire collection without orderBy so Firestore doesn't filter out docs missing submittedAt
+  const querySnapshot = await getDocs(collection(db, RSVP_COLLECTION));
   const rawDocs = querySnapshot.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
   } as any));
+
+  // Sort by submittedAt descending in memory safely
+  rawDocs.sort((a, b) => {
+    const aTime = a.submittedAt?.toMillis ? a.submittedAt.toMillis() : (a.submittedAt ? new Date(a.submittedAt).getTime() : 0);
+    const bTime = b.submittedAt?.toMillis ? b.submittedAt.toMillis() : (b.submittedAt ? new Date(b.submittedAt).getTime() : 0);
+    return bTime - aTime;
+  });
 
   // Separate regular RSVPs and confirmation update documents
   const confirmationUpdates = rawDocs.filter(d => d.isConfirmationUpdate && d.originalRsvpId);
@@ -123,18 +132,77 @@ export const getAllRsvps = async (): Promise<RsvpData[]> => {
   });
 
   for (const update of confirmationUpdates) {
-    const target = regularRsvps.find(r => r.id === update.originalRsvpId);
-    if (target) {
+    const targetIdx = regularRsvps.findIndex(r => r.id === update.originalRsvpId);
+    if (targetIdx !== -1) {
       const { id: _updateDocId, isConfirmationUpdate, originalRsvpId, ...fieldsToMerge } = update;
-      Object.assign(target, fieldsToMerge);
+      regularRsvps[targetIdx] = {
+        ...regularRsvps[targetIdx],
+        ...fieldsToMerge
+      };
     }
   }
 
   return regularRsvps;
 };
 
+/**
+ * Real-time subscription to RSVPs via Firestore onSnapshot.
+ * Calls the callback with the merged list whenever any document changes.
+ * Returns an unsubscribe function — call it to stop listening (e.g. on component unmount).
+ */
+export const subscribeToRsvps = (callback: (rsvps: RsvpData[]) => void): (() => void) => {
+  // Query entire collection without orderBy to avoid dropping documents without submittedAt
+  const unsubscribe = onSnapshot(collection(db, RSVP_COLLECTION), (querySnapshot) => {
+    const rawDocs = querySnapshot.docs.map(d => ({
+      id: d.id,
+      ...d.data()
+    } as any));
+
+    // Sort descending by submittedAt safely
+    rawDocs.sort((a, b) => {
+      const aTime = a.submittedAt?.toMillis ? a.submittedAt.toMillis() : (a.submittedAt ? new Date(a.submittedAt).getTime() : 0);
+      const bTime = b.submittedAt?.toMillis ? b.submittedAt.toMillis() : (b.submittedAt ? new Date(b.submittedAt).getTime() : 0);
+      return bTime - aTime;
+    });
+
+    const confirmationUpdates = rawDocs.filter((d: any) => d.isConfirmationUpdate && d.originalRsvpId);
+    const regularRsvps: RsvpData[] = rawDocs.filter((d: any) => !d.isConfirmationUpdate);
+
+    confirmationUpdates.sort((a: any, b: any) => {
+      const aTime = a.submittedAt?.seconds || 0;
+      const bTime = b.submittedAt?.seconds || 0;
+      return aTime - bTime;
+    });
+
+    for (const update of confirmationUpdates) {
+      const targetIdx = regularRsvps.findIndex(r => r.id === update.originalRsvpId);
+      if (targetIdx !== -1) {
+        const { id: _updateDocId, isConfirmationUpdate, originalRsvpId, ...fieldsToMerge } = update;
+        regularRsvps[targetIdx] = {
+          ...regularRsvps[targetIdx],
+          ...fieldsToMerge
+        };
+      }
+    }
+
+    callback(regularRsvps);
+  }, (err) => {
+    console.error('subscribeToRsvps error:', err);
+  });
+
+  return unsubscribe;
+};
+
 export const deleteRsvp = async (id: string) => {
   await deleteDoc(doc(db, RSVP_COLLECTION, id));
+  // Clean any confirmation updates for this ID
+  try {
+    const q = query(collection(db, RSVP_COLLECTION), where("originalRsvpId", "==", id));
+    const snap = await getDocs(q);
+    for (const d of snap.docs) {
+      await deleteDoc(d.ref).catch(() => {});
+    }
+  } catch (e) {}
 };
 
 export const updateRsvp = async (id: string, data: Partial<RsvpData>) => {
@@ -150,6 +218,21 @@ export const updateRsvp = async (id: string, data: Partial<RsvpData>) => {
   });
 
   await updateDoc(rsvpRef, updateData);
+
+  // If there are shadow confirmation update docs for this guest, remove them so they don't clobber the admin's edit
+  try {
+    const q = query(
+      collection(db, RSVP_COLLECTION),
+      where("originalRsvpId", "==", id),
+      where("isConfirmationUpdate", "==", true)
+    );
+    const snap = await getDocs(q);
+    for (const d of snap.docs) {
+      await deleteDoc(d.ref).catch(() => {});
+    }
+  } catch (err) {
+    // Unauthenticated or not allowed, ignore
+  }
 };
 
 /**
@@ -183,7 +266,33 @@ export const getRsvpById = async (id: string): Promise<RsvpData | null> => {
   const rsvpRef = doc(db, RSVP_COLLECTION, id);
   const snap = await getDoc(rsvpRef);
   if (!snap.exists()) return null;
-  return { id: snap.id, ...snap.data() } as RsvpData;
+  const baseData = { id: snap.id, ...snap.data() } as RsvpData;
+
+  // Check if there are any confirmation update documents submitted for this guest
+  try {
+    const q = query(
+      collection(db, RSVP_COLLECTION),
+      where("originalRsvpId", "==", id),
+      where("isConfirmationUpdate", "==", true)
+    );
+    const updatesSnap = await getDocs(q);
+    if (!updatesSnap.empty) {
+      const updates = updatesSnap.docs.map(d => d.data());
+      updates.sort((a: any, b: any) => {
+        const aTime = a.submittedAt?.seconds || 0;
+        const bTime = b.submittedAt?.seconds || 0;
+        return aTime - bTime;
+      });
+      for (const update of updates) {
+        const { id: _uid, isConfirmationUpdate, originalRsvpId, ...fieldsToMerge } = update as any;
+        Object.assign(baseData, fieldsToMerge);
+      }
+    }
+  } catch (err) {
+    console.warn("Could not query confirmation updates for getRsvpById:", err);
+  }
+
+  return baseData;
 };
 
 /**

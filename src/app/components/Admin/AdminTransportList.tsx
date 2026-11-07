@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllRsvps, RsvpData } from "../../../lib/rsvpService";
+import { subscribeToRsvps, RsvpData } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
 import { 
   Car, 
@@ -14,9 +14,22 @@ import {
   Clock,
   ArrowUpDown,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  ChevronDown,
+  ChevronUp,
+  Bed,
+  Utensils,
+  MapPin,
+  Accessibility,
+  MessageSquare,
+  AlertTriangle,
+  CalendarCheck,
+  Pencil,
+  ExternalLink
 } from "lucide-react";
 import { convertToCSV, downloadExcel } from "../../../lib/rsvpService";
+import { createGuestConfirmationLink } from "../../../lib/guestCodec";
+import { EditRsvpModal } from "./EditRsvpModal";
 import { toast } from "sonner";
 
 type ActiveTab = "airport" | "hotels" | "status";
@@ -27,29 +40,25 @@ export const AdminTransportList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState<ActiveTab>("airport");
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [expandedGuestId, setExpandedGuestId] = useState<string | null>(null);
+  const [isLive, setIsLive] = useState(false);
+  const [editingGuest, setEditingGuest] = useState<RsvpData | null>(null);
 
+  // Real-time Firestore subscription — updates instantly when any guest changes data
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
     setIsLoading(true);
-    try {
-      const data = await getAllRsvps();
-      // Keep only attending guests (non-placeholders)
-      const attending = data.filter(r => 
-        !r.isPlaceholder && 
+    const unsubscribe = subscribeToRsvps((data) => {
+      const attending = data.filter(r =>
+        !r.isPlaceholder &&
         !r.email?.includes('placeholder-') &&
         r.attendance === "Joyfully accept"
       );
       setRsvps(attending);
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to load transport details");
-    } finally {
       setIsLoading(false);
-    }
-  };
+      setIsLive(true);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -297,12 +306,20 @@ export const AdminTransportList = () => {
       {/* Title Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h2 className="text-4xl font-serif italic text-primary-text flex items-center gap-3">
-            <Car className="text-accent-terracotta" size={32} />
-            Wedding Logistics & Transport
-          </h2>
+          <div className="flex items-center gap-3">
+            <h2 className="text-4xl font-serif italic text-primary-text flex items-center gap-3">
+              <Car className="text-accent-terracotta" size={32} />
+              Wedding Logistics & Transport
+            </h2>
+            {isLive && (
+              <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
+                Live
+              </span>
+            )}
+          </div>
           <p className="text-secondary-text font-serif italic mt-2 opacity-70">
-            Coordinate airport transfers, external guest accommodation clustering, and final confirmations.
+            Coordinate airport transfers, external guest accommodation clustering, and final confirmations. Updates automatically in real time.
           </p>
         </div>
         
@@ -393,12 +410,13 @@ export const AdminTransportList = () => {
                     <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Inbound Transfer</th>
                     <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Departure details</th>
                     <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Outbound Transfer</th>
+                    <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {getFilteredAirportTransfers().length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="p-20 text-center font-serif italic text-xl opacity-50">
+                      <td colSpan={6} className="p-20 text-center font-serif italic text-xl opacity-50">
                         No airport transfers requested yet.
                       </td>
                     </tr>
@@ -454,6 +472,26 @@ export const AdminTransportList = () => {
                           }`}>
                             {r.airportTransferOut === "Yes" ? `Yes (${r.transferOutPax || r.guests} pax)` : r.airportTransferOut || "Pending"}
                           </span>
+                        </td>
+                        <td className="p-6 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => setEditingGuest(r)}
+                              className="p-2 text-secondary-text hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all"
+                              title="Edit guest details on their behalf"
+                            >
+                              <Pencil size={18} />
+                            </button>
+                            <a
+                              href={createGuestConfirmationLink(r)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-2 text-secondary-text hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"
+                              title="Open Confirmation Form as Guest"
+                            >
+                              <ExternalLink size={18} />
+                            </a>
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -517,45 +555,247 @@ export const AdminTransportList = () => {
                     <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Accommodation</th>
                     <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Confirmation Status</th>
                     <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif">Confirmation Date</th>
+                    <th className="p-6 text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold font-serif text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {getFilteredConfirmations().length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="p-20 text-center font-serif italic text-xl opacity-50">
+                      <td colSpan={6} className="p-20 text-center font-serif italic text-xl opacity-50">
                         No guests found.
                       </td>
                     </tr>
                   ) : (
                     getFilteredConfirmations().map(r => (
-                      <tr key={r.id} className="border-b border-accent-terracotta/5 hover:bg-black/[0.02]">
-                        <td className="p-6 font-serif italic text-lg text-primary-text">{r.firstName} {r.lastName}</td>
-                        <td className="p-6 text-sm text-secondary-text uppercase tracking-tighter">{r.email}</td>
-                        <td className="p-6 text-sm text-secondary-text font-serif italic">
-                          {r.accommodation === "Yes, please" ? "Castillo de Monda" : (r.externalAccommodationName || "Independent")}
-                        </td>
-                        <td className="p-6">
-                          {r.confirmationSubmittedAt ? (
-                            <span className="flex items-center gap-1.5 text-xs uppercase font-bold text-green-700 bg-green-50 border border-green-200 px-3 py-1.5 rounded-full max-w-max">
-                              <CheckCircle2 size={12} />
-                              Confirmed
-                            </span>
-                          ) : (
-                            <span className="flex items-center gap-1.5 text-xs uppercase font-bold text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full max-w-max">
-                              <Clock size={12} />
-                              Pending
-                            </span>
-                          )}
-                        </td>
-                        <td className="p-6 text-xs text-secondary-text opacity-70 uppercase tracking-tighter">
-                          {r.confirmationSubmittedAt 
-                            ? (r.confirmationSubmittedAt instanceof Timestamp 
-                                ? r.confirmationSubmittedAt.toDate().toLocaleString() 
-                                : new Date(r.confirmationSubmittedAt).toLocaleString())
-                            : "-"
-                          }
-                        </td>
-                      </tr>
+                      <React.Fragment key={r.id}>
+                        <tr
+                          className={`border-b border-accent-terracotta/5 transition-colors cursor-pointer ${
+                            expandedGuestId === r.id ? 'bg-accent-terracotta/5' : 'hover:bg-black/[0.02]'
+                          }`}
+                          onClick={() => setExpandedGuestId(expandedGuestId === r.id ? null : r.id!)}
+                        >
+                          <td className="p-6 font-serif italic text-lg text-primary-text">{r.firstName} {r.lastName}</td>
+                          <td className="p-6 text-sm text-secondary-text uppercase tracking-tighter">{r.email}</td>
+                          <td className="p-6 text-sm text-secondary-text font-serif italic">
+                            {r.accommodation === "Yes, please" ? "Castillo de Monda" : (r.externalAccommodationName || "Independent")}
+                          </td>
+                          <td className="p-6">
+                            {r.confirmationSubmittedAt ? (
+                              <span className="flex items-center gap-1.5 text-xs uppercase font-bold text-green-700 bg-green-50 border border-green-200 px-3 py-1.5 rounded-full max-w-max">
+                                <CheckCircle2 size={12} />
+                                Confirmed
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-1.5 text-xs uppercase font-bold text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full max-w-max">
+                                <Clock size={12} />
+                                Pending
+                              </span>
+                            )}
+                          </td>
+                          <td className="p-6 text-xs text-secondary-text opacity-70 uppercase tracking-tighter">
+                            {r.confirmationSubmittedAt 
+                              ? (r.confirmationSubmittedAt instanceof Timestamp 
+                                  ? r.confirmationSubmittedAt.toDate().toLocaleString() 
+                                  : new Date(r.confirmationSubmittedAt).toLocaleString())
+                              : "-"
+                            }
+                          </td>
+                          <td className="p-6 text-right" onClick={(e) => e.stopPropagation()}>
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                onClick={() => setEditingGuest(r)}
+                                className="p-2 text-secondary-text hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all"
+                                title="Edit details on behalf of guest"
+                              >
+                                <Pencil size={18} />
+                              </button>
+                              <a
+                                href={createGuestConfirmationLink(r)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 text-secondary-text hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"
+                                title="Open Confirmation Form as Guest"
+                              >
+                                <ExternalLink size={18} />
+                              </a>
+                              <button
+                                onClick={() => setExpandedGuestId(expandedGuestId === r.id ? null : r.id!)}
+                                className="p-2 text-accent-terracotta hover:bg-accent-terracotta/10 rounded-xl transition-all ml-1"
+                                title={expandedGuestId === r.id ? "Collapse" : "Expand"}
+                              >
+                                {expandedGuestId === r.id ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+                        {/* Expandable Confirmation Details */}
+                        {expandedGuestId === r.id && (
+                          <tr className="border-b border-accent-terracotta/10 bg-[#FBF9F4]">
+                            <td colSpan={6} className="px-8 py-6">
+                              {r.confirmationSubmittedAt ? (
+                                <div className="space-y-4">
+                                  {/* Quick Action Header inside expanded card */}
+                                  <div className="flex items-center justify-between pb-3 border-b border-accent-terracotta/10">
+                                    <p className="text-xs uppercase tracking-widest text-accent-terracotta font-bold flex items-center gap-2">
+                                      <CalendarCheck size={14} /> Confirmed Guest Details
+                                    </p>
+                                    <div className="flex items-center gap-3">
+                                      <button
+                                        onClick={() => setEditingGuest(r)}
+                                        className="flex items-center gap-1.5 bg-[#515C4C] text-white px-4 py-2 rounded-xl hover:bg-[#515C4C]/90 font-serif italic text-xs shadow-sm transition-all cursor-pointer"
+                                      >
+                                        <Pencil size={13} />
+                                        <span>Edit on Behalf of Guest</span>
+                                      </button>
+                                      <a
+                                        href={createGuestConfirmationLink(r)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-1.5 bg-white border border-accent-terracotta/20 text-accent-terracotta px-3 py-2 rounded-xl hover:bg-black/5 font-serif italic text-xs transition-all"
+                                      >
+                                        <ExternalLink size={13} />
+                                        <span>Open Form as Guest</span>
+                                      </a>
+                                    </div>
+                                  </div>
+
+                                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    {/* RSVP change */}
+                                    {r.rsvpChangeNote && (
+                                      <div className="md:col-span-2 lg:col-span-3 bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                                        <p className="text-[10px] uppercase tracking-widest text-amber-700 font-bold flex items-center gap-1.5 mb-1"><AlertTriangle size={10} /> RSVP Change Note</p>
+                                        <p className="font-serif italic text-sm text-primary-text">{r.rsvpChangeNote}</p>
+                                      </div>
+                                    )}
+
+                                    {/* Arrival */}
+                                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-4">
+                                      <p className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold flex items-center gap-1.5 mb-2"><Plane size={10} /> Arrival</p>
+                                      <p className="font-bold text-accent-terracotta text-sm">{r.arrivalDate || '—'}</p>
+                                      {r.arrivalTime && <p className="text-xs text-secondary-text">{r.arrivalTime}</p>}
+                                      <p className="text-xs text-secondary-text opacity-60">By {r.arrivalMethod || 'Plane'}</p>
+                                      {r.flightNumberArrival && <p className="text-xs text-secondary-text opacity-60">Flight: {r.flightNumberArrival}</p>}
+                                      {r.accommodation === 'Yes, please' && r.airportTransferIn && (
+                                        <span className={`mt-2 inline-block text-[9px] font-bold uppercase px-2 py-0.5 rounded-full ${
+                                          r.airportTransferIn === 'Yes' ? 'bg-green-50 text-green-700 border border-green-200' :
+                                          r.airportTransferIn === 'No' ? 'bg-red-50 text-red-600 border border-red-100' :
+                                          'bg-yellow-50 text-yellow-700 border border-yellow-200'
+                                        }`}>
+                                          Transfer In: {r.airportTransferIn}{r.airportTransferIn === 'Yes' && r.transferInPax ? ` (${r.transferInPax} pax)` : ''}
+                                        </span>
+                                      )}
+                                      {r.accommodation !== 'Yes, please' && r.weddingDayTransferTo && (
+                                        <span className={`mt-2 inline-block text-[9px] font-bold uppercase px-2 py-0.5 rounded-full ${
+                                          r.weddingDayTransferTo === 'Yes' ? 'bg-indigo-50 text-indigo-700 border border-indigo-200' : 'bg-gray-50 text-gray-600 border border-gray-200'
+                                        }`}>To wedding: {r.weddingDayTransferTo}</span>
+                                      )}
+                                    </div>
+
+                                    {/* Departure */}
+                                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-4">
+                                      <p className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold flex items-center gap-1.5 mb-2"><Plane size={10} className="rotate-180" /> Departure</p>
+                                      <p className="font-bold text-accent-terracotta text-sm">{r.departureDate || '—'}</p>
+                                      {r.departureTime && <p className="text-xs text-secondary-text">{r.departureTime}</p>}
+                                      <p className="text-xs text-secondary-text opacity-60">By {r.departureMethod || 'Plane'}</p>
+                                      {r.flightNumberDeparture && <p className="text-xs text-secondary-text opacity-60">Flight: {r.flightNumberDeparture}</p>}
+                                      {r.accommodation === 'Yes, please' && r.airportTransferOut && (
+                                        <span className={`mt-2 inline-block text-[9px] font-bold uppercase px-2 py-0.5 rounded-full ${
+                                          r.airportTransferOut === 'Yes' ? 'bg-green-50 text-green-700 border border-green-200' :
+                                          r.airportTransferOut === 'No' ? 'bg-red-50 text-red-600 border border-red-100' :
+                                          'bg-yellow-50 text-yellow-700 border border-yellow-200'
+                                        }`}>
+                                          Transfer Out: {r.airportTransferOut}{r.airportTransferOut === 'Yes' && r.transferOutPax ? ` (${r.transferOutPax} pax)` : ''}
+                                        </span>
+                                      )}
+                                      {r.accommodation !== 'Yes, please' && r.weddingDayTransferFrom && (
+                                        <span className={`mt-2 inline-block text-[9px] font-bold uppercase px-2 py-0.5 rounded-full ${
+                                          r.weddingDayTransferFrom === 'Yes' ? 'bg-purple-50 text-purple-700 border border-purple-200' : 'bg-gray-50 text-gray-600 border border-gray-200'
+                                        }`}>From wedding: {r.weddingDayTransferFrom}</span>
+                                      )}
+                                    </div>
+
+                                    {/* Accommodation / Bed / External */}
+                                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-4">
+                                      <p className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold flex items-center gap-1.5 mb-2"><Bed size={10} /> Accommodation Details</p>
+                                      {r.accommodation === 'Yes, please' ? (
+                                        <>
+                                          <p className="text-sm font-serif italic text-primary-text">Castillo de Monda</p>
+                                          {r.bedPreference && <p className="text-xs text-secondary-text mt-1">Bed: {r.bedPreference}</p>}
+                                        </>
+                                      ) : (
+                                        <>
+                                          <p className="text-sm font-serif italic text-primary-text">{r.externalAccommodationName || 'Not specified'}</p>
+                                          {r.externalAccommodationCity && <p className="text-xs text-secondary-text">{r.externalAccommodationCity}</p>}
+                                          {r.externalAccommodationAddress && <p className="text-xs text-secondary-text opacity-60">{r.externalAccommodationAddress}</p>}
+                                          {r.travelingWithGuests && <p className="text-xs text-secondary-text mt-1">With others: {r.travelingWithGuests}{r.travelingWithGuestNames ? ` — ${r.travelingWithGuestNames}` : ''}</p>}
+                                        </>
+                                      )}
+                                    </div>
+
+                                    {/* Dietary */}
+                                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-4">
+                                      <p className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold flex items-center gap-1.5 mb-2"><Utensils size={10} /> Dietary (Confirmed)</p>
+                                      {r.dietaryCategories && r.dietaryCategories.length > 0 ? (
+                                        <div className="flex flex-wrap gap-1">
+                                          {r.dietaryCategories.map(tag => (
+                                            <span key={tag} className="text-[9px] bg-orange-50 text-orange-700 border border-orange-200 px-2 py-0.5 rounded-full font-bold">{tag}</span>
+                                          ))}
+                                        </div>
+                                      ) : (
+                                        <p className="text-xs text-secondary-text opacity-60 font-serif italic">None</p>
+                                      )}
+                                      {r.dietary && r.dietary !== 'None' && (
+                                        <p className="text-xs text-secondary-text mt-1 font-serif italic">{r.dietary}</p>
+                                      )}
+                                    </div>
+
+                                    {/* Accessibility */}
+                                    {r.hasAccessibilityNeeds && (
+                                      <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+                                        <p className="text-[10px] uppercase tracking-widest text-blue-700 font-bold flex items-center gap-1.5 mb-1"><Accessibility size={10} /> Accessibility</p>
+                                        <p className="text-xs font-serif italic text-primary-text">{r.accessibilityDetails || 'Yes (no details)'}</p>
+                                      </div>
+                                    )}
+
+                                    {/* Notes */}
+                                    {(r.otherChanges || r.anythingElse) && (
+                                      <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-4">
+                                        <p className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold flex items-center gap-1.5 mb-2"><MessageSquare size={10} /> Notes</p>
+                                        {r.otherChanges && <p className="text-xs text-secondary-text font-serif italic mb-1"><strong>Changes:</strong> {r.otherChanges}</p>}
+                                        {r.anythingElse && <p className="text-xs text-secondary-text font-serif italic"><strong>Anything else:</strong> {r.anythingElse}</p>}
+                                      </div>
+                                    )}
+
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="flex flex-col items-center justify-center py-6 gap-3">
+                                  <p className="font-serif italic text-amber-700 text-sm text-center">This guest has not yet submitted the confirmation form.</p>
+                                  <div className="flex items-center gap-3">
+                                    <button
+                                      onClick={() => setEditingGuest(r)}
+                                      className="flex items-center gap-2 bg-[#515C4C] text-white px-5 py-2.5 rounded-2xl hover:bg-[#515C4C]/90 font-serif italic text-xs shadow-md transition-all cursor-pointer"
+                                    >
+                                      <Pencil size={14} />
+                                      <span>Fill In Confirmation on Behalf of Guest</span>
+                                    </button>
+                                    <a
+                                      href={createGuestConfirmationLink(r)}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="flex items-center gap-2 bg-white border border-accent-terracotta/20 text-accent-terracotta px-4 py-2.5 rounded-2xl hover:bg-black/5 font-serif italic text-xs transition-all"
+                                    >
+                                      <ExternalLink size={14} />
+                                      <span>Open Form as Guest</span>
+                                    </a>
+                                  </div>
+                                </div>
+                              )}
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
                     ))
                   )}
                 </tbody>
@@ -564,6 +804,15 @@ export const AdminTransportList = () => {
           </div>
         )}
       </div>
+
+      {editingGuest && (
+        <EditRsvpModal
+          rsvp={editingGuest}
+          allRsvps={rsvps}
+          onClose={() => setEditingGuest(null)}
+          onSuccess={() => setEditingGuest(null)}
+        />
+      )}
     </div>
   );
 };

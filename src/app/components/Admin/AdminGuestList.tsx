@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { getAllRsvps, deleteRsvp, RsvpData, mapToExportFormat, convertToCSV, downloadExcel } from "../../../lib/rsvpService";
+import React, { useEffect, useState, useRef } from "react";
+import { getAllRsvps, subscribeToRsvps, deleteRsvp, RsvpData, mapToExportFormat, convertToCSV, downloadExcel } from "../../../lib/rsvpService";
 import { Timestamp } from "firebase/firestore";
 import { 
   Download, 
@@ -22,7 +22,18 @@ import {
   Send,
   CreditCard,
   CheckCircle2,
-  Clock
+  Clock,
+  Plane,
+  Car,
+  Bed,
+  Utensils,
+  Accessibility,
+  MessageSquare,
+  CalendarCheck,
+  AlertTriangle,
+  MapPin,
+  Users,
+  ExternalLink
 } from "lucide-react";
 import { updateRsvp } from "../../../lib/rsvpService";
 import { sendConfirmationEmail, sendConfirmationLinkEmail } from "../../../lib/emailService";
@@ -43,9 +54,21 @@ export const AdminGuestList = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
   const [guestToEmail, setGuestToEmail] = useState<RsvpData | null>(null);
+  const [isLive, setIsLive] = useState(false);
 
+  // Real-time Firestore subscription — auto-updates whenever any guest changes data
   useEffect(() => {
-    fetchData();
+    setIsLoading(true);
+    const unsubscribe = subscribeToRsvps((data) => {
+      setRsvps(data);
+      setSelectedGuest(prev => {
+        if (!prev) return null;
+        return data.find(r => r.id === prev.id) || prev;
+      });
+      setIsLoading(false);
+      setIsLive(true);
+    });
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -129,6 +152,7 @@ export const AdminGuestList = () => {
   };
 
   const fetchData = async () => {
+    // Kept for manual post-delete refresh if needed (subscription handles live updates)
     setIsLoading(true);
     try {
       const data = await getAllRsvps();
@@ -294,8 +318,16 @@ export const AdminGuestList = () => {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h2 className="text-4xl font-serif italic text-primary-text">Guest Management</h2>
-          <p className="text-secondary-text font-serif italic mt-1 opacity-70">Manage responses and export data for vendors.</p>
+          <div className="flex items-center gap-3">
+            <h2 className="text-4xl font-serif italic text-primary-text">Guest Management</h2>
+            {isLive && (
+              <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
+                Live
+              </span>
+            )}
+          </div>
+          <p className="text-secondary-text font-serif italic mt-1 opacity-70">Manage responses and export data for vendors. Updates automatically in real time.</p>
         </div>
         <div className="flex items-center gap-4">
           <button 
@@ -595,6 +627,15 @@ export const AdminGuestList = () => {
                             >
                               <Link2 size={18} />
                             </button>
+                            <a
+                              href={createGuestConfirmationLink(rsvp)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-2 text-secondary-text hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"
+                              title="Open Confirmation Page as Guest"
+                            >
+                              <ExternalLink size={18} />
+                            </a>
                             <button 
                               onClick={() => handleSendConfirmationLink(rsvp)}
                               className={`p-2 rounded-xl transition-all relative ${rsvp.confirmationLinkEmailSent ? 'text-indigo-600 bg-indigo-50 hover:bg-indigo-100' : 'text-secondary-text hover:text-indigo-600 hover:bg-indigo-50'}`}
@@ -662,64 +703,102 @@ export const AdminGuestList = () => {
 
       {selectedGuest && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 backdrop-blur-sm" onClick={() => setSelectedGuest(null)}>
-          <div className="bg-[#FBF9F4] rounded-[40px] max-w-2xl w-full max-h-[85vh] overflow-y-auto p-10 border border-accent-terracotta/20 shadow-2xl relative" onClick={e => e.stopPropagation()}>
-            <button 
-              className="absolute top-8 right-8 p-3 bg-white border border-accent-terracotta/10 rounded-full hover:bg-accent-terracotta hover:text-white transition-colors" 
-              onClick={() => setSelectedGuest(null)}
-            >
-              <X size={20} />
-            </button>
-            <div className="mb-10">
-              <h3 className="text-4xl font-serif italic text-primary-text">{selectedGuest.firstName} {selectedGuest.lastName}</h3>
-              <p className="text-secondary-text mt-2 font-serif uppercase tracking-widest text-[11px] font-bold">{selectedGuest.email}</p>
-            </div>
+          <div className="bg-[#FBF9F4] rounded-[40px] max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-accent-terracotta/20 shadow-2xl relative" onClick={e => e.stopPropagation()}>
             
-            <div className="space-y-8">
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Attendance</span>
-                  <p className="font-serif italic text-xl text-primary-text mt-2">{selectedGuest.attendance}</p>
-                </div>
-                <div>
-                  <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Party Size</span>
-                  <p className="font-serif italic text-xl text-primary-text mt-2">{selectedGuest.guests} Guests</p>
-                </div>
-              </div>
-
+            {/* Modal Header */}
+            <div className="sticky top-0 z-10 bg-[#FBF9F4] border-b border-accent-terracotta/10 px-10 py-7 flex items-start justify-between rounded-t-[40px]">
               <div>
-                <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Personal Note for Lama & Álvaro</span>
-                <p className="font-serif italic text-xl text-primary-text bg-white border border-accent-terracotta/10 p-8 rounded-3xl mt-4 leading-relaxed">
-                  {selectedGuest.notes ? `"${selectedGuest.notes}"` : "No message provided."}
-                </p>
+                <h3 className="text-4xl font-serif italic text-primary-text">{selectedGuest.firstName} {selectedGuest.lastName}</h3>
+                <p className="text-secondary-text mt-1 font-serif uppercase tracking-widest text-[11px] font-bold">{selectedGuest.email}</p>
+                <div className="flex items-center gap-2 mt-3">
+                  {selectedGuest.confirmationSubmittedAt ? (
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+                      <CalendarCheck size={11} />
+                      Confirmation Submitted
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">
+                      <Clock size={11} />
+                      Pending Final Confirmation
+                    </span>
+                  )}
+                  {selectedGuest.confirmationLinkEmailSent && (
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-1 rounded-full">
+                      <Send size={11} />
+                      Link Sent
+                    </span>
+                  )}
+                </div>
               </div>
-              
-              {selectedGuest.attendance === "Joyfully accept" && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Stay Dates</span>
-                    <p className="font-serif italic text-lg text-primary-text bg-white border border-accent-terracotta/10 p-6 rounded-3xl mt-4">
-                      {selectedGuest.stayDuration?.split(', ').map(d => d === 'Extra Night' ? (selectedGuest.manualStayDates ? `Extra: ${selectedGuest.manualStayDates}` : d) : d).join(', ') || "Not specified"}
-                    </p>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    setEditingGuest(selectedGuest);
+                    setSelectedGuest(null);
+                  }}
+                  className="flex items-center gap-2 bg-[#515C4C] text-white px-5 py-2.5 rounded-2xl hover:bg-[#515C4C]/90 font-serif italic text-xs shadow-sm transition-all cursor-pointer"
+                >
+                  <Pencil size={14} />
+                  <span>Edit Response</span>
+                </button>
+                <a
+                  href={createGuestConfirmationLink(selectedGuest)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-white border border-accent-terracotta/20 text-accent-terracotta px-4 py-2.5 rounded-2xl hover:bg-black/5 font-serif italic text-xs transition-all"
+                  title="Open guest confirmation page in new tab"
+                >
+                  <ExternalLink size={14} />
+                  <span>Open Form</span>
+                </a>
+                <button 
+                  className="p-3 bg-white border border-accent-terracotta/10 rounded-full hover:bg-accent-terracotta hover:text-white transition-colors flex-shrink-0" 
+                  onClick={() => setSelectedGuest(null)}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+
+            <div className="p-10 space-y-8">
+
+              {/* ── Original RSVP Info ── */}
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-accent-terracotta font-bold mb-4 flex items-center gap-2"><Users size={12} /> Original RSVP</p>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold">Attendance</span>
+                    <p className="font-serif italic text-lg text-primary-text mt-1">{selectedGuest.attendance}</p>
                   </div>
-                  <div>
-                    <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Journey</span>
-                    <p className="font-serif italic text-lg text-primary-text bg-white border border-accent-terracotta/10 p-6 rounded-3xl mt-4">
-                      {selectedGuest.carRental === "Yes" ? "Renting a Car" : selectedGuest.transfer === "Yes" ? "Assisted Transfer" : "Independent Arrival"}
-                    </p>
+                  <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold">Party Size</span>
+                    <p className="font-serif italic text-lg text-primary-text mt-1">{selectedGuest.guests} Guest{Number(selectedGuest.guests) !== 1 ? 's' : ''}</p>
+                    {selectedGuest.guestNames && selectedGuest.guestNames.length > 0 && (
+                      <p className="text-xs text-secondary-text opacity-70 mt-1 font-serif italic">{selectedGuest.guestNames.map(g => `${g.firstName} ${g.lastName}`).join(', ')}</p>
+                    )}
                   </div>
                 </div>
-              )}
 
-              {selectedGuest.attendance === "Joyfully accept" && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Accommodation & Payment</span>
-                    <div className="bg-white border border-accent-terracotta/10 p-6 rounded-3xl mt-4 flex items-center justify-between gap-4">
-                      <p className="font-serif italic text-lg text-primary-text">
-                        {selectedGuest.accommodation === "Yes, please" ? selectedGuest.roomPreference : "Independent"}
+                {selectedGuest.attendance === "Joyfully accept" && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold">Stay Dates</span>
+                      <p className="font-serif italic text-base text-primary-text mt-1">
+                        {selectedGuest.stayDuration?.split(', ').map(d => d === 'Extra Night' ? (selectedGuest.manualStayDates ? `Extra: ${selectedGuest.manualStayDates}` : d) : d).join(', ') || "Not specified"}
                       </p>
+                    </div>
+                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5 flex items-start justify-between gap-3">
+                      <div>
+                        <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold">Accommodation</span>
+                        <p className="font-serif italic text-base text-primary-text mt-1">
+                          {selectedGuest.accommodation === "Yes, please" ? (selectedGuest.roomPreference || 'Castillo de Monda') : "Independent"}
+                        </p>
+                        {selectedGuest.assignedRoom && (
+                          <p className="text-[10px] uppercase tracking-wider text-secondary-text opacity-60 mt-1">Room: {selectedGuest.assignedRoom}</p>
+                        )}
+                      </div>
                       {selectedGuest.accommodation === "Yes, please" && (
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${
+                        <span className={`flex-shrink-0 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
                           selectedGuest.paymentStatus === 'Paid'
                             ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                             : 'bg-amber-50 text-amber-800 border-amber-200'
@@ -729,26 +808,205 @@ export const AdminGuestList = () => {
                       )}
                     </div>
                   </div>
-                  <div>
-                    <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Dietary</span>
-                    <p className="font-serif italic text-lg text-primary-text bg-white border border-accent-terracotta/10 p-6 rounded-3xl mt-4">
-                      {selectedGuest.dietary || "None"}
-                    </p>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold">Dietary</span>
+                    <p className="font-serif italic text-base text-primary-text mt-1">{selectedGuest.dietary || 'None'}</p>
+                    {selectedGuest.confirmationSubmittedAt && selectedGuest.dietaryCategories && selectedGuest.dietaryCategories.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {selectedGuest.dietaryCategories.map(cat => (
+                          <span key={cat} className="text-[10px] bg-orange-50 text-orange-700 border border-orange-200 px-2 py-0.5 rounded-full font-bold">{cat}</span>
+                        ))}
+                      </div>
+                    )}
                   </div>
+                  <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold">Music Suggestions</span>
+                    <p className="font-serif italic text-base text-primary-text mt-1">{selectedGuest.musicSuggestion || 'None'}</p>
+                  </div>
+                </div>
+
+                {selectedGuest.notes && (
+                  <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5 mt-4">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold">Personal Note</span>
+                    <p className="font-serif italic text-base text-primary-text mt-2 leading-relaxed">"{selectedGuest.notes}"</p>
+                  </div>
+                )}
+              </div>
+
+              {/* ── Final Confirmation Answers ── */}
+              {selectedGuest.confirmationSubmittedAt ? (
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-emerald-700 font-bold mb-4 flex items-center gap-2">
+                    <CalendarCheck size={12} />
+                    Final Confirmation Answers
+                    <span className="ml-auto text-[10px] text-secondary-text opacity-60 normal-case font-normal tracking-normal">
+                      Submitted: {selectedGuest.confirmationSubmittedAt instanceof Timestamp
+                        ? selectedGuest.confirmationSubmittedAt.toDate().toLocaleString()
+                        : new Date(selectedGuest.confirmationSubmittedAt as any).toLocaleString()}
+                    </span>
+                  </p>
+
+                  {/* RSVP Change */}
+                  {selectedGuest.rsvpChangeNote && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-4">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-amber-700 font-bold flex items-center gap-1.5 mb-2"><AlertTriangle size={11} /> RSVP Change Note</span>
+                      <p className="font-serif italic text-base text-primary-text">{selectedGuest.rsvpChangeNote}</p>
+                    </div>
+                  )}
+
+                  {/* Bed Preference (Castle only) */}
+                  {selectedGuest.accommodation === 'Yes, please' && selectedGuest.bedPreference && (
+                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5 mb-4">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold flex items-center gap-1.5 mb-1"><Bed size={11} /> Bed Preference</span>
+                      <p className="font-serif italic text-base text-primary-text mt-1">{selectedGuest.bedPreference}</p>
+                    </div>
+                  )}
+
+                  {/* External Accommodation */}
+                  {selectedGuest.accommodation !== 'Yes, please' && (selectedGuest.externalAccommodationName || selectedGuest.externalAccommodationCity) && (
+                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5 mb-4">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold flex items-center gap-1.5 mb-2"><MapPin size={11} /> External Accommodation</span>
+                      <p className="font-serif italic text-base text-primary-text">{selectedGuest.externalAccommodationName || '—'}</p>
+                      {selectedGuest.externalAccommodationAddress && <p className="text-sm text-secondary-text mt-0.5">{selectedGuest.externalAccommodationAddress}</p>}
+                      {selectedGuest.externalAccommodationCity && <p className="text-sm text-secondary-text">{selectedGuest.externalAccommodationCity}</p>}
+                      {selectedGuest.travelingWithGuests && (
+                        <p className="text-xs text-secondary-text mt-2 opacity-70">
+                          Traveling with other guests: <strong>{selectedGuest.travelingWithGuests}</strong>
+                          {selectedGuest.travelingWithGuestNames ? ` — ${selectedGuest.travelingWithGuestNames}` : ''}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Arrival & Departure */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold flex items-center gap-1.5 mb-2"><Plane size={11} /> Arrival</span>
+                      <p className="font-bold text-accent-terracotta text-sm">{selectedGuest.arrivalDate || '—'}</p>
+                      {selectedGuest.arrivalTime && <p className="text-sm text-secondary-text mt-0.5">{selectedGuest.arrivalTime}</p>}
+                      <p className="text-xs text-secondary-text opacity-70 mt-0.5">By {selectedGuest.arrivalMethod || 'Plane'}</p>
+                      {selectedGuest.flightNumberArrival && <p className="text-xs text-secondary-text opacity-70">Flight: {selectedGuest.flightNumberArrival}</p>}
+                      {selectedGuest.accommodation === 'Yes, please' && selectedGuest.airportTransferIn && (
+                        <div className="mt-3">
+                          <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
+                            selectedGuest.airportTransferIn === 'Yes' ? 'bg-green-50 text-green-700 border border-green-200' :
+                            selectedGuest.airportTransferIn === 'No' ? 'bg-red-50 text-red-600 border border-red-100' :
+                            'bg-yellow-50 text-yellow-700 border border-yellow-200'
+                          }`}>
+                            Transfer In: {selectedGuest.airportTransferIn}{selectedGuest.airportTransferIn === 'Yes' && selectedGuest.transferInPax ? ` (${selectedGuest.transferInPax} pax)` : ''}
+                          </span>
+                        </div>
+                      )}
+                      {selectedGuest.accommodation !== 'Yes, please' && (selectedGuest.weddingDayTransferTo || selectedGuest.weddingDayTransferFrom) && (
+                        <div className="mt-3 flex flex-col gap-1">
+                          {selectedGuest.weddingDayTransferTo && (
+                            <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full max-w-max ${
+                              selectedGuest.weddingDayTransferTo === 'Yes' ? 'bg-indigo-50 text-indigo-700 border border-indigo-200' : 'bg-gray-50 text-gray-600 border border-gray-200'
+                            }`}>To Wedding: {selectedGuest.weddingDayTransferTo}</span>
+                          )}
+                          {selectedGuest.weddingDayTransferFrom && (
+                            <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full max-w-max ${
+                              selectedGuest.weddingDayTransferFrom === 'Yes' ? 'bg-purple-50 text-purple-700 border border-purple-200' : 'bg-gray-50 text-gray-600 border border-gray-200'
+                            }`}>From Wedding: {selectedGuest.weddingDayTransferFrom}</span>
+                          )}
+                          {(selectedGuest.weddingDayTransferTo === 'Yes' || selectedGuest.weddingDayTransferFrom === 'Yes') && selectedGuest.weddingDayTransferPax ? (
+                            <p className="text-[10px] text-secondary-text opacity-70">{selectedGuest.weddingDayTransferPax} pax</p>
+                          ) : null}
+                        </div>
+                      )}
+                    </div>
+                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold flex items-center gap-1.5 mb-2"><Plane size={11} className="rotate-180" /> Departure</span>
+                      <p className="font-bold text-accent-terracotta text-sm">{selectedGuest.departureDate || '—'}</p>
+                      {selectedGuest.departureTime && <p className="text-sm text-secondary-text mt-0.5">{selectedGuest.departureTime}</p>}
+                      <p className="text-xs text-secondary-text opacity-70 mt-0.5">By {selectedGuest.departureMethod || 'Plane'}</p>
+                      {selectedGuest.flightNumberDeparture && <p className="text-xs text-secondary-text opacity-70">Flight: {selectedGuest.flightNumberDeparture}</p>}
+                      {selectedGuest.accommodation === 'Yes, please' && selectedGuest.airportTransferOut && (
+                        <div className="mt-3">
+                          <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
+                            selectedGuest.airportTransferOut === 'Yes' ? 'bg-green-50 text-green-700 border border-green-200' :
+                            selectedGuest.airportTransferOut === 'No' ? 'bg-red-50 text-red-600 border border-red-100' :
+                            'bg-yellow-50 text-yellow-700 border border-yellow-200'
+                          }`}>
+                            Transfer Out: {selectedGuest.airportTransferOut}{selectedGuest.airportTransferOut === 'Yes' && selectedGuest.transferOutPax ? ` (${selectedGuest.transferOutPax} pax)` : ''}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Dietary (Updated) */}
+                  <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5 mb-4">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold flex items-center gap-1.5 mb-2"><Utensils size={11} /> Dietary Requirements (Confirmed)</span>
+                    {selectedGuest.dietaryCategories && selectedGuest.dietaryCategories.length > 0 ? (
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {selectedGuest.dietaryCategories.map(tag => (
+                          <span key={tag} className="text-xs bg-orange-50 text-orange-700 border border-orange-200 px-2.5 py-1 rounded-full font-bold">{tag}</span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="font-serif italic text-base text-secondary-text opacity-60">None / No restrictions</p>
+                    )}
+                    {selectedGuest.dietary && selectedGuest.dietary !== 'None' && (
+                      <p className="text-sm text-secondary-text mt-2 font-serif italic">{selectedGuest.dietary}</p>
+                    )}
+                    {selectedGuest.guestNames && selectedGuest.guestNames.length > 0 && selectedGuest.guestNames.some(g => (g.dietary && g.dietary !== 'None') || (g.dietaryCategories && g.dietaryCategories.length > 0)) && (
+                      <div className="mt-3 pt-3 border-t border-black/5 space-y-1.5">
+                        <p className="text-[10px] uppercase tracking-widest text-accent-terracotta font-bold">Per-Guest Breakdown:</p>
+                        <p className="text-xs text-primary-text font-serif italic">
+                          <strong>{selectedGuest.firstName} {selectedGuest.lastName} (Main):</strong> {selectedGuest.dietary?.includes(' | ') ? selectedGuest.dietary.split(' | ')[0].replace(/^.*?:/, '').trim() : (selectedGuest.dietary || 'None')}
+                        </p>
+                        {selectedGuest.guestNames.map((g, idx) => (
+                          <p key={idx} className="text-xs text-primary-text font-serif italic">
+                            <strong>{g.firstName ? `${g.firstName} ${g.lastName}`.trim() : `Guest ${idx + 2}`}:</strong> {g.dietary || 'None'}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Accessibility */}
+                  {selectedGuest.hasAccessibilityNeeds && (
+                    <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5 mb-4">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-blue-700 font-bold flex items-center gap-1.5 mb-2"><Accessibility size={11} /> Accessibility Needs</span>
+                      <p className="font-serif italic text-base text-primary-text">{selectedGuest.accessibilityDetails || 'Yes (no details provided)'}</p>
+                    </div>
+                  )}
+
+                  {/* Other changes / Anything else */}
+                  {(selectedGuest.otherChanges || selectedGuest.anythingElse) && (
+                    <div className="bg-white border border-accent-terracotta/10 rounded-2xl p-5 mb-4">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-accent-terracotta font-bold flex items-center gap-1.5 mb-3"><MessageSquare size={11} /> Additional Notes</span>
+                      {selectedGuest.otherChanges && (
+                        <div className="mb-3">
+                          <p className="text-[10px] uppercase text-secondary-text opacity-60 font-bold mb-1">Other Changes Since RSVP</p>
+                          <p className="font-serif italic text-base text-primary-text">{selectedGuest.otherChanges}</p>
+                        </div>
+                      )}
+                      {selectedGuest.anythingElse && (
+                        <div>
+                          <p className="text-[10px] uppercase text-secondary-text opacity-60 font-bold mb-1">Anything Else / Questions</p>
+                          <p className="font-serif italic text-base text-primary-text">{selectedGuest.anythingElse}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 text-center">
+                  <Clock className="text-amber-500 mx-auto mb-2" size={28} />
+                  <p className="font-serif italic text-amber-800 text-lg">Final confirmation not yet submitted</p>
+                  <p className="text-xs text-amber-700 opacity-70 mt-1">The guest has not yet filled out the confirmation form via the link.</p>
                 </div>
               )}
 
-              {selectedGuest.attendance === "Joyfully accept" && (
-                <div>
-                  <span className="label-uppercase tracking-[0.3em] text-[10px] text-accent-terracotta font-bold">Music Recommendations</span>
-                  <p className="font-serif italic text-xl text-primary-text bg-white border border-accent-terracotta/10 p-8 rounded-3xl mt-4 leading-relaxed">
-                    {selectedGuest.musicSuggestion || "No songs requested."}
-                  </p>
-                </div>
-              )}
             </div>
-            
-            <div className="mt-10 flex justify-end">
+
+            {/* Modal Footer */}
+            <div className="sticky bottom-0 bg-[#FBF9F4] border-t border-accent-terracotta/10 px-10 py-5 flex justify-end rounded-b-[40px]">
               <button 
                 onClick={() => {
                   setSelectedGuest(null);

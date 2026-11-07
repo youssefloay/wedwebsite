@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-import { X, Save } from "lucide-react";
+import { X, Save, LayoutGrid, MapPin, Merge, Plane, Car, Bed, Utensils, CalendarCheck, Clock, CheckCircle2, AlertTriangle, Users, Accessibility, MessageSquare } from "lucide-react";
 import { RsvpData, updateRsvp, deleteRsvp } from "../../../lib/rsvpService";
 import { toast } from "sonner";
 import { InteractiveMapModal } from "./InteractiveMapModal";
-import { LayoutGrid, MapPin, Merge } from "lucide-react";
+
+const DIETARY_OPTIONS = [
+  'Gluten-Free (Celiac)',
+  'Dairy-Free (Lactose)',
+  'Vegetarian',
+  'Vegan',
+  'Nut Allergy',
+  'Shellfish Allergy',
+  'Other'
+];
 
 interface EditRsvpModalProps {
   rsvp: RsvpData;
@@ -52,9 +61,41 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
 
     setIsUpdating(true);
     try {
-      console.log("DEBUG SAVING:", editingGuest);
-      toast.info(`Saving dates: "${editingGuest.stayDuration}"`);
-      await updateRsvp(editingGuest.id, editingGuest);
+      const payload: RsvpData = { ...editingGuest };
+
+      // Multi-guest dietary unification:
+      // If multi-guest party, ensure each plus-one has their dietary data preserved,
+      // and update payload.dietary so admin lists, catering exports and chefs see the combined per-guest breakdown.
+      if (payload.guests > 1 && payload.guestNames && payload.guestNames.length > 0) {
+        const mainName = `${payload.firstName} ${payload.lastName}`.trim();
+        const mainDiet = payload.dietary && payload.dietary.trim() && payload.dietary !== 'None' ? payload.dietary.trim() : 'None';
+        const anyPlusOneHasDiet = payload.guestNames.some(g => (g.dietary && g.dietary.trim() && g.dietary !== 'None') || (g.dietaryCategories && g.dietaryCategories.length > 0));
+
+        if (anyPlusOneHasDiet) {
+          const segments: string[] = [`${mainName}: ${mainDiet}`];
+          payload.guestNames.forEach((g, idx) => {
+            const p1Name = `${g.firstName} ${g.lastName}`.trim() || `Guest ${idx + 2}`;
+            const p1Diet = g.dietary && g.dietary.trim() && g.dietary !== 'None' ? g.dietary.trim() : 'None';
+            segments.push(`${p1Name}: ${p1Diet}`);
+          });
+
+          const allNone = mainDiet === 'None' && payload.guestNames.every(g => !g.dietary || g.dietary.trim() === '' || g.dietary === 'None');
+          if (allNone) {
+            payload.dietary = 'None';
+          } else {
+            payload.dietary = segments.join(' | ');
+          }
+
+          // Merge all dietary categories
+          const allCats = new Set<string>(payload.dietaryCategories || []);
+          payload.guestNames.forEach(g => {
+            (g.dietaryCategories || []).forEach(c => allCats.add(c));
+          });
+          payload.dietaryCategories = Array.from(allCats);
+        }
+      }
+
+      await updateRsvp(editingGuest.id, payload);
       toast.success("RSVP updated successfully");
       onSuccess();
     } catch (err) {
@@ -170,31 +211,85 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
               {Array.from({ length: Math.max(0, editingGuest.guests - 1) }).map((_, idx) => {
                 const guest = (editingGuest.guestNames && editingGuest.guestNames[idx]) || { firstName: '', lastName: '' };
                 return (
-                  <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-black/5 p-6 rounded-2xl">
-                    <div className="space-y-2">
-                      <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Guest {idx + 2} First Name</label>
-                      <input
-                        type="text"
-                        className="w-full bg-transparent border-b border-black/10 py-2 outline-none focus:border-accent-terracotta font-serif italic text-lg"
-                        value={guest.firstName}
-                        onChange={(e) => {
-                          const newGuestNames = [...(editingGuest.guestNames || [])];
-                          while (newGuestNames.length <= idx) newGuestNames.push({ firstName: '', lastName: '' });
-                          newGuestNames[idx] = { ...newGuestNames[idx], firstName: e.target.value };
-                          handleEditChange('guestNames', newGuestNames);
-                        }}
-                      />
+                  <div key={idx} className="bg-black/5 p-6 rounded-2xl space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-2">
+                        <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Guest {idx + 2} First Name</label>
+                        <input
+                          type="text"
+                          className="w-full bg-transparent border-b border-black/10 py-2 outline-none focus:border-accent-terracotta font-serif italic text-lg"
+                          value={guest.firstName}
+                          onChange={(e) => {
+                            const newGuestNames = [...(editingGuest.guestNames || [])];
+                            while (newGuestNames.length <= idx) newGuestNames.push({ firstName: '', lastName: '' });
+                            newGuestNames[idx] = { ...newGuestNames[idx], firstName: e.target.value };
+                            handleEditChange('guestNames', newGuestNames);
+                          }}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Guest {idx + 2} Last Name</label>
+                        <input
+                          type="text"
+                          className="w-full bg-transparent border-b border-black/10 py-2 outline-none focus:border-accent-terracotta font-serif italic text-lg"
+                          value={guest.lastName}
+                          onChange={(e) => {
+                            const newGuestNames = [...(editingGuest.guestNames || [])];
+                            while (newGuestNames.length <= idx) newGuestNames.push({ firstName: '', lastName: '' });
+                            newGuestNames[idx] = { ...newGuestNames[idx], lastName: e.target.value };
+                            handleEditChange('guestNames', newGuestNames);
+                          }}
+                        />
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Guest {idx + 2} Last Name</label>
+
+                    {/* Per-guest dietary requirement */}
+                    <div className="border-t border-black/5 pt-4 space-y-3">
+                      <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest flex items-center gap-1.5">
+                        <Utensils size={12} /> Dietary Requirements for {guest.firstName || `Guest ${idx + 2}`}
+                      </label>
+                      <div className="flex flex-wrap gap-1.5">
+                        {DIETARY_OPTIONS.map(opt => {
+                          const currentCats = guest.dietaryCategories || [];
+                          const isSelected = currentCats.includes(opt);
+                          return (
+                            <button
+                              key={opt}
+                              type="button"
+                              onClick={() => {
+                                const newCats = isSelected
+                                  ? currentCats.filter(c => c !== opt)
+                                  : [...currentCats, opt];
+                                const newGuestNames = [...(editingGuest.guestNames || [])];
+                                while (newGuestNames.length <= idx) newGuestNames.push({ firstName: '', lastName: '' });
+                                newGuestNames[idx] = {
+                                  ...newGuestNames[idx],
+                                  dietaryCategories: newCats,
+                                  dietary: newCats.join(', ')
+                                };
+                                handleEditChange('guestNames', newGuestNames);
+                              }}
+                              className={`px-3 py-1 rounded-full text-[11px] font-serif italic border transition-all cursor-pointer ${
+                                isSelected
+                                  ? 'bg-orange-600 text-white border-orange-600 shadow-sm'
+                                  : 'bg-white/60 text-secondary-text border-black/10 hover:bg-white'
+                              }`}
+                            >
+                              {opt} {isSelected && '✓'}
+                            </button>
+                          );
+                        })}
+                      </div>
+
                       <input
                         type="text"
-                        className="w-full bg-transparent border-b border-black/10 py-2 outline-none focus:border-accent-terracotta font-serif italic text-lg"
-                        value={guest.lastName}
+                        placeholder={`Specific dietary notes/allergies for ${guest.firstName || `Guest ${idx + 2}`}...`}
+                        className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none focus:border-accent-terracotta font-serif italic text-sm"
+                        value={guest.dietary || ''}
                         onChange={(e) => {
                           const newGuestNames = [...(editingGuest.guestNames || [])];
                           while (newGuestNames.length <= idx) newGuestNames.push({ firstName: '', lastName: '' });
-                          newGuestNames[idx] = { ...newGuestNames[idx], lastName: e.target.value };
+                          newGuestNames[idx] = { ...newGuestNames[idx], dietary: e.target.value };
                           handleEditChange('guestNames', newGuestNames);
                         }}
                       />
@@ -454,19 +549,389 @@ export const EditRsvpModal = ({ rsvp, allRsvps = [], onClose, onSuccess }: EditR
             </div>
 
             <div className="space-y-2">
-              <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Dietary Requirements</label>
+              <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">
+                Main Guest Dietary Details ({editingGuest.firstName || 'Main Guest'})
+              </label>
               <textarea
                 className="w-full bg-black/5 border-none p-4 rounded-2xl outline-none focus:ring-1 ring-accent-terracotta/20 font-serif italic text-lg h-24"
-                value={editingGuest.dietary}
+                value={editingGuest.dietary || ""}
                 onChange={(e) => handleEditChange('dietary', e.target.value)}
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Personal Note</label>
+            {/* Dietary Categories Pills */}
+            <div className="space-y-2 col-span-full">
+              <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest flex items-center gap-2">
+                <Utensils size={12} /> Dietary Categories & Allergies ({editingGuest.firstName || 'Main Guest'})
+              </label>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {DIETARY_OPTIONS.map(opt => {
+                  const currentCategories = editingGuest.dietaryCategories || [];
+                  const isSelected = currentCategories.includes(opt);
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => {
+                        const newCats = isSelected
+                          ? currentCategories.filter(c => c !== opt)
+                          : [...currentCategories, opt];
+                        handleEditChange('dietaryCategories', newCats);
+                        // Also auto-sync dietary string if empty
+                        if (!editingGuest.dietary || editingGuest.dietary === 'None') {
+                          handleEditChange('dietary', newCats.join(', '));
+                        }
+                      }}
+                      className={`px-4 py-2 rounded-full text-xs font-serif italic border transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-orange-600 text-white border-orange-600 shadow-sm'
+                          : 'bg-black/5 text-secondary-text border-black/10 hover:bg-black/10'
+                      }`}
+                    >
+                      {opt} {isSelected && '✓'}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ── FINAL CONFIRMATION & TRAVEL ADJUSTMENTS ── */}
+            <div className="col-span-full border-t-2 border-dashed border-accent-terracotta/20 pt-8 mt-6 space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-2xl font-serif italic text-primary-text flex items-center gap-2">
+                    <CalendarCheck size={22} className="text-accent-terracotta" />
+                    Final Confirmation & Travel Details
+                  </h4>
+                  <p className="text-xs text-secondary-text font-serif italic opacity-75 mt-0.5">
+                    View or manually edit travel, transfers, and accommodation preferences submitted by the guest.
+                  </p>
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (editingGuest.confirmationSubmittedAt) {
+                        handleEditChange('confirmationSubmittedAt', null);
+                        toast.info("Marked confirmation status as Pending");
+                      } else {
+                        handleEditChange('confirmationSubmittedAt', new Date());
+                        toast.success("Marked confirmation status as Confirmed");
+                      }
+                    }}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-serif font-bold uppercase tracking-wider border cursor-pointer transition-all ${
+                      editingGuest.confirmationSubmittedAt
+                        ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                        : 'bg-amber-50 text-amber-800 border-amber-300'
+                    }`}
+                  >
+                    {editingGuest.confirmationSubmittedAt ? (
+                      <>
+                        <CheckCircle2 size={14} className="text-emerald-600" />
+                        <span>Status: Confirmed</span>
+                      </>
+                    ) : (
+                      <>
+                        <Clock size={14} className="text-amber-600" />
+                        <span>Status: Pending Confirmation</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Arrival Fields */}
+              <div className="bg-black/[0.02] border border-black/5 p-6 rounded-3xl space-y-4">
+                <p className="text-xs uppercase tracking-widest text-accent-terracotta font-bold flex items-center gap-1.5">
+                  <Plane size={12} /> Arrival
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Method</label>
+                    <select
+                      className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                      value={editingGuest.arrivalMethod || "Plane"}
+                      onChange={(e) => handleEditChange('arrivalMethod', e.target.value)}
+                    >
+                      <option value="Plane">Plane</option>
+                      <option value="Car">Car</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Arrival Date</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 2027-04-16"
+                      className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                      value={editingGuest.arrivalDate || ""}
+                      onChange={(e) => handleEditChange('arrivalDate', e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Arrival Time</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 14:30"
+                      className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                      value={editingGuest.arrivalTime || ""}
+                      onChange={(e) => handleEditChange('arrivalTime', e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Flight Number</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. IB3840"
+                      className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                      value={editingGuest.flightNumberArrival || ""}
+                      onChange={(e) => handleEditChange('flightNumberArrival', e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Departure Fields */}
+              <div className="bg-black/[0.02] border border-black/5 p-6 rounded-3xl space-y-4">
+                <p className="text-xs uppercase tracking-widest text-accent-terracotta font-bold flex items-center gap-1.5">
+                  <Plane size={12} className="rotate-180" /> Departure
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Method</label>
+                    <select
+                      className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                      value={editingGuest.departureMethod || "Plane"}
+                      onChange={(e) => handleEditChange('departureMethod', e.target.value)}
+                    >
+                      <option value="Plane">Plane</option>
+                      <option value="Car">Car</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Departure Date</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 2027-04-19"
+                      className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                      value={editingGuest.departureDate || ""}
+                      onChange={(e) => handleEditChange('departureDate', e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Departure Time</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 18:00"
+                      className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                      value={editingGuest.departureTime || ""}
+                      onChange={(e) => handleEditChange('departureTime', e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Flight Number</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. BA2715"
+                      className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                      value={editingGuest.flightNumberDeparture || ""}
+                      onChange={(e) => handleEditChange('flightNumberDeparture', e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Castle-specific Transfers & Bed Preference */}
+              {editingGuest.accommodation === 'Yes, please' && (
+                <div className="bg-emerald-50/40 border border-emerald-200/60 p-6 rounded-3xl space-y-4">
+                  <p className="text-xs uppercase tracking-widest text-emerald-800 font-bold flex items-center gap-1.5">
+                    <Bed size={12} /> Castillo Preferences & Airport Transfers
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Bed Preference</label>
+                      <select
+                        className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                        value={editingGuest.bedPreference || "No preference"}
+                        onChange={(e) => handleEditChange('bedPreference', e.target.value)}
+                      >
+                        <option value="King Bed (1 large bed)">King Bed (1 large bed)</option>
+                        <option value="Twin Beds (2 separate beds)">Twin Beds (2 separate beds)</option>
+                        <option value="No preference">No preference</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Airport Transfer In</label>
+                      <div className="flex gap-2">
+                        <select
+                          className="flex-1 bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                          value={editingGuest.airportTransferIn || "Not sure yet"}
+                          onChange={(e) => handleEditChange('airportTransferIn', e.target.value)}
+                        >
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
+                          <option value="Not sure yet">Not sure yet</option>
+                        </select>
+                        <input
+                          type="number"
+                          placeholder="Pax"
+                          title="Passengers"
+                          className="w-16 bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                          value={editingGuest.transferInPax || ""}
+                          onChange={(e) => handleEditChange('transferInPax', Number(e.target.value) || 0)}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Airport Transfer Out</label>
+                      <div className="flex gap-2">
+                        <select
+                          className="flex-1 bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                          value={editingGuest.airportTransferOut || "Not sure yet"}
+                          onChange={(e) => handleEditChange('airportTransferOut', e.target.value)}
+                        >
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
+                          <option value="Not sure yet">Not sure yet</option>
+                        </select>
+                        <input
+                          type="number"
+                          placeholder="Pax"
+                          title="Passengers"
+                          className="w-16 bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                          value={editingGuest.transferOutPax || ""}
+                          onChange={(e) => handleEditChange('transferOutPax', Number(e.target.value) || 0)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* External Accommodation Details & Wedding-Day Transport */}
+              {editingGuest.accommodation !== 'Yes, please' && (
+                <div className="bg-amber-50/40 border border-amber-200/60 p-6 rounded-3xl space-y-4">
+                  <p className="text-xs uppercase tracking-widest text-amber-800 font-bold flex items-center gap-1.5">
+                    <Car size={12} /> External Hotel & Wedding-Day Transfers
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Hotel / Accommodation Name</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Hotel Castillo de Monda / Airbnb"
+                        className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                        value={editingGuest.externalAccommodationName || ""}
+                        onChange={(e) => handleEditChange('externalAccommodationName', e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">City / Area</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Monda, Coín, Marbella"
+                        className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                        value={editingGuest.externalAccommodationCity || ""}
+                        onChange={(e) => handleEditChange('externalAccommodationCity', e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Address</label>
+                      <input
+                        type="text"
+                        placeholder="Street or details"
+                        className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                        value={editingGuest.externalAccommodationAddress || ""}
+                        onChange={(e) => handleEditChange('externalAccommodationAddress', e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                    <div className="space-y-1">
+                      <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Shuttle TO Wedding</label>
+                      <select
+                        className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                        value={editingGuest.weddingDayTransferTo || "Not sure yet"}
+                        onChange={(e) => handleEditChange('weddingDayTransferTo', e.target.value)}
+                      >
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Not sure yet">Not sure yet</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Shuttle FROM Wedding (Return)</label>
+                      <select
+                        className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                        value={editingGuest.weddingDayTransferFrom || "Not sure yet"}
+                        onChange={(e) => handleEditChange('weddingDayTransferFrom', e.target.value)}
+                      >
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Not sure yet">Not sure yet</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider">Shuttle Pax</label>
+                      <input
+                        type="number"
+                        placeholder="Passengers"
+                        className="w-full bg-white border border-black/10 p-3 rounded-xl outline-none font-serif text-sm"
+                        value={editingGuest.weddingDayTransferPax || ""}
+                        onChange={(e) => handleEditChange('weddingDayTransferPax', Number(e.target.value) || 0)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Accessibility & Change Notes */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-blue-50/50 border border-blue-200/60 p-5 rounded-2xl space-y-2">
+                  <label className="text-[10px] text-blue-800 uppercase font-bold tracking-wider flex items-center gap-1.5">
+                    <Accessibility size={12} /> Accessibility Needs
+                  </label>
+                  <div className="flex items-center gap-3">
+                    <select
+                      className="bg-white border border-black/10 p-2.5 rounded-xl font-serif text-sm outline-none"
+                      value={editingGuest.hasAccessibilityNeeds ? "Yes" : "No"}
+                      onChange={(e) => handleEditChange('hasAccessibilityNeeds', e.target.value === "Yes")}
+                    >
+                      <option value="No">No</option>
+                      <option value="Yes">Yes</option>
+                    </select>
+                    <input
+                      type="text"
+                      placeholder="Specify accessibility requirements"
+                      className="flex-1 bg-white border border-black/10 p-2.5 rounded-xl font-serif text-sm outline-none"
+                      value={editingGuest.accessibilityDetails || ""}
+                      onChange={(e) => handleEditChange('accessibilityDetails', e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-black/[0.02] border border-black/5 p-5 rounded-2xl space-y-2">
+                  <label className="text-[10px] text-secondary-text uppercase font-bold tracking-wider flex items-center gap-1.5">
+                    <MessageSquare size={12} /> RSVP Change Note
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Note if guest requested an RSVP change"
+                    className="w-full bg-white border border-black/10 p-2.5 rounded-xl font-serif text-sm outline-none"
+                    value={editingGuest.rsvpChangeNote || ""}
+                    onChange={(e) => handleEditChange('rsvpChangeNote', e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2 col-span-full">
+              <label className="label-uppercase text-[10px] text-accent-terracotta font-bold tracking-widest">Personal Note / Other Notes</label>
               <textarea
                 className="w-full bg-black/5 border-none p-4 rounded-2xl outline-none focus:ring-1 ring-accent-terracotta/20 font-serif italic text-lg h-24"
-                value={editingGuest.notes}
+                value={editingGuest.notes || ""}
                 onChange={(e) => handleEditChange('notes', e.target.value)}
               />
             </div>

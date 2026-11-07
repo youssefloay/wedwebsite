@@ -14,11 +14,11 @@ export function Layout() {
   };
 
   return (
-    <div className="overflow-clip min-h-screen flex flex-col relative bg-background">
+    <div className="overflow-x-clip min-h-screen flex flex-col relative bg-background">
       <Navigation />
 
-      {/* Global Header Logo - Only shown on sub-pages */}
-      {!isHome && (
+      {/* Global Header Logo - Only shown on sub-pages (not on confirmation page which has its own header) */}
+      {!isHome && !location.pathname.startsWith('/guest-confirmation') && (
         <header className="flex justify-center pt-10 pb-6 z-50 relative pointer-events-none">
           <Link to="/?force=true" className="active pointer-events-auto transition-all duration-700 hover:scale-105">
             <img 

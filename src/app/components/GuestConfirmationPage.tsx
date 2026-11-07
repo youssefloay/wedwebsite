@@ -4,8 +4,17 @@ import { getRsvpById, submitGuestConfirmation, RsvpData } from '../../lib/rsvpSe
 import { decodeGuestPayload } from '../../lib/guestCodec';
 import {
   Check, Heart, Plane, Car, Bed, Utensils, Users, ChevronRight,
-  Accessibility, MessageCircle, CheckCircle2, Loader2, AlertTriangle
+  Accessibility, MessageCircle, CheckCircle2, Loader2, AlertTriangle,
+  User, UserPlus
 } from 'lucide-react';
+
+interface PlusOneDietary {
+  firstName: string;
+  lastName: string;
+  hasDietary: string; // 'No, no dietary restrictions' | 'Yes, has dietary restrictions'
+  selectedTags: string[];
+  details: string;
+}
 
 const DIETARY_OPTIONS = [
   "Vegetarian",
@@ -25,33 +34,29 @@ const DIETARY_OPTIONS = [
 
 function RadioGroup({ name, options, value, onChange }: { name: string; options: string[]; value: string; onChange: (v: string) => void }) {
   return (
-    <div className="flex flex-col gap-3 mt-3">
+    <div className="flex flex-col gap-3 mt-3" role="radiogroup">
       {options.map(opt => (
-        <label
+        <div
           key={opt}
+          role="radio"
+          aria-checked={value === opt}
+          tabIndex={0}
           onClick={() => onChange(opt)}
-          className={`flex items-center gap-4 p-4 rounded-2xl border cursor-pointer transition-all ${value === opt ? 'border-accent-terracotta bg-accent-terracotta/5' : 'border-accent-terracotta/20 hover:border-accent-terracotta/40 bg-white'}`}
+          onKeyDown={e => (e.key === ' ' || e.key === 'Enter') && onChange(opt)}
+          className={`flex items-center gap-4 p-4 rounded-2xl border cursor-pointer select-none transition-all ${value === opt ? 'border-accent-terracotta bg-accent-terracotta/5' : 'border-accent-terracotta/20 hover:border-accent-terracotta/40 bg-white'}`}
         >
-          <input
-            type="radio"
-            name={name}
-            value={opt}
-            checked={value === opt}
-            onChange={() => onChange(opt)}
-            className="sr-only"
-          />
           <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${value === opt ? 'border-accent-terracotta bg-accent-terracotta' : 'border-accent-terracotta/30'}`}>
             {value === opt && <div className="w-2 h-2 rounded-full bg-white" />}
           </div>
           <span className="font-serif italic text-primary-text">{opt}</span>
-        </label>
+        </div>
       ))}
     </div>
   );
 }
 
 function CheckboxGroup({ options, selected, onChange }: { options: string[]; selected: string[]; onChange: (v: string[]) => void }) {
-  const toggleOption = (opt: string) => {
+  const toggle = (opt: string) => {
     if (selected.includes(opt)) {
       onChange(selected.filter(item => item !== opt));
     } else {
@@ -64,22 +69,20 @@ function CheckboxGroup({ options, selected, onChange }: { options: string[]; sel
       {options.map(opt => {
         const isChecked = selected.includes(opt);
         return (
-          <label
+          <div
             key={opt}
-            onClick={() => toggleOption(opt)}
-            className={`flex items-center gap-3 p-3.5 rounded-2xl border cursor-pointer transition-all ${isChecked ? 'border-accent-terracotta bg-accent-terracotta/5 font-semibold' : 'border-accent-terracotta/20 hover:border-accent-terracotta/40 bg-white'}`}
+            role="checkbox"
+            aria-checked={isChecked}
+            tabIndex={0}
+            onClick={() => toggle(opt)}
+            onKeyDown={e => (e.key === ' ' || e.key === 'Enter') && toggle(opt)}
+            className={`flex items-center gap-3 p-3.5 rounded-2xl border cursor-pointer select-none transition-all ${isChecked ? 'border-accent-terracotta bg-accent-terracotta/5 font-semibold' : 'border-accent-terracotta/20 hover:border-accent-terracotta/40 bg-white'}`}
           >
-            <input
-              type="checkbox"
-              checked={isChecked}
-              onChange={() => toggleOption(opt)}
-              className="sr-only"
-            />
             <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${isChecked ? 'border-accent-terracotta bg-accent-terracotta text-white' : 'border-accent-terracotta/30 bg-white'}`}>
               {isChecked && <Check size={14} strokeWidth={3} />}
             </div>
             <span className="font-serif italic text-primary-text text-sm">{opt}</span>
-          </label>
+          </div>
         );
       })}
     </div>
@@ -144,6 +147,8 @@ export function GuestConfirmationPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [loadError, setLoadError] = useState(false);
+  // Tracks whether the user has interacted with the form; if so, Firestore data won't overwrite their changes
+  const formTouched = React.useRef(false);
 
   // Form state
   const [rsvpChange, setRsvpChange] = useState('No, everything is still correct');
@@ -182,6 +187,7 @@ export function GuestConfirmationPage() {
   const [hasDietary, setHasDietary] = useState('No, I have no dietary restrictions');
   const [selectedDietaryTags, setSelectedDietaryTags] = useState<string[]>([]);
   const [otherDietaryDetails, setOtherDietaryDetails] = useState('');
+  const [plusOnes, setPlusOnes] = useState<PlusOneDietary[]>([]);
 
   const [hasAccessibility, setHasAccessibility] = useState('No');
   const [accessibilityDetails, setAccessibilityDetails] = useState('');
@@ -213,22 +219,109 @@ export function GuestConfirmationPage() {
     if (data.airportTransferOut) setAirportTransferOut(data.airportTransferOut);
     if (data.transferOutPax) setTransferOutPax(String(data.transferOutPax));
     
-    if (data.dietaryCategories && data.dietaryCategories.length > 0) {
+    // Per-guest dietary parsing
+    const partyCount = Number(data.guests) || 1;
+    const existingGuestNames = data.guestNames || [];
+    const plusOneCount = Math.max(existingGuestNames.length, Math.max(0, partyCount - 1));
+
+    // Check if data.dietary has the pipe syntax (e.g. "Name 1: ... | Name 2: ...")
+    const hasPipeFormat = data.dietary && data.dietary.includes('|');
+    const pipeParts = hasPipeFormat ? data.dietary!.split('|').map(p => p.trim()) : [];
+
+    // Parse main guest dietary
+    let mainDietaryRaw = data.dietary || '';
+    if (hasPipeFormat && pipeParts.length > 0) {
+      const firstSeg = pipeParts[0];
+      mainDietaryRaw = firstSeg.includes(':') ? firstSeg.split(':').slice(1).join(':').trim() : firstSeg;
+    }
+
+    if (data.dietaryCategories && data.dietaryCategories.length > 0 && (!hasPipeFormat || (mainDietaryRaw && mainDietaryRaw.toLowerCase() !== 'none'))) {
       setHasDietary('Yes, I have dietary restrictions');
       setSelectedDietaryTags(data.dietaryCategories);
-    } else if (data.dietary && data.dietary.trim() !== '') {
+      if (mainDietaryRaw && mainDietaryRaw.trim() !== '' && mainDietaryRaw.toLowerCase() !== 'none') {
+        const otherDetail = mainDietaryRaw.includes('Other details:')
+          ? mainDietaryRaw.split('Other details:')[1].trim()
+          : (!data.dietaryCategories.some(c => mainDietaryRaw?.includes(c)) ? mainDietaryRaw : '');
+        if (otherDetail) setOtherDietaryDetails(otherDetail);
+      }
+    } else if (mainDietaryRaw && mainDietaryRaw.trim() !== '' && mainDietaryRaw.toLowerCase() !== 'none') {
       setHasDietary('Yes, I have dietary restrictions');
-      setOtherDietaryDetails(data.dietary);
+      const matchedTags = DIETARY_OPTIONS.filter(opt => mainDietaryRaw?.toLowerCase().includes(opt.toLowerCase()));
+      if (matchedTags.length > 0) {
+        setSelectedDietaryTags(matchedTags);
+        const remaining = matchedTags.reduce((acc, t) => acc.replace(new RegExp(t, 'gi'), ''), mainDietaryRaw)
+          .replace(/[,\s]+/g, ' ').trim();
+        if (remaining && remaining.length > 2) setOtherDietaryDetails(remaining);
+      } else {
+        setOtherDietaryDetails(mainDietaryRaw);
+      }
+    } else {
+      setHasDietary('No, I have no dietary restrictions');
+      setSelectedDietaryTags([]);
+      setOtherDietaryDetails('');
     }
+
+    // Parse plus ones dietary
+    const p1List: PlusOneDietary[] = [];
+    for (let i = 0; i < plusOneCount; i++) {
+      const gn = existingGuestNames[i] || { firstName: '', lastName: '' };
+      let p1HasDiet = 'No, no dietary restrictions';
+      let p1Tags: string[] = [];
+      let p1Det = '';
+
+      if (gn.dietaryCategories && gn.dietaryCategories.length > 0) {
+        p1HasDiet = 'Yes, has dietary restrictions';
+        p1Tags = gn.dietaryCategories;
+        if (gn.dietary && gn.dietary !== 'None') {
+          const otherDetail = gn.dietary.includes('Other details:')
+            ? gn.dietary.split('Other details:')[1].trim()
+            : (!gn.dietaryCategories.some(c => gn.dietary?.includes(c)) ? gn.dietary : '');
+          if (otherDetail) p1Det = otherDetail;
+        }
+      } else if (gn.dietary && gn.dietary.trim() !== '' && gn.dietary.toLowerCase() !== 'none') {
+        p1HasDiet = 'Yes, has dietary restrictions';
+        const matched = DIETARY_OPTIONS.filter(opt => gn.dietary?.toLowerCase().includes(opt.toLowerCase()));
+        if (matched.length > 0) {
+          p1Tags = matched;
+        } else {
+          p1Det = gn.dietary;
+        }
+      } else if (hasPipeFormat) {
+        const seg = (gn.firstName && pipeParts.find(p => p.toLowerCase().includes(gn.firstName.toLowerCase()))) || pipeParts[i + 1];
+        if (seg) {
+          const dietText = seg.includes(':') ? seg.split(':').slice(1).join(':').trim() : seg.trim();
+          if (dietText && dietText.toLowerCase() !== 'none') {
+            p1HasDiet = 'Yes, has dietary restrictions';
+            const matched = DIETARY_OPTIONS.filter(opt => dietText.toLowerCase().includes(opt.toLowerCase()));
+            if (matched.length > 0) p1Tags = matched;
+            p1Det = dietText;
+          }
+        }
+      }
+
+      p1List.push({
+        firstName: gn.firstName || '',
+        lastName: gn.lastName || '',
+        hasDietary: p1HasDiet,
+        selectedTags: p1Tags,
+        details: p1Det,
+      });
+    }
+    setPlusOnes(p1List);
 
     if (data.hasAccessibilityNeeds) setHasAccessibility('Yes');
     if (data.accessibilityDetails) setAccessibilityDetails(data.accessibilityDetails);
+    if (data.rsvpChangeNote) {
+      setRsvpChange('Yes, another detail has changed');
+      setRsvpChangeNote(data.rsvpChangeNote);
+    }
     if (data.otherChanges) setOtherChanges(data.otherChanges);
     if (data.anythingElse) setAnythingElse(data.anythingElse);
   };
 
   useEffect(() => {
-    // 1. First priority: Check if pre-filled data is encoded in the URL (instant, 0 Firestore reads)
+    // 1. Instant preview: If encoded data in URL exists, prefill immediately for zero-lag display
+    let hasUrlData = false;
     try {
       const search = window.location.search || (window.location.hash.includes('?') ? '?' + window.location.hash.split('?')[1] : '');
       const params = new URLSearchParams(search);
@@ -237,36 +330,48 @@ export function GuestConfirmationPage() {
         const decoded = decodeGuestPayload(encoded);
         if (decoded) {
           applyGuestData(decoded);
+          hasUrlData = true;
           setIsLoading(false);
-          return;
         }
       }
     } catch (e) {
       console.warn("Could not parse URL guest payload, falling back to Firestore", e);
     }
 
-    // 2. Fallback: If no encoded data in URL, attempt Firestore read
-    if (!token) { setNotFound(true); setIsLoading(false); return; }
-
-    const timeout = setTimeout(() => {
-      setLoadError(true);
+    if (!token) {
+      if (!hasUrlData) setNotFound(true);
       setIsLoading(false);
+      return;
+    }
+
+    // 2. Fetch fresh data from Firestore so any previously submitted adjustments appear
+    const timeout = setTimeout(() => {
+      if (!hasUrlData) {
+        setLoadError(true);
+        setIsLoading(false);
+      }
     }, 10000);
 
     getRsvpById(token)
       .then(data => {
         clearTimeout(timeout);
         if (!data) {
-          setNotFound(true);
+          if (!hasUrlData) setNotFound(true);
         } else {
-          applyGuestData(data);
+          // Only overwrite form state if the user hasn't started filling in the form yet
+          if (!formTouched.current) {
+            applyGuestData(data);
+          } else {
+            // Still update guest metadata (id, name, etc.) for submission, but keep user's form edits
+            setGuest(prev => ({ ...data, ...prev } as RsvpData));
+          }
         }
         setIsLoading(false);
       })
       .catch(err => {
         clearTimeout(timeout);
         console.error('Failed to load guest data:', err);
-        setLoadError(true);
+        if (!hasUrlData) setLoadError(true);
         setIsLoading(false);
       });
 
@@ -276,7 +381,11 @@ export function GuestConfirmationPage() {
   const isAtCastle = guest?.accommodation === 'Yes, please';
 
   const handleSubmit = async () => {
-    if (!guest?.id) return;
+    const targetId = guest?.id || token;
+    if (!targetId || targetId === 'guest') {
+      alert('Could not determine guest identity. Please use your personalized confirmation link.');
+      return;
+    }
     setIsSubmitting(true);
     try {
       const updates: Partial<RsvpData> = {
@@ -301,7 +410,7 @@ export function GuestConfirmationPage() {
         updates.transferInPax = Number(transferInPax) || 0;
         updates.transferOutPax = Number(transferOutPax) || 0;
         if (accomCorrect !== 'Yes, this is correct') {
-          updates.notes = (guest.notes ? guest.notes + '\n' : '') + `[Accommodation change note: ${accomChangeNote}]`;
+          updates.notes = (guest?.notes ? guest.notes + '\n' : '') + `[Accommodation change note: ${accomChangeNote}]`;
         }
       } else {
         updates.externalAccommodationName = externalName;
@@ -314,16 +423,61 @@ export function GuestConfirmationPage() {
         updates.weddingDayTransferPax = Number(weddingDayPax) || 0;
       }
 
+      // Dietary handling (per-guest support)
+      let mainDietaryStr = 'None';
       if (hasDietary === 'Yes, I have dietary restrictions') {
-        updates.dietaryCategories = selectedDietaryTags;
-        const combinedDietaryStr = [
+        mainDietaryStr = [
           ...selectedDietaryTags.filter(t => t !== 'Other'),
           otherDietaryDetails.trim() ? `Other details: ${otherDietaryDetails}` : ''
-        ].filter(Boolean).join(', ');
-        updates.dietary = combinedDietaryStr;
+        ].filter(Boolean).join(', ') || 'Restricted';
+      }
+
+      const updatedGuestNames = plusOnes.map((p1, idx) => {
+        let p1DietaryStr = 'None';
+        if (p1.hasDietary === 'Yes, has dietary restrictions') {
+          p1DietaryStr = [
+            ...p1.selectedTags.filter(t => t !== 'Other'),
+            p1.details.trim() ? `Other details: ${p1.details}` : ''
+          ].filter(Boolean).join(', ') || 'Restricted';
+        }
+        return {
+          firstName: p1.firstName.trim() || (guest?.guestNames && guest.guestNames[idx]?.firstName) || '',
+          lastName: p1.lastName.trim() || (guest?.guestNames && guest.guestNames[idx]?.lastName) || '',
+          dietary: p1DietaryStr,
+          dietaryCategories: p1.hasDietary === 'Yes, has dietary restrictions' ? p1.selectedTags : []
+        };
+      });
+
+      if (updatedGuestNames.length === 0) {
+        updates.dietary = mainDietaryStr;
+        updates.dietaryCategories = hasDietary === 'Yes, I have dietary restrictions' ? selectedDietaryTags : [];
+        updates.guestNames = [];
       } else {
-        updates.dietaryCategories = [];
-        updates.dietary = 'None';
+        const mainName = `${guest?.firstName || 'Main Guest'} ${guest?.lastName || ''}`.trim();
+        const allDietaryCategories = new Set<string>();
+        if (hasDietary === 'Yes, I have dietary restrictions') {
+          selectedDietaryTags.forEach(t => allDietaryCategories.add(t));
+        }
+        updatedGuestNames.forEach(gn => {
+          (gn.dietaryCategories || []).forEach(t => allDietaryCategories.add(t));
+        });
+
+        const allNone = mainDietaryStr === 'None' && updatedGuestNames.every(gn => gn.dietary === 'None');
+        if (allNone) {
+          updates.dietary = 'None';
+          updates.dietaryCategories = [];
+        } else {
+          const segments: string[] = [
+            `${mainName}: ${mainDietaryStr}`
+          ];
+          updatedGuestNames.forEach((gn, idx) => {
+            const p1Name = `${gn.firstName} ${gn.lastName}`.trim() || `Guest ${idx + 2}`;
+            segments.push(`${p1Name}: ${gn.dietary || 'None'}`);
+          });
+          updates.dietary = segments.join(' | ');
+          updates.dietaryCategories = Array.from(allDietaryCategories);
+        }
+        updates.guestNames = updatedGuestNames;
       }
 
       updates.hasAccessibilityNeeds = hasAccessibility === 'Yes';
@@ -331,7 +485,27 @@ export function GuestConfirmationPage() {
         updates.accessibilityDetails = accessibilityDetails;
       }
 
-      await submitGuestConfirmation(guest.id, updates);
+      await submitGuestConfirmation(targetId, updates);
+
+      // Keep guest state fresh and update URL encoded payload in address bar
+      const mergedGuest: RsvpData = {
+        ...(guest || {}),
+        ...updates,
+        id: targetId,
+      } as RsvpData;
+      setGuest(mergedGuest);
+
+      try {
+        const { encodeGuestPayload } = await import('../../lib/guestCodec');
+        const newEncoded = encodeGuestPayload(mergedGuest);
+        if (newEncoded) {
+          const newUrl = `${window.location.pathname}#/guest-confirmation/${targetId}?d=${newEncoded}`;
+          window.history.replaceState(null, '', newUrl);
+        }
+      } catch (e) {
+        // ignore
+      }
+
       setIsSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
@@ -401,9 +575,18 @@ export function GuestConfirmationPage() {
           <p className="font-serif italic text-secondary-text text-xl leading-relaxed mb-6">
             Your details have been updated. We now have your latest RSVP, accommodation, travel and dietary information.
           </p>
-          <p className="font-serif italic text-secondary-text opacity-70 leading-relaxed">
+          <p className="font-serif italic text-secondary-text opacity-70 leading-relaxed mb-8">
             We will use this information to coordinate the final wedding arrangements and transportation. We can't wait to celebrate with you in Monda! 🤍
           </p>
+          <button
+            onClick={() => {
+              setIsSubmitted(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="px-8 py-3 bg-white border border-accent-terracotta/30 text-accent-terracotta rounded-2xl hover:bg-black/5 transition-all font-serif italic text-base shadow-sm"
+          >
+            Need to change something? Edit my answers
+          </button>
         </div>
       </div>
     );
@@ -612,43 +795,206 @@ export function GuestConfirmationPage() {
         <SectionCard title="Dietary Requirements & Allergies" icon={<Utensils size={20} />}>
           {guest?.dietary && guest.dietary.trim() && guest.dietary !== 'None' ? (
             <InfoBox>
-              We currently have the following dietary requirement registered for you:<br />
+              Currently registered requirements for your party:<br />
               <strong className="text-primary-text">{guest.dietary}</strong>
             </InfoBox>
           ) : (
-            <InfoBox>We currently have no dietary requirements registered for you.</InfoBox>
+            <InfoBox>We currently have no dietary requirements registered for your party.</InfoBox>
           )}
 
-          <p className="text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold mb-2">Do you or anyone in your party have any dietary requirements or allergies?</p>
-          <RadioGroup
-            name="hasDietary"
-            options={[
-              'No, I have no dietary restrictions',
-              'Yes, I have dietary restrictions'
-            ]}
-            value={hasDietary}
-            onChange={setHasDietary}
-          />
-
-          {hasDietary === 'Yes, I have dietary restrictions' && (
-            <div className="mt-6 space-y-5 animate-in fade-in duration-300">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold mb-2">Select all restrictions that apply:</p>
-                <CheckboxGroup
-                  options={DIETARY_OPTIONS}
-                  selected={selectedDietaryTags}
-                  onChange={setSelectedDietaryTags}
-                />
+          {plusOnes.length > 0 ? (
+            <div className="space-y-8">
+              <div className="bg-amber-50/70 border border-amber-200/60 rounded-2xl p-4 text-xs text-amber-900 font-serif italic">
+                You are attending as a party of <strong>{(Number(guest?.guests) || (plusOnes.length + 1))}</strong>. Please confirm dietary requirements for each person individually below so our chef can cater specifically to each of you.
               </div>
 
-              <div className="mt-4">
-                <TextArea
-                  label="Other / Specific Allergies & Details"
-                  value={otherDietaryDetails}
-                  onChange={setOtherDietaryDetails}
-                  placeholder="Please specify any exact allergies, severe reactions, or additional details here..."
-                />
+              {/* Main Guest Card */}
+              <div className="bg-white border-2 border-accent-terracotta/20 rounded-3xl p-6 shadow-sm space-y-4">
+                <div className="flex items-center gap-3 pb-3 border-b border-black/5">
+                  <div className="w-8 h-8 rounded-full bg-accent-terracotta text-white flex items-center justify-center text-xs font-bold font-serif">
+                    <User size={16} />
+                  </div>
+                  <div>
+                    <h4 className="font-serif italic text-lg text-primary-text font-bold">
+                      {guest?.firstName} {guest?.lastName} <span className="text-xs font-sans uppercase tracking-widest text-accent-terracotta ml-1 font-bold">(You)</span>
+                    </h4>
+                    <p className="text-[11px] text-secondary-text font-serif italic opacity-70">Main Guest</p>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold mb-2">Do you have any dietary requirements or allergies?</p>
+                  <RadioGroup
+                    name="hasDietaryMain"
+                    options={[
+                      'No, I have no dietary restrictions',
+                      'Yes, I have dietary restrictions'
+                    ]}
+                    value={hasDietary}
+                    onChange={v => { formTouched.current = true; setHasDietary(v); }}
+                  />
+                </div>
+
+                {hasDietary === 'Yes, I have dietary restrictions' && (
+                  <div className="mt-4 space-y-4 pt-2 border-t border-black/5 animate-in fade-in duration-300">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold mb-2">Select all that apply to you:</p>
+                      <CheckboxGroup
+                        options={DIETARY_OPTIONS}
+                        selected={selectedDietaryTags}
+                        onChange={v => { formTouched.current = true; setSelectedDietaryTags(v); }}
+                      />
+                    </div>
+                    <TextArea
+                      label="Other / Specific Allergies for You"
+                      value={otherDietaryDetails}
+                      onChange={v => { formTouched.current = true; setOtherDietaryDetails(v); }}
+                      placeholder="e.g. Celiac disease, severe peanut allergy..."
+                    />
+                  </div>
+                )}
               </div>
+
+              {/* Plus Ones Cards */}
+              {plusOnes.map((p1, idx) => {
+                const displayName = p1.firstName ? `${p1.firstName} ${p1.lastName}`.trim() : `Guest ${idx + 2}`;
+                return (
+                  <div key={idx} className="bg-white border-2 border-accent-terracotta/20 rounded-3xl p-6 shadow-sm space-y-4">
+                    <div className="flex items-center gap-3 pb-3 border-b border-black/5">
+                      <div className="w-8 h-8 rounded-full bg-accent-terracotta/80 text-white flex items-center justify-center text-xs font-bold font-serif">
+                        <UserPlus size={16} />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-serif italic text-lg text-primary-text font-bold">
+                          {displayName}
+                        </h4>
+                        <p className="text-[11px] text-secondary-text font-serif italic opacity-70">Additional Guest {idx + 2}</p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <InputField
+                        label="First Name"
+                        value={p1.firstName}
+                        onChange={v => {
+                          formTouched.current = true;
+                          setPlusOnes(prev => {
+                            const copy = [...prev];
+                            copy[idx] = { ...copy[idx], firstName: v };
+                            return copy;
+                          });
+                        }}
+                        placeholder={`Guest ${idx + 2} First Name`}
+                      />
+                      <InputField
+                        label="Last Name"
+                        value={p1.lastName}
+                        onChange={v => {
+                          formTouched.current = true;
+                          setPlusOnes(prev => {
+                            const copy = [...prev];
+                            copy[idx] = { ...copy[idx], lastName: v };
+                            return copy;
+                          });
+                        }}
+                        placeholder={`Guest ${idx + 2} Last Name`}
+                      />
+                    </div>
+
+                    <div className="pt-2">
+                      <p className="text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold mb-2">
+                        Does {p1.firstName || `Guest ${idx + 2}`} have any dietary requirements or allergies?
+                      </p>
+                      <RadioGroup
+                        name={`hasDietaryP1_${idx}`}
+                        options={[
+                          'No, no dietary restrictions',
+                          'Yes, has dietary restrictions'
+                        ]}
+                        value={p1.hasDietary}
+                        onChange={v => {
+                          formTouched.current = true;
+                          setPlusOnes(prev => {
+                            const copy = [...prev];
+                            copy[idx] = { ...copy[idx], hasDietary: v };
+                            return copy;
+                          });
+                        }}
+                      />
+                    </div>
+
+                    {p1.hasDietary === 'Yes, has dietary restrictions' && (
+                      <div className="mt-4 space-y-4 pt-2 border-t border-black/5 animate-in fade-in duration-300">
+                        <div>
+                          <p className="text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold mb-2">
+                            Select all that apply to {p1.firstName || `Guest ${idx + 2}`}:
+                          </p>
+                          <CheckboxGroup
+                            options={DIETARY_OPTIONS}
+                            selected={p1.selectedTags}
+                            onChange={tags => {
+                              formTouched.current = true;
+                              setPlusOnes(prev => {
+                                const copy = [...prev];
+                                copy[idx] = { ...copy[idx], selectedTags: tags };
+                                return copy;
+                              });
+                            }}
+                          />
+                        </div>
+                        <TextArea
+                          label={`Other / Specific Allergies for ${p1.firstName || `Guest ${idx + 2}`}`}
+                          value={p1.details}
+                          onChange={v => {
+                            formTouched.current = true;
+                            setPlusOnes(prev => {
+                              const copy = [...prev];
+                              copy[idx] = { ...copy[idx], details: v };
+                              return copy;
+                            });
+                          }}
+                          placeholder="e.g. Shellfish allergy, vegetarian..."
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold mb-2">Do you have any dietary requirements or allergies?</p>
+              <RadioGroup
+                name="hasDietary"
+                options={[
+                  'No, I have no dietary restrictions',
+                  'Yes, I have dietary restrictions'
+                ]}
+                value={hasDietary}
+                onChange={v => { formTouched.current = true; setHasDietary(v); }}
+              />
+
+              {hasDietary === 'Yes, I have dietary restrictions' && (
+                <div className="mt-6 space-y-5 animate-in fade-in duration-300">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-accent-terracotta font-bold mb-2">Select all restrictions that apply:</p>
+                    <CheckboxGroup
+                      options={DIETARY_OPTIONS}
+                      selected={selectedDietaryTags}
+                      onChange={v => { formTouched.current = true; setSelectedDietaryTags(v); }}
+                    />
+                  </div>
+
+                  <div className="mt-4">
+                    <TextArea
+                      label="Other / Specific Allergies & Details"
+                      value={otherDietaryDetails}
+                      onChange={v => { formTouched.current = true; setOtherDietaryDetails(v); }}
+                      placeholder="Please specify any exact allergies, severe reactions, or additional details here..."
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </SectionCard>

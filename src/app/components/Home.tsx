@@ -344,7 +344,7 @@ export function Home() {
                   </div>
                 </div>
                 <div className="order-1 md:order-2">
-                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">16:30</span>
+                  <span className="font-cinzel text-accent-terracotta tracking-[0.3em] font-bold">16:00</span>
                   <h3 className="text-3xl font-serif text-primary-text mt-2 mb-4">Guest Arrival</h3>
                   <p className="text-secondary-text leading-relaxed max-w-xs">Welcoming our family and friends as they arrive at the Castle gates.</p>
                 </div>
