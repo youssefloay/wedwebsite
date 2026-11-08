@@ -1,18 +1,10 @@
 import React, { useState } from "react";
 import { X, Save, LayoutGrid, MapPin, Merge, Plane, Car, Bed, Utensils, CalendarCheck, Clock, CheckCircle2, AlertTriangle, Users, Accessibility, MessageSquare } from "lucide-react";
-import { RsvpData, updateRsvp, deleteRsvp } from "../../../lib/rsvpService";
+import { RsvpData, updateRsvp, deleteRsvp, DIETARY_OPTIONS } from "../../../lib/rsvpService";
 import { toast } from "sonner";
 import { InteractiveMapModal } from "./InteractiveMapModal";
 
-const DIETARY_OPTIONS = [
-  'Gluten-Free (Celiac)',
-  'Dairy-Free (Lactose)',
-  'Vegetarian',
-  'Vegan',
-  'Nut Allergy',
-  'Shellfish Allergy',
-  'Other'
-];
+// DIETARY_OPTIONS imported from rsvpService (single source of truth)
 
 interface EditRsvpModalProps {
   rsvp: RsvpData;

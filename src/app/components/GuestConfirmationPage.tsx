@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { getRsvpById, submitGuestConfirmation, RsvpData } from '../../lib/rsvpService';
+import { getRsvpById, submitGuestConfirmation, RsvpData, DIETARY_OPTIONS } from '../../lib/rsvpService';
 import { decodeGuestPayload } from '../../lib/guestCodec';
 import {
   Check, Heart, Plane, Car, Bed, Utensils, Users, ChevronRight,
@@ -16,21 +16,7 @@ interface PlusOneDietary {
   details: string;
 }
 
-const DIETARY_OPTIONS = [
-  "Vegetarian",
-  "Vegan",
-  "Pescatarian",
-  "Gluten-Free (Celiac)",
-  "Lactose / Dairy Free",
-  "Nut Allergy (Peanuts / Tree Nuts)",
-  "Shellfish / Seafood Allergy",
-  "Egg Allergy",
-  "Soy Free",
-  "Halal",
-  "Kosher",
-  "Pregnancy restrictions",
-  "Other"
-];
+// DIETARY_OPTIONS imported from rsvpService (single source of truth)
 
 function RadioGroup({ name, options, value, onChange }: { name: string; options: string[]; value: string; onChange: (v: string) => void }) {
   return (

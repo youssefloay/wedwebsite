@@ -14,6 +14,27 @@ import {
   onSnapshot
 } from "firebase/firestore";
 
+export const DIETARY_OPTIONS = [
+  "Vegetarian",
+  "Vegan",
+  "Pescatarian",
+  "Gluten-Free (Celiac)",
+  "Lactose / Dairy Free",
+  "Nut Allergy (Peanuts / Tree Nuts)",
+  "Shellfish / Seafood Allergy",
+  "Fish Allergy",
+  "Egg Allergy",
+  "Soy Free",
+  "Sesame Allergy",
+  "Mustard Allergy",
+  "Celery Allergy",
+  "Halal",
+  "Kosher",
+  "Pregnancy restrictions",
+  "Alcohol Free",
+  "Other"
+];
+
 export interface RsvpData {
   id?: string;
   attendance: string;
