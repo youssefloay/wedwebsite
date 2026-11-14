@@ -59,7 +59,31 @@ export function Navigation() {
               const linkPath = to.split('?')[0];
               const normalizedPath = linkPath.startsWith('/') ? linkPath : `/${linkPath}`;
               const active = location.pathname === normalizedPath;
+              const isRsvp = linkPath === 'rsvp' || normalizedPath === '/rsvp';
               
+              if (isRsvp) {
+                return (
+                  <div
+                    key={to}
+                    aria-disabled="true"
+                    title="RSVP is now closed"
+                    className="flex flex-col items-center gap-1.5 px-2.5 md:px-4 py-2 rounded-2xl opacity-40 cursor-not-allowed select-none flex-shrink-0 z-10"
+                  >
+                    <Icon
+                      size={16}
+                      strokeWidth={1.5}
+                      className="text-gray-400"
+                    />
+                    <span
+                      className="text-[7px] md:text-[9px] uppercase tracking-[0.2em] font-bold text-gray-400 line-through"
+                      style={{ fontFamily: 'var(--font-cinzel)' }}
+                    >
+                      {label}
+                    </span>
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={to}

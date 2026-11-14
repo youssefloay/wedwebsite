@@ -208,6 +208,51 @@ export function RsvpPage() {
     });
   };
 
+  // RSVP closed across the site: new responses are disabled
+  const RSVP_CLOSED = true;
+
+  if (RSVP_CLOSED) {
+    return (
+      <div className="min-h-screen bg-background selection:bg-accent-terracotta/20">
+        <div className="max-w-4xl mx-auto px-6 pt-16 pb-24">
+          {/* Sectional Header */}
+          <div className="text-center mb-0 flex flex-col items-center reveal">
+            <span className="label-uppercase mb-6 block font-bold">YOU ARE INVITED</span>
+            <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight">The RSVP</h1>
+            <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80 mb-2">
+              "We await your joy as we coordinate your stay in the quiet beauty of the Andalusian hills."
+            </p>
+            <div className="w-16 h-px bg-accent-terracotta mx-auto my-10" />
+          </div>
+
+          {/* RSVP CLOSED CARD */}
+          <div className="relative max-w-2xl mx-auto reveal delay-200">
+            <div className="border border-accent-terracotta/10 rounded-[40px] md:rounded-[60px] bg-[#FBF9F4] shadow-[0_20px_50px_rgba(92,50,16,0.06)] p-10 md:p-16 text-center space-y-6">
+              <span className="inline-block px-4 py-1.5 bg-gray-200 text-gray-700 rounded-full text-[10px] md:text-xs uppercase tracking-[0.25em] font-bold">
+                RSVP Closed
+              </span>
+              <h2 className="text-3xl md:text-5xl font-serif italic text-primary-text">
+                Submissions are now closed
+              </h2>
+              <div className="w-12 h-px bg-accent-terracotta/40 mx-auto" />
+              <p className="text-base md:text-lg text-secondary-text font-serif italic leading-relaxed max-w-lg mx-auto">
+                The deadline to RSVP has passed. We are no longer accepting new responses through this form.
+              </p>
+              <p className="text-xs md:text-sm text-accent-terracotta font-serif italic leading-relaxed max-w-md mx-auto opacity-90">
+                If you have already RSVPed and need to modify your travel or stay details, please access the personal confirmation link sent to your email.
+              </p>
+              <div className="pt-6">
+                <Link to="/" className="btn-secondary inline-flex">
+                  Return to Story
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background selection:bg-accent-terracotta/20">
 

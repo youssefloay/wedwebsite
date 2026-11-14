@@ -327,7 +327,7 @@ export function GiftsPage() {
         <div className="max-w-xl mx-auto text-center reveal">
           <h2 className="text-3xl md:text-4xl font-serif text-primary-text mb-8 italic tracking-tight opacity-90">Finalize Your Plans</h2>
           <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-accent-terracotta font-bold mb-8 animate-pulse">Kindly RSVP by November 13th, 2026</p>
-          <Link to="/rsvp" className="btn-primary inline-flex px-14 py-4" style={{ backgroundColor: SITE_GREEN }}>Submit RSVP</Link>
+          <button disabled aria-disabled="true" className="btn-disabled inline-flex px-14 py-4">RSVP Closed</button>
         </div>
       </section>
 

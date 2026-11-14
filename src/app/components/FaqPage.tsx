@@ -119,9 +119,9 @@ export function FaqPage() {
           <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
             "Once you have explored our story and details, kindly finalize your plans by submitting your formal response."
           </p>
-          <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
-             Go to RSVP
-          </Link>
+          <button disabled aria-disabled="true" className="btn-disabled inline-flex shadow-none">
+             RSVP Closed
+          </button>
         </div>
       </section>
 
@@ -190,9 +190,9 @@ export function FaqPage() {
           <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
             "Once you have explored our story and details, kindly finalize your plans by submitting your formal response."
           </p>
-          <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
-             Go to RSVP
-          </Link>
+          <button disabled aria-disabled="true" className="btn-disabled inline-flex shadow-none">
+             RSVP Closed
+          </button>
         </div>
       </section>
 

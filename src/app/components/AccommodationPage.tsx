@@ -151,18 +151,13 @@ export function AccommodationPage() {
                       </div>
                       <span className="text-[10px] text-secondary-text/70 mt-1 italic font-serif">* Includes breakfast for 1. Extra person breakfast: €18.50</span>
                     </div>
-                    {room.isBooked ? (
-                      <button disabled className="btn-primary !bg-gray-400 !border-gray-400 opacity-50 cursor-not-allowed">
-                        Sold Out
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => navigate('/rsvp')}
-                        className="btn-primary"
-                      >
-                        Reserve in RSVP
-                      </button>
-                    )}
+                    <button
+                      disabled
+                      aria-disabled="true"
+                      className="btn-disabled"
+                    >
+                      RSVP Closed
+                    </button>
                   </div>
                 </div>
               </div>
@@ -252,9 +247,9 @@ export function AccommodationPage() {
             "Room reservations are handled exclusively through our RSVP process to ensure every guest is perfectly accommodated."
           </p>
           <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-accent-terracotta font-bold mb-10 animate-pulse">Kindly RSVP by November 13th, 2026</p>
-          <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
-             Select & RSVP
-          </Link>
+          <button disabled aria-disabled="true" className="btn-disabled inline-flex shadow-none">
+             RSVP Closed
+          </button>
         </div>
       </section>
 

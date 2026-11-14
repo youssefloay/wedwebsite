@@ -191,14 +191,15 @@ export function Home() {
               </div>
             </div>
 
-            <Link 
-              to="/rsvp" 
-              className="btn-primary inline-flex scale-90 md:scale-100"
+            <button 
+              disabled
+              aria-disabled="true"
+              className="btn-disabled inline-flex scale-90 md:scale-100"
             >
-              Begin your RSVP
-            </Link>
-            <p className="mt-6 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-accent-terracotta font-bold opacity-80">
-              Please RSVP by Nov 13th
+              RSVP Closed
+            </button>
+            <p className="mt-6 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-secondary-text font-bold opacity-60">
+              RSVPs closed on Nov 13th
             </p>
           </motion.div>
         </motion.div>
@@ -230,9 +231,9 @@ export function Home() {
                   Our story is a weave of two cultures, six languages, and one shared dream. From the vibrant energy of Cairo to the historic charm of Madrid, we have found our home in each other.
                 </p>
                 <div className="pt-4">
-                  <Link to="/rsvp" className="btn-primary inline-flex">
-                    Begin your RSVP
-                  </Link>
+                  <button disabled aria-disabled="true" className="btn-disabled inline-flex">
+                    RSVP Closed
+                  </button>
                 </div>
               </div>
             </div>
@@ -315,10 +316,9 @@ export function Home() {
         </div>
 
         <div className="mt-24 text-center reveal">
-
-          <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
-             RSVP to the Wedding
-          </Link>
+          <button disabled aria-disabled="true" className="btn-disabled inline-flex shadow-none">
+             RSVP Closed
+          </button>
         </div>
       </section>
 
@@ -436,9 +436,9 @@ export function Home() {
               </span>
             </p>
             <div className="flex justify-center pt-4">
-              <Link to="/rsvp" className="btn-primary inline-flex">
-                Kindly RSVP
-              </Link>
+              <button disabled aria-disabled="true" className="btn-disabled inline-flex">
+                RSVP Closed
+              </button>
             </div>
           </div>
         </div>

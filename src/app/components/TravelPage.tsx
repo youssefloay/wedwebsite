@@ -134,9 +134,9 @@ export function TravelPage() {
                       *We can help coordinate shared transfers to split costs among guests, though this is not guaranteed.
                     </p>
                   </div>
-                  <Link to="/rsvp" className="btn-primary w-full">
-                    Coordinate Transfer
-                  </Link>
+                  <button disabled aria-disabled="true" className="btn-disabled w-full">
+                    RSVP Closed
+                  </button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -162,9 +162,9 @@ export function TravelPage() {
                       >
                         Open Parking Map
                       </a>
-                      <Link to="/rsvp" className="btn-secondary w-full lg:w-auto">
-                        Request Spot via RSVP
-                      </Link>
+                      <button disabled aria-disabled="true" className="btn-disabled w-full lg:w-auto">
+                        RSVP Closed
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -379,9 +379,9 @@ export function TravelPage() {
           <p className="text-xl text-secondary-text font-serif italic mb-12 opacity-80 leading-relaxed">
             "Once you’ve mapped your way, kindly secure your place at our table and coordinate your arrival in the quiet beauty of Monda."
           </p>
-          <Link to="/rsvp" className="btn-primary inline-flex shadow-xl">
-             RSVP & Coordinate
-          </Link>
+          <button disabled aria-disabled="true" className="btn-disabled inline-flex shadow-none">
+             RSVP Closed
+          </button>
         </div>
       </section>
 
