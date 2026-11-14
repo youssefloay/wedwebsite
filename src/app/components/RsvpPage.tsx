@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { saveRsvp } from "../../lib/rsvpService";
 import { sendConfirmationEmail } from "../../lib/emailService";
@@ -16,7 +16,10 @@ import {
   BusIcon,
   Sparkles,
   Heart,
-  MessageCircle
+  MessageCircle,
+  Lock,
+  Key,
+  Unlock
 } from 'lucide-react';
 
 interface GuestName {
@@ -208,10 +211,42 @@ export function RsvpPage() {
     });
   };
 
-  // RSVP closed across the site: new responses are disabled
-  const RSVP_CLOSED = true;
+  // RSVP Password Gate: Closed by default unless unlocked via password or link (?key=...)
+  const RSVP_PASSWORD = (import.meta.env.VITE_RSVP_PASSWORD || 'monda2027').toLowerCase().trim();
+  const [searchParams] = useSearchParams();
+  const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
+    // Check session storage
+    if (typeof window !== 'undefined' && sessionStorage.getItem('rsvp_unlocked') === 'true') {
+      return true;
+    }
+    // Check URL query param: e.g. /rsvp?key=monda2027 or /rsvp?pass=monda2027 or /rsvp?password=monda2027
+    const urlKey = searchParams.get('key') || searchParams.get('pass') || searchParams.get('password');
+    if (urlKey && urlKey.toLowerCase().trim() === RSVP_PASSWORD) {
+      if (typeof window !== 'undefined') sessionStorage.setItem('rsvp_unlocked', 'true');
+      return true;
+    }
+    return false;
+  });
 
-  if (RSVP_CLOSED) {
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput.toLowerCase().trim() === RSVP_PASSWORD) {
+      setIsUnlocked(true);
+      setPasswordError(null);
+      setShowPasswordModal(false);
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('rsvp_unlocked', 'true');
+      }
+    } else {
+      setPasswordError("Incorrect password. Please try again.");
+    }
+  };
+
+  if (!isUnlocked) {
     return (
       <div className="min-h-screen bg-background selection:bg-accent-terracotta/20">
         <div className="max-w-4xl mx-auto px-6 pt-16 pb-24">
@@ -225,7 +260,7 @@ export function RsvpPage() {
             <div className="w-16 h-px bg-accent-terracotta mx-auto my-10" />
           </div>
 
-          {/* RSVP CLOSED CARD */}
+          {/* RSVP CLOSED CARD WITH UNLOCK OPTION */}
           <div className="relative max-w-2xl mx-auto reveal delay-200">
             <div className="border border-accent-terracotta/10 rounded-[40px] md:rounded-[60px] bg-[#FBF9F4] shadow-[0_20px_50px_rgba(92,50,16,0.06)] p-10 md:p-16 text-center space-y-6">
               <span className="inline-block px-4 py-1.5 bg-gray-200 text-gray-700 rounded-full text-[10px] md:text-xs uppercase tracking-[0.25em] font-bold">
@@ -236,16 +271,69 @@ export function RsvpPage() {
               </h2>
               <div className="w-12 h-px bg-accent-terracotta/40 mx-auto" />
               <p className="text-base md:text-lg text-secondary-text font-serif italic leading-relaxed max-w-lg mx-auto">
-                The deadline to RSVP has passed. We are no longer accepting new responses through this form.
+                The deadline to RSVP has passed. We are no longer accepting general responses through this form.
               </p>
               <p className="text-xs md:text-sm text-accent-terracotta font-serif italic leading-relaxed max-w-md mx-auto opacity-90">
-                If you have already RSVPed and need to modify your travel or stay details, please access the personal confirmation link sent to your email.
+                If you have an invitation code or direct unlock link, you may enter your password below to open the form.
               </p>
-              <div className="pt-6">
-                <Link to="/" className="btn-secondary inline-flex">
-                  Return to Story
-                </Link>
-              </div>
+
+              {/* Password Unlock Trigger or Input */}
+              {!showPasswordModal ? (
+                <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowPasswordModal(true)}
+                    className="btn-primary inline-flex items-center gap-2"
+                  >
+                    <Key size={16} /> Enter RSVP Password
+                  </button>
+                  <Link to="/" className="btn-secondary inline-flex">
+                    Return to Story
+                  </Link>
+                </div>
+              ) : (
+                <form onSubmit={handlePasswordSubmit} className="pt-4 max-w-sm mx-auto space-y-4">
+                  <div className="relative">
+                    <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-accent-terracotta/40" />
+                    <input
+                      type="password"
+                      autoFocus
+                      required
+                      placeholder="Enter password..."
+                      value={passwordInput}
+                      onChange={(e) => {
+                        setPasswordInput(e.target.value);
+                        setPasswordError(null);
+                      }}
+                      className="w-full bg-white border border-accent-terracotta/20 rounded-2xl py-3.5 pl-12 pr-4 font-serif italic text-base outline-none focus:ring-2 focus:ring-accent-terracotta/30 text-primary-text"
+                    />
+                  </div>
+
+                  {passwordError && (
+                    <p className="text-xs text-red-600 font-serif italic">{passwordError}</p>
+                  )}
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="submit"
+                      className="btn-primary flex-1 inline-flex items-center justify-center gap-2 text-xs"
+                    >
+                      <Unlock size={14} /> Unlock RSVP
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowPasswordModal(false);
+                        setPasswordError(null);
+                        setPasswordInput('');
+                      }}
+                      className="btn-secondary text-xs px-4"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>
