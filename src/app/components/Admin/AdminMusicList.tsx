@@ -49,7 +49,7 @@ export const AdminMusicList = () => {
 
   const filteredRsvps = rsvps.filter(r => 
     `${r.firstName} ${r.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    r.musicSuggestion.toLowerCase().includes(searchTerm.toLowerCase())
+    (r.musicSuggestion?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
 
   const handleExportCSV = () => {

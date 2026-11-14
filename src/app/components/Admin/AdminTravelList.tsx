@@ -55,7 +55,7 @@ export const AdminTravelList = () => {
 
   let sortedRsvps = rsvps.filter(r => 
     `${r.firstName} ${r.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    r.email.toLowerCase().includes(searchTerm.toLowerCase())
+    (r.email?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
 
   const handleSort = (key: string) => {

@@ -88,7 +88,7 @@ export const AdminAccommodationList = () => {
 
   let sortedRsvps = rsvps.filter(r => 
     `${r.firstName} ${r.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    r.roomPreference.toLowerCase().includes(searchTerm.toLowerCase())
+    (r.roomPreference?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
 
   const handleSort = (key: string) => {

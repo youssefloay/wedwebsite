@@ -77,7 +77,7 @@ export const AdminGuestList = () => {
     if (searchTerm) {
       result = result.filter(r => 
         `${r.firstName} ${r.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        r.email.toLowerCase().includes(searchTerm.toLowerCase())
+        (r.email?.toLowerCase() || '').includes(searchTerm.toLowerCase())
       );
     }
 

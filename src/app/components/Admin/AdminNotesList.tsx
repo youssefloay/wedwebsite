@@ -55,7 +55,7 @@ export const AdminNotesList = () => {
 
   const filteredRsvps = rsvps.filter(r => 
     `${r.firstName} ${r.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    r.notes.toLowerCase().includes(searchTerm.toLowerCase())
+    (r.notes?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
 
   const handleExportCSV = () => {
