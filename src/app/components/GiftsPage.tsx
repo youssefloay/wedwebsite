@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation, useSearchParams } from "react-router";
 import { Heart, Globe, CreditCard, Copy, Check, Smartphone, Info, Sparkles, MapPin, ExternalLink, ChevronDown, Landmark, ArrowRight, PiggyBank } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
@@ -6,6 +6,12 @@ import { useState } from 'react';
 type Region = 'international' | 'france' | 'switzerland';
 
 export function GiftsPage() {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const isIsolated = location.pathname === "/gift" || 
+                     location.pathname === "/registry" || 
+                     searchParams.get("isolated") === "true";
+
   const [activeRegion, setActiveRegion] = useState<Region>('france');
   const [revolutMode, setRevolutMode] = useState<'tag' | 'iban' | 'chf'>('tag');
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -121,10 +127,16 @@ export function GiftsPage() {
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("/arch-pattern.png")', backgroundSize: '400px' }} />
         
         <div className="max-w-3xl mx-auto relative z-10 reveal">
-          <span className="label-uppercase mb-6 block">Gifting Registry</span>
-          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight tracking-tighter">Support Our Story</h1>
+          <span className="label-uppercase mb-6 block">
+            {isIsolated ? "Wedding Gift Registry" : "Gifting Registry"}
+          </span>
+          <h1 className="text-5xl md:text-7xl font-serif text-primary-text mb-8 leading-tight tracking-tighter">
+            {isIsolated ? "With Warm Wishes" : "Support Our Story"}
+          </h1>
           <p className="text-xl md:text-2xl font-serif text-secondary-text italic leading-relaxed max-w-2xl mx-auto px-4 opacity-80">
-            "Your presence at our wedding is the greatest gift of all."
+            {isIsolated 
+              ? '"Thank you for keeping us in your thoughts and hearts as we begin this new chapter together."'
+              : '"Your presence at our wedding is the greatest gift of all."'}
           </p>
           <div className="w-16 h-px mx-auto my-10 bg-accent-terracotta" />
         </div>
@@ -137,10 +149,18 @@ export function GiftsPage() {
             <div className="max-w-2xl mx-auto space-y-8">
               <h2 className="text-4xl md:text-5xl font-serif text-primary-text italic">A Heartfelt Note</h2>
               <p className="text-lg md:text-xl text-secondary-text leading-relaxed uppercase tracking-[0.1em] opacity-80 font-cinzel">
-                We are incredibly fortunate to already have a home filled with <span className="text-primary-text font-bold">everything we could possibly need</span>. 
+                {isIsolated ? (
+                  <>
+                    Even from afar, your love and kindness mean the world to us. We are blessed to have a home filled with <span className="text-primary-text font-bold">everything we could need</span>.
+                  </>
+                ) : (
+                  <>
+                    We are incredibly fortunate to already have a home filled with <span className="text-primary-text font-bold">everything we could possibly need</span>.
+                  </>
+                )}
               </p>
               <p className="text-[10px] md:text-xs text-secondary-text tracking-[0.3em] uppercase leading-relaxed font-cinzel py-2 md:py-4 border-y border-accent-terracotta/10">
-                Should you wish to honor us with a gesture, a contribution towards our future nest would be most appreciated.
+                Should you wish to send a blessing or gesture, a contribution towards our future nest and adventures would be deeply cherished.
               </p>
             </div>
           </div>
@@ -323,13 +343,27 @@ export function GiftsPage() {
         </div>
       </div>
 
-      <section className="py-24 px-6 border-t border-border/5 bg-background">
-        <div className="max-w-xl mx-auto text-center reveal">
-          <h2 className="text-3xl md:text-4xl font-serif text-primary-text mb-8 italic tracking-tight opacity-90">Finalize Your Plans</h2>
-          <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-accent-terracotta font-bold mb-8 animate-pulse">Kindly RSVP by November 13th, 2026</p>
-          <button disabled aria-disabled="true" className="btn-disabled inline-flex px-14 py-4">RSVP Closed</button>
-        </div>
-      </section>
+      {!isIsolated ? (
+        <section className="py-24 px-6 border-t border-border/5 bg-background">
+          <div className="max-w-xl mx-auto text-center reveal">
+            <h2 className="text-3xl md:text-4xl font-serif text-primary-text mb-8 italic tracking-tight opacity-90">Finalize Your Plans</h2>
+            <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-accent-terracotta font-bold mb-8 animate-pulse">Kindly RSVP by November 13th, 2026</p>
+            <button disabled aria-disabled="true" className="btn-disabled inline-flex px-14 py-4">RSVP Closed</button>
+          </div>
+        </section>
+      ) : (
+        <section className="py-20 px-6 border-t border-border/5 bg-background">
+          <div className="max-w-xl mx-auto text-center reveal space-y-4">
+            <div className="w-12 h-12 bg-accent-terracotta/10 rounded-full flex items-center justify-center mx-auto text-accent-terracotta">
+              <Heart size={20} />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-serif text-primary-text italic tracking-tight">Thank You from the Bottom of Our Hearts</h2>
+            <p className="text-sm text-secondary-text font-serif italic max-w-md mx-auto leading-relaxed opacity-80">
+              Your warmth, generosity, and well wishes accompany us as we begin our marriage.
+            </p>
+          </div>
+        </section>
+      )}
 
     </div>
   );

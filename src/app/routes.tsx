@@ -44,6 +44,14 @@ export const router = createHashRouter([
         element: <GiftsPage />,
       },
       {
+        path: "gift",
+        element: <GiftsPage />,
+      },
+      {
+        path: "registry",
+        element: <GiftsPage />,
+      },
+      {
         path: "rsvp",
         element: <RsvpPage />,
       },

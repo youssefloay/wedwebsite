@@ -8,6 +8,10 @@ import { ChevronUp } from 'lucide-react';
 export function Layout() {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const searchParams = new URLSearchParams(location.search);
+  const isIsolated = location.pathname === "/gift" || 
+                     location.pathname === "/registry" || 
+                     searchParams.get("isolated") === "true";
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -15,7 +19,7 @@ export function Layout() {
 
   return (
     <div className="overflow-x-clip min-h-screen flex flex-col relative bg-background">
-      <Navigation />
+      {!isIsolated && <Navigation />}
 
       {/* Global Header Logo - Only shown on sub-pages (not on confirmation page which has its own header) */}
       {!isHome && !location.pathname.startsWith('/guest-confirmation') && (
